@@ -1,0 +1,78 @@
+airflow.providers.nomad.generic_interfaces.executor_log_handlers
+================================================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces.executor_log_handlers
+
+.. autoapi-nested-parse::
+
+   Logging module to fetch logs via the Nomad API
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger
+   airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: PROVIDER_NAME
+   :value: 'nomad'
+
+
+.. py:class:: ExecutorLogLinesHandler(base_log_folder, *args, **kwargs)
+
+   Bases: :py:obj:`airflow.utils.log.file_task_handler.FileTaskHandler`
+
+
+   Extended handler to retrieve logs directly from Nomad
+
+
+   .. py:attribute:: name
+      :value: 'executor_log_lines_handler'
+
+
+
+   .. py:attribute:: nomad_server_ip
+
+
+   .. py:attribute:: secure
+      :value: True
+
+
+
+   .. py:attribute:: cert_path
+
+
+   .. py:attribute:: key_path
+
+
+   .. py:attribute:: verify
+      :value: True
+
+
+
+   .. py:attribute:: namespace
+
+
+   .. py:attribute:: token
+
+
+   .. py:method:: retrieve_logs(key)
+
+

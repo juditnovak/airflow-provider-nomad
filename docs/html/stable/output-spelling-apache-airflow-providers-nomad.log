@@ -1,0 +1,385 @@
+[01mRunning Sphinx v8.2.3[39;49;00m
+AUTOAPI_IGNORE:
+[
+    '*/airflow/_vendor/*',
+    '*/airflow/executors/*',
+    '*/_internal*',
+    '*/node_modules/*',
+    '*/migrations/*',
+    '*/contrib/*',
+    '*/example_taskflow_api_docker_virtualenv.py',
+    '*/example_dag_decorator.py',
+    '*/conftest.py',
+    '*/tests/__init__.py',
+    '*/tests/system/__init__.py',
+    '*/tests/system/*/tests/*',
+    '*/tests/system/example_empty.py',
+    '*/check_translations_completeness.py',
+    '*/airflow/__init__.py',
+    '*/airflow/providers/__init__.py',
+    '*/providers/__init__.py',
+    '*/conf/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/airbyte/src/airflow/providers/airbyte/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/airbyte/tests/system/airbyte/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/alibaba/src/airflow/providers/alibaba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/alibaba/tests/system/alibaba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/amazon/src/airflow/providers/amazon/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/amazon/tests/system/amazon/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/beam/src/airflow/providers/apache/beam/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/beam/tests/system/apache/beam/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/cassandra/src/airflow/providers/apache/cassandra/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/cassandra/tests/system/apache/cassandra/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/drill/src/airflow/providers/apache/drill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/drill/tests/system/apache/drill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/druid/src/airflow/providers/apache/druid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/druid/tests/system/apache/druid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/flink/src/airflow/providers/apache/flink/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/flink/tests/system/apache/flink/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/hdfs/src/airflow/providers/apache/hdfs/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/hdfs/tests/system/apache/hdfs/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/hive/src/airflow/providers/apache/hive/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/hive/tests/system/apache/hive/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/iceberg/src/airflow/providers/apache/iceberg/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/iceberg/tests/system/apache/iceberg/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/impala/src/airflow/providers/apache/impala/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/impala/tests/system/apache/impala/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/kafka/src/airflow/providers/apache/kafka/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/kafka/tests/system/apache/kafka/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/kylin/src/airflow/providers/apache/kylin/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/kylin/tests/system/apache/kylin/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/livy/src/airflow/providers/apache/livy/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/livy/tests/system/apache/livy/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/pig/src/airflow/providers/apache/pig/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/pig/tests/system/apache/pig/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/pinot/src/airflow/providers/apache/pinot/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/pinot/tests/system/apache/pinot/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/spark/src/airflow/providers/apache/spark/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/spark/tests/system/apache/spark/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/tinkerpop/src/airflow/providers/apache/tinkerpop/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apache/tinkerpop/tests/system/apache/tinkerpop/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apprise/src/airflow/providers/apprise/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/apprise/tests/system/apprise/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/arangodb/src/airflow/providers/arangodb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/arangodb/tests/system/arangodb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/asana/src/airflow/providers/asana/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/asana/tests/system/asana/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/atlassian/jira/src/airflow/providers/atlassian/jira/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/atlassian/jira/tests/system/atlassian/jira/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/celery/src/airflow/providers/celery/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/celery/tests/system/celery/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cloudant/src/airflow/providers/cloudant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cloudant/tests/system/cloudant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cncf/kubernetes/src/airflow/providers/cncf/kubernetes/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cncf/kubernetes/tests/system/cncf/kubernetes/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cohere/src/airflow/providers/cohere/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/cohere/tests/system/cohere/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/compat/src/airflow/providers/common/compat/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/compat/tests/system/common/compat/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/io/src/airflow/providers/common/io/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/io/tests/system/common/io/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/messaging/src/airflow/providers/common/messaging/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/messaging/tests/system/common/messaging/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/sql/src/airflow/providers/common/sql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/common/sql/tests/system/common/sql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/databricks/src/airflow/providers/databricks/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/databricks/tests/system/databricks/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/datadog/src/airflow/providers/datadog/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/datadog/tests/system/datadog/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/dbt/cloud/src/airflow/providers/dbt/cloud/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/dbt/cloud/tests/system/dbt/cloud/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/dingding/src/airflow/providers/dingding/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/dingding/tests/system/dingding/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/discord/src/airflow/providers/discord/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/discord/tests/system/discord/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/docker/src/airflow/providers/docker/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/docker/tests/system/docker/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/edge3/src/airflow/providers/edge3/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/edge3/tests/system/edge3/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/elasticsearch/src/airflow/providers/elasticsearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/elasticsearch/tests/system/elasticsearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/exasol/src/airflow/providers/exasol/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/exasol/tests/system/exasol/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/fab/src/airflow/providers/fab/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/fab/tests/system/fab/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/facebook/src/airflow/providers/facebook/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/facebook/tests/system/facebook/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ftp/src/airflow/providers/ftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ftp/tests/system/ftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/git/src/airflow/providers/git/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/git/tests/system/git/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/github/src/airflow/providers/github/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/github/tests/system/github/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/google/src/airflow/providers/google/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/google/tests/system/google/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/grpc/src/airflow/providers/grpc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/grpc/tests/system/grpc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/hashicorp/src/airflow/providers/hashicorp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/hashicorp/tests/system/hashicorp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/http/src/airflow/providers/http/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/http/tests/system/http/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/imap/src/airflow/providers/imap/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/imap/tests/system/imap/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/influxdb/src/airflow/providers/influxdb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/influxdb/tests/system/influxdb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/jdbc/src/airflow/providers/jdbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/jdbc/tests/system/jdbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/jenkins/src/airflow/providers/jenkins/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/jenkins/tests/system/jenkins/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/keycloak/src/airflow/providers/keycloak/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/keycloak/tests/system/keycloak/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/azure/src/airflow/providers/microsoft/azure/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/azure/tests/system/microsoft/azure/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/mssql/src/airflow/providers/microsoft/mssql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/mssql/tests/system/microsoft/mssql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/psrp/src/airflow/providers/microsoft/psrp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/psrp/tests/system/microsoft/psrp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/winrm/src/airflow/providers/microsoft/winrm/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/microsoft/winrm/tests/system/microsoft/winrm/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/mongo/src/airflow/providers/mongo/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/mongo/tests/system/mongo/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/mysql/src/airflow/providers/mysql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/mysql/tests/system/mysql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/neo4j/src/airflow/providers/neo4j/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/neo4j/tests/system/neo4j/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/odbc/src/airflow/providers/odbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/odbc/tests/system/odbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openai/src/airflow/providers/openai/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openai/tests/system/openai/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openfaas/src/airflow/providers/openfaas/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openfaas/tests/system/openfaas/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openlineage/src/airflow/providers/openlineage/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/openlineage/tests/system/openlineage/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/opensearch/src/airflow/providers/opensearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/opensearch/tests/system/opensearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/opsgenie/src/airflow/providers/opsgenie/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/opsgenie/tests/system/opsgenie/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/oracle/src/airflow/providers/oracle/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/oracle/tests/system/oracle/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pagerduty/src/airflow/providers/pagerduty/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pagerduty/tests/system/pagerduty/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/papermill/src/airflow/providers/papermill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/papermill/tests/system/papermill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pgvector/src/airflow/providers/pgvector/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pgvector/tests/system/pgvector/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pinecone/src/airflow/providers/pinecone/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/pinecone/tests/system/pinecone/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/postgres/src/airflow/providers/postgres/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/postgres/tests/system/postgres/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/presto/src/airflow/providers/presto/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/presto/tests/system/presto/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/qdrant/src/airflow/providers/qdrant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/qdrant/tests/system/qdrant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/redis/src/airflow/providers/redis/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/redis/tests/system/redis/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/salesforce/src/airflow/providers/salesforce/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/salesforce/tests/system/salesforce/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/samba/src/airflow/providers/samba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/samba/tests/system/samba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/segment/src/airflow/providers/segment/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/segment/tests/system/segment/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sendgrid/src/airflow/providers/sendgrid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sendgrid/tests/system/sendgrid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sftp/src/airflow/providers/sftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sftp/tests/system/sftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/singularity/src/airflow/providers/singularity/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/singularity/tests/system/singularity/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/slack/src/airflow/providers/slack/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/slack/tests/system/slack/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/smtp/src/airflow/providers/smtp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/smtp/tests/system/smtp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/snowflake/src/airflow/providers/snowflake/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/snowflake/tests/system/snowflake/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sqlite/src/airflow/providers/sqlite/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/sqlite/tests/system/sqlite/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ssh/src/airflow/providers/ssh/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ssh/tests/system/ssh/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/standard/src/airflow/providers/standard/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/standard/tests/system/standard/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/tableau/src/airflow/providers/tableau/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/tableau/tests/system/tableau/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/telegram/src/airflow/providers/telegram/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/telegram/tests/system/telegram/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/teradata/src/airflow/providers/teradata/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/teradata/tests/system/teradata/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/trino/src/airflow/providers/trino/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/trino/tests/system/trino/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/vertica/src/airflow/providers/vertica/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/vertica/tests/system/vertica/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/weaviate/src/airflow/providers/weaviate/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/weaviate/tests/system/weaviate/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/yandex/src/airflow/providers/yandex/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/yandex/tests/system/yandex/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ydb/src/airflow/providers/ydb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/ydb/tests/system/ydb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/zendesk/src/airflow/providers/zendesk/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/zendesk/tests/system/zendesk/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/unit/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/__pycache__/*'
+]
+
+[01mloading translations [en]... [39;49;00mdone
+
+(process:313307): libenchant-WARNING **: 16:29:20.712: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
+
+(process:313307): libenchant-WARNING **: 16:29:20.712: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
+
+(process:313307): libenchant-WARNING **: 16:29:20.713: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
+
+(process:313307): libenchant-WARNING **: 16:29:20.713: broker.vala:156: Error loading plugin: libhunspell-1.7.so.0: cannot open shared object file: No such file or directory
+Initializing Spelling Checker 8.0.1
+[01mloading pickled environment... [39;49;00mThe configuration has changed (2 options: 'html_css_files', 'html_static_path')
+done
+Ignoring wiki words
+Ignoring acronyms
+Ignoring Python builtins
+Ignoring importable module names
+Looking for custom word list in /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/docs/spelling_wordlist.txt
+loading intersphinx inventory 'boto3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/boto3/objects.inv ...
+loading intersphinx inventory 'celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/celery/objects.inv ...
+loading intersphinx inventory 'docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/docker/objects.inv ...
+loading intersphinx inventory 'hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/hdfs/objects.inv ...
+loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/jinja2/objects.inv ...
+loading intersphinx inventory 'mongodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/mongodb/objects.inv ...
+loading intersphinx inventory 'pandas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/pandas/objects.inv ...
+loading intersphinx inventory 'python' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/python/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-alibaba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-alibaba/objects.inv ...
+loading intersphinx inventory 'requests' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/requests/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
+loading intersphinx inventory 'sqlalchemy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/sqlalchemy/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-amazon' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-amazon/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-beam' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-beam/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-druid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-druid/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-cassandra' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-cassandra/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-flink' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-flink/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-hdfs/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-impala' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-impala/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-kafka' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-kafka/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-hive' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-hive/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-iceberg' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-iceberg/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-kylin' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-kylin/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-livy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-livy/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-pig' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-pig/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-pinot' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-pinot/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-spark' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-spark/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-tinkerpop' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apache-tinkerpop/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apprise' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-apprise/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-arangodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-arangodb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-asana' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-asana/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-atlassian-jira' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-atlassian-jira/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-celery/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cloudant' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-cloudant/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cncf-kubernetes' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-cncf-kubernetes/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cohere' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-cohere/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-compat' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-common-compat/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-io' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-common-io/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-messaging' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-common-messaging/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-sql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-common-sql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-databricks' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-databricks/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-datadog' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-datadog/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-dbt-cloud' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-dbt-cloud/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-dingding' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-dingding/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-discord' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-discord/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-docker/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-edge3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-edge3/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-elasticsearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-elasticsearch/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-exasol' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-exasol/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-fab' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-fab/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-facebook' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-facebook/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ftp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-ftp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-git' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-git/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-github' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-github/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-google' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-google/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-grpc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-grpc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-hashicorp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-hashicorp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-http' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-http/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-imap' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-imap/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-influxdb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-influxdb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-jdbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-jdbc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-jenkins' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-jenkins/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-keycloak' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-keycloak/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-azure' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-microsoft-azure/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-mssql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-microsoft-mssql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-psrp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-microsoft-psrp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-winrm' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-microsoft-winrm/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-mongo' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-mongo/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-mysql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-mysql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-neo4j' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-neo4j/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-odbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-odbc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openai' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-openai/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openfaas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-openfaas/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openlineage' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-openlineage/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-opensearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-opensearch/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-opsgenie' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-opsgenie/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-oracle' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-oracle/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pagerduty' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-pagerduty/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-papermill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-papermill/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pgvector' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-pgvector/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pinecone' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-pinecone/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-postgres' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-postgres/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-presto' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-presto/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-qdrant' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-qdrant/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-redis' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-redis/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-salesforce' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-salesforce/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-samba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-samba/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-segment' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-segment/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sendgrid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-sendgrid/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sftp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-sftp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-singularity' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-singularity/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-slack' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-slack/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-smtp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-smtp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-snowflake' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-snowflake/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sqlite' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-sqlite/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ssh' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-ssh/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-standard' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-standard/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-tableau' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-tableau/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-telegram' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-telegram/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-teradata' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-teradata/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-trino' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-trino/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-vertica' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-vertica/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-weaviate' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-weaviate/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-yandex' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-yandex/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ydb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-ydb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-zendesk' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers-zendesk/objects.inv ...
+loading intersphinx inventory 'apache-airflow' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow/objects.inv ...
+loading intersphinx inventory 'helm-chart' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/helm-chart/objects.inv ...
+loading intersphinx inventory 'task-sdk' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/task-sdk/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/apache-airflow-providers/objects.inv ...
+loading intersphinx inventory 'docker-stack' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/generated/_inventory_cache/docker-stack/objects.inv ...
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/src/airflow/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/src/airflow/providers/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/conftest.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring directory: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/unit/nomad/[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring directory: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/unit/__pycache__/[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/unit/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/system/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow/providers/nomad/tests/system/nomad/conftest.py[39;49;00m
+[autosummary] generating autosummary for: _api/airflow/providers/nomad/executors/index.rst, _api/airflow/providers/nomad/executors/nomad_executor/index.rst, _api/airflow/providers/nomad/executors/nomad_log/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_interface/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst, _api/airflow/providers/nomad/generic_interfaces/index.rst, _api/airflow/providers/nomad/get_provider_info/index.rst, _api/airflow/providers/nomad/index.rst, _api/airflow/providers/nomad/templates/nomad_job_template/index.rst, _api/tests/system/nomad/index.rst, _api/tests/system/nomad/test_system_nomad_executor/index.rst, changelog.rst, commits.rst, configurations-ref.rst, index.rst, nomad_executor.rst, security.rst
+[01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date
+[01mwriting output... [39;49;00m
+[01mbuilding [spelling]: [39;49;00mall documents
+[01mupdating environment: [39;49;00m0 added, 0 changed, 0 removed
+[01mreading sources... [39;49;00m
+[01mlooking for now-outdated files... [39;49;00mnone found
+[01mpreparing documents... [39;49;00mdone
+[01mcopying assets... [39;49;00m
+[01mcopying assets: [39;49;00mdone
+[01mwriting output... [39;49;00m[  6%] [32m_api/airflow/providers/nomad/executors/index[39;49;00m
+[01mwriting output... [39;49;00m[ 12%] [32m_api/airflow/providers/nomad/executors/nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/executors/nomad_log/index[39;49;00m
+[01mwriting output... [39;49;00m[ 24%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 29%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
+[01mwriting output... [39;49;00m[ 35%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
+[01mwriting output... [39;49;00m[ 41%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mwriting output... [39;49;00m[ 47%] [32m_api/airflow/providers/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 53%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 65%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 71%] [32mchangelog[39;49;00m
+[01mwriting output... [39;49;00m[ 76%] [32mcommits[39;49;00m
+[01mwriting output... [39;49;00m[ 82%] [32mconfigurations-ref[39;49;00m
+[01mwriting output... [39;49;00m[ 88%] [32mindex[39;49;00m
+[01mwriting output... [39;49;00m[ 94%] [32mnomad_executor[39;49;00m
+[01mwriting output... [39;49;00m[100%] [32msecurity[39;49;00m
+
+[01mbuild succeeded.[39;49;00m

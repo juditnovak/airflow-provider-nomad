@@ -1,0 +1,144 @@
+airflow.providers.nomad.generic_interfaces.executor_interface
+=============================================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces.executor_interface
+
+.. autoapi-nested-parse::
+
+   Executor Interface.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_interface.Job
+   airflow.providers.nomad.generic_interfaces.executor_interface.Results
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface
+
+
+Module Contents
+---------------
+
+.. py:data:: Job
+
+.. py:data:: Results
+
+.. py:class:: ExecutorInterface(parallelism = 1)
+
+   Bases: :py:obj:`airflow.executors.base_executor.BaseExecutor`
+
+
+   Executor with run-queues.
+
+
+   .. py:attribute:: RUNNING_POD_LOG_LINES
+      :value: 100
+
+
+
+   .. py:attribute:: supports_ad_hoc_ti_run
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: EXECUTOR_NAME
+      :value: 'generic_executor'
+
+
+
+   .. py:attribute:: serve_logs
+      :value: True
+
+
+
+   .. py:attribute:: task_queue
+      :type:  queue.Queue[Job]
+
+
+   .. py:attribute:: result_queue
+      :type:  queue.Queue[Results]
+
+
+   .. py:attribute:: queued_tasks_exec
+      :type:  dict[airflow.models.taskinstancekey.TaskInstanceKey, airflow.executors.workloads.ExecuteTask]
+
+
+   .. py:attribute:: last_handled
+      :type:  dict[airflow.models.taskinstancekey.TaskInstanceKey, float]
+
+
+   .. py:attribute:: task_publish_retries
+      :type:  collections.Counter[airflow.models.taskinstancekey.TaskInstanceKey]
+
+
+   .. py:attribute:: task_publish_max_retries
+
+
+   .. py:attribute:: parallelism
+      :value: 1
+
+
+
+   .. py:method:: execute_async(key, command, queue = None, executor_config = None)
+
+      Execute task asynchronously.
+
+
+
+   .. py:method:: sync()
+
+      Synchronize task state.
+
+
+
+   .. py:method:: run_task(task)
+
+      Run the next task in the queue.
+
+
+
+   .. py:method:: workload_to_command_args(workload)
+
+      Convert a workload object to Task SDK command arguments.
+
+
+
+   .. py:method:: apply_command_to_job_template(key, command)
+
+
+   .. py:method:: run_job(key, job_template)
+
+
+   .. py:method:: queue_workload(workload, session)
+
+
+   .. py:method:: get_task_log(ti, try_number)
+
+      Return the task logs.
+
+      :param ti: A TaskInstance object
+      :param try_number: current try_number to read log from
+      :return: tuple of logs and messages
+
+
+
+   .. py:method:: retrieve_logs(key)
+
+
+   .. py:method:: end()
+
+      Shut down the executor.
+
+
+
