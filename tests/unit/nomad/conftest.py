@@ -26,6 +26,9 @@ DATA_FILE_DIRECTORY = Path(__file__).resolve().parent / "data_files"
 CONFIG_DIRECTORY = Path(__file__).resolve().parent / "config"
 
 
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
+
 @pytest.fixture(scope="session", autouse=True)
 def load_airflow_config():
     conf.read_file(open(f"{CONFIG_DIRECTORY}/unit_tests.cfg"))
