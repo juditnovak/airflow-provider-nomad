@@ -1,0 +1,150 @@
+airflow.providers.nomad.executors.nomad_executor
+================================================
+
+.. py:module:: airflow.providers.nomad.executors.nomad_executor
+
+.. autoapi-nested-parse::
+
+   Nomad Executor.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.executors.nomad_executor.NOMAD_COMMANDS
+   airflow.providers.nomad.executors.nomad_executor.NomadJob
+   airflow.providers.nomad.executors.nomad_executor.PROVIDER_NAME
+   airflow.providers.nomad.executors.nomad_executor.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.executors.nomad_executor.NomadExecutor
+
+
+Module Contents
+---------------
+
+.. py:data:: NOMAD_COMMANDS
+   :value: ()
+
+
+.. py:data:: NomadJob
+
+.. py:data:: PROVIDER_NAME
+   :value: 'nomad'
+
+
+.. py:data:: logger
+
+.. py:class:: NomadExecutor
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface`
+
+
+   Executor for Nomad.
+
+
+   .. py:attribute:: RUNNING_POD_LOG_LINES
+      :value: 100
+
+
+
+   .. py:attribute:: supports_ad_hoc_ti_run
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: EXECUTOR_NAME
+      :value: 'nomad_executor'
+
+
+
+   .. py:attribute:: parallelism
+
+
+   .. py:attribute:: nomad_server_ip
+
+
+   .. py:attribute:: secure
+      :value: True
+
+
+
+   .. py:attribute:: cert_path
+
+
+   .. py:attribute:: key_path
+
+
+   .. py:attribute:: verify
+      :value: True
+
+
+
+   .. py:attribute:: namespace
+
+
+   .. py:attribute:: token
+
+
+   .. py:attribute:: nomad
+      :type:  nomad.Nomad | None
+      :value: None
+
+
+
+   .. py:attribute:: nomad_jobs
+      :type:  dict[airflow.models.taskinstancekey.TaskInstanceKey, NomadJob]
+
+
+   .. py:method:: start()
+
+      Start the executor.
+
+
+
+   .. py:method:: job_id_from_taskinstance_key(key)
+      :classmethod:
+
+
+
+   .. py:method:: job_task_id_from_taskinstance_key(key)
+      :classmethod:
+
+
+
+   .. py:method:: apply_command_to_job_template(key, command)
+
+      Apply command to the Nomad job template
+
+
+
+   .. py:method:: run_job(key, job_template)
+
+      Execute the job described by job_template in Nomad.
+
+
+
+   .. py:method:: retrieve_logs(key)
+
+
+   .. py:method:: get_cli_commands()
+      :staticmethod:
+
+
+      Vends CLI commands to be included in Airflow CLI.
+
+      Override this method to expose commands via Airflow CLI to manage this executor. This can
+      be commands to setup/teardown the executor, inspect state, etc.
+      Make sure to choose unique names for those commands, to avoid collisions.
+
+
+

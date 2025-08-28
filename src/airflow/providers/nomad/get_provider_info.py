@@ -1,0 +1,98 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+
+def get_provider_info():
+    return {
+        "package-name": "apache-airflow-providers-nomad",
+        "name": "Nomad",
+        "description": "`Nomad <https://developer.hashicorp.com/nomad/>`__\n",
+        "integrations": [
+            {
+                "integration-name": "Nomad",
+                "external-doc-url": "https://developer.hashicorp.com/nomad/",
+                "how-to-guide": ["/docs/apache-airflow-providers-nomad/operators.rst"],
+                "logo": "/docs/integration-logos/Nomad.png",
+                "tags": ["software"],
+            },
+        ],
+        # "operators": [
+        #     {
+        #         "integration-name": "Nomad",
+        #         "python-modules": [
+        #             "airflow.providers.nomad.operators.nomad",
+        #             "airflow.providers.nomad.operators.job",
+        #         ],
+        #     }
+        # ],
+        # "sensors": [
+        #     {
+        #         "integration-name": "Nomad",
+        #         "python-modules": ["airflow.providers.nomad.sensors.nomad"],
+        #     }
+        # ],
+        # "hooks": [
+        #     {
+        #         "integration-name": "Nomad",
+        #         "python-modules": ["airflow.providers.nomad.hooks.nomad"],
+        #     }
+        # ],
+        # "triggers": [
+        #     {
+        #         "integration-name": "Nomad",
+        #         "python-modules": [
+        #             "airflow.providers.nomad.triggers.pod",
+        #             "airflow.providers.nomad.triggers.job",
+        #         ],
+        #     }
+        # ],
+        # "task-decorators": [
+        #     {
+        #         "class-name": "airflow.providers.nomad.decorators.nomad.nomad_task",
+        #         "name": "nomad",
+        #     },
+        # ],
+        "config": {
+            "nomad_executor": {
+                "description": None,
+                "options": {
+                    "parallelism": {
+                        "description": "Generic Airflow executor parallelism (should be higher than 0)",
+                        "version_added": None,
+                        "type": "integer",
+                        "example": "128",
+                        "default": "1",
+                    },
+                    "server_ip": {
+                        "description": "Nomad server IP",
+                        "version_added": None,
+                        "type": "string",
+                        "example": "192.168.122.226",
+                        "default": None,
+                    },
+                    "secure": {
+                        "description": "Whether TLS certificates are to be considered",
+                        "version_added": None,
+                        "type": "boolean",
+                        "example": None,
+                        "default": "False",
+                    },
+                },
+            },
+        },
+        "executors": ["airflow.providers.nomad.executors.nomad_executor.Nomadxecutor"],
+    }

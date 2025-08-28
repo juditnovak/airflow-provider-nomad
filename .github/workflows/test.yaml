@@ -1,0 +1,82 @@
+name: ci
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+
+jobs:
+
+  unit_test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      # Target repo is to be checked out first (order matters!)
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      # Airflow's python plugin is not portable, thus we use it from the source
+      - name: Clone Airflow sources, to enable Airflow pytset plugin
+        uses: actions/checkout@v4
+        with:
+          repository: apache/airflow
+          path: airflow
+          # Careful -- some plugin neccesity path references get broken in later versions
+          ref: 3.0.4
+
+      - name: Run tests
+        run: |
+          export UV_PROJECT_ENVIRONMENT=$PWD/airflow/.venv
+          export AIRFLOW_SOURCES=$PWD/airflow
+          uv run --group dev pytest --without-db-init --no-db-cleanup tests/unit
+
+  system_tests:
+    name: System tests on local Nomad instance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup `nomad`
+        uses: hashicorp/setup-nomad@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+
+      - name: Run `nomad version`
+        id: version
+        run: "nomad version"
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      # Target repo is to be checked out first (order matters!)
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      # Airflow's python plugin is not portable, thus we use it from the source
+      - name: Clone Airflow sources, to enable Airflow pytset plugin
+        uses: actions/checkout@v4
+        with:
+          repository: apache/airflow
+          path: airflow
+          # Careful -- some plugin neccesity path references get broken in later versions
+          ref: 3.0.4
+
+      - name: Run tests
+        run: |
+          sudo env "PATH=$PATH" nomad agent -dev &
+          export UV_PROJECT_ENVIRONMENT=$PWD/airflow/.venv
+          export AIRFLOW_SOURCES=$PWD/airflow
+          uv run --group dev pytest --without-db-init --no-db-cleanup tests/system/nomad

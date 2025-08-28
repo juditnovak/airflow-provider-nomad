@@ -1,0 +1,14 @@
+FROM python:latest
+
+RUN useradd -ms /bin/bash runner
+USER runner
+WORKDIR /usr/src/runner
+
+RUN pip install apache-airflow==3.0.4
+RUN pip install apache-airflow-task-sdk
+
+RUN pip install nomad
+RUN pip install pudb
+RUN pip install hunter
+
+COPY src/airflow/providers/nomad /usr/src/runner/.local/lib/python3.12/site-packages/airflow/providers/nomad/ 
