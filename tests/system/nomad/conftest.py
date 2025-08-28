@@ -26,6 +26,7 @@ import pytest
 from airflow.configuration import conf
 
 CONFIG_DIRECTORY = Path(__file__).resolve().parent / "config"
+SCRIPTS_DIRECTORY = Path(__file__).resolve().parent / "scripts"
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -36,9 +37,32 @@ def load_airflow_config():
 @pytest.fixture(autouse=True)
 def nomad_agent():
     path = os.environ["PATH"]
-    daemon = subprocess.Popen(["sudo", "env", f"PATH={path}", "nomad", "agent", "-dev"])
-    print(f"Started Nomad agent (PID: {daemon.pid})")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    daemon = subprocess.Popen(
+        [
+            "sudo",
+            "env",
+            f"PATH={path}",
+            "nomad",
+            "agent",
+            "-dev",
+            "-config",
+            dir_path / CONFIG_DIRECTORY / Path("nomad_client.hcl"),
+        ]
+    )
+
     time.sleep(5)  # wait for the agent to start
+
+    subprocess.run(
+        [
+            dir_path / SCRIPTS_DIRECTORY / Path("create_dynamic_logs_volume.sh"),
+            dir_path / CONFIG_DIRECTORY / Path("volume_dynamic_logs.json"),
+        ]
+    )
+
+    print(f"Started Nomad agent (PID: {daemon.pid})")
     yield daemon
+
     print(f"Stopping Nomad agent (PID: {daemon.pid})")
     daemon.terminate()
