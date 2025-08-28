@@ -1,11 +1,11 @@
 client {
   host_volume "config" {
-    path      = "/home/devel/share/workspace_airflow/nomad_provider/src/airflow/providers/nomad/templates/"
+    path      = "/home/runner/work/airflow-provider-nomad/airflow-provider-nomad/tests/system/nomad/config/"
     read_only = true
   }
 
   host_volume "dags" {
-    path      = "/home/devel/share/workspace_airflow/dags/"
+    path      = "/home/runner/work/airflow-provider-nomad/airflow-provider-nomad/tests/system/nomad/dags/"
     read_only = true
   }
 
