@@ -15,8 +15,9 @@
 # specific language governing permissions and limitations
 # under the License.
 
+from typing import Any
 
-default_task_template = {
+default_task_template: dict[str, Any] = {
     "Job": {
         "AllAtOnce": None,
         "Constraints": None,
@@ -56,14 +57,12 @@ default_task_template = {
                     {
                         "Artifacts": None,
                         "Config": {
-                            # "image": "apache/airflow:3.0.4",
                             "image": "novakjudit/af_nomad_test:latest",
                             "entrypoint": [
                                 "python",
                                 "-m",
                                 "airflow.sdk.execution_time.execute_workload",
                                 "--json-string",
-                                # "tail", "-f", "/dev/null",
                             ],
                         },
                         "Constraints": None,
@@ -71,7 +70,6 @@ default_task_template = {
                         "Driver": "docker",
                         "Env": {
                             "AIRFLOW_CONFIG": "/opt/airflow/config/airflow.cfg",
-                            # "AIRFLOW__CORE__HOSTNAME_CALLABLE": "airflow.utils.net.get_host_ip_address"
                         },
                         "KillTimeout": None,
                         "Leader": False,
