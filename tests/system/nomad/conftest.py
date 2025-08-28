@@ -17,6 +17,9 @@
 
 from __future__ import annotations
 
+import os
+import subprocess
+import time
 from pathlib import Path
 
 import pytest
@@ -28,3 +31,14 @@ CONFIG_DIRECTORY = Path(__file__).resolve().parent / "config"
 @pytest.fixture(scope="session", autouse=True)
 def load_airflow_config():
     conf.read_file(open(f"{CONFIG_DIRECTORY}/unit_tests.cfg"))
+
+
+@pytest.fixture(autouse=True)
+def nomad_agent():
+    path = os.environ["PATH"]
+    daemon = subprocess.Popen(["sudo", "env", f"PATH={path}", "nomad", "agent", "-dev"])
+    print(f"Started Nomad agent (PID: {daemon.pid})")
+    time.sleep(5)  # wait for the agent to start
+    yield daemon
+    print(f"Stopping Nomad agent (PID: {daemon.pid})")
+    daemon.terminate()
