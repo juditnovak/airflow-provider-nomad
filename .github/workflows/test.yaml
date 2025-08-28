@@ -7,6 +7,24 @@ on:
 
 jobs:
 
+  lint:
+    name: Lint and type checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      - name: Run checks
+        run: |
+          uv run tox run -e lint
+          uv run tox run -e type
+
   unit_test:
     name: Unit tests
     runs-on: ubuntu-latest
@@ -76,7 +94,5 @@ jobs:
 
       - name: Run tests
         run: |
-          sudo env "PATH=$PATH" nomad agent -dev &
-          export UV_PROJECT_ENVIRONMENT=$PWD/airflow/.venv
           export AIRFLOW_SOURCES=$PWD/airflow
-          uv run --group dev pytest --without-db-init --no-db-cleanup tests/system/nomad
+          uv run --group dev pytest -s --without-db-init --no-db-cleanup tests/system
