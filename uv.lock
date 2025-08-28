@@ -412,13 +412,13 @@ name = "apache-airflow-providers-nomad"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
-    { name = "apache-airflow-core" },
+    { name = "apache-airflow" },
     { name = "python-nomad" },
 ]
 
 [package.dev-dependencies]
 dev = [
-    { name = "apache-airflow-core" },
+    { name = "apache-airflow" },
     { name = "apache-airflow-devel-common" },
     { name = "apache-airflow-task-sdk" },
     { name = "isort" },
@@ -432,13 +432,13 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "apache-airflow-core", specifier = ">=3.0.0" },
+    { name = "apache-airflow", specifier = ">=3.0.0" },
     { name = "python-nomad", specifier = ">=2.1.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "apache-airflow-core" },
+    { name = "apache-airflow" },
     { name = "apache-airflow-devel-common" },
     { name = "apache-airflow-task-sdk" },
     { name = "isort", specifier = ">=6.0.1" },
