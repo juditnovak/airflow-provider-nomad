@@ -56,6 +56,7 @@ dependencies = [
     "apache-airflow-core",
     "apache-airflow-task-sdk",
     "flask>=3.1.2",
+    "netifaces>=0.11.0",
     "python-nomad>=2.1.0",
 ]
 

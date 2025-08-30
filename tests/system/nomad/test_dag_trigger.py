@@ -26,92 +26,40 @@ from airflow.sdk.definitions.param import ParamsDict
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-JOB_NAME = "test-pi"
+JOB_NAME = "judit-test"
 JOB_NAMESPACE = "default"
 
-with DAG(
-    dag_id="example_bash_operator_judit",
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=timedelta(minutes=60),
-    tags=["example", "example2"],
-    params=ParamsDict({"example_key": "example_value"}),
-) as dag:
-    run_this_last = EmptyOperator(
-        task_id="run_this_last",
-    )
+DAG_ID = "example_judit"
 
-    # [START howto_operator_bash]
-    run_this = BashOperator(
-        task_id="run_after_loop",
-        bash_command="echo https://airflow.apache.org/",
-    )
-    # [END howto_operator_bash]
-
-    run_this >> run_this_last
-
-    for i in range(3):
-        task = BashOperator(
-            task_id=f"runme_{i}",
-            bash_command='echo "{{ task_instance_key_str }}" && sleep 1',
-        )
-        task >> run_this
-
-    # [START howto_operator_bash_template]
-    also_run_this = BashOperator(
-        task_id="also_run_this",
-        bash_command='echo "ti_key={{ task_instance_key_str }}"',
-    )
-    # [END howto_operator_bash_template]
-    also_run_this >> run_this_last
-
-    from tests_common.test_utils.watcher import watcher
-
-    # This test needs watcher in order to properly mark success/failure
-    # when "tearDown" task with trigger rule is part of the DAG
-    list(dag.tasks) >> watcher()
+import attrs
 
 
-# ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
-# DAG_ID = "spark_pi"
-#
-# with DAG(
-#     DAG_ID,
-#     default_args={"max_active_runs": 1},
-#     description="submit spark-pi as sparkApplication on kubernetes",
-#     schedule=timedelta(days=1),
-#     start_date=datetime(2021, 1, 1),
-#     catchup=False,
-# ) as dag:
-#     # [START SparkKubernetesOperator_DAG]
-#     pi_example_path = pathlib.Path(__file__).parent.resolve()
-#     t1 = SparkKubernetesOperator(
-#         task_id="spark_pi_submit",
-#         namespace="default",
-#         application_file=join(
-#             pi_example_path, "example_spark_kubernetes_spark_pi.yaml"
-#         ),
-#         do_xcom_push=True,
-#         dag=dag,
-#     )
-#
-#     t2 = SparkKubernetesSensor(
-#         task_id="spark_pi_monitor",
-#         namespace="default",
-#         application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
-#         dag=dag,
-#     )
-#     t1 >> t2
-#
-#     # [END SparkKubernetesOperator_DAG]
-#     from tests_common.test_utils.watcher import watcher
-#
-#     # This test needs watcher in order to properly mark success/failure
-#     # when "tearDown" task with trigger rule is part of the DAG
-#     list(dag.tasks) >> watcher()
+def _default_fileloc() -> str:
+    return os.path.basename(__file__)
+
+
+def _all_after_dag_id_to_kw_only(cls, fields: list[attrs.Attribute]):
+    i = iter(fields)
+    f = next(i)
+    if f.name != "dag_id":
+        raise RuntimeError("dag_id was not the first field")
+    yield f
+
+    for f in i:
+        yield f.evolve(kw_only=True)
+
+
+@attrs.define(repr=False, field_transformer=_all_after_dag_id_to_kw_only, slots=False)  # pyright: ignore[reportArgumentType]
+class myDAG(DAG):
+    fileloc: str = attrs.field(init=False, factory=_default_fileloc)
+
+    def __hash__(self):
+        return super().__hash__()
+
 
 from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-# Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
+from .dags.test_dag_trigger import dag
+
+# # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 test_run = get_test_run(dag)

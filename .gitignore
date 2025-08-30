@@ -2,3 +2,7 @@ __pycache__
 .coverage
 .tox
 *unused*
+*.swp
+tests/system/nomad/config/nomad/nomad_client.hcl
+tests/system/nomad/server/airflow.cfg
+tests/system/nomad/config/unit_tests.cfg

@@ -416,6 +416,7 @@ dependencies = [
     { name = "apache-airflow-core" },
     { name = "apache-airflow-task-sdk" },
     { name = "flask" },
+    { name = "netifaces" },
     { name = "python-nomad" },
 ]
 
@@ -438,6 +439,7 @@ requires-dist = [
     { name = "apache-airflow-core" },
     { name = "apache-airflow-task-sdk" },
     { name = "flask", specifier = ">=3.1.2" },
+    { name = "netifaces", specifier = ">=0.11.0" },
     { name = "python-nomad", specifier = ">=2.1.0" },
 ]
 
@@ -2147,6 +2149,12 @@ wheels = [
 ]
 
 [[package]]
+name = "netifaces"
+version = "0.11.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a6/91/86a6eac449ddfae239e93ffc1918cf33fd9bab35c04d1e963b311e347a73/netifaces-0.11.0.tar.gz", hash = "sha256:043a79146eb2907edf439899f262b3dfe41717d34124298ed281139a8b93ca32", size = 30106, upload-time = "2021-05-31T08:33:02.506Z" }
+
+[[package]]
 name = "opentelemetry-api"
 version = "1.36.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3590,7 +3598,7 @@ dependencies = [
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
 wheels = [
-    { url = "https://github.com/apache/airflow-site/releases/download/0.2.3/sphinx_airflow_theme-0.2.3-py3-none-any.whl", hash = "sha256:ace44dbea420cfe9305db949c38d8077b06668419e69d97b2ad6e2bea51cb8e2" },
+    { url = "https://github.com/apache/airflow-site/releases/download/0.2.3/sphinx_airflow_theme-0.2.3-py3-none-any.whl", hash = "sha256:5f98b879f1c36f8826f553345d5df911d0d5ffdfaaafee4e1d9022105bb6ec73" },
 ]
 
 [package.metadata]

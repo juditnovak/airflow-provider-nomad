@@ -4,6 +4,7 @@ INFILE=$1
 
 if [[ -z "$INFILE" ]]; then
     echo "Usage: $0 <json-file>"
+    exit 1
 fi
 
 PROTOCOL=http
@@ -12,7 +13,7 @@ PORT=4646
 URL=${PROTOCOL}://${HOST}:${PORT}
 
 
-echo "Creating dynamic host volume on ${HOST}"
+printf "Creating dynamic host volume on ${HOST}\n"
 ID=$(curl -s --request PUT --data @${INFILE} ${URL}/v1/volume/host/create \
 	| jq \
 	| grep '"ID":' \
@@ -24,7 +25,7 @@ if [[ -z "$ID" ]]; then
     exit 1
 fi
 
-echo "Created dynamic host volume ${ID}"
+printf "Created dynamic host volume ${ID}\n"
 
 # The volume has to be rw for runner
 HOSTPATH=$(curl -s --request GET ${URL}/v1/volume/host/$ID \
@@ -39,5 +40,5 @@ if [[ -z "$ID" ]]; then
     exit 1
 fi
 
-echo "Chaning hostpath ${HOSTPATH} to RW"
+printf "Chaning hostpath ${HOSTPATH} to RW\n"
 sudo chmod 777 ${HOSTPATH}

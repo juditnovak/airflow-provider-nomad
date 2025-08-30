@@ -1,0 +1,12 @@
+client {
+  host_volume "config" {
+    path      = "<SYS_TEST_ROOT>/config/"
+    read_only = true
+  }
+
+  host_volume "dags" {
+    path      = "<SYS_TEST_ROOT>/dags/"
+    read_only = true
+  }
+}
+
