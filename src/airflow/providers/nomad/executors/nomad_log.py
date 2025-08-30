@@ -38,3 +38,10 @@ NOMAD_LOG_CONFIG["handlers"][NOMAD_HANDLER_NAME] = {
 }
 
 NOMAD_LOG_CONFIG["loggers"]["airflow.task"]["handlers"].append(NOMAD_HANDLER_NAME)
+
+
+# Due to bug on loading config for services such as dag-processor
+# Reproduce: uncomment these lines and run `airflow dag-processor
+import airflow.logging_config
+
+airflow.logging_config.REMOTE_TASK_LOG = None
