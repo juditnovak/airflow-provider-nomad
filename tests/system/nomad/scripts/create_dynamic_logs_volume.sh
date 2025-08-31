@@ -15,7 +15,7 @@ URL=${PROTOCOL}://${HOST}:${PORT}
 
 printf "Creating dynamic host volume on ${HOST}\n"
 ID=$(curl -s --request PUT --data @${INFILE} ${URL}/v1/volume/host/create \
-	| jq \
+	| jq  2> /dev/null \
 	| grep '"ID":' \
 	| cut -d':' -f2 \
 	| sed -e 's/[," ]*//g')
@@ -29,7 +29,7 @@ printf "Created dynamic host volume ${ID}\n"
 
 # The volume has to be rw for runner
 HOSTPATH=$(curl -s --request GET ${URL}/v1/volume/host/$ID \
-	| jq \
+	| jq  2> /dev/null \
 	| grep HostPath \
 	| cut -d':' -f2 \
 	| sed -e 's/[," ]*//g')

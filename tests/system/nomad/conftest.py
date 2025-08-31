@@ -15,18 +15,24 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import netifaces
 import logging
 import os
-import select
 import shutil
 import subprocess
 import sys
 import time
 from pathlib import Path
 
+import netifaces
 import pytest
 from airflow.configuration import conf
+
+from .utils import (
+    check_service_available,
+    say_yes_or_no,
+    stream_subprocess_output,
+    update_template,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -47,24 +53,29 @@ SCRIPTS_DIRECTORY = SYSTEST_ROOT / "scripts"
 #
 AIRFLOW_HOME = os.environ.get("AIRFLOW_HOME")
 if AIRFLOW_HOME and AIRFLOW_HOME != str(SERVER_ROOT / "airflow_home"):
-    logger.warning(
-        "*************************************************************************"
-    )
-    logger.warning("Using existing AIRFLOW_HOME: %s", AIRFLOW_HOME)
-    logger.warning(
-        "The tests are modifying airflow.cfg in this location (resetting DB, etc.)"
-    )
-    logger.warning(
-        f"(Recommended setting: AIRFLOW_HOME={str(SERVER_ROOT / 'airflow_home')})"
-    )
-    logger.warning(
-        "*************************************************************************"
-    )
-    logger.warning("")
-    print("Are you sure? (Waiting 10 seconds...)")
-    i, o, e = select.select([sys.stdin], [], [], 10)
-    if sys.stdin.readline().strip().lower() not in ["y", "Y", "yes"]:
+    print("*************************************************************************")
+    print(f"*                   !!!!!!   WARNING  !!!!!!!!                          *")
+    print(f"*                                                                       *")
+    print(f"* Using existing AIRFLOW_HOME: {AIRFLOW_HOME}*")
+    print("* The tests are modifying airflow.cfg in this location (reset DB, etc.) ")
+    print(f"* (Recommended setting: AIRFLOW_HOME={str(SERVER_ROOT / 'airflow_home')})")
+    print(f"*                                                                       *")
+    print("*************************************************************************")
+    print("Are you sure you want to continue?")
+    print("")
+
+    try:
+        userinput = say_yes_or_no()
+    except Exception as err:
+        print(
+            "An issue with AIRFLOW_HOME was detected and no interactive decision could be processed ({err})."
+        )
+        exit(1)
+
+    if not userinput:
+        print("\nExiting...")
         exit(0)
+
 elif not AIRFLOW_HOME:
     AIRFLOW_HOME = str(SERVER_ROOT / "airflow_home")
 
@@ -76,58 +87,111 @@ sys.path.append(
 )
 
 
-def update_template(file_path: Path, replacements: dict[str, str]) -> None:
-    """Update placeholders in a template file with actual values."""
-    infile_path = f"{file_path}.template"
-    outfile_path = file_path
+TEST_ENV_API_IP_NETIFACE = "TEST_AIRFLOW_API_IP_NETIFACE"
+TEST_ENV_API_HOST = "TEST_AIRFLOW_API_HOST"
 
-    with open(infile_path, "r") as file:
-        content = file.read()
-    for placeholder, actual in replacements.items():
-        content = content.replace(placeholder, actual)
-    with open(outfile_path, "w") as file:
-        file.write(content)
-    logger.debug("Rendered template for %s", file_path)
 
+def pytest_addoption(parser):
+    # Whether to run a Nomad agent
+    agent_help = "Don't start a Nomad agent. (Typically: when running one manually.)"
+    parser.addoption(
+        "--no-nomad-agent", action="store_false", dest="nomad_agent", help=agent_help
+    )
+    parser.addoption(
+        "--nomad-agent",
+        action="store_true",
+        dest="nomad_agent",
+        default=True,
+        help=agent_help,
+    )
+
+    # Local network interface to use for Airflow IP
+    parser.addoption(
+        "--api-ip-netiface",
+        action="store",
+        default="eth0",
+        help=f"Automatically use IP address bound to this network interface. (Alternative: {TEST_ENV_API_IP_NETIFACE}) IMPORTANT: Nomad runners can't use localhost/127.0.0.1, as they run in Docker. They need a different IP/hostname the Airflow API.",
+    )
+
+    # Airflow API IP/hostname
+    parser.addoption(
+        "--airflow-api-host",
+        action="store",
+        help="Hostname or IP of the Airflow API server. (Alternative: {TEST_ENV_API_HOST}) See also --api-ip-netiface",
+    )
+
+
+@pytest.fixture(scope="session")
+def option_nomad_agent(request):
+    return request.config.getoption("nomad_agent")
+
+
+@pytest.fixture(scope="session")
+def option_airflow_api_host(request):
+    return request.config.getoption("airflow_api_host")
+
+
+@pytest.fixture(scope="session")
+def option_airflow_api_ip_netiface(request):
+    return request.config.getoption("api_ip_netiface")
 
 
 @pytest.fixture(autouse=True, scope="session")
-def nomad_runner_config():
-    iface_env_Var = "TEST_AIRFLOW_API_SERVER_IP"
-    iface = os.environ.get(iface_env_Var, "eth0")
+def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
+    addr = os.environ.get(TEST_ENV_API_HOST, option_airflow_api_host)
 
-    ip = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr']
-    if not ip:
-        logger.error("Could not determine IP address for interface %s", iface)
-        logger.error("(Note: default is eth0, configurable via ENV VAR %s)", iface_env_Var)
+    if not addr:
+        iface = os.environ.get(TEST_ENV_API_IP_NETIFACE, option_airflow_api_ip_netiface)
+        addr = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]["addr"]
+
+        if not addr:
+            logger.error("Could not determine IP address for interface %s", iface)
+            logger.error(
+                "(Note: default is eth0, configurable via ENV VAR %s)",
+                TEST_ENV_API_IP_NETIFACE,
+            )
+            exit(1)
+
+    if not check_service_available(addr, 8080):
+        logger.error("Airflow web API is is not available at http:{ip}:8080.")
+        logger.error(
+            "Airflow services (except the ones targeted by the tests) should be started manually."
+        )
         exit(1)
 
     nomad_runner_config = TEST_CONFIG_DIRECTORY / Path("airflow.cfg")
-    update_template(nomad_runner_config, {"<API_IP>": ip},
-    )
+    update_template(nomad_runner_config, {"<API_IP>": addr})
 
 
 @pytest.fixture(autouse=True, scope="session")
-def nomad_agent():
-    path = os.environ["PATH"]
-    systest_root = os.path.dirname(os.path.realpath(__file__))
-
-    # Prepare necessary directories
-    SERVER_LOGS.mkdir(parents=True, exist_ok=True)
-
-    # Update configuration templates
-    # airflow_server_config = systest_root / AIRFLOW_CONFIG_DIRECTORY / Path("airflow.cfg")
-    nomad_client_config = (
-        systest_root / NOMAD_CONFIG_DIRECTORY / Path("nomad_client.hcl")
+def nomad_agent(nomad_runner_config, option_nomad_agent):
+    log_volume_creation_script = str(
+        SCRIPTS_DIRECTORY / Path("create_dynamic_logs_volume.sh")
     )
-    nomad_log = SERVER_LOGS / Path("nomad_agent.log")
+    log_volume_creation_hcl = str(
+        NOMAD_CONFIG_DIRECTORY / Path("volume_dynamic_logs.json")
+    )
 
-    # update_template(airflow_server_config, {"<AIRFLOW_TEST_HOME>": systest_root})
-    update_template(nomad_client_config, {"<SYS_TEST_ROOT>": systest_root})
+    daemon = None
+    nomad_log = ""
+    if option_nomad_agent:
+        path = os.environ["PATH"]
 
-    # Start Nomad agent (dev mode)
-    daemon = subprocess.Popen(
-        [
+        # Prepare necessary directories
+        SERVER_LOGS.mkdir(parents=True, exist_ok=True)
+
+        # Update configuration templates
+        nomad_client_config = NOMAD_CONFIG_DIRECTORY / Path("nomad_client.hcl")
+        nomad_log = SERVER_LOGS / Path("nomad_agent.log")
+
+        # update_template(airflow_server_config, {"<AIRFLOW_TEST_HOME>": systest_root})
+        update_template(nomad_client_config, {"<SYS_TEST_ROOT>": str(SYSTEST_ROOT)})
+
+        # Start Nomad agent (dev mode)
+        logger.info(f"Starting Nomad agent with root privileges...")
+        logger.warning(f"This 'sudo' call may mess up your terminal.")
+        daemon = None
+        cmd = [
             "sudo",
             "env",
             f"PATH={path}",
@@ -136,26 +200,59 @@ def nomad_agent():
             "-dev",
             "-config",
             nomad_client_config,
-        ],
-        stdout=open(nomad_log, "w"),
-        stderr=subprocess.STDOUT,
-    )
+        ]
+        try:
+            daemon = subprocess.Popen(
+                cmd,
+                universal_newlines=True,
+                stdout=open(nomad_log, "w"),
+                stderr=open(nomad_log, "w"),
+            )
+        except subprocess.CalledProcessError as err:
+            logging.error("Starting Nomad agent failed.({err})")
 
-    print(f"Starting Nomad agent (PID: {daemon.pid})")
-    time.sleep(5)  # let the agent start up
+        if daemon:
+            logger.info(f"Nomad agent started (PID: {str(daemon.pid)})")
 
-    # Create dynamic logs volume for Nomad client
-    subprocess.run(
-        [
-            systest_root / SCRIPTS_DIRECTORY / Path("create_dynamic_logs_volume.sh"),
-            systest_root / NOMAD_CONFIG_DIRECTORY / Path("volume_dynamic_logs.json"),
-        ],
-    )
+        for i in range(3):
+            time.sleep(5)
+            try:
+                for line in stream_subprocess_output(
+                    [log_volume_creation_script, log_volume_creation_hcl]
+                ):
+                    logger.info(line.strip())
+            except subprocess.CalledProcessError as err:
+                if i < 2:
+                    logger.error(
+                        "Could not create dynamic logs volume: %s. Retrying...", err
+                    )
+                else:
+                    logger.error("Dynamic logs volume createion failed. Exciting...")
+                    exit(1)
+            else:
+                break
+    else:
+        logger.warning("Keep in mind that dynamic log volumes are necessary. See ")
+
+    timeout = 30
+    if not check_service_available("127.0.0.1", 4646, timeout=timeout):
+        logger.error(
+            "Nomad agent unavailable within %d seconds. (See logs at: %s)",
+            timeout,
+            nomad_log,
+        )
+        logger.error(
+            "Alternatively you can run Nomad agent manually, and use the --no-nomad-agent parameter."
+        )
+        if daemon:
+            daemon.terminate()
+        exit(1)
 
     yield daemon
 
-    print(f"Stopping Nomad agent (PID: {daemon.pid})")
-    daemon.terminate()
+    if daemon:
+        logger.info(f"Stopping Nomad agent (PID: {daemon.pid})")
+        daemon.terminate()
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -194,20 +291,3 @@ def airflow_test_servces_setup(airflow_test_servces_config):
             logger.warning("File {airflow_cfg} was a symlink that's now deleted.")
             os.unlink(airflow_cfg)
             airflow_cfg.symlink_to(airflow_test_servces_config)
-
-
-# @pytest.fixture(scope="session", autouse=True)
-# def airflow_test_servces_api_start(airflow_test_servces_config):
-#     # webapi_log = SERVER_LOGS / Path("airflow_api.log")
-#     daemon = subprocess.Popen(
-#         ["uv", "run", "--active", "airflow", "api-server"],
-#         # stderr=subprocess.STDOUT,
-#     )
-#
-#     print(f"Starting Airflow API (PID: {daemon.pid})")
-#     time.sleep(10)
-#
-#     yield daemon
-#
-#     print(f"Stopping Airflow web API (PID: {daemon.pid})")
-#     daemon.terminate()
