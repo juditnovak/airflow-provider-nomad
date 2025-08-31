@@ -24,14 +24,17 @@ from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
-ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
-
-JOB_NAME = "judit-test"
-JOB_NAMESPACE = "default"
-
 DAG_ID = "example_judit"
 
 import attrs
+
+##############################################################################
+# DAG with relative location
+#
+# Airflow SDK DAGs are constucted with their absolute path ('fileloc' attr)
+# instead of the relative location within the 'dags-folder'.
+# In order to allow for remote job submission, this requires a patch
+##############################################################################
 
 
 def _default_fileloc() -> str:
@@ -57,7 +60,7 @@ class myDAG(DAG):
         return super().__hash__()
 
 
-# DAG.fileloc = os.path.basename(__file__)
+##############################################################################
 
 with myDAG(
     dag_id=DAG_ID,
@@ -97,10 +100,12 @@ with myDAG(
     also_run_this >> run_this_last
 
     try:
+        # We are in the local Airflow test environment
         from tests_common.test_utils.watcher import watcher
 
         # This test needs watcher in order to properly mark success/failure
         # when "tearDown" task with trigger rule is part of the DAG
         list(dag.tasks) >> watcher()
     except ImportError:
+        # We are in the remote runner, now 'wathcer()' is needed
         pass

@@ -65,6 +65,7 @@ jobs:
 
   system_tests:
     name: System tests on local Nomad instance
+    # runs-on: self-hosted
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -106,10 +107,32 @@ jobs:
           AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
       - name: Run tests
+        id: systest
         run: |
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
 
+          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
+
+          ./tests/system/nomad/scripts/init_airflow_cfg.sh
+
           uv run airflow db reset -y
-          uv run airflow api-server -D
-          uv run tox run -e system_test
+          uv run airflow api-server &
+          timeout 200 uv run tox run -e system_test
+
+      - name: Save nomad logs
+        if: failure()
+        run: |
+          mkdir nomad_logs
+          sudo cp -r /tmp/Nomad* nomad_logs
+          sudo tar -czvf nomad_logs.tar.gz nomad_logs
+          sudo chmod 777 nomad_logs.tar.gz
+          mv nomad_logs.tar.gz tests/system/nomad/server/logs
+
+      - name: Collect logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: nomad_provider_test_output
+          path: |
+            tests/system/nomad/server/logs/*

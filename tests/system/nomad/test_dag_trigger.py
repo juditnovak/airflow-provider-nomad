@@ -16,50 +16,19 @@
 # under the License.
 
 import os
-from datetime import timedelta
 
-import pendulum
-from airflow.providers.standard.operators.bash import BashOperator
-from airflow.providers.standard.operators.empty import EmptyOperator
-from airflow.sdk import DAG
-from airflow.sdk.definitions.param import ParamsDict
+from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
+
+from .dags.test_dag_trigger import DAG_ID as orig_dag_id
+from .dags.test_dag_trigger import dag
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
 JOB_NAME = "judit-test"
 JOB_NAMESPACE = "default"
 
-DAG_ID = "example_judit"
+DAG_ID = orig_dag_id
 
-import attrs
-
-
-def _default_fileloc() -> str:
-    return os.path.basename(__file__)
-
-
-def _all_after_dag_id_to_kw_only(cls, fields: list[attrs.Attribute]):
-    i = iter(fields)
-    f = next(i)
-    if f.name != "dag_id":
-        raise RuntimeError("dag_id was not the first field")
-    yield f
-
-    for f in i:
-        yield f.evolve(kw_only=True)
-
-
-@attrs.define(repr=False, field_transformer=_all_after_dag_id_to_kw_only, slots=False)  # pyright: ignore[reportArgumentType]
-class myDAG(DAG):
-    fileloc: str = attrs.field(init=False, factory=_default_fileloc)
-
-    def __hash__(self):
-        return super().__hash__()
-
-
-from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
-
-from .dags.test_dag_trigger import dag
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 test_run = get_test_run(dag)

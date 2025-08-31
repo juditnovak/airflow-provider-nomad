@@ -136,6 +136,12 @@ def option_airflow_api_ip_netiface(request):
     return request.config.getoption("api_ip_netiface")
 
 
+def pytest_configure(config):
+    """Ahead of ***ANYTHING*** running, AIRFLOW_HOME/airflow.cfg must be generated"""
+    unit_test_conf = airflow_test_servces_config()
+    airflow_test_servces_setup(unit_test_conf)
+
+
 @pytest.fixture(autouse=True, scope="session")
 def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
     addr = os.environ.get(TEST_ENV_API_HOST, option_airflow_api_host)
@@ -255,8 +261,10 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
         daemon.terminate()
 
 
-@pytest.fixture(scope="session", autouse=True)
-def airflow_test_servces_config(nomad_agent):
+# Though not fixtures, still rather left here for readability
+
+
+def airflow_test_servces_config():
     airflow_unit_test_config = (
         SYSTEST_ROOT / TEST_CONFIG_DIRECTORY / Path("unit_tests.cfg")
     )
@@ -271,21 +279,27 @@ def airflow_test_servces_config(nomad_agent):
     # Load System Test configuration
     conf.read_file(open(f"{TEST_CONFIG_DIRECTORY}/unit_tests.cfg"))
     logger.debug("Airflow config loaded for system tests")
+    logger.info(f"The executor is: {conf.get('core', 'executor')}")
 
     return airflow_unit_test_config
 
 
-@pytest.fixture(scope="session", autouse=True)
 def airflow_test_servces_setup(airflow_test_servces_config):
     airflow_cfg = AIRFLOW_HOME_PATH / Path("airflow.cfg")
-    logger.debug(f"Setting up Airflow test services using {airflow_cfg}")
+    logger.info(f"Setting up Airflow test services using {airflow_cfg}")
+    logger.warning(
+        f"IMPORTANT: Any Airflow services already running may NOT be using updated {airflow_cfg} yet!"
+    )
+    logger.warning(
+        f"NOTE: Run '{SCRIPTS_DIRECTORY}/init_airflow_cfg.sh' before starting up Airflow services"
+    )
     try:
         airflow_cfg.symlink_to(airflow_test_servces_config)
     except FileExistsError:
         if not airflow_cfg.is_symlink():
             backup_path = str(airflow_cfg) + f".bak.{time.strftime('%Y%m%d-%H%M%S')}"
             shutil.move(str(airflow_cfg), backup_path)
-            logger.warning(f"Moved {airflow_cfg} to backup file")
+            logger.warning(f"Moved old {airflow_cfg} to {backup_path}")
             airflow_cfg.symlink_to(airflow_test_servces_config)
         else:
             logger.warning("File {airflow_cfg} was a symlink that's now deleted.")
