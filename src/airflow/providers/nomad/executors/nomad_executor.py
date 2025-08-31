@@ -108,7 +108,9 @@ class NomadExecutor(ExecutorInterface):
         job_template["Job"]["Name"] = f"airflow-run-{job_task_id}-{key[3]}"
         job_template["Job"]["ID"] = job_id
 
-        self.log.debug(f"Command running: \n{' '.join(command[:-1])} '{command[-1]}'\n")
+        self.log.debug(
+            f"Command running: python -m airflow.sdk.execution_time.execute_workload --json-string '{command[0]}'\n"
+        )
         return job_template
 
     def run_job(self, key: TaskInstanceKey, job_template: dict[str, Any]) -> None:

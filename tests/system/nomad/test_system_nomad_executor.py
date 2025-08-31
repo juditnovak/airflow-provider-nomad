@@ -21,9 +21,12 @@
 # in the test configuration
 ###############################################################################
 
+import pytest
+
 from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
 
 
+@pytest.mark.usefixtures("nomad_agent")
 def test_connect():
     """Connection to the Nomad cluster"""
     nomad_executor = NomadExecutor()

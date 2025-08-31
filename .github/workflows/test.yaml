@@ -4,8 +4,28 @@ on:
     branches: ["main"]
   pull_request:
 
+env:
+  AIRFLOW_VERSION: 3.0.6
 
 jobs:
+
+  lint:
+    name: Lint and type checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      - name: Run checks
+        run: |
+          uv run tox run -e lint
+          uv run tox run -e type
 
   unit_test:
     name: Unit tests
@@ -29,14 +49,19 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          # Careful -- some plugin neccesity path references get broken in later versions
-          ref: 3.0.4
+          ref: ${{ env.AIRFLOW_VERSION }}
+
+      - name: Adjust Airflow version for local env
+        run: |
+          sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
+          echo "Airflow Version is $AIRFLOW_VERSION"
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
       - name: Run tests
         run: |
-          export UV_PROJECT_ENVIRONMENT=$PWD/airflow/.venv
           export AIRFLOW_SOURCES=$PWD/airflow
-          uv run --group dev pytest --without-db-init --no-db-cleanup tests/unit
+          uv run tox run -e unit_test
 
   system_tests:
     name: System tests on local Nomad instance
@@ -71,12 +96,20 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          # Careful -- some plugin neccesity path references get broken in later versions
-          ref: 3.0.4
+          ref: ${{ env.AIRFLOW_VERSION }}
+
+      - name: Adjust Airflow version for local env
+        run: |
+          sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
+          echo "Airflow Version is $AIRFLOW_VERSION"
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
       - name: Run tests
         run: |
-          sudo env "PATH=$PATH" nomad agent -dev &
-          export UV_PROJECT_ENVIRONMENT=$PWD/airflow/.venv
           export AIRFLOW_SOURCES=$PWD/airflow
-          uv run --group dev pytest --without-db-init --no-db-cleanup tests/system/nomad
+          export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
+
+          uv run airflow db reset -y
+          uv run airflow api-server -D
+          uv run tox run -e system_test

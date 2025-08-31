@@ -19,7 +19,7 @@
 import logging
 from itertools import chain
 
-import nomad
+import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancehistory import TaskInstanceHistory
@@ -102,7 +102,7 @@ class ExecutorLogLinesHandler(FileTaskHandler):
         sources: LogSourceInfo = []
         source_list: list[str] = []
 
-        logs = []
+        logs: list[str] = []
         executor_get_task_log = self._get_executor_get_task_log(ti)
         response = executor_get_task_log(ti, try_number)
         if response:
@@ -127,7 +127,7 @@ class ExecutorLogLinesHandler(FileTaskHandler):
         header = [
             StructuredLogMessage(
                 event="::group::Log message source details",
-                sources=source_list,  # pyright: ignore[reportCallIssue]
+                sources=source_list,  # type: ignore[call-arg]
             ),
             StructuredLogMessage(event="::endgroup::"),
         ]

@@ -4,7 +4,7 @@
 #
 # Variable: AIRFLOW__CORE__DAGS_FOLDER
 #
-dags_folder = /opt/airflow/dags
+dags_folder = <SYSTEST_ROOT>/dags
 
 # Hostname by providing a path to a callable, which will resolve the hostname.
 # The format is "package.function".
@@ -49,6 +49,8 @@ default_timezone = utc
 # Variable: AIRFLOW__CORE__EXECUTOR
 #
 # executor = LocalExecutor
+#
+# [NOMAD]
 executor = airflow.providers.nomad.executors.nomad_executor.NomadExecutor
 
 # The auth manager class that airflow should use. Full import path to the auth manager class.
@@ -154,7 +156,7 @@ load_examples = True
 #
 # Variable: AIRFLOW__CORE__PLUGINS_FOLDER
 #
-# plugins_folder = /home/devel/share/workspace_airflow/plugins
+plugins_folder = <SYSTEST_AIRFLOW_HOME>/plugins
 
 # Should tasks be executed via forking of the parent process
 # 
@@ -170,7 +172,7 @@ execute_tasks_new_python_interpreter = False
 #
 # Variable: AIRFLOW__CORE__FERNET_KEY
 #
-fernet_key = Kw71LRawJdf-qMQvB8gbTkzJcXLLd_jKU93mXK3THBw=
+fernet_key = p2K_wkzqPGzMUdSNvV8q46tvF5WW7RF9kG_D04vS--o=
 
 # Whether to disable pickling dags
 #
@@ -446,7 +448,7 @@ database_access_isolation = False
 #
 # Variable: AIRFLOW__CORE__INTERNAL_API_SECRET_KEY
 #
-internal_api_secret_key = tbGtzTDxCmbWS6+moNtKng==
+internal_api_secret_key = GOFuYsdvtHtXQlY+c2DMxw==
 
 # The ability to allow testing connections across Airflow UI, API and CLI.
 # Supported options: ``Disabled``, ``Enabled``, ``Hidden``. Default: Disabled
@@ -495,7 +497,7 @@ alembic_ini_file_path = alembic.ini
 #
 # Variable: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
 #
-sql_alchemy_conn = sqlite:////home/devel/share/workspace_airflow/airflow.db
+sql_alchemy_conn = sqlite:///<SYSTEST_AIRFLOW_HOME>/airflow.db
 
 # Extra engine specific keyword args passed to SQLAlchemy's create_engine, as a JSON-encoded value
 #
@@ -646,7 +648,7 @@ migration_batch_size = 10000
 #
 # Variable: AIRFLOW__LOGGING__BASE_LOG_FOLDER
 #
-base_log_folder = /opt/airflow/logs
+base_log_folder = /home/devel/share/workspace_airflow/airflow/../airflow_breeze_home//logs
 
 # Airflow can store logs remotely in AWS S3, Google Cloud Storage or Elastic Search.
 # Set this to ``True`` if you want to enable remote logging.
@@ -713,7 +715,7 @@ encrypt_s3_logs = False
 #
 # Variable: AIRFLOW__LOGGING__LOGGING_LEVEL
 #
-logging_level = DEBUG
+logging_level = INFO
 
 # Logging level for celery. If not set, it uses the value of logging_level
 # 
@@ -729,7 +731,7 @@ celery_logging_level =
 #
 # Variable: AIRFLOW__LOGGING__FAB_LOGGING_LEVEL
 #
-fab_logging_level = DEBUG
+fab_logging_level = WARNING
 
 # Logging class
 # Specify the class that will specify the logging configuration
@@ -739,9 +741,7 @@ fab_logging_level = DEBUG
 #
 # Variable: AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS
 #
-# logging_config_class = airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG
-logging_config_class = 
-
+logging_config_class = airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG
 
 # Flag to enable/disable Colored logs in Console
 # Colour the logs when the controlling terminal is a TTY.
@@ -790,7 +790,7 @@ dag_processor_log_format = [%%(asctime)s] [SOURCE:DAG_PROCESSOR] {%%(filename)s:
 #
 # Variable: AIRFLOW__LOGGING__DAG_PROCESSOR_CHILD_PROCESS_LOG_DIRECTORY
 #
-dag_processor_child_process_log_directory = /home/devel/share/workspace_airflow/logs/dag_processor
+dag_processor_child_process_log_directory = /home/devel/share/workspace_airflow/airflow/../airflow_breeze_home//logs/dag_processor
 
 # Determines the formatter class used by Airflow for structuring its log messages
 # The default formatter class is timezone-aware, which means that timestamps attached to log entries
@@ -838,8 +838,9 @@ log_filename_template = dag_id={{ ti.dag_id }}/run_id={{ ti.run_id }}/task_id={{
 #
 # Variable: AIRFLOW__LOGGING__TASK_LOG_READER
 #
-
-task_log_reader = task
+#
+# [NOMAD]: Mandatory so that the API server can read logs from the Nomad cluster
+task_log_reader = executor_log_lines_handler
 
 # A comma\-separated list of third-party logger names that will be configured to print messages to
 # consoles\.
@@ -1197,7 +1198,7 @@ enable_swagger_ui = True
 #
 # Variable: AIRFLOW__API__SECRET_KEY
 #
-secret_key = tbGtzTDxCmbWS6+moNtKng==
+secret_key = GOFuYsdvtHtXQlY+c2DMxw==
 
 # Expose the configuration file in the web server. Set to ``non-sensitive-only`` to show all values
 # except those that have security implications. ``True`` shows all values. ``False`` hides the
@@ -1221,19 +1222,19 @@ expose_stacktrace = False
 #
 # Variable: AIRFLOW__API__BASE_URL
 #
-base_url = http://192.168.122.226:8080
+# base_url = 
 
 # The ip specified when starting the api server
 #
 # Variable: AIRFLOW__API__HOST
 #
-# host = 0.0.0.0
+host = 0.0.0.0
 
 # The port on which to run the api server
 #
 # Variable: AIRFLOW__API__PORT
 #
-# port = 8080
+port = 8080
 
 # Number of workers to run on the API server
 #
@@ -1425,7 +1426,7 @@ jwt_cli_expiration_time = 3600
 #
 # Variable: AIRFLOW__API_AUTH__JWT_SECRET
 #
-jwt_secret = Cn8Sw5S5eI89DVLl6wsLpw==
+jwt_secret = UGF5EcioI/AmKG6xTG4dkQ==
 
 # The path to a file containing a PEM-encoded private key use when generating Task Identity tokens in
 # the executor.
@@ -2178,7 +2179,7 @@ default_timeout = 604800
 #
 dag_bundle_config_list = [
       {
-        "name": "dags-folder",
+        "name": "testing",
         "classpath": "airflow.dag_processing.bundles.local.LocalDagBundle",
         "kwargs": {}
       }
@@ -2301,192 +2302,6 @@ stale_bundle_cleanup_min_versions = 10
 #
 parsing_pre_import_modules = True
 
-[local_kubernetes_executor]
-# This section only applies if you are using the ``LocalKubernetesExecutor`` in
-# ``[core]`` section above
-
-# Define when to send a task to ``KubernetesExecutor`` when using ``LocalKubernetesExecutor``.
-# When the queue of a task is the value of ``kubernetes_queue`` (default ``kubernetes``),
-# the task is executed via ``KubernetesExecutor``,
-# otherwise via ``LocalExecutor``
-#
-# Variable: AIRFLOW__LOCAL_KUBERNETES_EXECUTOR__KUBERNETES_QUEUE
-#
-kubernetes_queue = kubernetes
-
-[kubernetes_executor]
-# Kwargs to override the default urllib3 Retry used in the kubernetes API client
-#
-# Example: api_client_retry_configuration = { "total": 3, "backoff_factor": 0.5 }
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__API_CLIENT_RETRY_CONFIGURATION
-#
-api_client_retry_configuration = 
-
-# Flag to control the information added to kubernetes executor logs for better traceability
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__LOGS_TASK_METADATA
-#
-logs_task_metadata = False
-
-# Path to the YAML pod file that forms the basis for KubernetesExecutor workers.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__POD_TEMPLATE_FILE
-#
-pod_template_file = 
-
-# The repository of the Kubernetes Image for the Worker to Run
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__WORKER_CONTAINER_REPOSITORY
-#
-worker_container_repository = 
-
-# The tag of the Kubernetes Image for the Worker to Run
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__WORKER_CONTAINER_TAG
-#
-worker_container_tag = 
-
-# The Kubernetes namespace where airflow workers should be created. Defaults to ``default``
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__NAMESPACE
-#
-namespace = default
-
-# If True, all worker pods will be deleted upon termination
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__DELETE_WORKER_PODS
-#
-delete_worker_pods = True
-
-# If False (and delete_worker_pods is True),
-# failed worker pods will not be deleted so users can investigate them.
-# This only prevents removal of worker pods where the worker itself failed,
-# not when the task it ran failed.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__DELETE_WORKER_PODS_ON_FAILURE
-#
-delete_worker_pods_on_failure = False
-
-worker_pod_pending_fatal_container_state_reasons = CreateContainerConfigError,ErrImagePull,CreateContainerError,ImageInspectError,InvalidImageName
-# Number of Kubernetes Worker Pod creation calls per scheduler loop.
-# Note that the current default of "1" will only launch a single pod
-# per-heartbeat. It is HIGHLY recommended that users increase this
-# number to match the tolerance of their kubernetes cluster for
-# better performance.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__WORKER_PODS_CREATION_BATCH_SIZE
-#
-worker_pods_creation_batch_size = 1
-
-# Allows users to launch pods in multiple namespaces.
-# Will require creating a cluster-role for the scheduler,
-# or use multi_namespace_mode_namespace_list configuration.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__MULTI_NAMESPACE_MODE
-#
-multi_namespace_mode = False
-
-# If multi_namespace_mode is True while scheduler does not have a cluster-role,
-# give the list of namespaces where the scheduler will schedule jobs
-# Scheduler needs to have the necessary permissions in these namespaces.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__MULTI_NAMESPACE_MODE_NAMESPACE_LIST
-#
-multi_namespace_mode_namespace_list = 
-
-# Use the service account kubernetes gives to pods to connect to kubernetes cluster.
-# It's intended for clients that expect to be running inside a pod running on kubernetes.
-# It will raise an exception if called from a process not running in a kubernetes environment.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__IN_CLUSTER
-#
-in_cluster = True
-
-# When running with in_cluster=False change the default cluster_context or config_file
-# options to Kubernetes client. Leave blank these to use default behaviour like ``kubectl`` has.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__CLUSTER_CONTEXT
-#
-# cluster_context = 
-
-# Path to the kubernetes configfile to be used when ``in_cluster`` is set to False
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__CONFIG_FILE
-#
-# config_file = 
-
-# Keyword parameters to pass while calling a kubernetes client core_v1_api methods
-# from Kubernetes Executor provided as a single line formatted JSON dictionary string.
-# List of supported params are similar for all core_v1_apis, hence a single config
-# variable for all apis. See:
-# https://raw.githubusercontent.com/kubernetes-client/python/41f11a09995efcd0142e25946adc7591431bfb2f/kubernetes/client/api/core_v1_api.py
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__KUBE_CLIENT_REQUEST_ARGS
-#
-kube_client_request_args = 
-
-# Optional keyword arguments to pass to the ``delete_namespaced_pod`` kubernetes client
-# ``core_v1_api`` method when using the Kubernetes Executor.
-# This should be an object and can contain any of the options listed in the ``v1DeleteOptions``
-# class defined here:
-# https://github.com/kubernetes-client/python/blob/41f11a09995efcd0142e25946adc7591431bfb2f/kubernetes/client/models/v1_delete_options.py#L19
-#
-# Example: delete_option_kwargs = {"grace_period_seconds": 10}
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__DELETE_OPTION_KWARGS
-#
-delete_option_kwargs = 
-
-# Enables TCP keepalive mechanism. This prevents Kubernetes API requests to hang indefinitely
-# when idle connection is time-outed on services like cloud load balancers or firewalls.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__ENABLE_TCP_KEEPALIVE
-#
-enable_tcp_keepalive = True
-
-# When the `enable_tcp_keepalive` option is enabled, TCP probes a connection that has
-# been idle for `tcp_keep_idle` seconds.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__TCP_KEEP_IDLE
-#
-tcp_keep_idle = 120
-
-# When the `enable_tcp_keepalive` option is enabled, if Kubernetes API does not respond
-# to a keepalive probe, TCP retransmits the probe after `tcp_keep_intvl` seconds.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__TCP_KEEP_INTVL
-#
-tcp_keep_intvl = 30
-
-# When the `enable_tcp_keepalive` option is enabled, if Kubernetes API does not respond
-# to a keepalive probe, TCP retransmits the probe `tcp_keep_cnt number` of times before
-# a connection is considered to be broken.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__TCP_KEEP_CNT
-#
-tcp_keep_cnt = 6
-
-# Set this to false to skip verifying SSL certificate of Kubernetes python client.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__VERIFY_SSL
-#
-verify_ssl = True
-
-# Path to a CA certificate to be used by the Kubernetes client to verify the server's SSL certificate.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__SSL_CA_CERT
-#
-ssl_ca_cert = 
-
-# The Maximum number of retries for queuing the task to the kubernetes scheduler when
-# failing due to Kube API exceeded quota errors before giving up and marking task as failed.
-# -1 for unlimited times.
-#
-# Variable: AIRFLOW__KUBERNETES_EXECUTOR__TASK_PUBLISH_MAX_RETRIES
-#
-task_publish_max_retries = 0
-
 [common.io]
 # Common IO configuration section
 
@@ -2519,6 +2334,29 @@ xcom_objectstorage_threshold = -1
 #
 xcom_objectstorage_compression = 
 
+[nomad_executor]
+# Generic Airflow executor parallelism (should be higher than 0)
+#
+# Example: parallelism = 128
+#
+# Variable: AIRFLOW__NOMAD_EXECUTOR__PARALLELISM
+#
+parallelism = 1
+
+# Nomad server IP
+#
+# Example: server_ip = 192.168.122.226
+#
+# Variable: AIRFLOW__NOMAD_EXECUTOR__SERVER_IP
+#
+# server_ip = 
+
+# Whether TLS certificates are to be considered
+#
+# Variable: AIRFLOW__NOMAD_EXECUTOR__SECURE
+#
+secure = False
+
 [standard]
 # Options for the standard provider operators.
 
@@ -2537,4 +2375,4 @@ venv_install_method = auto
 
 [nomad]
 parallelism = 128
-server_ip = 192.168.122.226
+server_ip = 127.0.0.1

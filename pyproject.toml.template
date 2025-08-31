@@ -53,7 +53,7 @@ requires-python = ">=3.10"
 # Make sure to run ``breeze static-checks --type update-providers-dependencies --all-files``
 # After you modify the dependencies, and rebuild your Breeze CI image with ``breeze ci-image build``
 dependencies = [
-    "apache-airflow-core==3.0.6",
+    "apache-airflow-core==<AIRFLOW_VERSION>",
     "apache-airflow-task-sdk",
     "flask>=3.1.2",
     "netifaces>=0.11.0",
@@ -87,7 +87,7 @@ docs = [
 ]
 
 [tool.uv.sources]
-apache-airflow-devel-common = { git = "https://github.com/apache/airflow.git", subdirectory="devel-common", tag="3.0.6" }
+apache-airflow-devel-common = { git = "https://github.com/apache/airflow.git", subdirectory="devel-common", tag="<AIRFLOW_VERSION>"}
 
 [project.urls]
 # "Documentation" = "https://airflow.apache.org/docs/apache-airflow-providers-nomad/0.0.1"

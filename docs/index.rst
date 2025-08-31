@@ -76,7 +76,7 @@ Release Date: ``|PypiReleaseDate|``
 Provider package
 ----------------
 
-This package is for the ``nomad`` provider.
+This package contains and Airflow provider for the HashiCorp Nomad workload orchestrator.
 All classes for this package are included in the ``airflow.providers.nomad`` python package.
 
 Installation

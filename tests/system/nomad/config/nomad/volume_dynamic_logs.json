@@ -1,0 +1,28 @@
+{
+  "PolicyOverride": false,
+  "Volume": {
+    "Name": "airflow-logs",
+    "Namespace": "default",
+    "NodePool": null,
+    "PluginID": "mkdir",
+    "RequestedCapacityMinBytes": 10737418240,
+    "RequestedCapacityMaxBytes": 21474836480,
+    "RequestedCapabilities": [
+      {
+        "AccessMode": "single-node-writer",
+        "AttachmentMode": "file-system"
+      },
+      {
+        "AccessMode": "single-node-writer",
+        "AttachmentMode": "block-device"
+      }
+    ],
+    "Constraints": [
+      {
+        "LTarget": "${attr.kernel.name}",
+        "RTarget": "linux",
+        "Operand": "="
+      }
+    ]
+  }
+}

@@ -39,7 +39,7 @@ from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
 from airflow.utils.log.logging_mixin import remove_escape_codes
 from airflow.utils.state import TaskInstanceState
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
 
@@ -208,7 +208,7 @@ class ExecutorInterface(BaseExecutor):
                 f"Attempting to fetch logs from task {ti.key} through Nomad API (attempts: {try_number})"
             )
             messages_received, logs_received = self.retrieve_logs(ti.key)
-            messages.append(messages_received)
+            messages += messages_received
 
             for line in logs_received:
                 log.append(remove_escape_codes(line))
