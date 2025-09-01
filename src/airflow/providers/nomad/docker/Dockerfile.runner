@@ -11,4 +11,8 @@ RUN pip install apache-airflow-task-sdk
 
 RUN pip install nomad
 
-COPY src/airflow/providers/nomad /usr/src/runner/.local/lib/python3.12/site-packages/airflow/providers/nomad/ 
+
+# To be replaced later with
+# RUN pip install apache-airflow-providers-nomad
+COPY . .
+RUN pip install -e .
