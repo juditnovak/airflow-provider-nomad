@@ -1,0 +1,14 @@
+
+#!/bin/sh
+# Pre-commit hook to verify no divergence between pyproject.toml and its template
+
+difference=$(diff -y --suppress-common-lines -W300 pyproject.toml pyproject.toml.template | grep -v "<AIRFLOW_VERSION>")
+
+
+if [[ -n "$difference" ]]; then
+  gnome-terminal --geometry=200x100 --command "vimdiff pyproject.toml pyproject.toml.template"
+  echo "Error: divergence between pyproject.toml and its template"
+  exit 1
+fi
+
+exit 0

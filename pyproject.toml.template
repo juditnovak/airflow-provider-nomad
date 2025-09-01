@@ -21,7 +21,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "apache-airflow-providers-nomad"
-version = "0.0.1"
+version = "1.0.0"
 description = "Provider package for Nomad (executor, operators, etc.) for Apache Airflow"
 readme = "README.rst"
 authors = [
@@ -68,6 +68,7 @@ dev = [
     "tox>=4.28.4",
     "pudb>=2025.1",
     "isort>=6.0.1",
+    "pre-commit>=4.3.0",
 ]
 
 # To build docs:
@@ -110,6 +111,12 @@ name = "airflow.providers.nomad"
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+
+[tool.isort]
+line_length = 100
+
+[tool.ruff]
+line-length = 100
 
 # [tool.pytest.ini_options]
 # pythonpath = ["."]
