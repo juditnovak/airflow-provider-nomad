@@ -12,6 +12,7 @@ jobs:
   lint:
     name: Lint and type checks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v5
@@ -30,6 +31,7 @@ jobs:
   unit_test:
     name: Unit tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
     steps:
@@ -61,12 +63,12 @@ jobs:
       - name: Run tests
         run: |
           export AIRFLOW_SOURCES=$PWD/airflow
-          uv run tox run -e unit_test
+          uv run tox run -e unit_test -- --with-db-init
 
   system_tests:
     name: System tests on local Nomad instance
-    # runs-on: self-hosted
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -106,7 +108,7 @@ jobs:
         env:
           AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
-      - name: Run tests
+      - name: Run System tests
         id: systest
         run: |
           set -x
@@ -117,11 +119,9 @@ jobs:
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
 
-          ls -la $AIRFLOW_HOME/airflow.cfg
-
           uv run airflow db reset -y
           uv run airflow api-server &
-          timeout 200 uv run tox run -e system_test
+          uv run tox run -e system_test
 
       - name: Save nomad logs
         if: failure()
