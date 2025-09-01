@@ -19,11 +19,8 @@
 import logging
 from itertools import chain
 
-import nomad  # type: ignore[import-untyped]
-from airflow.configuration import conf
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancehistory import TaskInstanceHistory
-from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.utils.log.file_task_handler import (
     FileTaskHandler,
     LegacyProvidersLogType,
@@ -35,11 +32,7 @@ from airflow.utils.log.file_task_handler import (
 )
 from airflow.utils.state import TaskInstanceState
 
-from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
-
 logger = logging.getLogger(__name__)
-
-PROVIDER_NAME = "nomad"
 
 
 class ExecutorLogLinesHandler(FileTaskHandler):
@@ -50,45 +43,6 @@ class ExecutorLogLinesHandler(FileTaskHandler):
     def __init__(self, base_log_folder, *args, **kwargs):
         super().__init__(base_log_folder, *args, **kwargs)
 
-        self.nomad_server_ip = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
-        self.secure = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
-        self.cert_path = conf.get(PROVIDER_NAME, "cert_path", fallback="")
-        self.key_path = conf.get(PROVIDER_NAME, "key_path", fallback="")
-        self.verify = conf.getboolean(PROVIDER_NAME, "verify", fallback=False)
-        self.namespace = conf.get(PROVIDER_NAME, "namespace", fallback="")
-        self.token = conf.get(PROVIDER_NAME, "token", fallback="")
-
-    def retrieve_logs(self, key: TaskInstanceKey) -> tuple[list[str], list[str]]:
-        self.nomad = nomad.Nomad(
-            host=self.nomad_server_ip,
-            secure=self.secure,
-            cert=(self.cert_path, self.key_path),
-            verify=self.verify,
-            namespace=self.namespace,
-            token=self.token,
-        )
-
-        messages = []
-        job_id = NomadExecutor.job_id_from_taskinstance_key(key)
-        job_task_id = NomadExecutor.job_task_id_from_taskinstance_key(key)
-        allocations = self.nomad.job.get_allocations(job_id)
-        if len(allocations) == 0:
-            messages.append(f"No allocations found for {job_id}/{job_task_id}")
-        elif len(allocations) > 1:
-            messages.append(
-                f"Multiple allocations found found for {job_id}/{job_task_id}: {allocations}"
-            )
-
-        allocation_id = allocations[0].get("ID")
-        if not allocation_id:
-            messages.append(f"Allocation for {job_id}/{job_task_id} not found")
-            return ([], [])
-
-        logs = self.nomad.client.cat.read_file(
-            allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-        )
-        return messages, logs.splitlines()
-
     def _read(
         self,
         ti: TaskInstance | TaskInstanceHistory,
@@ -96,7 +50,8 @@ class ExecutorLogLinesHandler(FileTaskHandler):
         metadata: LogMetadata | None = None,
     ) -> tuple[LogHandlerOutputStream | LegacyProvidersLogType, LogMetadata]:
         """
-        Re-write of the FileTaskHandler read method to add log retrieval from Nomad
+        Re-write of the FileTaskHandler read method to add simple log retrieval
+        from a line-by-line streamable source, if not file
         """
         logger.info("Collecting Nomad logs")
         sources: LogSourceInfo = []

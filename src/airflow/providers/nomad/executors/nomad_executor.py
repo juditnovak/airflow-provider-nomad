@@ -130,25 +130,29 @@ class NomadExecutor(ExecutorInterface):
         assert self.nomad, "Couldn't initialize Nomad client"
 
         messages = []
+        logs = ""
+        ""
         job_id = self.job_id_from_taskinstance_key(key)
         job_task_id = self.job_task_id_from_taskinstance_key(key)
         allocations = self.nomad.job.get_allocations(job_id)
-        if len(allocations) == 0:
+        if not isinstance(allocations, list):
+            messages.append("Unexpected result from Nomad API allocations query")
+        elif len(allocations) == 0:
             messages.append(f"No allocations found for {job_id}/{job_task_id}")
         elif len(allocations) > 1:
             messages.append(
                 f"Multiple allocations found found for {job_id}/{job_task_id}: {allocations}"
             )
+        else:
+            allocation_id = allocations[0].get("ID")
+            if not allocation_id:
+                messages.append(f"Allocation for {job_id}/{job_task_id} not found")
+                return (messages, [])
 
-        allocation_id = allocations[0].get("ID")
-        if not allocation_id:
-            messages.append(f"Allocation for {job_id}/{job_task_id} not found")
-            return ([], messages)
-
-        logs = self.nomad.client.cat.read_file(
-            allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-        )
-        return messages, logs.splitlines()
+            logs = self.nomad.client.cat.read_file(
+                allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
+            )
+        return messages, logs.splitlines()  # type: ignore[reportReturnType]
 
     @staticmethod
     def get_cli_commands() -> list[GroupCommand]:
@@ -161,7 +165,7 @@ class NomadExecutor(ExecutorInterface):
         ]
 
 
-def _get_parser() -> argparse.ArgumentParser:
+def _get_parser() -> argparse.ArgumentParser:  # pragma: no-cover
     """
     Generate documentation; used by Sphinx.
 

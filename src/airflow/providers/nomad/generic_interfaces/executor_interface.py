@@ -123,9 +123,7 @@ class ExecutorInterface(BaseExecutor):
                 self.run_task(task)
                 self.task_publish_retries.pop(key, None)
             except:
-                self.log.exception(
-                    "Failed to run task %s with command %s", key, command
-                )
+                self.log.exception("Failed to run task %s with command %s", key, command)
             finally:
                 # TODO
                 self.task_queue.task_done()
@@ -182,9 +180,7 @@ class ExecutorInterface(BaseExecutor):
 
         for w in workloads:
             if not isinstance(w, ExecuteTask):
-                raise RuntimeError(
-                    f"{type(self)} cannot handle workloads of type {type(w)}"
-                )
+                raise RuntimeError(f"{type(self)} cannot handle workloads of type {type(w)}")
 
             # TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.
             command = [w]
@@ -198,9 +194,7 @@ class ExecutorInterface(BaseExecutor):
             )
             self.running.add(key)
 
-    def get_task_log(
-        self, ti: TaskInstance, try_number: int
-    ) -> tuple[list[str], list[str]]:
+    def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
         messages = []
         log = []
         try:
@@ -238,13 +232,9 @@ class ExecutorInterface(BaseExecutor):
             self.task_queue.join()
             self.result_queue.join()
         except ConnectionResetError:
-            self.log.exception(
-                "Connection Reset error while flushing task_queue and result_queue."
-            )
+            self.log.exception("Connection Reset error while flushing task_queue and result_queue.")
         except Exception:
-            self.log.exception(
-                "Unknown error while flushing task queue and result queue."
-            )
+            self.log.exception("Unknown error while flushing task queue and result queue.")
         self._manager.shutdown()
 
 
