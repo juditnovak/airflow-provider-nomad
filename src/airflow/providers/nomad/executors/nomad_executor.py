@@ -30,15 +30,12 @@ from typing import Any
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
+from airflow.models.taskinstancekey import TaskInstanceKey
 
-from airflow.providers.nomad.generic_interfaces.executor_interface import (
-    ExecutorInterface,
-)
+from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 
 NOMAD_COMMANDS = ()
-
-from airflow.models.taskinstancekey import TaskInstanceKey
 
 # For Nomad: jobID,  taskID (within that job submission),  allocation
 NomadJob = tuple[str, str, str]
