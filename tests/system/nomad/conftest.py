@@ -61,14 +61,14 @@ AIRFLOW_SERVICES_ROOT = SYSTEST_ROOT / "server"
 AIRFLOW_HOME = os.environ.get("AIRFLOW_HOME")
 if AIRFLOW_HOME and AIRFLOW_HOME != str(AIRFLOW_SERVICES_ROOT / "airflow_home"):
     print("*************************************************************************")
-    print(f"*                   !!!!!!   WARNING  !!!!!!!!                          *")
-    print(f"*                                                                       *")
+    print("*                   !!!!!!   WARNING  !!!!!!!!                          *")
+    print("*                                                                       *")
     print(f"* Using existing AIRFLOW_HOME: {AIRFLOW_HOME}*")
     print("* The tests are modifying airflow.cfg in this location (reset DB, etc.) ")
     print(
         f"* (Recommended setting: AIRFLOW_HOME={str(AIRFLOW_SERVICES_ROOT / 'airflow_home')})"
     )
-    print(f"*                                                                       *")
+    print("*                                                                       *")
     print("*************************************************************************")
     print("Are you sure you want to continue?")
     print("")
@@ -77,7 +77,7 @@ if AIRFLOW_HOME and AIRFLOW_HOME != str(AIRFLOW_SERVICES_ROOT / "airflow_home"):
         userinput = say_yes_or_no()
     except Exception as err:
         print(
-            "An issue with AIRFLOW_HOME was detected and no interactive decision could be processed ({err})."
+            f"An issue with AIRFLOW_HOME was detected and no interactive decision could be processed ({err})."
         )
         exit(1)
 
@@ -161,6 +161,9 @@ def pytest_configure(config):
 
 @pytest.fixture(autouse=True, scope="session")
 def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
+    """The runners need a different airflow.cfg than the servers.
+    Reason: different local environment (example: dag-file = /opt/airflow/dags)
+    """
     addr = os.environ.get(TEST_ENV_API_HOST, option_airflow_api_host)
 
     if not addr:
@@ -209,8 +212,8 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
         update_template(nomad_client_config, {"<SYS_TEST_ROOT>": str(SYSTEST_ROOT)})
 
         # Start Nomad agent (dev mode)
-        logger.info(f"Starting Nomad agent with root privileges...")
-        logger.warning(f"[NOTE: This 'sudo' call may mess up your terminal.]")
+        logger.info("Starting Nomad agent with root privileges...")
+        logger.warning("[NOTE: This 'sudo' call may mess up your terminal.]")
         daemon = None
         cmd = [
             "sudo",
@@ -230,7 +233,7 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
                 stderr=open(nomad_log, "w"),
             )
         except subprocess.CalledProcessError as err:
-            logging.error("Starting Nomad agent failed.({err})")
+            logging.error("Starting Nomad agent failed (%s)", str(err))
 
         if daemon:
             logger.info(f"Nomad agent started (PID: {str(daemon.pid)})")

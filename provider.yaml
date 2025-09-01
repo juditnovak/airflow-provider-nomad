@@ -72,7 +72,7 @@ config:
           Generic Airflow executor parallelism (should be higher than 0)
         version_added: ~
         type: integer
-        example: "128" 
+        example: "128"
         default: "1"
       server_ip:
         description: |
