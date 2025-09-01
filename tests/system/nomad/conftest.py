@@ -37,13 +37,20 @@ from .utils import (
 logger = logging.getLogger(__name__)
 
 
-SYSTEST_ROOT = Path(__file__).resolve().parent
-TEST_CONFIG_DIRECTORY = SYSTEST_ROOT / "config"
-SERVER_ROOT = SYSTEST_ROOT / "server"
-SERVER_LOGS = SERVER_ROOT / Path("logs")
+# Test global setup
 
-NOMAD_CONFIG_DIRECTORY = TEST_CONFIG_DIRECTORY / "nomad"
-SCRIPTS_DIRECTORY = SYSTEST_ROOT / "scripts"
+SYSTEST_ROOT = Path(__file__).resolve().parent
+TEST_CONFIG_PATH = SYSTEST_ROOT / "config"
+SCRIPTS_PATH = SYSTEST_ROOT / "scripts"
+
+# Runner setup and workspace
+NOMAD_RUNNER_ROOT = SYSTEST_ROOT / "runner"
+NOMAD_CONFIG_PATH = NOMAD_RUNNER_ROOT / "config"
+NOMAD_RUNNER_LOGS = NOMAD_RUNNER_ROOT / Path("logs")
+NOMAD_SCRIPTS_PATH = NOMAD_RUNNER_ROOT / "scripts"
+
+# Servers setup and workspace
+AIRFLOW_SERVICES_ROOT = SYSTEST_ROOT / "server"
 
 #
 # Airflow's pytest module is enforcing to have AIRFLOW_HOME set, however it allows
@@ -52,13 +59,15 @@ SCRIPTS_DIRECTORY = SYSTEST_ROOT / "scripts"
 # we try to prevent fellow developers not to have their environment altered unexpectedly.
 #
 AIRFLOW_HOME = os.environ.get("AIRFLOW_HOME")
-if AIRFLOW_HOME and AIRFLOW_HOME != str(SERVER_ROOT / "airflow_home"):
+if AIRFLOW_HOME and AIRFLOW_HOME != str(AIRFLOW_SERVICES_ROOT / "airflow_home"):
     print("*************************************************************************")
     print(f"*                   !!!!!!   WARNING  !!!!!!!!                          *")
     print(f"*                                                                       *")
     print(f"* Using existing AIRFLOW_HOME: {AIRFLOW_HOME}*")
     print("* The tests are modifying airflow.cfg in this location (reset DB, etc.) ")
-    print(f"* (Recommended setting: AIRFLOW_HOME={str(SERVER_ROOT / 'airflow_home')})")
+    print(
+        f"* (Recommended setting: AIRFLOW_HOME={str(AIRFLOW_SERVICES_ROOT / 'airflow_home')})"
+    )
     print(f"*                                                                       *")
     print("*************************************************************************")
     print("Are you sure you want to continue?")
@@ -77,7 +86,7 @@ if AIRFLOW_HOME and AIRFLOW_HOME != str(SERVER_ROOT / "airflow_home"):
         exit(0)
 
 elif not AIRFLOW_HOME:
-    AIRFLOW_HOME = str(SERVER_ROOT / "airflow_home")
+    AIRFLOW_HOME = str(AIRFLOW_SERVICES_ROOT / "airflow_home")
 
 AIRFLOW_HOME_PATH = Path(AIRFLOW_HOME)
 
@@ -86,6 +95,9 @@ sys.path.append(
     + "/airflow-core/tests"
 )
 
+##############################################################################
+# Test environment
+##############################################################################
 
 TEST_ENV_API_IP_NETIFACE = "TEST_AIRFLOW_API_IP_NETIFACE"
 TEST_ENV_API_HOST = "TEST_AIRFLOW_API_HOST"
@@ -142,6 +154,11 @@ def pytest_configure(config):
     airflow_test_servces_setup(unit_test_conf)
 
 
+##############################################################################
+# Services setup (server/runner)
+##############################################################################
+
+
 @pytest.fixture(autouse=True, scope="session")
 def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
     addr = os.environ.get(TEST_ENV_API_HOST, option_airflow_api_host)
@@ -165,18 +182,16 @@ def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host)
         )
         exit(1)
 
-    nomad_runner_config = TEST_CONFIG_DIRECTORY / Path("airflow.cfg")
+    nomad_runner_config = NOMAD_CONFIG_PATH / Path("airflow.cfg")
     update_template(nomad_runner_config, {"<API_IP>": addr})
 
 
 @pytest.fixture(autouse=True, scope="session")
 def nomad_agent(nomad_runner_config, option_nomad_agent):
     log_volume_creation_script = str(
-        SCRIPTS_DIRECTORY / Path("create_dynamic_logs_volume.sh")
+        NOMAD_SCRIPTS_PATH / Path("create_dynamic_logs_volume.sh")
     )
-    log_volume_creation_hcl = str(
-        NOMAD_CONFIG_DIRECTORY / Path("volume_dynamic_logs.json")
-    )
+    log_volume_creation_hcl = str(NOMAD_CONFIG_PATH / Path("volume_dynamic_logs.json"))
 
     daemon = None
     nomad_log = ""
@@ -184,18 +199,18 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
         path = os.environ["PATH"]
 
         # Prepare necessary directories
-        SERVER_LOGS.mkdir(parents=True, exist_ok=True)
+        NOMAD_RUNNER_LOGS.mkdir(parents=True, exist_ok=True)
 
         # Update configuration templates
-        nomad_client_config = NOMAD_CONFIG_DIRECTORY / Path("nomad_client.hcl")
-        nomad_log = SERVER_LOGS / Path("nomad_agent.log")
+        nomad_client_config = NOMAD_CONFIG_PATH / Path("nomad_client.hcl")
+        nomad_log = NOMAD_RUNNER_LOGS / Path("nomad_agent.log")
 
         # update_template(airflow_server_config, {"<AIRFLOW_TEST_HOME>": systest_root})
         update_template(nomad_client_config, {"<SYS_TEST_ROOT>": str(SYSTEST_ROOT)})
 
         # Start Nomad agent (dev mode)
         logger.info(f"Starting Nomad agent with root privileges...")
-        logger.warning(f"This 'sudo' call may mess up your terminal.")
+        logger.warning(f"[NOTE: This 'sudo' call may mess up your terminal.]")
         daemon = None
         cmd = [
             "sudo",
@@ -265,9 +280,7 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
 
 
 def airflow_test_servces_config():
-    airflow_unit_test_config = (
-        SYSTEST_ROOT / TEST_CONFIG_DIRECTORY / Path("unit_tests.cfg")
-    )
+    airflow_unit_test_config = SYSTEST_ROOT / TEST_CONFIG_PATH / Path("unit_tests.cfg")
     update_template(
         airflow_unit_test_config,
         {
@@ -277,7 +290,7 @@ def airflow_test_servces_config():
     )
 
     # Load System Test configuration
-    conf.read_file(open(f"{TEST_CONFIG_DIRECTORY}/unit_tests.cfg"))
+    conf.read_file(open(f"{TEST_CONFIG_PATH}/unit_tests.cfg"))
     logger.debug("Airflow config loaded for system tests")
     logger.info(f"The executor is: {conf.get('core', 'executor')}")
 
@@ -291,7 +304,7 @@ def airflow_test_servces_setup(airflow_test_servces_config):
         f"IMPORTANT: Any Airflow services already running may NOT be using updated {airflow_cfg} yet!"
     )
     logger.warning(
-        f"NOTE: Run '{SCRIPTS_DIRECTORY}/init_airflow_cfg.sh' before starting up Airflow services"
+        f"NOTE: Run '{SCRIPTS_PATH}/init_airflow_cfg.sh' before starting up Airflow services"
     )
     try:
         airflow_cfg.symlink_to(airflow_test_servces_config)

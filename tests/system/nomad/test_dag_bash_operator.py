@@ -19,8 +19,8 @@ import os
 
 from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-from .dags.test_dag_trigger import DAG_ID as orig_dag_id
-from .dags.test_dag_trigger import dag
+from .dags.test_dag_bash_operator import DAG_ID as orig_dag_id
+from .dags.test_dag_bash_operator import dag
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 

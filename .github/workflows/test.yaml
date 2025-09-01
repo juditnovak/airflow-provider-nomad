@@ -109,12 +109,15 @@ jobs:
       - name: Run tests
         id: systest
         run: |
+          set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
 
           export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
+
+          ls -la $AIRFLOW_HOME/airflow.cfg
 
           uv run airflow db reset -y
           uv run airflow api-server &
