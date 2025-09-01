@@ -23,7 +23,7 @@ import sys
 import time
 from pathlib import Path
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 
@@ -42,9 +42,7 @@ def update_template(file_path: Path, replacements: dict[str, str]) -> None:
     logger.debug("Rendered template for %s", file_path)
 
 
-def check_service_available(
-    ip: str, port: int, protocol: str = "http", timeout: int = 10
-) -> bool:
+def check_service_available(ip: str, port: int, protocol: str = "http", timeout: int = 10) -> bool:
     logger.info("Checking service availability at %s://%s:%d...", protocol, ip, port)
     for _ in range(timeout, 0, -1):
         try:

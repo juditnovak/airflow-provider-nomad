@@ -840,7 +840,7 @@ log_filename_template = dag_id={{ ti.dag_id }}/run_id={{ ti.run_id }}/task_id={{
 #
 #
 # [NOMAD]: Mandatory so that the API server can read logs from the Nomad cluster
-task_log_reader = executor_log_lines_handler
+task_log_reader = nomad_log_handler
 
 # A comma\-separated list of third-party logger names that will be configured to print messages to
 # consoles\.

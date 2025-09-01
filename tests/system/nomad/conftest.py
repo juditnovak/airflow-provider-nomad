@@ -27,12 +27,7 @@ import netifaces
 import pytest
 from airflow.configuration import conf
 
-from .utils import (
-    check_service_available,
-    say_yes_or_no,
-    stream_subprocess_output,
-    update_template,
-)
+from .utils import check_service_available, say_yes_or_no, stream_subprocess_output, update_template
 
 logger = logging.getLogger(__name__)
 
@@ -65,9 +60,7 @@ if AIRFLOW_HOME and AIRFLOW_HOME != str(AIRFLOW_SERVICES_ROOT / "airflow_home"):
     print("*                                                                       *")
     print(f"* Using existing AIRFLOW_HOME: {AIRFLOW_HOME}*")
     print("* The tests are modifying airflow.cfg in this location (reset DB, etc.) ")
-    print(
-        f"* (Recommended setting: AIRFLOW_HOME={str(AIRFLOW_SERVICES_ROOT / 'airflow_home')})"
-    )
+    print(f"* (Recommended setting: AIRFLOW_HOME={str(AIRFLOW_SERVICES_ROOT / 'airflow_home')})")
     print("*                                                                       *")
     print("*************************************************************************")
     print("Are you sure you want to continue?")
@@ -106,9 +99,7 @@ TEST_ENV_API_HOST = "TEST_AIRFLOW_API_HOST"
 def pytest_addoption(parser):
     # Whether to run a Nomad agent
     agent_help = "Don't start a Nomad agent. (Typically: when running one manually.)"
-    parser.addoption(
-        "--no-nomad-agent", action="store_false", dest="nomad_agent", help=agent_help
-    )
+    parser.addoption("--no-nomad-agent", action="store_false", dest="nomad_agent", help=agent_help)
     parser.addoption(
         "--nomad-agent",
         action="store_true",
@@ -191,9 +182,7 @@ def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host)
 
 @pytest.fixture(autouse=True, scope="session")
 def nomad_agent(nomad_runner_config, option_nomad_agent):
-    log_volume_creation_script = str(
-        NOMAD_SCRIPTS_PATH / Path("create_dynamic_logs_volume.sh")
-    )
+    log_volume_creation_script = str(NOMAD_SCRIPTS_PATH / Path("create_dynamic_logs_volume.sh"))
     log_volume_creation_hcl = str(NOMAD_CONFIG_PATH / Path("volume_dynamic_logs.json"))
 
     daemon = None
@@ -247,9 +236,7 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
                     logger.info(line.strip())
             except subprocess.CalledProcessError as err:
                 if i < 2:
-                    logger.error(
-                        "Could not create dynamic logs volume: %s. Retrying...", err
-                    )
+                    logger.error("Could not create dynamic logs volume: %s. Retrying...", err)
                 else:
                     logger.error("Dynamic logs volume createion failed. Exciting...")
                     exit(1)

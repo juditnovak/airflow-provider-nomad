@@ -20,6 +20,7 @@
 import copy
 import logging
 
+import airflow.logging_config
 from airflow.config_templates.airflow_local_settings import BASE_LOG_FOLDER, DEFAULT_LOGGING_CONFIG
 
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
@@ -49,6 +50,4 @@ NOMAD_LOG_CONFIG["loggers"]["airflow.task"]["handlers"].append(NOMAD_HANDLER_NAM
 
 # Due to bug on loading config for services such as dag-processor
 # Reproduce: uncomment these lines and run `airflow dag-processor
-import airflow.logging_config
-
 airflow.logging_config.REMOTE_TASK_LOG = None
