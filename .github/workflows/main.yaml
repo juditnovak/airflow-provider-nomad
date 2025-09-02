@@ -1,70 +1,15 @@
 name: ci
 on:
-  pull_request:
+  push:
+    branches: ["main"]
 
 env:
   AIRFLOW_VERSION: 3.0.6
 
 jobs:
 
-  lint:
-    name: Lint and type checks
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-          cache-dependency-glob: "pyproject.toml"
-
-      - name: Cloning target repository
-        uses: actions/checkout@v4
-
-      - name: Run checks
-        run: |
-          uv run tox run -e lint
-          uv run tox run -e type
-
-  unit_test:
-    name: Unit tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-    steps:
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-          cache-dependency-glob: "pyproject.toml"
-
-      # Target repo is to be checked out first (order matters!)
-      - name: Cloning target repository
-        uses: actions/checkout@v4
-
-      # Airflow's python plugin is not portable, thus we use it from the source
-      - name: Clone Airflow sources, to enable Airflow pytset plugin
-        uses: actions/checkout@v4
-        with:
-          repository: apache/airflow
-          path: airflow
-          ref: ${{ env.AIRFLOW_VERSION }}
-
-      - name: Adjust Airflow version for local env
-        run: |
-          sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
-          echo "Airflow Version is $AIRFLOW_VERSION"
-        env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
-
-      - name: Run tests
-        run: |
-          export AIRFLOW_SOURCES=$PWD/airflow
-          uv run airflow db reset -y
-          uv run tox run -e unit_test -- --with-db-init
-
-  system_tests:
+  # Running all tests together collecting global coverage
+  tests:
     name: System tests on local Nomad instance
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -107,7 +52,18 @@ jobs:
         env:
           AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
-      - name: Run System tests
+      - name: Run lint checks
+        run: |
+          uv run tox run -e lint
+          uv run tox run -e type
+
+      - name: Run unit tests (with collective coverage collection)
+        run: |
+          export AIRFLOW_SOURCES=$PWD/airflow
+          uv run airflow db reset -y
+          uv run pytest -s -v --with-db-init --cov=src --cov-report= tests/unit/nomad
+
+      - name: Run system tests (with collective coverage collection)
         id: systest
         run: |
           set -x
@@ -121,6 +77,8 @@ jobs:
           uv run airflow db reset -y
           uv run airflow api-server &
           uv run tox run -e system_test
+          uv run pytest -s -v --ignore dags --without-db-init --cov-append --cov-report= --cov=src tests/system/nomad/
+          uv run pytest -s -v --ignore dags --without-db-init --system --cov-report term --cov-append --cov=src tests/system/nomad/
 
       - name: Save nomad logs
         if: failure()
