@@ -1,0 +1,184 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 125, in <module>
+    main()
+    ~~~~^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 121, in main
+    execute_workload(workload)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 66, in execute_workload
+    supervise(
+    ~~~~~~~~~^
+        # This is the "wrong" ti type, but it duck types the same. TODO: Create a protocol for this.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        subprocess_logs_to_stdout=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1818, in supervise
+    logger, log_file_descriptor = _configure_logging(log_path, client)
+                                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1726, in _configure_logging
+    log_file = init_log_file(log_path)
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 513, in init_log_file
+    _prepare_log_folder(full_path.parent, new_folder_permissions)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 485, in _prepare_log_folder
+    parent.mkdir(mode=mode, exist_ok=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 731, in mkdir
+    if not exist_ok or not self.is_dir():
+                           ~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/pathlib/_abc.py", line 465, in is_dir
+    return S_ISDIR(self.stat(follow_symlinks=follow_symlinks).st_mode)
+                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 515, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 125, in <module>
+    main()
+    ~~~~^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 121, in main
+    execute_workload(workload)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 66, in execute_workload
+    supervise(
+    ~~~~~~~~~^
+        # This is the "wrong" ti type, but it duck types the same. TODO: Create a protocol for this.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        subprocess_logs_to_stdout=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1818, in supervise
+    logger, log_file_descriptor = _configure_logging(log_path, client)
+                                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1726, in _configure_logging
+    log_file = init_log_file(log_path)
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 513, in init_log_file
+    _prepare_log_folder(full_path.parent, new_folder_permissions)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 485, in _prepare_log_folder
+    parent.mkdir(mode=mode, exist_ok=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 731, in mkdir
+    if not exist_ok or not self.is_dir():
+                           ~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/pathlib/_abc.py", line 465, in is_dir
+    return S_ISDIR(self.stat(follow_symlinks=follow_symlinks).st_mode)
+                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 515, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 125, in <module>
+    main()
+    ~~~~^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 121, in main
+    execute_workload(workload)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 66, in execute_workload
+    supervise(
+    ~~~~~~~~~^
+        # This is the "wrong" ti type, but it duck types the same. TODO: Create a protocol for this.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        subprocess_logs_to_stdout=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1818, in supervise
+    logger, log_file_descriptor = _configure_logging(log_path, client)
+                                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1726, in _configure_logging
+    log_file = init_log_file(log_path)
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 513, in init_log_file
+    _prepare_log_folder(full_path.parent, new_folder_permissions)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 485, in _prepare_log_folder
+    parent.mkdir(mode=mode, exist_ok=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 731, in mkdir
+    if not exist_ok or not self.is_dir():
+                           ~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/pathlib/_abc.py", line 465, in is_dir
+    return S_ISDIR(self.stat(follow_symlinks=follow_symlinks).st_mode)
+                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 515, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 125, in <module>
+    main()
+    ~~~~^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 121, in main
+    execute_workload(workload)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/execute_workload.py", line 66, in execute_workload
+    supervise(
+    ~~~~~~~~~^
+        # This is the "wrong" ti type, but it duck types the same. TODO: Create a protocol for this.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+        subprocess_logs_to_stdout=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1818, in supervise
+    logger, log_file_descriptor = _configure_logging(log_path, client)
+                                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/execution_time/supervisor.py", line 1726, in _configure_logging
+    log_file = init_log_file(log_path)
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 513, in init_log_file
+    _prepare_log_folder(full_path.parent, new_folder_permissions)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.13/site-packages/airflow/sdk/log.py", line 485, in _prepare_log_folder
+    parent.mkdir(mode=mode, exist_ok=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 731, in mkdir
+    if not exist_ok or not self.is_dir():
+                           ~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/pathlib/_abc.py", line 465, in is_dir
+    return S_ISDIR(self.stat(follow_symlinks=follow_symlinks).st_mode)
+                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 515, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/logs/dag_id=example_bash_operator_judit'
