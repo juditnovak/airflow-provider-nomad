@@ -121,7 +121,7 @@ class NomadExecutor(ExecutorInterface):
 
         self.log.debug(f"Runing task ({job_id}) with template {job_template})")
 
-    def retrieve_logs(self, key: TaskInstanceKey) -> tuple[list[str], list[str]]:
+    def retrieve_logs(self, key: TaskInstanceKey, stderr=False) -> tuple[list[str], list[str]]:
         # Note: this method is executed by the FileTaskHandler and not the Scheduler
         # We have no access to the running NomadExecutor's state
         if not self.nomad:
@@ -149,9 +149,14 @@ class NomadExecutor(ExecutorInterface):
                 messages.append(f"Allocation for {job_id}/{job_task_id} not found")
                 return (messages, [])
 
-            logs = self.nomad.client.cat.read_file(
-                allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-            )
+            if stderr:
+                logs = self.nomad.client.cat.read_file(
+                    allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
+                )
+            else:
+                logs = self.nomad.client.cat.read_file(
+                    allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
+                )
         return messages, logs.splitlines()  # type: ignore[reportReturnType]
 
     @staticmethod

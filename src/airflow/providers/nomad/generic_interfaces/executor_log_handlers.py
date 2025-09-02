@@ -17,8 +17,10 @@
 """Logging module to fetch logs via the Nomad API"""
 
 import logging
+from collections.abc import Callable
 from itertools import chain
 
+from airflow.executors.executor_loader import ExecutorLoader
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancehistory import TaskInstanceHistory
 from airflow.utils.log.file_task_handler import (
@@ -43,6 +45,20 @@ class ExecutorLogLinesHandler(FileTaskHandler):
     def __init__(self, base_log_folder, *args, **kwargs):
         super().__init__(base_log_folder, *args, **kwargs)
 
+    def _get_executor_get_task_stderr(
+        self, ti: TaskInstance
+    ) -> Callable[[TaskInstance, int], tuple[list[str], list[str]]] | None:
+        executor_name = ti.executor or self.DEFAULT_EXECUTOR_KEY
+        executor = self.executor_instances.get(executor_name)
+        if executor is not None and hasattr(executor, "get_task_stderr"):
+            return getattr(executor, "get_task_stderr", None)
+
+        if executor_name == self.DEFAULT_EXECUTOR_KEY:
+            self.executor_instances[executor_name] = ExecutorLoader.get_default_executor()
+        else:
+            self.executor_instances[executor_name] = ExecutorLoader.load_executor(executor_name)
+        return getattr(self.executor_instances[executor_name], "get_task_stderr", None)
+
     def _read(
         self,
         ti: TaskInstance | TaskInstanceHistory,
@@ -55,15 +71,26 @@ class ExecutorLogLinesHandler(FileTaskHandler):
         """
         logger.info("Collecting Nomad logs")
         sources: LogSourceInfo = []
+        err_sources: LogSourceInfo = []
         source_list: list[str] = []
 
         logs: list[str] = []
+        stderr: list[str] = []
+        # Stdout
         executor_get_task_log = self._get_executor_get_task_log(ti)
         response = executor_get_task_log(ti, try_number)
         if response:
             sources, logs = response
         if sources:
             source_list.extend(sources)
+
+        # Stderr
+        if executor_get_task_stderr := self._get_executor_get_task_stderr(ti):
+            response = executor_get_task_stderr(ti, try_number)
+            if response:
+                err_sources, stderr = response
+            if err_sources:
+                source_list.extend(err_sources)
 
         # out_stream: LogHandlerOutputStream = _interleave_logs((y for y in logs))
 
@@ -73,25 +100,33 @@ class ExecutorLogLinesHandler(FileTaskHandler):
                     continue
                 try:
                     yield StructuredLogMessage.model_validate_json(line)
-                except:
+                except:  # noqa
                     yield StructuredLogMessage(event=str(line))
 
         out_stream: LogHandlerOutputStream = geneate_log_stream(logs)
+        err_stream: LogHandlerOutputStream = geneate_log_stream(stderr)
 
         # Same as for FileTaskHandler, add source details as a collapsible group
+        footer = StructuredLogMessage(event="::endgroup::")
         header = [
             StructuredLogMessage(
                 event="::group::Log message source details",
                 sources=source_list,  # type: ignore[call-arg]
             ),
-            StructuredLogMessage(event="::endgroup::"),
+            footer,
         ]
         end_of_log = ti.try_number != try_number or ti.state not in (
             TaskInstanceState.RUNNING,
             TaskInstanceState.DEFERRED,
         )
-
-        out_stream = chain(header, out_stream)
+        if stderr:
+            header_log = [StructuredLogMessage(event="::group::Task logs")]
+            header_err = [StructuredLogMessage(event="::group::Errors outside of task execution")]
+            out_stream = chain(
+                header, header_log, out_stream, [footer], header_err, err_stream, [footer]
+            )
+        else:
+            out_stream = chain(header, out_stream)
         log_pos = len(logs)
         if metadata and "log_pos" in metadata:
             log_pos = metadata["log_pos"] + log_pos
