@@ -1,6 +1,6 @@
 client {
   host_volume "config" {
-    path      = "<SYS_TEST_ROOT>/config/"
+    path      = "<SYS_TEST_ROOT>/runner/config/"
     read_only = true
   }
 
@@ -9,4 +9,3 @@ client {
     read_only = true
   }
 }
-

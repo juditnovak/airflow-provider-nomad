@@ -15,26 +15,37 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from __future__ import annotations
-
+import logging
+import os
+import sys
 from pathlib import Path
 
 import pytest
 from airflow.configuration import conf
 
-DATA_FILE_DIRECTORY = Path(__file__).resolve().parent / "data_files"
-CONFIG_DIRECTORY = Path(__file__).resolve().parent / "config"
+UNITTEST_ROOT = Path(__file__).resolve().parent
+TEST_CONFIG_PATH = UNITTEST_ROOT / "config"
+
+logger = logging.getLogger(__name__)
+
+sys.path.append(
+    os.environ.get("AIRFLOW_SOURCES", os.environ.get("PWD", ".") + "airflow")
+    + "/airflow-core/tests"
+)
 
 
-import os
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), "../src"))
+def pytest_configure(config):
+    """Ahead of ***ANYTHING*** running, AIRFLOW_HOME/airflow.cfg must be generated"""
+    if AIRFLOW_SOURCES := os.environ.get("AIRFLOW_SOURCES"):
+        sys.path.append(AIRFLOW_SOURCES + "airflow-core/tests")
+        sys.path.append(AIRFLOW_SOURCES + "airflow-core/tests/unit")
+        sys.path.append(AIRFLOW_SOURCES + "airflow-core/src")
+        logger.info(f"Active PYTHONPATH: {sys.path}")
 
 
 @pytest.fixture(scope="session", autouse=True)
 def load_airflow_config():
-    conf.read_file(open(f"{CONFIG_DIRECTORY}/unit_tests.cfg"))
+    conf.read_file(open(f"{TEST_CONFIG_PATH}/unit_tests.cfg"))
 
 
 @pytest.fixture(autouse=True)
@@ -43,3 +54,8 @@ def mock_nomad_client(mocker):
     return mocker.patch(
         "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad", autospec=True
     )
+
+
+@pytest.fixture
+def unittest_root():
+    return UNITTEST_ROOT

@@ -41,9 +41,7 @@ def test_connect():
     assert nomad_executor.nomad.agent.get_members()
 
 
-@pytest.mark.skipif(
-    NomadExecutor is None, reason="nomad_provider python package is not installed"
-)
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 def test_run_next(mock_nomad_client):
     """ """
 

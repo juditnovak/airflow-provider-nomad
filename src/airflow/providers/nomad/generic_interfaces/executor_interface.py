@@ -113,18 +113,19 @@ class ExecutorInterface(BaseExecutor):
 
             try:
                 key, command, _ = task
-            except:
+            except Exception as err:
                 self.log.exception(
-                    "Failed to run task (neither task nor command could be retrieved)"
+                    "Failed to run task (neither task nor command could be retrieved (%s))",
+                    str(err),
                 )
                 raise
 
             try:
                 self.run_task(task)
                 self.task_publish_retries.pop(key, None)
-            except:
+            except Exception as err:
                 self.log.exception(
-                    "Failed to run task %s with command %s", key, command
+                    "Failed to run task %s with command %s (%s)", key, command, str(err)
                 )
             finally:
                 # TODO
@@ -182,9 +183,7 @@ class ExecutorInterface(BaseExecutor):
 
         for w in workloads:
             if not isinstance(w, ExecuteTask):
-                raise RuntimeError(
-                    f"{type(self)} cannot handle workloads of type {type(w)}"
-                )
+                raise RuntimeError(f"{type(self)} cannot handle workloads of type {type(w)}")
 
             # TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.
             command = [w]
@@ -198,28 +197,35 @@ class ExecutorInterface(BaseExecutor):
             )
             self.running.add(key)
 
-    def get_task_log(
-        self, ti: TaskInstance, try_number: int
+    def _get_task_log(
+        self, ti: TaskInstance, try_number: int, stderr=False
     ) -> tuple[list[str], list[str]]:
         messages = []
         log = []
+        logtype = "error" if stderr else "standard"
         try:
             messages.append(
-                f"Attempting to fetch logs from task {ti.key} through Nomad API (attempts: {try_number})"
+                f"Attempting to fetch {logtype} logs for task {ti.key} through Nomad API (attempts: {try_number})"
             )
-            messages_received, logs_received = self.retrieve_logs(ti.key)
+            messages_received, logs_received = self.retrieve_logs(ti.key, stderr=stderr)
             messages += messages_received
 
             for line in logs_received:
                 log.append(remove_escape_codes(line))
             if log:
-                messages.append("Found logs for running job via Nomad API")
+                messages.append(f"Found {logtype} logs for running job via Nomad API")
         except Exception as e:
-            messages.append(f"Reading logs failed: {e}")
+            messages.append(f"Reading {logtype} logs failed: {e}")
         return messages, log
 
-    def retrieve_logs(self, key: TaskInstanceKey) -> tuple[list[str], list[str]]:
-        self.log.debug(f"Retrieving logs for {key}")
+    def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
+        return self._get_task_log(ti, try_number)
+
+    def get_task_stderr(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
+        return self._get_task_log(ti, try_number, stderr=True)
+
+    def retrieve_logs(self, key: TaskInstanceKey, stderr=False) -> tuple[list[str], list[str]]:
+        self.log.debug(f"Retrieving logs for {key} from {'stderr' if not stderr else 'stdout'}")
         raise NotImplementedError
 
     def end(self) -> None:
@@ -238,13 +244,9 @@ class ExecutorInterface(BaseExecutor):
             self.task_queue.join()
             self.result_queue.join()
         except ConnectionResetError:
-            self.log.exception(
-                "Connection Reset error while flushing task_queue and result_queue."
-            )
+            self.log.exception("Connection Reset error while flushing task_queue and result_queue.")
         except Exception:
-            self.log.exception(
-                "Unknown error while flushing task queue and result queue."
-            )
+            self.log.exception("Unknown error while flushing task queue and result queue.")
         self._manager.shutdown()
 
 

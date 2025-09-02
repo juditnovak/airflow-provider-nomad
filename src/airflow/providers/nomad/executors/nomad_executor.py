@@ -30,15 +30,12 @@ from typing import Any
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
+from airflow.models.taskinstancekey import TaskInstanceKey
 
-from airflow.providers.nomad.generic_interfaces.executor_interface import (
-    ExecutorInterface,
-)
+from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 
 NOMAD_COMMANDS = ()
-
-from airflow.models.taskinstancekey import TaskInstanceKey
 
 # For Nomad: jobID,  taskID (within that job submission),  allocation
 NomadJob = tuple[str, str, str]
@@ -124,7 +121,7 @@ class NomadExecutor(ExecutorInterface):
 
         self.log.debug(f"Runing task ({job_id}) with template {job_template})")
 
-    def retrieve_logs(self, key: TaskInstanceKey) -> tuple[list[str], list[str]]:
+    def retrieve_logs(self, key: TaskInstanceKey, stderr=False) -> tuple[list[str], list[str]]:
         # Note: this method is executed by the FileTaskHandler and not the Scheduler
         # We have no access to the running NomadExecutor's state
         if not self.nomad:
@@ -133,25 +130,34 @@ class NomadExecutor(ExecutorInterface):
         assert self.nomad, "Couldn't initialize Nomad client"
 
         messages = []
+        logs = ""
+        ""
         job_id = self.job_id_from_taskinstance_key(key)
         job_task_id = self.job_task_id_from_taskinstance_key(key)
         allocations = self.nomad.job.get_allocations(job_id)
-        if len(allocations) == 0:
+        if not isinstance(allocations, list):
+            messages.append("Unexpected result from Nomad API allocations query")
+        elif len(allocations) == 0:
             messages.append(f"No allocations found for {job_id}/{job_task_id}")
         elif len(allocations) > 1:
             messages.append(
                 f"Multiple allocations found found for {job_id}/{job_task_id}: {allocations}"
             )
+        else:
+            allocation_id = allocations[0].get("ID")
+            if not allocation_id:
+                messages.append(f"Allocation for {job_id}/{job_task_id} not found")
+                return (messages, [])
 
-        allocation_id = allocations[0].get("ID")
-        if not allocation_id:
-            messages.append(f"Allocation for {job_id}/{job_task_id} not found")
-            return ([], messages)
-
-        logs = self.nomad.client.cat.read_file(
-            allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-        )
-        return messages, logs.splitlines()
+            if stderr:
+                logs = self.nomad.client.cat.read_file(
+                    allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
+                )
+            else:
+                logs = self.nomad.client.cat.read_file(
+                    allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
+                )
+        return messages, logs.splitlines()  # type: ignore[reportReturnType]
 
     @staticmethod
     def get_cli_commands() -> list[GroupCommand]:
@@ -164,7 +170,7 @@ class NomadExecutor(ExecutorInterface):
         ]
 
 
-def _get_parser() -> argparse.ArgumentParser:
+def _get_parser() -> argparse.ArgumentParser:  # pragma: no-cover
     """
     Generate documentation; used by Sphinx.
 

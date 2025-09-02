@@ -17,13 +17,12 @@
 """Logging module to fetch logs via the Nomad API"""
 
 import logging
+from collections.abc import Callable
 from itertools import chain
 
-import nomad  # type: ignore[import-untyped]
-from airflow.configuration import conf
+from airflow.executors.executor_loader import ExecutorLoader
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancehistory import TaskInstanceHistory
-from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.utils.log.file_task_handler import (
     FileTaskHandler,
     LegacyProvidersLogType,
@@ -35,11 +34,7 @@ from airflow.utils.log.file_task_handler import (
 )
 from airflow.utils.state import TaskInstanceState
 
-from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
-
 logger = logging.getLogger(__name__)
-
-PROVIDER_NAME = "nomad"
 
 
 class ExecutorLogLinesHandler(FileTaskHandler):
@@ -50,44 +45,19 @@ class ExecutorLogLinesHandler(FileTaskHandler):
     def __init__(self, base_log_folder, *args, **kwargs):
         super().__init__(base_log_folder, *args, **kwargs)
 
-        self.nomad_server_ip = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
-        self.secure = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
-        self.cert_path = conf.get(PROVIDER_NAME, "cert_path", fallback="")
-        self.key_path = conf.get(PROVIDER_NAME, "key_path", fallback="")
-        self.verify = conf.getboolean(PROVIDER_NAME, "verify", fallback=False)
-        self.namespace = conf.get(PROVIDER_NAME, "namespace", fallback="")
-        self.token = conf.get(PROVIDER_NAME, "token", fallback="")
+    def _get_executor_get_task_stderr(
+        self, ti: TaskInstance
+    ) -> Callable[[TaskInstance, int], tuple[list[str], list[str]]] | None:
+        executor_name = ti.executor or self.DEFAULT_EXECUTOR_KEY
+        executor = self.executor_instances.get(executor_name)
+        if executor is not None and hasattr(executor, "get_task_stderr"):
+            return getattr(executor, "get_task_stderr", None)
 
-    def retrieve_logs(self, key: TaskInstanceKey) -> tuple[list[str], list[str]]:
-        self.nomad = nomad.Nomad(
-            host=self.nomad_server_ip,
-            secure=self.secure,
-            cert=(self.cert_path, self.key_path),
-            verify=self.verify,
-            namespace=self.namespace,
-            token=self.token,
-        )
-
-        messages = []
-        job_id = NomadExecutor.job_id_from_taskinstance_key(key)
-        job_task_id = NomadExecutor.job_task_id_from_taskinstance_key(key)
-        allocations = self.nomad.job.get_allocations(job_id)
-        if len(allocations) == 0:
-            messages.append(f"No allocations found for {job_id}/{job_task_id}")
-        elif len(allocations) > 1:
-            messages.append(
-                f"Multiple allocations found found for {job_id}/{job_task_id}: {allocations}"
-            )
-
-        allocation_id = allocations[0].get("ID")
-        if not allocation_id:
-            messages.append(f"Allocation for {job_id}/{job_task_id} not found")
-            return ([], [])
-
-        logs = self.nomad.client.cat.read_file(
-            allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-        )
-        return messages, logs.splitlines()
+        if executor_name == self.DEFAULT_EXECUTOR_KEY:
+            self.executor_instances[executor_name] = ExecutorLoader.get_default_executor()
+        else:
+            self.executor_instances[executor_name] = ExecutorLoader.load_executor(executor_name)
+        return getattr(self.executor_instances[executor_name], "get_task_stderr", None)
 
     def _read(
         self,
@@ -96,19 +66,31 @@ class ExecutorLogLinesHandler(FileTaskHandler):
         metadata: LogMetadata | None = None,
     ) -> tuple[LogHandlerOutputStream | LegacyProvidersLogType, LogMetadata]:
         """
-        Re-write of the FileTaskHandler read method to add log retrieval from Nomad
+        Re-write of the FileTaskHandler read method to add simple log retrieval
+        from a line-by-line streamable source, if not file
         """
         logger.info("Collecting Nomad logs")
         sources: LogSourceInfo = []
+        err_sources: LogSourceInfo = []
         source_list: list[str] = []
 
         logs: list[str] = []
+        stderr: list[str] = []
+        # Stdout
         executor_get_task_log = self._get_executor_get_task_log(ti)
         response = executor_get_task_log(ti, try_number)
         if response:
             sources, logs = response
         if sources:
             source_list.extend(sources)
+
+        # Stderr
+        if executor_get_task_stderr := self._get_executor_get_task_stderr(ti):
+            response = executor_get_task_stderr(ti, try_number)
+            if response:
+                err_sources, stderr = response
+            if err_sources:
+                source_list.extend(err_sources)
 
         # out_stream: LogHandlerOutputStream = _interleave_logs((y for y in logs))
 
@@ -118,25 +100,33 @@ class ExecutorLogLinesHandler(FileTaskHandler):
                     continue
                 try:
                     yield StructuredLogMessage.model_validate_json(line)
-                except:
+                except:  # noqa
                     yield StructuredLogMessage(event=str(line))
 
         out_stream: LogHandlerOutputStream = geneate_log_stream(logs)
+        err_stream: LogHandlerOutputStream = geneate_log_stream(stderr)
 
         # Same as for FileTaskHandler, add source details as a collapsible group
+        footer = StructuredLogMessage(event="::endgroup::")
         header = [
             StructuredLogMessage(
                 event="::group::Log message source details",
                 sources=source_list,  # type: ignore[call-arg]
             ),
-            StructuredLogMessage(event="::endgroup::"),
+            footer,
         ]
         end_of_log = ti.try_number != try_number or ti.state not in (
             TaskInstanceState.RUNNING,
             TaskInstanceState.DEFERRED,
         )
-
-        out_stream = chain(header, out_stream)
+        if stderr:
+            header_log = [StructuredLogMessage(event="::group::Task logs")]
+            header_err = [StructuredLogMessage(event="::group::Errors outside of task execution")]
+            out_stream = chain(
+                header, header_log, out_stream, [footer], header_err, err_stream, [footer]
+            )
+        else:
+            out_stream = chain(header, out_stream)
         log_pos = len(logs)
         if metadata and "log_pos" in metadata:
             log_pos = metadata["log_pos"] + log_pos

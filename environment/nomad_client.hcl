@@ -12,7 +12,7 @@ client {
   # host_volume "logs" {
   #   # path      = "/opt/nomad/logs"
   #   path      = "/home/devel/share/workspace_airflow/nomad/runners/logs"
-  #   read_only = false 
+  #   read_only = false
   # }
 
 # plugin "bridge" {
@@ -21,4 +21,3 @@ client {
 #   }
 #
 }
-
