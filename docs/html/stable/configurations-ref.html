@@ -22,7 +22,7 @@
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
             <link rel="next" title="airflow.providers.nomad" href="_api/airflow/providers/nomad/index.html" />
-            <link rel="prev" title="Nomad Executor" href="nomad_executor.html" />
+            <link rel="prev" title="NomadLoghandler" href="nomad_logger.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/configurations-ref.html" />
 
@@ -341,7 +341,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -351,7 +355,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -488,7 +493,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -498,7 +507,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -625,26 +635,11 @@ that were available in Airflow core.</p>
 </div>
 <blockquote>
 <div></div></blockquote>
-<nav class="contents local" id="sections">
-<p class="topic-title">Sections:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#local-nomad-executor" id="id1">[local_nomad_executor]</a></p></li>
-<li><p><a class="reference internal" href="#nomad-executor" id="id2">[nomad_executor]</a></p></li>
-</ul>
-</nav>
-<section id="local-nomad-executor">
-<span id="config-local-nomad-executor"></span><h2><a class="toc-backref" href="#id1" role="doc-backlink">[local_nomad_executor]</a><a class="headerlink" href="#local-nomad-executor" title="Link to this heading">¶</a></h2>
-<p>This section only applies if you are using the <code class="docutils literal notranslate"><span class="pre">LocalKubernetesExecutor</span></code> in
-<code class="docutils literal notranslate"><span class="pre">[core]</span></code> section above</p>
-</section>
-<section id="nomad-executor">
-<span id="config-nomad-executor"></span><h2><a class="toc-backref" href="#id2" role="doc-backlink">[nomad_executor]</a><a class="headerlink" href="#nomad-executor" title="Link to this heading">¶</a></h2>
-</section>
 </section>
 
 
     <div class="pager" role="navigation" aria-label="related navigation">
-            <a rel="prev" title="Nomad Executor" href="nomad_executor.html" >
+            <a rel="prev" title="NomadLoghandler" href="nomad_logger.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
             </a>
             <a rel="next" title="airflow.providers.nomad" href="_api/airflow/providers/nomad/index.html" >
@@ -717,11 +712,7 @@ that were available in Airflow core.</p>
     <nav class="wy-nav-side-toc">
         <div class="wy-menu-vertical">
             <ul>
-<li><a class="reference internal" href="#">Configuration Reference</a><ul>
-<li><a class="reference internal" href="#local-nomad-executor">[local_nomad_executor]</a></li>
-<li><a class="reference internal" href="#nomad-executor">[nomad_executor]</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Configuration Reference</a></li>
 </ul>
 
         </div>

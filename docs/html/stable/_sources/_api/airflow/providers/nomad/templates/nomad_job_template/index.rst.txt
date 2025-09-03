@@ -16,4 +16,5 @@ Module Contents
 ---------------
 
 .. py:data:: default_task_template
+   :type:  dict[str, Any]
 

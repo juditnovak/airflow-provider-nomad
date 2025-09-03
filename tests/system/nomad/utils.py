@@ -56,7 +56,7 @@ def check_service_available(ip: str, port: int, protocol: str = "http", timeout:
 
 
 def say_yes_or_no(timeout: int = 10):
-    """NOTE: This funciton by design may raise exceptions such as 'select.error'."""
+    """NOTE: This function by design may raise exceptions such as 'select.error'."""
 
     def timer(timeout: int):
         for i in range(timeout, 0, -1):

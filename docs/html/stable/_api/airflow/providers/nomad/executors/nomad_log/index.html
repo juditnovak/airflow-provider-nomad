@@ -341,7 +341,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -351,7 +355,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -488,7 +493,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -498,7 +507,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -610,15 +620,29 @@
                                         
   <section id="module-airflow.providers.nomad.executors.nomad_log">
 <span id="airflow-providers-nomad-executors-nomad-log"></span><h1>airflow.providers.nomad.executors.nomad_log<a class="headerlink" href="#module-airflow.providers.nomad.executors.nomad_log" title="Link to this heading">¶</a></h1>
+<p>Logging module to fetch logs via the Nomad API</p>
 <section id="attributes">
 <h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME" title="airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOMAD_HANDLER_NAME</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.logger" title="airflow.providers.nomad.executors.nomad_log.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG" title="airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOMAD_LOG_CONFIG</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME" title="airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOMAD_HANDLER_NAME</span></code></a></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG" title="airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOMAD_LOG_CONFIG</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NomadLogHandler" title="airflow.providers.nomad.executors.nomad_log.NomadLogHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NomadLogHandler</span></code></a></p></td>
+<td><p>Extended handler to retrieve logs directly from Nomad</p></td>
 </tr>
 </tbody>
 </table>
@@ -626,8 +650,25 @@
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 <dl class="py data">
+<dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_log.logger">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.executors.nomad_log.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_log.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_log.logger" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_log.NomadLogHandler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.executors.nomad_log.</span></span><span class="sig-name descname"><span class="pre">NomadLogHandler</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_log.html#NomadLogHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_log.NomadLogHandler" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../generic_interfaces/executor_log_handlers/index.html#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler" title="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler</span></code></a></p>
+<p>Extended handler to retrieve logs directly from Nomad</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_log.NomadLogHandler.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nomad_log_handler'</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_log.html#NomadLogHandler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_log.NomadLogHandler.name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
 <dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME">
-<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.executors.nomad_log.</span></span><span class="sig-name descname"><span class="pre">NOMAD_HANDLER_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'executor_log_lines_handler'</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_log.html#NOMAD_HANDLER_NAME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.executors.nomad_log.</span></span><span class="sig-name descname"><span class="pre">NOMAD_HANDLER_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nomad_log_handler'</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_log.html#NOMAD_HANDLER_NAME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -715,7 +756,13 @@
             <ul>
 <li><a class="reference internal" href="#">airflow.providers.nomad.executors.nomad_log</a><ul>
 <li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NomadLogHandler"><code class="docutils literal notranslate"><span class="pre">NomadLogHandler</span></code></a><ul>
+<li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NomadLogHandler.name"><code class="docutils literal notranslate"><span class="pre">NomadLogHandler.name</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_HANDLER_NAME"><code class="docutils literal notranslate"><span class="pre">NOMAD_HANDLER_NAME</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG"><code class="docutils literal notranslate"><span class="pre">NOMAD_LOG_CONFIG</span></code></a></li>
 </ul>

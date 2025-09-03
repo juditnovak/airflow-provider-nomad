@@ -133,18 +133,11 @@ Module Contents
 
 
 
-   .. py:method:: retrieve_logs(key)
+   .. py:method:: retrieve_logs(key, stderr=False)
 
 
    .. py:method:: get_cli_commands()
       :staticmethod:
-
-
-      Vends CLI commands to be included in Airflow CLI.
-
-      Override this method to expose commands via Airflow CLI to manage this executor. This can
-      be commands to setup/teardown the executor, inspect state, etc.
-      Make sure to choose unique names for those commands, to avoid collisions.
 
 
 

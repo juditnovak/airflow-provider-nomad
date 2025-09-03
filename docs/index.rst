@@ -30,10 +30,17 @@
 
 .. toctree::
     :hidden:
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: Executors
 
-    NomadExecutor details <nomad_executor>
+    NomadExecutor <nomad_executor>
+
+.. toctree::
+    :hidden:
+    :maxdepth: 2
+    :caption: Loggers
+
+    NomadLoghandler <nomad_logger>
 
 .. toctree::
     :hidden:
@@ -46,10 +53,12 @@
 
 .. toctree::
     :hidden:
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: System tests
 
-    System Tests <_api/tests/system/nomad/index>
+    System Tests <system_tests>
+.. System Tests <_api/tests/system/nomad/index>
+
 
 
 .. THE REMAINDER OF THE FILE IS AUTOMATICALLY GENERATED. IT WILL BE OVERWRITTEN AT RELEASE TIME!

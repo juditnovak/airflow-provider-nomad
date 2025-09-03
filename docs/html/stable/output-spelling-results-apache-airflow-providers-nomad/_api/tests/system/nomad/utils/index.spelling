@@ -1,0 +1,2 @@
+providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:25:<autosummary>:1: (funciton)  NOTE: This funciton by design may raise exceptions such as 'select.error'.
+providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:40: (funciton)  NOTE: This funciton by design may raise exceptions such as ‘select.error’.

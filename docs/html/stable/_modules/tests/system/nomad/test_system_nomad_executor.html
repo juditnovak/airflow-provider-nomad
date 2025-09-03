@@ -338,7 +338,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul>
@@ -348,7 +352,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -485,7 +490,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul>
@@ -495,7 +504,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -627,9 +637,12 @@
 <span class="c1"># in the test configuration</span>
 <span class="c1">###############################################################################</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.executors.nomad_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadExecutor</span>
 
 
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">usefixtures</span><span class="p">(</span><span class="s2">&quot;nomad_agent&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="test_connect">
 <a class="viewcode-back" href="../../../../_api/tests/system/nomad/test_system_nomad_executor/index.html#tests.system.nomad.test_system_nomad_executor.test_connect">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_connect</span><span class="p">():</span>

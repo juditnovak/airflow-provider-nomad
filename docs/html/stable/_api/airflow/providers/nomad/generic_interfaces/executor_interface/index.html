@@ -341,7 +341,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -351,7 +355,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -488,7 +493,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -498,7 +507,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -782,8 +792,15 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_stderr">
+<span class="sig-name descname"><span class="pre">get_task_stderr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">try_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.get_task_stderr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_stderr" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.retrieve_logs">
-<span class="sig-name descname"><span class="pre">retrieve_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.retrieve_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.retrieve_logs" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">retrieve_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.retrieve_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.retrieve_logs" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 </dl>
 </dd></dl>
@@ -902,6 +919,7 @@
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_job"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.run_job()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.queue_workload()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_log"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.get_task_log()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_stderr"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.get_task_stderr()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.retrieve_logs"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.retrieve_logs()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.end"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.end()</span></code></a></li>
 </ul>
