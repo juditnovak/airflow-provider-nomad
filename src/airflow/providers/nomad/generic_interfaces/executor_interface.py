@@ -219,7 +219,13 @@ class ExecutorInterface(BaseExecutor):
         return messages, log
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
-        return self._get_task_log(ti, try_number)
+        messages, logs = self._get_task_log(ti, try_number)
+        if conf.getboolean("logging", "task_log_merge_with_stderr", fallback=True):
+            messages_err, logs_err = self._get_task_log(ti, try_number, stderr=True)
+            if logs_err:
+                logs = logs + logs_err
+                messages = messages + messages_err
+        return messages, logs
 
     def get_task_stderr(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
         return self._get_task_log(ti, try_number, stderr=True)

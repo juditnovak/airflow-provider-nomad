@@ -21,7 +21,7 @@ import copy
 import logging
 
 import airflow.logging_config
-from airflow.config_templates.airflow_local_settings import BASE_LOG_FOLDER, DEFAULT_LOGGING_CONFIG
+from airflow.config_templates.airflow_local_settings import DEFAULT_LOGGING_CONFIG
 
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
 
@@ -39,9 +39,8 @@ NOMAD_HANDLER_NAME = NomadLogHandler.name
 NOMAD_LOG_CONFIG = copy.deepcopy(DEFAULT_LOGGING_CONFIG)
 
 NOMAD_LOG_CONFIG["handlers"][NOMAD_HANDLER_NAME] = {
-    "class": "airflow.providers.nomad.executors.nomad_log.NomadLogHandler",
+    "class": "airflow.providers.nomad.nomad_log.NomadLogHandler",
     "formatter": "airflow",
-    "base_log_folder": BASE_LOG_FOLDER,
     "filters": ["mask_secrets"],
 }
 
