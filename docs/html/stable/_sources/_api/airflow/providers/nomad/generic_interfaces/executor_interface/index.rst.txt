@@ -133,7 +133,10 @@ Module Contents
 
 
 
-   .. py:method:: retrieve_logs(key)
+   .. py:method:: get_task_stderr(ti, try_number)
+
+
+   .. py:method:: retrieve_logs(key, stderr=False)
 
 
    .. py:method:: end()

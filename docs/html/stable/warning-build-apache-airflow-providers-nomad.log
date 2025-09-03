@@ -1,1 +1,3 @@
-WARNING: Unknown type: placeholder
+/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/nomad/test_dag_trigger/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/tests/system/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/usage.rst: WARNING: document isn't included in any toctree [toc.not_included]

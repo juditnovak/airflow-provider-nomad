@@ -1,0 +1,35 @@
+tests.system.nomad.dags.test_dag_trigger
+========================================
+
+.. py:module:: tests.system.nomad.dags.test_dag_trigger
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.dags.test_dag_trigger.ENV_ID
+   tests.system.nomad.dags.test_dag_trigger.JOB_NAME
+   tests.system.nomad.dags.test_dag_trigger.JOB_NAMESPACE
+   tests.system.nomad.dags.test_dag_trigger.run_this_last
+   tests.system.nomad.dags.test_dag_trigger.test_run
+
+
+Module Contents
+---------------
+
+.. py:data:: ENV_ID
+
+.. py:data:: JOB_NAME
+   :value: 'test-pi'
+
+
+.. py:data:: JOB_NAMESPACE
+   :value: 'default'
+
+
+.. py:data:: run_this_last
+
+.. py:data:: test_run
+

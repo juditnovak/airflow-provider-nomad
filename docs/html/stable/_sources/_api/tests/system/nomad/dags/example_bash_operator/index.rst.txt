@@ -1,0 +1,27 @@
+tests.system.nomad.dags.example_bash_operator
+=============================================
+
+.. py:module:: tests.system.nomad.dags.example_bash_operator
+
+.. autoapi-nested-parse::
+
+   Example DAG demonstrating the usage of the BashOperator.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.dags.example_bash_operator.run_this_last
+   tests.system.nomad.dags.example_bash_operator.this_will_skip
+
+
+Module Contents
+---------------
+
+.. py:data:: run_this_last
+
+.. py:data:: this_will_skip
+

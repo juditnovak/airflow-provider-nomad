@@ -341,7 +341,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -351,7 +355,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -488,7 +493,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul class="current">
@@ -498,7 +507,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -618,9 +628,6 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger" title="airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME" title="airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PROVIDER_NAME</span></code></a></p></td>
-<td><p></p></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -641,11 +648,6 @@
 <span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.generic_interfaces.executor_log_handlers.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py data">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME">
-<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.generic_interfaces.executor_log_handlers.</span></span><span class="sig-name descname"><span class="pre">PROVIDER_NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nomad'</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#PROVIDER_NAME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.generic_interfaces.executor_log_handlers.</span></span><span class="sig-name descname"><span class="pre">ExecutorLogLinesHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_log_folder</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler" title="Link to this definition">¶</a></dt>
@@ -655,48 +657,6 @@
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'executor_log_lines_handler'</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.name" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.nomad_server_ip">
-<span class="sig-name descname"><span class="pre">nomad_server_ip</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.nomad_server_ip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.nomad_server_ip" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.secure">
-<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.secure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.secure" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.cert_path">
-<span class="sig-name descname"><span class="pre">cert_path</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.cert_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.cert_path" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.key_path">
-<span class="sig-name descname"><span class="pre">key_path</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.key_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.key_path" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.verify">
-<span class="sig-name descname"><span class="pre">verify</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.verify" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.namespace">
-<span class="sig-name descname"><span class="pre">namespace</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.namespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.namespace" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.token">
-<span class="sig-name descname"><span class="pre">token</span></span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.token" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.retrieve_logs">
-<span class="sig-name descname"><span class="pre">retrieve_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_log_handlers.html#ExecutorLogLinesHandler.retrieve_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.retrieve_logs" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-</dl>
-</dd></dl>
 
 </dd></dl>
 
@@ -783,17 +743,8 @@
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.PROVIDER_NAME"><code class="docutils literal notranslate"><span class="pre">PROVIDER_NAME</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler</span></code></a><ul>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.name"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.name</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.nomad_server_ip"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.nomad_server_ip</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.secure"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.secure</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.cert_path"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.cert_path</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.key_path"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.key_path</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.verify"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.verify</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.namespace"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.namespace</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.token"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.token</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler.retrieve_logs"><code class="docutils literal notranslate"><span class="pre">ExecutorLogLinesHandler.retrieve_logs()</span></code></a></li>
 </ul>
 </li>
 </ul>

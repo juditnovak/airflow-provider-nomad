@@ -10,6 +10,10 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
+   /_api/tests/system/nomad/dags/index
+   /_api/tests/system/nomad/test_dag_bash_operator/index
+   /_api/tests/system/nomad/test_dag_trigger/index
    /_api/tests/system/nomad/test_system_nomad_executor/index
+   /_api/tests/system/nomad/utils/index
 
 

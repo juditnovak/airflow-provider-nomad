@@ -338,7 +338,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul>
@@ -348,7 +352,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -485,7 +490,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_executor.html">NomadExecutor details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_executor.html">NomadExecutor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_logger.html">NomadLoghandler</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References</span></p>
 <ul>
@@ -495,7 +504,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../_api/tests/system/nomad/index.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../system_tests.html">System Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Commits</span></p>
 <ul>
@@ -628,40 +638,26 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empty</span><span class="p">,</span> <span class="n">Queue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">conf</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">workloads</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors.base_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseExecutor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors.workloads</span><span class="w"> </span><span class="kn">import</span> <span class="n">All</span><span class="p">,</span> <span class="n">ExecuteTask</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.models.taskinstance</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstance</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.standard.version_compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIRFLOW_V_3_0_PLUS</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.log.logging_mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove_escape_codes</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceState</span>
-
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">workloads</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
-
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.models.taskinstancekey</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceKey</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.standard.version_compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIRFLOW_V_3_0_PLUS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.log.logging_mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove_escape_codes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>  <span class="c1"># type: ignore[import-untyped]</span>
 
 <div class="viewcode-block" id="Job">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.Job">[docs]</a>
@@ -781,18 +777,19 @@
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                    <span class="s2">&quot;Failed to run task (neither task nor command could be retrieved)&quot;</span>
+                    <span class="s2">&quot;Failed to run task (neither task nor command could be retrieved (</span><span class="si">%s</span><span class="s2">))&quot;</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="k">raise</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">task_publish_retries</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                    <span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> with command </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span>
+                    <span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> with command </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">finally</span><span class="p">:</span>
                 <span class="c1"># TODO</span>
@@ -866,9 +863,7 @@
 
         <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">workloads</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">ExecuteTask</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> cannot handle workloads of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> cannot handle workloads of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
             <span class="c1"># TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.</span>
             <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">]</span>
@@ -882,33 +877,43 @@
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ExecutorInterface.get_task_log">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_log">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_task_log</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">TaskInstance</span><span class="p">,</span> <span class="n">try_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_task_log</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">TaskInstance</span><span class="p">,</span> <span class="n">try_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">log</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">logtype</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span> <span class="k">if</span> <span class="n">stderr</span> <span class="k">else</span> <span class="s2">&quot;standard&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Attempting to fetch logs from task </span><span class="si">{</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2"> through Nomad API (attempts: </span><span class="si">{</span><span class="n">try_number</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Attempting to fetch </span><span class="si">{</span><span class="n">logtype</span><span class="si">}</span><span class="s2"> logs for task </span><span class="si">{</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2"> through Nomad API (attempts: </span><span class="si">{</span><span class="n">try_number</span><span class="si">}</span><span class="s2">)&quot;</span>
             <span class="p">)</span>
-            <span class="n">messages_received</span><span class="p">,</span> <span class="n">logs_received</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_logs</span><span class="p">(</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-            <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">messages_received</span><span class="p">)</span>
+            <span class="n">messages_received</span><span class="p">,</span> <span class="n">logs_received</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_logs</span><span class="p">(</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="n">messages</span> <span class="o">+=</span> <span class="n">messages_received</span>
 
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">logs_received</span><span class="p">:</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">remove_escape_codes</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">log</span><span class="p">:</span>
-                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Found logs for running job via Nomad API&quot;</span><span class="p">)</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">logtype</span><span class="si">}</span><span class="s2"> logs for running job via Nomad API&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading logs failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">messages</span><span class="p">,</span> <span class="n">log</span></div>
+            <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reading </span><span class="si">{</span><span class="n">logtype</span><span class="si">}</span><span class="s2"> logs failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">messages</span><span class="p">,</span> <span class="n">log</span>
+
+<div class="viewcode-block" id="ExecutorInterface.get_task_log">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_log">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_task_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">TaskInstance</span><span class="p">,</span> <span class="n">try_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_task_log</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">try_number</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExecutorInterface.get_task_stderr">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_stderr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_task_stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">TaskInstance</span><span class="p">,</span> <span class="n">try_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_task_log</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">try_number</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ExecutorInterface.retrieve_logs">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.retrieve_logs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving logs for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving logs for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="s1">&#39;stderr&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">stderr</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;stdout&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
@@ -930,13 +935,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result_queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">ConnectionResetError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                <span class="s2">&quot;Connection Reset error while flushing task_queue and result_queue.&quot;</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Connection Reset error while flushing task_queue and result_queue.&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                <span class="s2">&quot;Unknown error while flushing task queue and result queue.&quot;</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unknown error while flushing task queue and result queue.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_manager</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span></div>
 </div>
 
