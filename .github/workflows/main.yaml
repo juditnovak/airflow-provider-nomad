@@ -1,4 +1,4 @@
-name: ci
+name: main
 on:
   push:
     branches: ["main"]
@@ -10,7 +10,7 @@ jobs:
 
   # Running all tests together collecting global coverage
   tests:
-    name: System tests on local Nomad instance
+    name: Unit and System tests with cumulated coverage
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -57,14 +57,15 @@ jobs:
           uv run tox run -e lint
           uv run tox run -e type
 
-      - name: Run unit tests (with collective coverage collection)
+      - name: Run unit tests
         run: |
+          uv pip install coverage
+
           export AIRFLOW_SOURCES=$PWD/airflow
           uv run airflow db reset -y
-          uv run pytest -s -v --with-db-init --cov=src --cov-report= tests/unit/nomad
+          COVERAGE_FILE=.coverage_unit uv run pytest -s -v --with-db-init --cov=src tests/unit/nomad
 
-      - name: Run system tests (with collective coverage collection)
-        id: systest
+      - name: Run system tests
         run: |
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
@@ -77,8 +78,26 @@ jobs:
           uv run airflow db reset -y
           uv run airflow api-server &
           uv run tox run -e system_test
-          uv run pytest -s -v --ignore dags --without-db-init --cov-append --cov-report= --cov=src tests/system/nomad/
-          uv run pytest -s -v --ignore dags --without-db-init --system --cov-report term --cov-append --cov=src tests/system/nomad/
+          COVERAGE_FILE=.coverage_system1 uv run pytest -s -v --ignore dags --without-db-init --cov=src tests/system/nomad/
+
+          COVERAGE_FILE=.coverage_system2 uv run pytest -s -v --ignore dags --without-db-init --system --cov=src tests/system/nomad/
+
+      - name: Overall coverage reports
+        run: |
+          echo "Unittests"
+          uv run coverage report --data-file=.coverage_unit
+
+          echo
+          echo "System tests 1."
+          uv run coverage report --data-file=.coverage_system1
+
+          echo
+          echo "System tests 2."
+          uv run coverage report --data-file=.coverage_system2
+          uv run coverage combine -q .coverage_unit .coverage_system1 .coverage_system2
+          echo
+          echo "Accumulated coverage"
+          uv run coverage report
 
       - name: Save nomad logs
         if: failure()
