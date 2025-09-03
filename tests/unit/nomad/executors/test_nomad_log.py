@@ -25,21 +25,19 @@ DEFAULT_DATE = datetime(*DATE_VAL)
 TASK_LOGGER = "airflow.task"
 NOMAD_LOGHANDLER = "nomad_log_handler"
 NOMAD_LOGGING_CONFIG = {
-    ("logging", "task_log_handler"): NOMAD_LOGHANDLER,
+    ("logging", "task_log_reader"): NOMAD_LOGHANDLER,
     (
         "logging",
         "logging_config_class",
     ): "airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG",
-    ("logging", "task_log_merge_with_stderr"): "false",
 }
 AiRFLOW_LOGHANDLER = "task"
 AIRFLOW_LOGGING_CONFIG = {
-    ("logging", "task_log_handler"): AiRFLOW_LOGHANDLER,
+    ("logging", "task_log_reader"): AiRFLOW_LOGHANDLER,
     (
         "logging",
         "logging_config_class",
     ): "airflow.config_templates/airflow_local_settings.DEFAULT_LOGGING_CONFIG",
-    ("logging", "task_log_merge_with_stderr"): "true",
 }
 
 EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
@@ -324,10 +322,8 @@ def test_airflow_log_ok(mocker, unittest_root):
 @conf_vars({("core", "executor"): EXECUTOR, **AIRFLOW_LOGGING_CONFIG})
 def test_airflow_log_ok_with_stderr(mocker, unittest_root):
     reload(executor_loader)
-
     fake_logfile = open(unittest_root / "data/oneline_task.log", "r").read()
     fake_stderr = open(unittest_root / "data/err.log", "r").read()
-
     # Getting hold of the (already automatically mocked) Nomad client
     mock_client = mocker.patch(
         "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"

@@ -34,11 +34,10 @@ from airflow.configuration import conf
 from airflow.executors import workloads
 from airflow.executors.base_executor import BaseExecutor
 from airflow.executors.workloads import All, ExecuteTask
-from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
-from airflow.utils.log.logging_mixin import remove_escape_codes
 from airflow.utils.state import TaskInstanceState
+from airflow.models.taskinstance import TaskInstance
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
@@ -197,41 +196,8 @@ class ExecutorInterface(BaseExecutor):
             )
             self.running.add(key)
 
-    def _get_task_log(
-        self, ti: TaskInstance, try_number: int, stderr=False
-    ) -> tuple[list[str], list[str]]:
-        messages = []
-        log = []
-        logtype = "error" if stderr else "standard"
-        try:
-            messages.append(
-                f"Attempting to fetch {logtype} logs for task {ti.key} through Nomad API (attempts: {try_number})"
-            )
-            messages_received, logs_received = self.retrieve_logs(ti.key, stderr=stderr)
-            messages += messages_received
-
-            for line in logs_received:
-                log.append(remove_escape_codes(line))
-            if log:
-                messages.append(f"Found {logtype} logs for running job via Nomad API")
-        except Exception as e:
-            messages.append(f"Reading {logtype} logs failed: {e}")
-        return messages, log
-
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
-        messages, logs = self._get_task_log(ti, try_number)
-        if conf.getboolean("logging", "task_log_merge_with_stderr", fallback=True):
-            messages_err, logs_err = self._get_task_log(ti, try_number, stderr=True)
-            if logs_err:
-                logs = logs + logs_err
-                messages = messages + messages_err
-        return messages, logs
-
-    def get_task_stderr(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
-        return self._get_task_log(ti, try_number, stderr=True)
-
-    def retrieve_logs(self, key: TaskInstanceKey, stderr=False) -> tuple[list[str], list[str]]:
-        self.log.debug(f"Retrieving logs for {key} from {'stderr' if not stderr else 'stdout'}")
+        self.log.debug(f"Retrieving logs for {ti.key} with {try_number}")
         raise NotImplementedError
 
     def end(self) -> None:

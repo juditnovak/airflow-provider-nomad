@@ -27,10 +27,15 @@ import copy
 import logging
 from typing import Any
 
+from airflow.providers.nomad.nomad_log import NomadLogHandler
+from airflow.utils.log.file_task_handler import FileTaskHandler
+
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
+from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
+from airflow.utils.log.logging_mixin import remove_escape_codes
 
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
@@ -120,6 +125,42 @@ class NomadExecutor(ExecutorInterface):
         self.nomad_jobs[key] = (job_id, job_task_id, "")
 
         self.log.debug(f"Runing task ({job_id}) with template {job_template})")
+
+    def _get_task_log(
+        self, ti: TaskInstance, try_number: int, stderr=False
+    ) -> tuple[list[str], list[str]]:
+        messages = []
+        log = []
+        logtype = "error" if stderr else "standard"
+        try:
+            messages.append(
+                f"Attempting to fetch {logtype} logs for task {ti.key} through Nomad API (attempts: {try_number})"
+            )
+            messages_received, logs_received = self.retrieve_logs(ti.key, stderr=stderr)
+            messages += messages_received
+
+            for line in logs_received:
+                log.append(remove_escape_codes(line))
+            if log:
+                messages.append(f"Found {logtype} logs for running job via Nomad API")
+        except Exception as e:
+            messages.append(f"Reading {logtype} logs failed: {e}")
+        return messages, log
+
+    def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
+        messages, logs = self._get_task_log(ti, try_number)
+        if (
+            conf.get("logging", "task_log_reader", fallback=FileTaskHandler.name)
+            != NomadLogHandler.name
+        ):
+            messages_err, logs_err = self._get_task_log(ti, try_number, stderr=True)
+            if logs_err:
+                logs = logs + logs_err
+                messages = messages + messages_err
+        return messages, logs
+
+    def get_task_stderr(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
+        return self._get_task_log(ti, try_number, stderr=True)
 
     def retrieve_logs(self, key: TaskInstanceKey, stderr=False) -> tuple[list[str], list[str]]:
         # Note: this method is executed by the FileTaskHandler and not the Scheduler
