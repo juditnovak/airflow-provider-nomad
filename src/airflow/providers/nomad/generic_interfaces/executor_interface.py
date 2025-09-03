@@ -37,12 +37,9 @@ from airflow.executors.workloads import All, ExecuteTask
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
-from airflow.utils.log.file_task_handler import FileTaskHandler
 from airflow.utils.log.logging_mixin import remove_escape_codes
 from airflow.utils.state import TaskInstanceState
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
-
-from airflow.providers.nomad.executors.nomad_log import NomadLogHandler  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
 

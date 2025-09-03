@@ -17,9 +17,8 @@ from tests_common.test_utils.compat import PythonOperator
 from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
-from airflow.providers.nomad.executors.nomad_log import NOMAD_LOG_CONFIG
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
-from airflow.providers.exexutors.nomad.nomad_log import NOMAD_LOG_CONFIG
+from airflow.providers.nomad.nomad_log import NOMAD_LOG_CONFIG
 
 DATE_VAL = (2016, 1, 1)
 DEFAULT_DATE = datetime(*DATE_VAL)
