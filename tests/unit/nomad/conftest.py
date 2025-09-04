@@ -53,7 +53,7 @@ def mock_nomad_client(mocker):
     """Mock the Nomad client to avoid real connections during unit tests."""
     return mocker.patch(
         "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad", autospec=True
-    )
+    ).return_value
 
 
 @pytest.fixture

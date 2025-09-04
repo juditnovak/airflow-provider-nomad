@@ -34,10 +34,10 @@ from airflow.configuration import conf
 from airflow.executors import workloads
 from airflow.executors.base_executor import BaseExecutor
 from airflow.executors.workloads import All, ExecuteTask
+from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
 from airflow.utils.state import TaskInstanceState
-from airflow.models.taskinstance import TaskInstance
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]

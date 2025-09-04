@@ -27,17 +27,18 @@ import copy
 import logging
 from typing import Any
 
-from airflow.providers.nomad.nomad_log import NomadLogHandler
-from airflow.utils.log.file_task_handler import FileTaskHandler
-
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
+from airflow.utils.log.file_task_handler import FileTaskHandler
 from airflow.utils.log.logging_mixin import remove_escape_codes
+from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
+
 
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
+from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 
 NOMAD_COMMANDS = ()
@@ -63,9 +64,16 @@ class NomadExecutor(ExecutorInterface):
         self.secure = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
         self.cert_path = conf.get(PROVIDER_NAME, "cert_path", fallback="")
         self.key_path = conf.get(PROVIDER_NAME, "key_path", fallback="")
-        self.verify = conf.getboolean(PROVIDER_NAME, "verify", fallback=False)
         self.namespace = conf.get(PROVIDER_NAME, "namespace", fallback="")
         self.token = conf.get(PROVIDER_NAME, "token", fallback="")
+
+        verify = conf.get(PROVIDER_NAME, "verify", fallback="")
+        if verify == "true":
+            self.verify = True
+        elif verify == "false":
+            self.verify = False
+        else:
+            self.verify = verify
 
         self.nomad: nomad.Nomad | None = None
         self.nomad_jobs: dict[TaskInstanceKey, NomadJob] = {}
@@ -80,11 +88,11 @@ class NomadExecutor(ExecutorInterface):
             host=self.nomad_server_ip,
             secure=self.secure,
             cert=(self.cert_path, self.key_path),
-            verify=self.verify,
+            verify=self.verify,  # type: ignore[reportArtumentType]
             namespace=self.namespace,
             token=self.token,
         )
-        assert self.nomad, "Nomad client unavailable"
+        assert self.nomad, "Couldn't connect to Nomad"
         self.log.info("Nomad client initiated")
 
     @classmethod
@@ -121,10 +129,12 @@ class NomadExecutor(ExecutorInterface):
 
         job_id = job_template["Job"]["ID"]
         job_task_id = job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Name"]
-        self.nomad.job.register_job(job_id, job_template)
-        self.nomad_jobs[key] = (job_id, job_task_id, "")
-
-        self.log.debug(f"Runing task ({job_id}) with template {job_template})")
+        try:
+            self.nomad.job.register_job(job_id, job_template)
+            self.nomad_jobs[key] = (job_id, job_task_id, "")
+            self.log.debug(f"Runing task ({job_id}) with template {job_template})")
+        except BaseNomadException as err:
+            self.log.error("Couldn't run task %s (%s)", key, err)
 
     def _get_task_log(
         self, ti: TaskInstance, try_number: int, stderr=False
