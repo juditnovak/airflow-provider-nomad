@@ -59,14 +59,15 @@ class NomadExecutor(ExecutorInterface):
     EXECUTOR_NAME = "nomad_executor"
 
     def __init__(self):
-        self.parallelism = conf.getint(PROVIDER_NAME, "parallelism", fallback=1)
-        self.nomad_server_ip = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
-        self.secure = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
-        self.cert_path = conf.get(PROVIDER_NAME, "cert_path", fallback="")
-        self.key_path = conf.get(PROVIDER_NAME, "key_path", fallback="")
-        self.namespace = conf.get(PROVIDER_NAME, "namespace", fallback="")
-        self.token = conf.get(PROVIDER_NAME, "token", fallback="")
+        self.parallelism: int = conf.getint(PROVIDER_NAME, "parallelism", fallback=1)
+        self.nomad_server_ip: str = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
+        self.secure: bool = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
+        self.cert_path: str = conf.get(PROVIDER_NAME, "cert_path", fallback="")
+        self.key_path: str = conf.get(PROVIDER_NAME, "key_path", fallback="")
+        self.namespace: str = conf.get(PROVIDER_NAME, "namespace", fallback="")
+        self.token: str = conf.get(PROVIDER_NAME, "token", fallback="")
 
+        self.verify: bool | str
         verify = conf.get(PROVIDER_NAME, "verify", fallback="")
         if verify == "true":
             self.verify = True

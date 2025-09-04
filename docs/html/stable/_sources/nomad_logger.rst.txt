@@ -19,11 +19,12 @@
 NomadLoghandler
 =====================
 
-.. note:: NomadExecutor is fully compatible with Airflow default FileTaskHandler log handler. Environments with remote logging may rather stick to that.
+.. note:: ``NomadExecutor`` is fully compatible with Airflow default ``FileTaskHandler`` log handler. Environments with remote logging may rather stick to that.
 
 This feature may rather be useful in small, local (development) environments.
 
 ``NomadLoghandler`` uses Nomad as the only source. Logs are directly downloaded from Nomad each time. 
+Log format is using Airflow standards, thus the output complies to the regular Airflow logs view.
 
 This is useful when no remote logging is enabled,
 
@@ -34,7 +35,7 @@ Rationale:
     this timeframe is short. In case no local/remote logfile exists, information about the task is impossible to retrieve
 
 ``NomadLoghandler`` instead constantly refers to Nomad. As long as the runner is not cleaned up on Nomad
-side, it remains available for the Airflow API.
+side, it remains available for the Airflow API. 
 
 
 
@@ -47,7 +48,7 @@ To enable `NomadLoghandler` the following configuration should be set:
  * ``logging_conf_class``: This setting defines the logger configuration to be loaded. The ``airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG`` variable holds a full logger configuration, having added ``nomad_log_handler`` to the Airflow defaults.
  * ``task_log_reader``: This setting refers to the log handler used by the Airflow web API. Must be set to ``nomad_log_handler``
 
-.. code-block::
+.. code-block:: ini
 
     [logging]
     logging_config_class = airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG

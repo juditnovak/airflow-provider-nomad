@@ -116,20 +116,20 @@ Running the tests
 
 And finally, after all the above was prepared and set, we can run the tests
 
-.. code-block::
+.. code-block:: sh
 
     uv run tox run -e system_test
 
 
 In case there may be complaints regarding the test DB, you can always run 
 
-.. code-block::
+.. code-block:: sh
 
    uv airflow db reset
 
 or add 
 
-.. code-block::
+.. code-block:: sh
 
     uv run tox run -e system_test -- --with-db-init
 

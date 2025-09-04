@@ -343,6 +343,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -499,6 +500,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -643,16 +645,17 @@ to be adjusted on the cluster’s side.</p>
 <p>Airflow executions will require two shared folders on each runner:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Nomad client HCL configuration template</span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="p">{</span>
-  <span class="n">host_volume</span> <span class="s2">&quot;config&quot;</span> <span class="p">{</span>
-    <span class="n">path</span>      <span class="o">=</span> <span class="s2">&quot;&lt;server_path&gt;/&lt;runner_space&gt;/config&quot;</span>
-    <span class="n">read_only</span> <span class="o">=</span> <span class="n">true</span>
-  <span class="p">}</span>
+<div class="highlight-hcl notranslate"><div class="highlight"><pre><span></span><span class="nb">client</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;config&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/&lt;runner_space&gt;/config&quot;</span>
+<span class="w">    </span><span class="na">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">  </span><span class="p">}</span>
 
-  <span class="n">host_volume</span> <span class="s2">&quot;dags&quot;</span> <span class="p">{</span>
-    <span class="n">path</span>      <span class="o">=</span> <span class="s2">&quot;&lt;server_path&gt;/dags/&quot;</span>
-    <span class="n">read_only</span> <span class="o">=</span> <span class="n">true</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;dags&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/dags/&quot;</span>
+<span class="w">    </span><span class="na">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -666,12 +669,12 @@ to be adjusted on the cluster’s side.</p>
 </div></blockquote>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Nomad runner Airflow configuration</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">core</span><span class="p">]</span>
-<span class="n">dags_folder</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">airflow</span><span class="o">/</span><span class="n">dags</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">airflow_api_server_url</span><span class="o">&gt;</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
+<span class="na">dags_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/dags</span>
+<span class="na">base_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;airflow_api_server_url&gt;</span>
 
-<span class="p">[</span><span class="n">logging</span><span class="p">]</span>
-<span class="n">base_log_folder</span> <span class="o">=</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">airflow</span><span class="o">/</span><span class="n">logs</span>
+<span class="k">[logging]</span>
+<span class="na">base_log_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/logs</span>
 </pre></div>
 </div>
 </div>
@@ -680,11 +683,11 @@ to be adjusted on the cluster’s side.</p>
 <h3>Enabling the <cite>NomadExecutor</cite><a class="headerlink" href="#enabling-the-nomadexecutor" title="Link to this heading">¶</a></h3>
 <p>To enable <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> to perform action, the Airflow Scheduler service
 configuration has to contain the following information:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">core</span><span class="p">]</span>
-<span class="n">executor</span> <span class="o">=</span> <span class="n">airflow</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">nomad_executor</span><span class="o">.</span><span class="n">NomadExecutor</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
+<span class="na">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">airflow.providers.nomad.executors.nomad_executor.NomadExecutor</span>
 
-<span class="p">[</span><span class="n">nomad_executor</span><span class="p">]</span>
-<span class="n">server_ip</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">server_ip</span><span class="o">&gt;</span>
+<span class="k">[nomad_executor]</span>
+<span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;server_ip&gt;</span>
 </pre></div>
 </div>
 <p>After these changes, the scheduler has to be restarted with</p>
@@ -695,6 +698,54 @@ configuration has to contain the following information:</p>
 <p>Each task is executed as a separate Nomad task, in an individual taskgroup. This maps
 each of them to different docker containers.</p>
 </section>
+</section>
+<section id="security">
+<h2>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h2>
+<p>Secure connection to a Nomad cluster is supported.</p>
+<p>In terms of Nomad configuration, corresponding Nomad certificates must be available
+(see <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/secure/traffic/tls">Enable TLS encryption</a>).</p>
+<p>We assume that the Nomad client is running a similar configuration to:</p>
+<div class="highlight-hcl notranslate"><div class="highlight"><pre><span></span><span class="nb">client</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;config&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/&lt;runner_space&gt;/config&quot;</span>
+<span class="w">    </span><span class="na">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;dags&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/dags/&quot;</span>
+<span class="w">    </span><span class="na">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Require TLS</span>
+
+<span class="nb">tls</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">http</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">  </span><span class="na">rpc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+
+<span class="w">  </span><span class="na">ca_file</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;certs/nomad-agent-ca.pem&quot;</span>
+<span class="w">  </span><span class="na">cert_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;certs/global-client-nomad.pem&quot;</span>
+<span class="w">  </span><span class="na">key_file</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;certs/global-client-nomad-key.pem&quot;</span>
+
+<span class="w">  </span><span class="na">verify_server_hostname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
+<span class="w">  </span><span class="na">verify_https_client</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The Airflow configuration of the Airflow scheduler (running <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>) has to be changed such as</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad]</span>
+<span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;nomad_server_ip&gt;</span>
+<span class="na">cert_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem</span>
+<span class="na">key_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem</span>
+<span class="na">verify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem</span>
+<span class="na">secure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+</pre></div>
+</div>
+<p>Having restarted the scheduler, job submission to the Nomad cluster is enabled.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case of self-signed certificates, make sure that <code class="docutils literal notranslate"><span class="pre">keyUsage</span></code> extension is enabled and required (see <a class="reference external" href="https://www.herongyang.com/PKI-Certificate/OpenSSL-Add-keyUsage-into-Root-CA.html">helpful guidelines</a>)</p>
+</div>
 </section>
 <section id="logging">
 <h2>Logging<a class="headerlink" href="#logging" title="Link to this heading">¶</a></h2>
@@ -785,6 +836,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 <li><a class="reference internal" href="#enabling-the-nomadexecutor">Enabling the <cite>NomadExecutor</cite></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#security">Security</a></li>
 <li><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
