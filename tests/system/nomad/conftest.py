@@ -17,6 +17,7 @@
 
 import logging
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -123,6 +124,9 @@ def pytest_addoption(parser):
         help="Hostname or IP of the Airflow API server. (Alternative: {TEST_ENV_API_HOST}) See also --api-ip-netiface",
     )
 
+    # Use secure Nomad connection
+    parser.addoption("--nomad-secure", action="store_true", help="Use secure connection to Nomad")
+
 
 @pytest.fixture(scope="session")
 def option_nomad_agent(request):
@@ -139,6 +143,22 @@ def option_airflow_api_ip_netiface(request):
     return request.config.getoption("api_ip_netiface")
 
 
+@pytest.fixture(scope="session")
+def option_nomad_secure(request):
+    ns = request.config.getoption("nomad_secure")
+    if ns:
+        certdir = Path(NOMAD_RUNNER_ROOT / "certs")
+        logger.warning(f"Overwriting runner certificats at {certdir}")
+
+        cert_creation_script = str(NOMAD_SCRIPTS_PATH / Path("create_certs.sh"))
+        try:
+            subprocess.run([cert_creation_script])
+        except subprocess.CalledProcessError as err:
+            logger.error(f"Certificate creation failed ({err})")
+            exit(1)
+    return ns
+
+
 def pytest_configure(config):
     """Ahead of ***ANYTHING*** running, AIRFLOW_HOME/airflow.cfg must be generated"""
     unit_test_conf = airflow_test_servces_config()
@@ -150,8 +170,16 @@ def pytest_configure(config):
 ##############################################################################
 
 
+def adjust_path(path: Path, secure=False):
+    path_str = str(path)
+    if secure:
+        return Path(re.sub(r"\.", "_secure.", path_str))
+
+
 @pytest.fixture(autouse=True, scope="session")
-def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
+def nomad_runner_config(
+    option_airflow_api_ip_netiface, option_airflow_api_host, option_nomad_secure
+):
     """The runners need a different airflow.cfg than the servers.
     Reason: different local environment (example: dag-file = /opt/airflow/dags)
     """
