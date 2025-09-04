@@ -1,0 +1,22 @@
+[req]
+default_bits    = 2048
+distinguished_name  = req_dn
+x509_extensions = req_x509_root
+
+[req_dn]
+# Subject input prompts
+countryName                     = Country Name (2 letter code)
+# stateOrProvinceName             = State or Province Name
+# localityName                    = Locality Name
+0.organizationName              = Organization Name
+# organizationalUnitName          = Organizational Unit Name
+# commonName                      = Common Name
+# emailAddress                    = Email Address
+
+countryName_default             = FR
+commonName_default              = Self Root CA
+
+# The keyUsage is essential for client interactions
+[req_x509_root]
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
