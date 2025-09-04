@@ -44,7 +44,7 @@ to be adjusted on the cluster's side.
 
 Airflow executions will require two shared folders on each runner:
 
-.. code-block::
+.. code-block:: hcl
     :caption: Nomad client HCL configuration template
 
     client {
@@ -57,6 +57,7 @@ Airflow executions will require two shared folders on each runner:
         path      = "<server_path>/dags/"
         read_only = true
       }
+    }
 
 
 (Currently only host volumes are supported. Extending soon.)
@@ -66,7 +67,7 @@ Airflow executions will require two shared folders on each runner:
    * NOTE: This configuration is different from the Airflow server's configuration in terms of the following:
 
    
-.. code-block::
+.. code-block:: ini
     :caption: Nomad runner Airflow configuration
 
     [core]
@@ -85,7 +86,7 @@ Enabling the `NomadExecutor`
 To enable ``NomadExecutor`` to perform action, the Airflow Scheduler service
 configuration has to contain the following information:
 
-.. code-block::
+.. code-block:: ini
 
    [core]
    executor = airflow.providers.nomad.executors.nomad_executor.NomadExecutor
@@ -105,6 +106,64 @@ From this point on Airflow pipeline tasks will be submitted to the target Nomad 
 
 Each task is executed as a separate Nomad task, in an individual taskgroup. This maps
 each of them to different docker containers.
+
+
+Security
+###############
+
+Secure connection to a Nomad cluster is supported. 
+
+In terms of Nomad configuration, corresponding Nomad certificates must be available
+(see `Enable TLS encryption <https://developer.hashicorp.com/nomad/docs/secure/traffic/tls>`_).
+
+We assume that the Nomad client is running a similar configuration to:
+
+.. code-block:: hcl
+
+
+    client {
+      host_volume "config" {
+        path      = "<server_path>/<runner_space>/config"
+        read_only = true
+      }
+
+      host_volume "dags" {
+        path      = "<server_path>/dags/"
+        read_only = true
+      }
+    }
+
+    # Require TLS
+
+    tls {
+      http = true
+      rpc  = true
+
+      ca_file   = "certs/nomad-agent-ca.pem"
+      cert_file = "certs/global-client-nomad.pem"
+      key_file  = "certs/global-client-nomad-key.pem"
+
+      verify_server_hostname = false
+      verify_https_client    = false
+    }
+
+The Airflow configuration of the Airflow scheduler (running ``NomadExecutor``) has to be changed such as
+
+.. code-block:: ini
+
+    [nomad]
+    server_ip = <nomad_server_ip>
+    cert_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem
+    key_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem
+    verify = /home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem
+    secure = true
+
+
+Having restarted the scheduler, job submission to the Nomad cluster is enabled.
+
+.. note::
+
+   In case of self-signed certificates, make sure that ``keyUsage`` extension is enabled and required (see `helpful guidelines <https://www.herongyang.com/PKI-Certificate/OpenSSL-Add-keyUsage-into-Root-CA.html>`_)
 
 
 Logging

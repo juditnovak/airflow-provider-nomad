@@ -713,15 +713,15 @@ with the test <code class="docutils literal notranslate"><span class="pre">dags<
 <section id="running-the-tests">
 <h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Link to this heading">¶</a></h2>
 <p>And finally, after all the above was prepared and set, we can run the tests</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uv</span> <span class="n">run</span> <span class="n">tox</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="n">system_test</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>tox<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>system_test
 </pre></div>
 </div>
 <p>In case there may be complaints regarding the test DB, you can always run</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uv</span> <span class="n">airflow</span> <span class="n">db</span> <span class="n">reset</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>airflow<span class="w"> </span>db<span class="w"> </span>reset
 </pre></div>
 </div>
 <p>or add</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uv</span> <span class="n">run</span> <span class="n">tox</span> <span class="n">run</span> <span class="o">-</span><span class="n">e</span> <span class="n">system_test</span> <span class="o">--</span> <span class="o">--</span><span class="k">with</span><span class="o">-</span><span class="n">db</span><span class="o">-</span><span class="n">init</span>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>tox<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>system_test<span class="w"> </span>--<span class="w"> </span>--with-db-init
 </pre></div>
 </div>
 </section>

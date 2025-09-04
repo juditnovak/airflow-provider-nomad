@@ -626,10 +626,11 @@
 <h1>NomadLoghandler<a class="headerlink" href="#nomadloghandler" title="Link to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>NomadExecutor is fully compatible with Airflow default FileTaskHandler log handler. Environments with remote logging may rather stick to that.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> is fully compatible with Airflow default <code class="docutils literal notranslate"><span class="pre">FileTaskHandler</span></code> log handler. Environments with remote logging may rather stick to that.</p>
 </div>
 <p>This feature may rather be useful in small, local (development) environments.</p>
-<p><code class="docutils literal notranslate"><span class="pre">NomadLoghandler</span></code> uses Nomad as the only source. Logs are directly downloaded from Nomad each time.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NomadLoghandler</span></code> uses Nomad as the only source. Logs are directly downloaded from Nomad each time.
+Log format is using Airflow standards, thus the output complies to the regular Airflow logs view.</p>
 <p>This is useful when no remote logging is enabled,</p>
 <p>Rationale:</p>
 <blockquote>
@@ -648,9 +649,9 @@ side, it remains available for the Airflow API.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">task_log_reader</span></code>: This setting refers to the log handler used by the Airflow web API. Must be set to <code class="docutils literal notranslate"><span class="pre">nomad_log_handler</span></code></p></li>
 </ul>
 </div></blockquote>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">logging</span><span class="p">]</span>
-<span class="n">logging_config_class</span> <span class="o">=</span> <span class="n">airflow</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">nomad_log</span><span class="o">.</span><span class="n">NOMAD_LOG_CONFIG</span>
-<span class="n">task_log_reader</span> <span class="o">=</span> <span class="n">nomad_log_handler</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[logging]</span>
+<span class="na">logging_config_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG</span>
+<span class="na">task_log_reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nomad_log_handler</span>
 </pre></div>
 </div>
 <p>Examples:</p>

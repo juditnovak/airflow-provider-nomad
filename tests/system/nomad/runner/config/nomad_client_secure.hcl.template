@@ -1,0 +1,23 @@
+client {
+  host_volume "config" {
+    path      = "<SYS_TEST_ROOT>/runner/config/"
+    read_only = true
+  }
+
+  host_volume "dags" {
+    path      = "<SYS_TEST_ROOT>/dags/"
+    read_only = true
+  }
+}
+
+tls {
+  http = true
+  rpc  = true
+
+  ca_file   = "<SYS_TEST_ROOT>/runner/certs/nomad-agent-ca.pem"
+  cert_file = "<SYS_TEST_ROOT>/runner/certs/global-client-nomad.pem"
+  key_file  = "<SYS_TEST_ROOT>/runner/certs/global-client-nomad-key.pem"
+
+  verify_server_hostname = false
+  verify_https_client    = false
+}
