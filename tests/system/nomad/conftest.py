@@ -27,16 +27,11 @@ import netifaces
 import pytest
 from airflow.configuration import conf
 
+from .constants import SYSTEST_ROOT, TEST_CONFIG_PATH, TEST_DATA_PATH, TEST_SCRIPTS_PATH
 from .utils import check_service_available, say_yes_or_no, stream_subprocess_output, update_template
 
 logger = logging.getLogger(__name__)
 
-
-# Test global setup
-
-SYSTEST_ROOT = Path(__file__).resolve().parent
-TEST_CONFIG_PATH = SYSTEST_ROOT / "config"
-SCRIPTS_PATH = SYSTEST_ROOT / "scripts"
 
 # Runner setup and workspace
 NOMAD_RUNNER_ROOT = SYSTEST_ROOT / "runner"
@@ -54,7 +49,7 @@ AIRFLOW_SERVICES_ROOT = SYSTEST_ROOT / "server"
 # we try to prevent fellow developers not to have their environment altered unexpectedly.
 #
 AIRFLOW_HOME = os.environ.get("AIRFLOW_HOME")
-if AIRFLOW_HOME and AIRFLOW_HOME != str(AIRFLOW_SERVICES_ROOT / "airflow_home"):
+if AIRFLOW_HOME and Path(AIRFLOW_HOME) != AIRFLOW_SERVICES_ROOT / "airflow_home":
     print("*************************************************************************")
     print("*                   !!!!!!   WARNING  !!!!!!!!                          *")
     print("*                                                                       *")
@@ -294,7 +289,7 @@ def airflow_test_servces_setup(airflow_test_servces_config):
         f"IMPORTANT: Any Airflow services already running may NOT be using updated {airflow_cfg} yet!"
     )
     logger.warning(
-        f"NOTE: Run '{SCRIPTS_PATH}/init_airflow_cfg.sh' before starting up Airflow services"
+        f"NOTE: Run '{TEST_SCRIPTS_PATH}/init_airflow_cfg.sh' before starting up Airflow services"
     )
     try:
         airflow_cfg.symlink_to(airflow_test_servces_config)
@@ -308,3 +303,8 @@ def airflow_test_servces_setup(airflow_test_servces_config):
             logger.warning("File {airflow_cfg} was a symlink that's now deleted.")
             os.unlink(airflow_cfg)
             airflow_cfg.symlink_to(airflow_test_servces_config)
+
+
+@pytest.fixture
+def test_datadir():
+    return TEST_DATA_PATH

@@ -15,22 +15,32 @@
 # specific language governing permissions and limitations
 # under the License.
 
+from __future__ import annotations
+
+import logging
 import os
+import sys
+import time
 from datetime import timedelta
+from pprint import pprint
 
 import attrs
 import pendulum
-from airflow.providers.standard.operators.bash import BashOperator
 from airflow.providers.standard.operators.empty import EmptyOperator
+from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
+log = logging.getLogger(__name__)
+
+PATH_TO_PYTHON_BINARY = sys.executable
+
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "bash_operator_triggered_test"
-JOB_NAME = "test-bash-operator"
-JOB_NAMESPACE = "default"
+DAG_ID = "test_python_operator_base"
 
+JOB_NAME = "test-python-operator-base"
+JOB_NAMESPACE = "default"
 
 ##############################################################################
 # DAG with relative location
@@ -79,40 +89,50 @@ with myDAG(
         task_id="run_this_last",
     )
 
-    # [START howto_operator_bash]
-    run_this = BashOperator(
-        task_id="run_after_loop",
-        bash_command="echo https://airflow.apache.org/",
+    # [START howto_operator_python]
+    def print_context(ds=None, **kwargs):
+        """Print the Airflow context and ds variable from the context."""
+        print("::group::All kwargs")
+        pprint(kwargs)
+        print("::endgroup::")
+        print("::group::Context variable ds")
+        print(ds)
+        print("::endgroup::")
+        return "Whatever you return gets printed in the logs"
+
+    run_this = PythonOperator(task_id="print_the_context", python_callable=print_context)
+    # [END howto_operator_python]
+
+    # [START howto_operator_python_render_sql]
+    def log_sql(**kwargs):
+        log.info("Python task decorator query: %s", str(kwargs["templates_dict"]["query"]))
+
+    log_the_sql = PythonOperator(
+        task_id="log_sql_query",
+        python_callable=log_sql,
+        templates_dict={"query": "sql/sample.sql"},
+        templates_exts=[".sql"],
     )
-    # [END howto_operator_bash]
+    # [END howto_operator_python_render_sql]
 
-    run_this >> run_this_last
+    # [START howto_operator_python_kwargs]
+    # Generate 5 sleeping tasks, sleeping from 0.0 to 0.4 seconds respectively
+    def my_sleeping_function(random_base):
+        """This is a function that will run within the DAG execution"""
+        time.sleep(random_base)
 
-    for i in range(3):
-        task = BashOperator(
-            task_id=f"runme_{i}",
-            bash_command='echo "{{ task_instance_key_str }}" && sleep 1',
+    for i in range(5):
+        sleeping_task = PythonOperator(
+            task_id=f"sleep_for_{i}",
+            python_callable=my_sleeping_function,
+            op_kwargs={"random_base": i / 10},
         )
-        task >> run_this
 
-    # [START howto_operator_bash_template]
-    also_run_this = BashOperator(
-        task_id="also_run_this",
-        bash_command='echo "ti_key={{ task_instance_key_str }}"',
-    )
-    # [END howto_operator_bash_template]
-    also_run_this >> run_this_last
+        run_this >> log_the_sql >> sleeping_task
+    # [END howto_operator_python_kwargs]
 
-    try:
-        # We are in the local Airflow test environment
-        from tests_common.test_utils.watcher import watcher
+    run_this >> sleeping_task  # type: ignore[reportPossiblyUnbound]
 
-        # This test needs watcher in order to properly mark success/failure
-        # when "tearDown" task with trigger rule is part of the DAG
-        list(dag.tasks) >> watcher()
-    except ImportError:
-        # We are in the remote runner, now 'wathcer()' is needed
-        pass
 
 try:
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402

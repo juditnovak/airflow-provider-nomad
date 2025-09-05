@@ -112,6 +112,13 @@ def get_provider_info():
                         "example": "/absolute/path/to/certs/nomad-agent-ca.pem",
                         "default": "",
                     },
+                    "default_job_template": {
+                        "description": "Specific .hcl or .json template to use for job submission, instead of in-built defaults",
+                        "version_added": None,
+                        "type": "string",
+                        "example": "/absolute/path/to/job_template.{json,hcl}",
+                        "default": "",
+                    },
                 },
             },
         },

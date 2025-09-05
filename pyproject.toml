@@ -56,8 +56,11 @@ dependencies = [
     "apache-airflow-core==3.0.6",
     "apache-airflow-task-sdk",
     "flask>=3.1.2",
+    "jq>=1.10.0",
     "netifaces>=0.11.0",
+    "pydantic>=2.11.7",
     "python-nomad>=2.1.0",
+    "requests>=2.32.5",
 ]
 
 [dependency-groups]

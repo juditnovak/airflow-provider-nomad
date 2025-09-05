@@ -657,14 +657,9 @@ which are used for configuration generation on-the-fly.</p>
 </ul>
 </div></blockquote>
 <p>On an orthogonal angle, two more folders to be mentioned:</p>
-<p><code class="docutils literal notranslate"><span class="pre">dags</span></code>: This folder contains all DAGs that are triggered as tests.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Reason: The dags must be available both to the local <code class="docutils literal notranslate"><span class="pre">pytest</span></code> system, as “normal test code”, while it also has to be available for the Nomad runners as Airflow DAGs, in the <code class="docutils literal notranslate"><span class="pre">dags-folder</span></code>, mounted by the Nomad client.</p></li>
-<li><p>NOTE: Dags are called the <strong>same</strong> as their Python test correspondents.
-* For this reason, the folder must be skipped by <code class="docutils literal notranslate"><span class="pre">pytest</span></code> test discovery using <code class="docutils literal notranslate"><span class="pre">--ignore</span></code>. (See <code class="docutils literal notranslate"><span class="pre">tox.ini</span></code> in the project root folder)</p></li>
-</ul>
-</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">dags</span></code>: This folder contains the majority of the tests – all the DAGs that are triggered. They must be available both to the local <code class="docutils literal notranslate"><span class="pre">pytest</span></code> system, as ‘test code’, and for the Nomad runners as ‘Airflow DAGs’ (<code class="docutils literal notranslate"><span class="pre">dags-folder</span></code>, mounted by the Nomad client).</p>
+<p>There are a few tests outside of the <code class="docutils literal notranslate"><span class="pre">dags</span></code> folder, performing actions live actions (that require a Nomad server), but don’t use Airflow’s DAG-based system test runs (i.e. <code class="docutils literal notranslate"><span class="pre">system</span></code> pytest marker).
+These are the tests at the root of the System Tests.</p>
 <p><code class="docutils literal notranslate"><span class="pre">config</span></code>: Following Airflow standards, this folder holds the main reference template for local Airflow services. The rendered version of this file will be both loaded to the <code class="docutils literal notranslate"><span class="pre">pytest</span></code> environment, and used as <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code> for local services (by creating a symlink in <code class="docutils literal notranslate"><span class="pre">AIRFLOW_HOME</span></code> to the rendered template).</p>
 </section>
 <section id="execution-prerequisites">

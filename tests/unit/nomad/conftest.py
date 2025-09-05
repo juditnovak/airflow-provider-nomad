@@ -25,6 +25,7 @@ from airflow.configuration import conf
 
 UNITTEST_ROOT = Path(__file__).resolve().parent
 TEST_CONFIG_PATH = UNITTEST_ROOT / "config"
+TEST_DATA_PATH = UNITTEST_ROOT / "data"
 
 logger = logging.getLogger(__name__)
 
@@ -59,3 +60,8 @@ def mock_nomad_client(mocker):
 @pytest.fixture
 def unittest_root():
     return UNITTEST_ROOT
+
+
+@pytest.fixture
+def test_datadir():
+    return TEST_DATA_PATH

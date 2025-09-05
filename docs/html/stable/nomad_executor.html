@@ -343,6 +343,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
@@ -500,6 +501,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
@@ -699,6 +701,21 @@ configuration has to contain the following information:</p>
 each of them to different docker containers.</p>
 </section>
 </section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">parallelism</span></code>: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.</p>
+<p><code class="docutils literal notranslate"><span class="pre">server_ip</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: If a custom HCL or JSON template is to be used for job submission instead of the in-built defaults.</p>
+<blockquote>
+<div><p>Any image that may be appointed by this template is assumed to have Airflow task submission pre-requisites (<code class="docutils literal notranslate"><span class="pre">apache-airflow-core</span></code>, <code class="docutils literal notranslate"><span class="pre">apache-airflow-task-sdk</span></code>) installed.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">secure</span></code>: Whether TLS is enabled.</p>
+<p><code class="docutils literal notranslate"><span class="pre">verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cert_path</span></code>: The absolute path of the client certificate.</p>
+<p><code class="docutils literal notranslate"><span class="pre">key_path</span></code>: The absolute path of the client key.</p>
+<p>For TLS-related configuration in detail, see the <a class="reference internal" href="#security">Security</a> section.</p>
+</section>
 <section id="security">
 <h2>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h2>
 <p>Secure connection to a Nomad cluster is supported.</p>
@@ -836,6 +853,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 <li><a class="reference internal" href="#enabling-the-nomadexecutor">Enabling the <cite>NomadExecutor</cite></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#security">Security</a></li>
 <li><a class="reference internal" href="#logging">Logging</a></li>
 </ul>

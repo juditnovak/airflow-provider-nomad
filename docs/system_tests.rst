@@ -48,12 +48,10 @@ The test environment is split to the following core functionalities:
 
 On an orthogonal angle, two more folders to be mentioned:
 
-``dags``: This folder contains all DAGs that are triggered as tests. 
+``dags``: This folder contains the majority of the tests -- all the DAGs that are triggered. They must be available both to the local ``pytest`` system, as 'test code', and for the Nomad runners as 'Airflow DAGs' (``dags-folder``, mounted by the Nomad client).
 
-    * Reason: The dags must be available both to the local ``pytest`` system, as "normal test code", while it also has to be available for the Nomad runners as Airflow DAGs, in the ``dags-folder``, mounted by the Nomad client.
-    * NOTE: Dags are called the **same** as their Python test correspondents. 
-      * For this reason, the folder must be skipped by ``pytest`` test discovery using ``--ignore``. (See ``tox.ini`` in the project root folder)
-
+There are a few tests outside of the ``dags`` folder, performing actions live actions (that require a Nomad server), but don't use Airflow's DAG-based system test runs (i.e. ``system`` pytest marker).
+These are the tests at the root of the System Tests.
 
 ``config``: Following Airflow standards, this folder holds the main reference template for local Airflow services. The rendered version of this file will be both loaded to the ``pytest`` environment, and used as ``airflow.cfg`` for local services (by creating a symlink in ``AIRFLOW_HOME`` to the rendered template).
 
