@@ -108,6 +108,33 @@ Each task is executed as a separate Nomad task, in an individual taskgroup. This
 each of them to different docker containers.
 
 
+Configuration
+#################
+
+Configuration options that are available for ``NomadExecutor`` are the following:
+
+``parallelism``: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.
+
+``server_ip``: The IP address of the Nomad server. (Default: ``127.0.0.1``)
+
+``default_job_template``: If a custom HCL or JSON template is to be used for job submission instead of the in-built defaults. 
+
+    Any image that may be appointed by this template is assumed to have Airflow task submission pre-requisites (``apache-airflow-core``, ``apache-airflow-task-sdk``) installed.
+
+
+``secure``: Whether TLS is enabled. 
+
+``verify``: This configuration may either hold a boolean value (``true``/``false``) or the absolute path of the CA certificate.
+
+``cert_path``: The absolute path of the client certificate.
+
+``key_path``: The absolute path of the client key.
+
+
+For TLS-related configuration in detail, see the `Security`_ section.
+
+
+
 Security
 ###############
 
