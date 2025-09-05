@@ -101,7 +101,7 @@ def test_connect():
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
-def test_sync(mock_nomad_client):
+def test_sync_ok(mock_nomad_client):
     """ """
 
     nomad_executor = NomadExecutor()
@@ -118,16 +118,13 @@ def test_sync(mock_nomad_client):
         nomad_executor.sync()
 
         # A job was registered
-        assert mock_nomad_client.job.job_register.call_count == 0
+        assert mock_nomad_client.job.register_job.call_count == 1
 
         assert nomad_executor.task_queue.empty()
         assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
     finally:
         nomad_executor.end()
         pass
-
-
-EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
@@ -151,6 +148,32 @@ def test_sync_run_failed(mock_nomad_client, caplog):
             nomad_executor.sync()
 
             assert any([error in record.message for record in caplog.records])
+            assert nomad_executor.task_queue.empty()
+            assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
+        finally:
+            nomad_executor.end()
+            pass
+
+
+@pytest.mark.parametrize("job_tpl", ["simple_job.json", "complex_job.json"])
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir):
+    with conf_vars({("nomad", "default_job_template"): str(test_datadir / job_tpl)}):
+        nomad_executor = NomadExecutor()
+        nomad_executor.start()
+
+        try:
+            try_number = 1
+            task_instance_key = TaskInstanceKey("dag", "task", "run_id", try_number)
+            nomad_executor.execute_async(
+                key=task_instance_key,
+                queue=None,
+                command=["airflow", "tasks", "run", "true", "some_parameter"],
+            )
+            nomad_executor.sync()
+
+            # A job was registered
+            assert mock_nomad_client.job.register_job.call_count == 1
             assert nomad_executor.task_queue.empty()
             assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
         finally:

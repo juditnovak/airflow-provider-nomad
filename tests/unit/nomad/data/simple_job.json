@@ -1,0 +1,62 @@
+{
+  "Job": {
+    "Region": null,
+    "Namespace": null,
+    "ID": "example",
+    "Name": "example",
+    "Type": "batch",
+    "TaskGroups": [
+      {
+        "Name": "cache",
+        "Count": 1,
+        "Tasks": [
+          {
+            "Name": "python",
+            "Driver": "docker",
+            "Config": {
+              "auth_soft_fail": true,
+              "image": "python:latest",
+              "command": ["python", "-c", "print('Hi!')"]
+            },
+            "Resources": {
+              "CPU": 500,
+              "MemoryMB": 256
+            },
+            "Leader": false,
+            "ShutdownDelay": 0,
+            "ScalingPolicies": null,
+            "Identity": {
+              "Env": true,
+              "File": true
+            }
+          }
+        ],
+        "RestartPolicy": {
+          "Interval": 1800000000000,
+          "Attempts": 2,
+          "Delay": 15000000000,
+          "Mode": "fail"
+        },
+        "ReschedulePolicy": null,
+        "EphemeralDisk": {
+          "SizeMB": 300
+        }
+      }
+    ],
+    "Update": {
+      "MaxParallel": 1,
+      "MinHealthyTime": 10000000000,
+      "HealthyDeadline": 180000000000,
+      "ProgressDeadline": 600000000000,
+      "Canary": 0,
+      "AutoRevert": false
+    },
+    "Migrate": {
+      "MaxParallel": 1,
+      "HealthCheck": "checks",
+      "MinHealthyTime": 10000000000,
+      "HealthyDeadline": 300000000000
+    },
+    "Dispatched": false
+  }
+}
