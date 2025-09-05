@@ -25,6 +25,8 @@ from __future__ import annotations
 import argparse
 import copy
 import logging
+from functools import cached_property
+from pathlib import Path
 from typing import Any
 
 import nomad  # type: ignore[import-untyped]
@@ -36,10 +38,12 @@ from airflow.utils.log.file_task_handler import FileTaskHandler
 from airflow.utils.log.logging_mixin import remove_escape_codes
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
-
+from airflow.providers.nomad.exceptions import NomadValidationError
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
+from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.utils import parse_hcl_job_template, parse_json_job_template
 
 NOMAD_COMMANDS = ()
 
@@ -61,6 +65,7 @@ class NomadExecutor(ExecutorInterface):
     def __init__(self):
         self.parallelism: int = conf.getint(PROVIDER_NAME, "parallelism", fallback=1)
         self.nomad_server_ip: str = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
+        self.nomad_server_port: int = conf.getint(PROVIDER_NAME, "server_port", fallback=4646)
         self.secure: bool = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
         self.cert_path: str = conf.get(PROVIDER_NAME, "cert_path", fallback="")
         self.key_path: str = conf.get(PROVIDER_NAME, "key_path", fallback="")
@@ -96,6 +101,11 @@ class NomadExecutor(ExecutorInterface):
         assert self.nomad, "Couldn't connect to Nomad"
         self.log.info("Nomad client initiated")
 
+    @cached_property
+    def nomad_url(self):
+        protocol = "http" if not self.secure else "https"
+        return f"{protocol}://{self.nomad_server_ip}:{self.nomad_server_port}"
+
     @classmethod
     def job_id_from_taskinstance_key(cls, key: TaskInstanceKey) -> str:
         dag_id, task_id, run_id, try_number, map_index = key
@@ -106,17 +116,52 @@ class NomadExecutor(ExecutorInterface):
         dag_id, task_id, _, _, _ = key
         return f"{dag_id}-{task_id}"
 
+    def _get_job_template(self) -> NomadJobModel | None:
+        if not (job_tpl_loc := conf.get("nomad", "default_job_template", fallback="")):
+            return None
+
+        job_tpl_path = Path(job_tpl_loc)
+        if not job_tpl_path.is_file():
+            self.log.error("Configured template %s is not a file", job_tpl_path)
+            return None
+
+        job_template = None
+        try:
+            if job_tpl_path.suffix == ".json":
+                job_template = parse_json_job_template(job_tpl_path)
+            elif job_tpl_path.suffix == ".hcl":
+                job_template = parse_hcl_job_template(self.nomad_url, job_tpl_path)
+        except (NomadValidationError, IOError) as err:
+            self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
+
+        if job_template:
+            return job_template
+        return None
+
     def apply_command_to_job_template(
         self, key: TaskInstanceKey, command: list[str]
     ) -> dict[str, Any]:
         """Apply command to the Nomad job template"""
         job_id = self.job_id_from_taskinstance_key(key)
         job_task_id = self.job_task_id_from_taskinstance_key(key)
-        job_template = copy.deepcopy(default_task_template)
 
-        job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = command
+        job_template = None
+        if job_model := self._get_job_template():
+            job_template = job_model.model_dump(exclude_unset=True)
+            job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [
+                "python",
+                "-m",
+                "airflow.sdk.execution_time.execute_workload",
+                "--json-string",
+            ] + command
+
+        if not job_template:
+            job_template = copy.deepcopy(default_task_template)
+            job_template = copy.deepcopy(default_task_template)
+            job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = command
+            job_template["Job"]["Name"] = f"airflow-run-{job_task_id}-{key[3]}"
+
         job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Name"] = job_task_id
-        job_template["Job"]["Name"] = f"airflow-run-{job_task_id}-{key[3]}"
         job_template["Job"]["ID"] = job_id
 
         self.log.debug(
