@@ -20,15 +20,13 @@ from datetime import timedelta
 
 import attrs
 import pendulum
-from airflow.providers.standard.operators.bash import BashOperator
 from airflow.providers.standard.operators.empty import EmptyOperator
-from airflow.sdk import DAG
-from airflow.sdk.definitions.param import ParamsDict
+from airflow.sdk import DAG, chain
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "bash_operator_triggered_test"
-JOB_NAME = "test-bash-operator"
+DAG_ID = "test-config-default-job-template-hcl"
+JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
 
@@ -73,51 +71,23 @@ with myDAG(
     catchup=False,
     dagrun_timeout=timedelta(minutes=60),
     tags=["example", "example2"],
-    params=ParamsDict({"example_key": "example_value"}),
 ) as dag:
-    run_this_last = EmptyOperator(
-        task_id="run_this_last",
-    )
+    empty_task = EmptyOperator(task_id="empty")
 
-    # [START howto_operator_bash]
-    run_this = BashOperator(
-        task_id="run_after_loop",
-        bash_command="echo https://airflow.apache.org/",
-    )
-    # [END howto_operator_bash]
+    chain(empty_task)
 
-    run_this >> run_this_last
 
-    for i in range(3):
-        task = BashOperator(
-            task_id=f"runme_{i}",
-            bash_command='echo "{{ task_instance_key_str }}" && sleep 1',
-        )
-        task >> run_this
-
-    # [START howto_operator_bash_template]
-    also_run_this = BashOperator(
-        task_id="also_run_this",
-        bash_command='echo "ti_key={{ task_instance_key_str }}"',
-    )
-    # [END howto_operator_bash_template]
-    also_run_this >> run_this_last
-
-    try:
-        # We are in the local Airflow test environment
-        from tests_common.test_utils.watcher import watcher
-
-        # This test needs watcher in order to properly mark success/failure
-        # when "tearDown" task with trigger rule is part of the DAG
-        list(dag.tasks) >> watcher()
-    except ImportError:
-        # We are in the remote runner, now 'wathcer()' is needed
-        pass
-
+# # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-    # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
+    from airflow.providers.nomad.executors.nomad_executor import conf
+
+    from ..constants import TEST_DATA_PATH
+
+    conf.set(
+        "nomad", "default_job_template", str(TEST_DATA_PATH / "nomad_provider_job_template.hcl")
+    )
     test_run = get_test_run(dag)
 except ImportError:
     pass

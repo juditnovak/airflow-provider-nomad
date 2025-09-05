@@ -1,0 +1,169 @@
+{
+  "Job": {
+    "Affinities": null,
+    "AllAtOnce": false,
+    "Constraints": null,
+    "ConsulNamespace": "",
+    "CreateIndex": 0,
+    "Datacenters": null,
+    "DispatchIdempotencyToken": null,
+    "Dispatched": false,
+    "ID": "docs",
+    "JobModifyIndex": 0,
+    "Meta": null,
+    "Migrate": null,
+    "ModifyIndex": 0,
+    "Multiregion": null,
+    "Name": "docs",
+    "Namespace": "default",
+    "NodePool": "",
+    "NomadTokenID": "",
+    "ParameterizedJob": null,
+    "ParentID": "",
+    "Payload": null,
+    "Periodic": null,
+    "Priority": 50,
+    "Region": "global",
+    "Reschedule": null,
+    "Spreads": null,
+    "Stable": false,
+    "Status": "",
+    "StatusDescription": "",
+    "Stop": false,
+    "SubmitTime": null,
+    "TaskGroups": [
+      {
+        "Affinities": null,
+        "Constraints": null,
+        "Consul": null,
+        "Count": 1,
+        "Disconnect": null,
+        "EphemeralDisk": {
+          "Migrate": false,
+          "SizeMB": 300,
+          "Sticky": false
+        },
+        "MaxClientDisconnect": null,
+        "Meta": null,
+        "Migrate": {
+          "HealthCheck": "checks",
+          "HealthyDeadline": 300000000000,
+          "MaxParallel": 1,
+          "MinHealthyTime": 10000000000
+        },
+        "Name": "example",
+        "Networks": null,
+        "PreventRescheduleOnLost": null,
+        "ReschedulePolicy": {
+          "Attempts": 0,
+          "Delay": 30000000000,
+          "DelayFunction": "exponential",
+          "Interval": 0,
+          "MaxDelay": 3600000000000,
+          "Unlimited": true
+        },
+        "RestartPolicy": {
+          "Attempts": 2,
+          "Delay": 15000000000,
+          "Interval": 1800000000000,
+          "Mode": "fail",
+          "RenderTemplates": false
+        },
+        "Scaling": null,
+        "Services": null,
+        "ShutdownDelay": null,
+        "Spreads": null,
+        "StopAfterClientDisconnect": null,
+        "Tasks": [
+          {
+            "Actions": null,
+            "Affinities": null,
+            "Artifacts": null,
+            "Config": {
+              "image": "hashicorp/http-echo",
+              "args": [
+                "-text",
+                "hello"
+              ]
+            },
+            "Constraints": null,
+            "Consul": null,
+            "DispatchPayload": null,
+            "Driver": "docker",
+            "Env": null,
+            "Identities": null,
+            "Identity": null,
+            "KillSignal": "",
+            "KillTimeout": 5000000000,
+            "Kind": "",
+            "Leader": false,
+            "Lifecycle": null,
+            "LogConfig": {
+              "Disabled": false,
+              "Enabled": null,
+              "MaxFileSizeMB": 10,
+              "MaxFiles": 10
+            },
+            "Meta": null,
+            "Name": "server",
+            "Resources": {
+              "CPU": 100,
+              "Cores": 0,
+              "Devices": null,
+              "DiskMB": null,
+              "IOPS": null,
+              "MemoryMB": 128,
+              "MemoryMaxMB": null,
+              "NUMA": null,
+              "Networks": null,
+              "SecretsMB": null
+            },
+            "RestartPolicy": {
+              "Attempts": 2,
+              "Delay": 15000000000,
+              "Interval": 1800000000000,
+              "Mode": "fail",
+              "RenderTemplates": false
+            },
+            "ScalingPolicies": null,
+            "Schedule": null,
+            "Services": null,
+            "ShutdownDelay": 0,
+            "Templates": null,
+            "User": "",
+            "Vault": null,
+            "VolumeMounts": null
+          }
+        ],
+        "Update": {
+          "AutoPromote": false,
+          "AutoRevert": false,
+          "Canary": 0,
+          "HealthCheck": "checks",
+          "HealthyDeadline": 300000000000,
+          "MaxParallel": 1,
+          "MinHealthyTime": 10000000000,
+          "ProgressDeadline": 600000000000,
+          "Stagger": 30000000000
+        },
+        "Volumes": null
+      }
+    ],
+    "Type": "service",
+    "UI": null,
+    "Update": {
+      "AutoPromote": false,
+      "AutoRevert": false,
+      "Canary": 0,
+      "HealthCheck": "checks",
+      "HealthyDeadline": 300000000000,
+      "MaxParallel": 1,
+      "MinHealthyTime": 10000000000,
+      "ProgressDeadline": 600000000000,
+      "Stagger": 30000000000
+    },
+    "VaultNamespace": "",
+    "Version": 0,
+    "VersionTag": null
+  }
+}
