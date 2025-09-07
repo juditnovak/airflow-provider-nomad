@@ -94,7 +94,9 @@ try:
     from ..constants import TEST_DATA_PATH
 
     conf.set(
-        "nomad", "default_job_template", str(TEST_DATA_PATH / "nomad_provider_job_template.hcl")
+        "nomad_executor",
+        "default_job_template",
+        str(TEST_DATA_PATH / "nomad_provider_job_template.hcl"),
     )
     test_run = get_test_run(dag)
 except ImportError:
