@@ -43,8 +43,8 @@ def test_base_defaults():
 
 @conf_vars(
     {
-        ("nomad", "server_ip"): "1.2.3.4",
-        ("nomad", "parallelism"): "2",
+        ("nomad_executor", "server_ip"): "1.2.3.4",
+        ("nomad_executor", "parallelism"): "2",
     }
 )
 def test_base_fallback_default_params():
@@ -60,11 +60,11 @@ def test_base_fallback_default_params():
 
 @conf_vars(
     {
-        ("nomad", "server_ip"): "1.2.3.4",
-        ("nomad", "cert_path"): "certs_absolute_path/global-cli-nomad.pem",
-        ("nomad", "key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
-        ("nomad", "verify"): "certs_absolute_path/nomad-agent-ca.pem",
-        ("nomad", "secure"): "true",
+        ("nomad_executor", "server_ip"): "1.2.3.4",
+        ("nomad_executor", "cert_path"): "certs_absolute_path/global-cli-nomad.pem",
+        ("nomad_executor", "key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
+        ("nomad_executor", "verify"): "certs_absolute_path/nomad-agent-ca.pem",
+        ("nomad_executor", "secure"): "true",
     }
 )
 def test_base_params_secure():
@@ -78,15 +78,15 @@ def test_base_params_secure():
 
 
 def test_base_params_secure_verify_bool():
-    with conf_vars({("nomad", "verify"): "cacert_path"}):
+    with conf_vars({("nomad_executor", "verify"): "cacert_path"}):
         nomad_executor = NomadExecutor()
         assert nomad_executor.verify == "cacert_path"
 
-    with conf_vars({("nomad", "verify"): "true"}):
+    with conf_vars({("nomad_executor", "verify"): "true"}):
         nomad_executor = NomadExecutor()
         assert nomad_executor.verify == True  # noqa: E712
 
-    with conf_vars({("nomad", "verify"): "false"}):
+    with conf_vars({("nomad_executor", "verify"): "false"}):
         nomad_executor = NomadExecutor()
         assert nomad_executor.verify == False  # noqa: E712
 
@@ -159,7 +159,7 @@ def test_sync_run_failed(mock_nomad_client, caplog):
 @pytest.mark.parametrize("job_tpl", ["simple_job.json", "complex_job.json"])
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir):
-    with conf_vars({("nomad", "default_job_template"): str(test_datadir / job_tpl)}):
+    with conf_vars({("nomad_executor", "default_job_template"): str(test_datadir / job_tpl)}):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
 
@@ -196,10 +196,10 @@ def test_sync_def_template_hcl_secure(test_datadir, mocker):
     client_cert = "/absolute/path/to/client-cert.pem"
     with conf_vars(
         {
-            ("nomad", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
-            ("nomad", "verify"): ca_cert,
-            ("nomad", "key_path"): client_key,
-            ("nomad", "cert_path"): client_cert,
+            ("nomad_executor", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
+            ("nomad_executor", "verify"): ca_cert,
+            ("nomad_executor", "key_path"): client_key,
+            ("nomad_executor", "cert_path"): client_cert,
         }
     ):
         nomad_executor = NomadExecutor()
@@ -234,10 +234,10 @@ def test_sync_def_template_hcl_not_secure(test_datadir, mocker):
 
     with conf_vars(
         {
-            ("nomad", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
-            ("nomad", "verify"): "false",
-            ("nomad", "key_path"): "",
-            ("nomad", "cert_path"): "",
+            ("nomad_executor", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
+            ("nomad_executor", "verify"): "false",
+            ("nomad_executor", "key_path"): "",
+            ("nomad_executor", "cert_path"): "",
         }
     ):
         nomad_executor = NomadExecutor()
