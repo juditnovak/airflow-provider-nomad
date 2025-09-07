@@ -345,6 +345,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -353,20 +354,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html#system-test-dags">System Test DAGs</a></li>
 </ul>
 
 </div>
@@ -503,6 +494,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -511,20 +503,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system_tests.html#system-test-dags">System Test DAGs</a></li>
 </ul>
 
 </div>
@@ -626,9 +608,7 @@
                                 <div class="bodywrapper">
                                     <div class="body" role="main">
                                         
-  <blockquote>
-<div></div></blockquote>
-<section id="nomad-executor">
+  <section id="nomad-executor">
 <span id="nomadexecutor"></span><h1>Nomad Executor<a class="headerlink" href="#nomad-executor" title="Link to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -645,8 +625,6 @@ not at all need to be running on Nomad, but does need API access to a Nomad clus
 <p>Assuming that a Nomad cluster is already available, there must be a few configuration details
 to be adjusted on the cluster’s side.</p>
 <p>Airflow executions will require two shared folders on each runner:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Nomad client HCL configuration template</span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
 <div class="highlight-hcl notranslate"><div class="highlight"><pre><span></span><span class="nb">client</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;config&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/&lt;runner_space&gt;/config&quot;</span>
@@ -660,17 +638,14 @@ to be adjusted on the cluster’s side.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 <p>(Currently only host volumes are supported. Extending soon.)</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">dags</span></code>: Airflow runners need access to the dags that are to be executed</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code>: Airflow runners need access to a local <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code>.
-* NOTE: This configuration is different from the Airflow server’s configuration in terms of the following:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code>: Airflow runners need access to a local <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code>.</p></li>
 </ul>
 </div></blockquote>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Nomad runner Airflow configuration</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
+<p>NOTE: This configuration is different from the Airflow server’s configuration in terms of the following:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
 <span class="na">dags_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/dags</span>
 <span class="na">base_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;airflow_api_server_url&gt;</span>
@@ -679,10 +654,9 @@ to be adjusted on the cluster’s side.</p>
 <span class="na">base_log_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/logs</span>
 </pre></div>
 </div>
-</div>
 </section>
-<section id="enabling-the-nomadexecutor">
-<h3>Enabling the <cite>NomadExecutor</cite><a class="headerlink" href="#enabling-the-nomadexecutor" title="Link to this heading">¶</a></h3>
+<section id="enabling-nomadexecutor">
+<h3>Enabling <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code><a class="headerlink" href="#enabling-nomadexecutor" title="Link to this heading">¶</a></h3>
 <p>To enable <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> to perform action, the Airflow Scheduler service
 configuration has to contain the following information:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
@@ -703,18 +677,41 @@ each of them to different docker containers.</p>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
-<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are the following:</p>
+<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are to be found in the <code class="docutils literal notranslate"><span class="pre">nomad_executor</span></code> section of the Airflow configuration.</p>
 <p><code class="docutils literal notranslate"><span class="pre">parallelism</span></code>: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.</p>
 <p><code class="docutils literal notranslate"><span class="pre">server_ip</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p>
-<p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: If a custom HCL or JSON template is to be used for job submission instead of the in-built defaults.</p>
-<blockquote>
-<div><p>Any image that may be appointed by this template is assumed to have Airflow task submission pre-requisites (<code class="docutils literal notranslate"><span class="pre">apache-airflow-core</span></code>, <code class="docutils literal notranslate"><span class="pre">apache-airflow-task-sdk</span></code>) installed.</p>
-</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the <a class="reference internal" href="#job-submission-template">Job submission template</a> section.</p>
+<p><code class="docutils literal notranslate"><span class="pre">alloc_pending_timeout</span></code>: How long to wait (in seconds) before failing a task pending with failed Nomad allocations. See <a class="reference internal" href="#job-execution">Job execution</a> for more information.</p>
 <p><code class="docutils literal notranslate"><span class="pre">secure</span></code>: Whether TLS is enabled.</p>
-<p><code class="docutils literal notranslate"><span class="pre">verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate.</p>
+<p><code class="docutils literal notranslate"><span class="pre">verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate. (Exactly as for <a class="reference external" href="https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">Python Requests SSL cert verification</a>)</p>
 <p><code class="docutils literal notranslate"><span class="pre">cert_path</span></code>: The absolute path of the client certificate.</p>
 <p><code class="docutils literal notranslate"><span class="pre">key_path</span></code>: The absolute path of the client key.</p>
 <p>For TLS-related configuration in detail, see the <a class="reference internal" href="#security">Security</a> section.</p>
+<section id="job-submission-template">
+<h3>Job submission template<a class="headerlink" href="#job-submission-template" title="Link to this heading">¶</a></h3>
+<p>There is a single job template taken as the base for all job submissions. This is adjusted to individual job submissions correspondingly.
+Core assumptions regarding the job submission template:</p>
+<ul class="simple">
+<li><p>The Docker driver is used</p></li>
+<li><p>The template has to consist of a single Nomad <code class="docutils literal notranslate"><span class="pre">Job</span></code> on the highest level</p></li>
+<li><p>The job template is using a single <code class="docutils literal notranslate"><span class="pre">TaskGroup</span></code> with a single <code class="docutils literal notranslate"><span class="pre">Task</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RestartPolicy</span></code> has to be set to <code class="docutils literal notranslate"><span class="pre">Mode</span></code>: <code class="docutils literal notranslate"><span class="pre">fail</span></code> with <code class="docutils literal notranslate"><span class="pre">Attemtps</span></code> being set to <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+</ul>
+<p>Each Airflow task is submitted as a separate Nomad job. Though this may be against the Nomad philosophy, this arrangement allows smooth integration to the Airflow concept of Task Groups (which involve individual submissions). This is also the reason why we want no retries on Nomad level. This way job submission re-try will be fully handled by Airflow, as submission of a brand-new job.</p>
+<p>The Docker image referred by the template should:</p>
+<ul class="simple">
+<li><p>have <code class="docutils literal notranslate"><span class="pre">apache-airflow-core</span></code> and <code class="docutils literal notranslate"><span class="pre">apache-airflow-task-sdk</span></code> installed</p></li>
+<li><p>should be ready to run Python command-line executions shipped as <code class="docutils literal notranslate"><span class="pre">args</span></code> to the Docker container</p></li>
+<li><p>NOTE: Any existing args of the template will be overridden by the job submission command</p></li>
+</ul>
+<p>Defaults:</p>
+<ul class="simple">
+<li><p>The Docker image used by default was generated using the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> available at <code class="docutils literal notranslate"><span class="pre">src/airflow/providers/nomad/docker</span></code></p></li>
+<li><p>The default job submission template resides in the <code class="docutils literal notranslate"><span class="pre">src/airflow/providers/nomad/templates/nomad_job_template.py</span></code>.</p></li>
+</ul>
+<p>The default job submission template can be overridden by the <cite>nomad_executor/default_job_template</cite> configuration parameter, expecting
+HCL or JSON template. For successful job submission the template has to comply to the above.</p>
+</section>
 </section>
 <section id="security">
 <h2>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h2>
@@ -750,7 +747,7 @@ each of them to different docker containers.</p>
 </pre></div>
 </div>
 <p>The Airflow configuration of the Airflow scheduler (running <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>) has to be changed such as</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad]</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad_executor]</span>
 <span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;nomad_server_ip&gt;</span>
 <span class="na">cert_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem</span>
 <span class="na">key_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem</span>
@@ -764,11 +761,47 @@ each of them to different docker containers.</p>
 <p>In case of self-signed certificates, make sure that <code class="docutils literal notranslate"><span class="pre">keyUsage</span></code> extension is enabled and required (see <a class="reference external" href="https://www.herongyang.com/PKI-Certificate/OpenSSL-Add-keyUsage-into-Root-CA.html">helpful guidelines</a>)</p>
 </div>
 </section>
+<section id="job-execution">
+<h2>Job execution<a class="headerlink" href="#job-execution" title="Link to this heading">¶</a></h2>
+<p>The execution workflow is fairly basic so far. In principal, following the Airflow standards:</p>
+<ul class="simple">
+<li><p>job remain in a <code class="docutils literal notranslate"><span class="pre">QUEUED</span></code> state until successfully contacting the API server confirming that <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> state started</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> or <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state is declared based on the task reporting to the API server</p></li>
+</ul>
+<p>In addition, Nomad-side failures are also considered. Such errors can have multiple reasons.</p>
+<p>Allocation failures:</p>
+<blockquote>
+<div><p>Allocation failures may not be real failures. They can occur for example when the cluster is overloaded, or if
+requested resources may not be temporarily available. Depending on the job configuration, these may have automated
+re-allocation attempts.
+Such tasks have a time delay defined by the <code class="docutils literal notranslate"><span class="pre">nomad_executor/alloc_penidng_timeout</span></code>. In case
+they show no change in state, they are failed by the executor as the timeout expires.
+(The Airflow tasks are forcefully moved to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state by the executor, and the corresponding Nomad jobs are stopped.)</p>
+</div></blockquote>
+<p>Job submission failures:</p>
+<blockquote>
+<div><p>On the other hand, actual failures may happen before job execution could start. (For example: specified Docker image can’t be downloaded.)
+On these occasions, the Airflow jobs are set to <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> and the Nomad jobs are stopped right away.</p>
+</div></blockquote>
+<p>Once the executor may move tasks to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state, Airflow-level re-tries apply.</p>
+<p>Analysis on the Nomad context is performed, aiming to provide information about the failures, both in the Airflow service logs and the job logs.</p>
+</section>
 <section id="logging">
 <h2>Logging<a class="headerlink" href="#logging" title="Link to this heading">¶</a></h2>
+<p>Logging for the <code class="docutils literal notranslate"><span class="pre">NomadExexutor</span></code> takes multiple measures on top of collecting traditional job output.</p>
+<p>On one hand, Nomad is collecting job output (<code class="docutils literal notranslate"><span class="pre">stdout</span></code>) and errors (<code class="docutils literal notranslate"><span class="pre">stderr</span></code>) as separate outputs. We make sure
+that both are collected.</p>
+<p>In addition, in case job execution may fail before the task could run, Nomad data sources are examined and
+shared with the user, allowing to get more context to the failure. (See the image below.)</p>
 <p><code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> supports the default Airflow logger (<code class="docutils literal notranslate"><span class="pre">FileTaskHandler</span></code> or <code class="docutils literal notranslate"><span class="pre">task</span></code>). This is the preferred
 method to be used for remote logging (or in case Nomad logs may be locally mounted).</p>
 <p>In case none of the above, <code class="docutils literal notranslate"><span class="pre">NomadLoghandler</span></code> may be enabled (see <a class="reference external" href="nomad_logger.html">NomadLoghandler</a>).</p>
+<figure class="align-default" id="id1">
+<img alt="_images/logs_nomad_job_info.png" src="_images/logs_nomad_job_info.png" />
+<figcaption>
+<p><span class="caption-text">The above image is showing the Nomad context once task execution did not perform.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
 </section>
 </section>
 
@@ -850,11 +883,15 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 <li><a class="reference internal" href="#">Nomad Executor</a><ul>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
 <li><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
-<li><a class="reference internal" href="#enabling-the-nomadexecutor">Enabling the <cite>NomadExecutor</cite></a></li>
+<li><a class="reference internal" href="#enabling-nomadexecutor">Enabling <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#job-submission-template">Job submission template</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#security">Security</a></li>
+<li><a class="reference internal" href="#job-execution">Job execution</a></li>
 <li><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>

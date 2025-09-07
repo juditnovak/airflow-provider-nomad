@@ -21,8 +21,7 @@
             <link rel="stylesheet" type="text/css" href="_static/custom.css?v=957f1c83" />
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
-            <link rel="next" title="Package apache-airflow-providers-nomad" href="commits.html" />
-            <link rel="prev" title="airflow.providers.nomad.templates.nomad_job_template" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html" />
+            <link rel="prev" title="NomadLoghandler" href="nomad_logger.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/system_tests.html" />
 
@@ -347,12 +346,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">System Tests</a><ul>
@@ -362,11 +355,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#system-test-dags">System Test DAGs</a></li>
 </ul>
 
 </div>
@@ -505,12 +494,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">System Tests</a><ul>
@@ -520,11 +503,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#system-test-dags">System Test DAGs</a></li>
 </ul>
 
 </div>
@@ -639,7 +618,7 @@
 <div><ul class="simple">
 <li><p>A Nomad server has to be present</p></li>
 <li><p>And Airflow API has to be ready to process task updates</p></li>
-<li><p>The local <code class="docutils literal notranslate"><span class="pre">pytset</span></code> environment has to load the same dags, as what will be made available for the runners</p></li>
+<li><p>The local <code class="docutils literal notranslate"><span class="pre">pytest</span></code> environment has to load the same dags, as what will be made available for the runners</p></li>
 </ul>
 </div></blockquote>
 <section id="structure">
@@ -685,7 +664,7 @@ This will overwrite <code class="docutils literal notranslate"><span class="pre"
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The recommended <code class="docutils literal notranslate"><span class="pre">AIRFLOW_HOME</span></code> setting is the designated area within the <code class="docutils literal notranslate"><span class="pre">sserver</span></code> space: <code class="docutils literal notranslate"><span class="pre">&lt;nomad_systest_root&gt;server/airflow_home</span></code></p>
+<p>The recommended <code class="docutils literal notranslate"><span class="pre">AIRFLOW_HOME</span></code> setting is the designated area within the <code class="docutils literal notranslate"><span class="pre">server</span></code> space: <code class="docutils literal notranslate"><span class="pre">&lt;nomad_systest_root&gt;server/airflow_home</span></code></p>
 </div>
 </section>
 <section id="services">
@@ -721,19 +700,17 @@ with the test <code class="docutils literal notranslate"><span class="pre">dags<
 </div>
 </section>
 </section>
-<section id="nomad-system-test-dags">
-<h1>Nomad System Test dags:<a class="headerlink" href="#nomad-system-test-dags" title="Link to this heading">¶</a></h1>
-<p>The full list of <a class="reference external" href="_api/tests/system/nomad/dags/index">System Test Dags</a></p>
+<section id="system-test-dags">
+<h1>System Test DAGs<a class="headerlink" href="#system-test-dags" title="Link to this heading">¶</a></h1>
+<p>The full list of <a class="reference external" href="_api/tests/system/nomad/dags/index.html">System Test Dags</a></p>
+<p>NOTE: These are not the only System Tests executed against a live environment. See <a class="reference external" href="_api/tests/system/nomad/index.html">System Tests</a> for the full list.</p>
 </section>
 
 
     <div class="pager" role="navigation" aria-label="related navigation">
-            <a rel="prev" title="airflow.providers.nomad.templates.nomad_job_template" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html" >
+            <a rel="prev" title="NomadLoghandler" href="nomad_logger.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
-            </a>
-            <a rel="next" title="Package apache-airflow-providers-nomad" href="commits.html" >
-                <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="n">Next</button>
-            </a>
+            </a><button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" disabled>Next</button>
     </div>
                                     </div>
 
@@ -808,7 +785,7 @@ with the test <code class="docutils literal notranslate"><span class="pre">dags<
 <li><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#nomad-system-test-dags">Nomad System Test dags:</a></li>
+<li><a class="reference internal" href="#system-test-dags">System Test DAGs</a></li>
 </ul>
 
         </div>
