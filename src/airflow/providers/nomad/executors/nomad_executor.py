@@ -130,7 +130,12 @@ class NomadExecutor(ExecutorInterface):
             if job_tpl_path.suffix == ".json":
                 job_template = parse_json_job_template(job_tpl_path)
             elif job_tpl_path.suffix == ".hcl":
-                job_template = parse_hcl_job_template(self.nomad_url, job_tpl_path)
+                job_template = parse_hcl_job_template(
+                    self.nomad_url,
+                    job_tpl_path,
+                    verify=self.verify,
+                    cert=(self.cert_path, self.key_path),
+                )
         except (NomadValidationError, IOError) as err:
             self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
 
@@ -156,7 +161,6 @@ class NomadExecutor(ExecutorInterface):
             ] + command
 
         if not job_template:
-            job_template = copy.deepcopy(default_task_template)
             job_template = copy.deepcopy(default_task_template)
             job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = command
             job_template["Job"]["Name"] = f"airflow-run-{job_task_id}-{key[3]}"
