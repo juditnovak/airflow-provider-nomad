@@ -78,7 +78,7 @@ apache-airflow-providers-nomad package
 `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__
 
 
-Release: 1.0.0
+Release: 0.0.1
 
 Release Date: ``|PypiReleaseDate|``
 
