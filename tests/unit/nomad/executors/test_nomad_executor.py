@@ -16,6 +16,7 @@
 # under the License.
 
 import logging
+from unittest.mock import ANY
 
 import pytest
 from airflow.models.taskinstancekey import TaskInstanceKey
@@ -176,6 +177,83 @@ def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir):
             assert mock_nomad_client.job.register_job.call_count == 1
             assert nomad_executor.task_queue.empty()
             assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
+        finally:
+            nomad_executor.end()
+            pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+@pytest.mark.usefixtures("mock_nomad_client")
+def test_sync_def_template_hcl_secure(test_datadir, mocker):
+    """Checking if access to Nomad APU outside of the nomad client Python library
+    has cert info added
+    """
+
+    mock_requests_post = mocker.patch("airflow.providers.nomad.utils.requests.post")
+
+    ca_cert = "/absolute/path/to/ca-cert.pem"
+    client_key = "/absolute/path/to/client-key.pem"
+    client_cert = "/absolute/path/to/client-cert.pem"
+    with conf_vars(
+        {
+            ("nomad", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
+            ("nomad", "verify"): ca_cert,
+            ("nomad", "key_path"): client_key,
+            ("nomad", "cert_path"): client_cert,
+        }
+    ):
+        nomad_executor = NomadExecutor()
+        nomad_executor.start()
+
+        try:
+            task_instance_key = TaskInstanceKey("dag", "task", "run_id", 1)
+            nomad_executor.execute_async(
+                key=task_instance_key,
+                queue=None,
+                command=["airflow", "tasks", "run", "true", "some_parameter"],
+            )
+            nomad_executor.sync()
+
+            # Secure parameters were appliet on call to Python requests
+            mock_requests_post.assert_called_once_with(
+                ANY, verify=ca_cert, cert=(client_cert, client_key), data=ANY
+            )
+        finally:
+            nomad_executor.end()
+            pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+@pytest.mark.usefixtures("mock_nomad_client")
+def test_sync_def_template_hcl_not_secure(test_datadir, mocker):
+    """Checking if access to Nomad APU outside of the nomad client Python library
+    has cert info added
+    """
+
+    mock_requests_post = mocker.patch("airflow.providers.nomad.utils.requests.post")
+
+    with conf_vars(
+        {
+            ("nomad", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
+            ("nomad", "verify"): "false",
+            ("nomad", "key_path"): "",
+            ("nomad", "cert_path"): "",
+        }
+    ):
+        nomad_executor = NomadExecutor()
+        nomad_executor.start()
+
+        try:
+            task_instance_key = TaskInstanceKey("dag", "task", "run_id", 1)
+            nomad_executor.execute_async(
+                key=task_instance_key,
+                queue=None,
+                command=["airflow", "tasks", "run", "true", "some_parameter"],
+            )
+            nomad_executor.sync()
+
+            # Secure parameters weren't appliet on call to Python requests
+            mock_requests_post.assert_called_once_with(ANY, data=ANY, verify=False)
         finally:
             nomad_executor.end()
             pass
