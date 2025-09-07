@@ -353,20 +353,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
 </ul>
 
 </div>
@@ -511,20 +501,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">References</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="configurations-ref.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/index.html">Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html">Nomad Job template</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">System tests</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html">System Tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="system_tests.html#nomad-system-test-dags">Nomad System Test dags:</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Commits</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="commits.html">Detailed list of commits</a></li>
 </ul>
 
 </div>
@@ -703,7 +683,7 @@ each of them to different docker containers.</p>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
-<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are the following:</p>
+<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are to be found in the <code class="docutils literal notranslate"><span class="pre">nomad_executor</span></code> section of the Airflow configuration.</p>
 <p><code class="docutils literal notranslate"><span class="pre">parallelism</span></code>: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.</p>
 <p><code class="docutils literal notranslate"><span class="pre">server_ip</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p>
 <p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: If a custom HCL or JSON template is to be used for job submission instead of the in-built defaults.</p>
@@ -750,7 +730,7 @@ each of them to different docker containers.</p>
 </pre></div>
 </div>
 <p>The Airflow configuration of the Airflow scheduler (running <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>) has to be changed such as</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad]</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad_executor]</span>
 <span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;nomad_server_ip&gt;</span>
 <span class="na">cert_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem</span>
 <span class="na">key_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem</span>
