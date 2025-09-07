@@ -47,9 +47,9 @@
     :maxdepth: 1
     :caption: References
 
-    Configuration <configurations-ref>
+..  Configuration <configurations-ref>
     Python API <_api/airflow/providers/nomad/index>
-    Nomad Job template <_api/airflow/providers/nomad/templates/nomad_job_template/index>
+..  Nomad Job template <_api/airflow/providers/nomad/templates/nomad_job_template/index>
 
 .. toctree::
     :hidden:
@@ -64,45 +64,36 @@
 .. THE REMAINDER OF THE FILE IS AUTOMATICALLY GENERATED. IT WILL BE OVERWRITTEN AT RELEASE TIME!
 
 
-.. toctree::
-    :hidden:
-    :maxdepth: 1
-    :caption: Commits
-
-    Detailed list of commits <commits>
-
-
-apache-airflow-providers-nomad package
-------------------------------------------------------
-
-`Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__
+.. .. toctree::
+..     :hidden:
+..     :maxdepth: 1
+..     :caption: Commits
+..
+..     Detailed list of commits <commits>
 
 
 Release: 0.0.1
 
-Release Date: ``|PypiReleaseDate|``
+.. Release Date: ``|PypiReleaseDate|``
 
-Provider package
-----------------
-
-This package contains and Airflow provider for the HashiCorp Nomad workload orchestrator.
-All classes for this package are included in the ``airflow.providers.nomad`` python package.
+The package contains and Airflow provider for the `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__
+workload orchestrator. All classes for this package are included in the ``airflow.providers.nomad`` python package.
 
 Installation
 ------------
 
-You can install this package on top of an existing Airflow 2 installation via
+You can install this package on top of an existing Airflow 3 installation via
 ``pip install apache-airflow-providers-nomad``.
-For the minimum Airflow version supported, see ``Requirements`` below.
 
 Requirements
 ------------
 
-The minimum Apache Airflow version supported by this provider distribution is ``3.0.0``.
+The minimum Apache Airflow version supported by this provider distribution is ``3.0.4``.
 
-======================  ====================
-PIP package             Version required
-======================  ====================
-``apache-airflow``      ``>=3.0.0``
-``python-nomad``        ``>=2.1.0``
-======================  ====================
+============================  ====================
+PIP package                   Version required
+============================  ====================
+``apache-airflow-core``       ``>=3.0.4``
+``apache-airflow-task-sdk``   (matching Airflow)
+``python-nomad``              ``>=2.1.0``
+============================  ====================
