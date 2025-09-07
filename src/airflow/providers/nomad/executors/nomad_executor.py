@@ -63,17 +63,17 @@ class NomadExecutor(ExecutorInterface):
     EXECUTOR_NAME = "nomad_executor"
 
     def __init__(self):
-        self.parallelism: int = conf.getint(PROVIDER_NAME, "parallelism", fallback=1)
-        self.nomad_server_ip: str = conf.get(PROVIDER_NAME, "server_ip", fallback="0.0.0.0")
-        self.nomad_server_port: int = conf.getint(PROVIDER_NAME, "server_port", fallback=4646)
-        self.secure: bool = conf.getboolean(PROVIDER_NAME, "secure", fallback=False)
-        self.cert_path: str = conf.get(PROVIDER_NAME, "cert_path", fallback="")
-        self.key_path: str = conf.get(PROVIDER_NAME, "key_path", fallback="")
-        self.namespace: str = conf.get(PROVIDER_NAME, "namespace", fallback="")
-        self.token: str = conf.get(PROVIDER_NAME, "token", fallback="")
+        self.parallelism: int = conf.getint(self.EXECUTOR_NAME, "parallelism", fallback=1)
+        self.nomad_server_ip: str = conf.get(self.EXECUTOR_NAME, "server_ip", fallback="0.0.0.0")
+        self.nomad_server_port: int = conf.getint(self.EXECUTOR_NAME, "server_port", fallback=4646)
+        self.secure: bool = conf.getboolean(self.EXECUTOR_NAME, "secure", fallback=False)
+        self.cert_path: str = conf.get(self.EXECUTOR_NAME, "cert_path", fallback="")
+        self.key_path: str = conf.get(self.EXECUTOR_NAME, "key_path", fallback="")
+        self.namespace: str = conf.get(self.EXECUTOR_NAME, "namespace", fallback="")
+        self.token: str = conf.get(self.EXECUTOR_NAME, "token", fallback="")
 
         self.verify: bool | str
-        verify = conf.get(PROVIDER_NAME, "verify", fallback="")
+        verify = conf.get(self.EXECUTOR_NAME, "verify", fallback="")
         if verify == "true":
             self.verify = True
         elif verify == "false":
@@ -117,7 +117,7 @@ class NomadExecutor(ExecutorInterface):
         return f"{dag_id}-{task_id}"
 
     def _get_job_template(self) -> NomadJobModel | None:
-        if not (job_tpl_loc := conf.get("nomad", "default_job_template", fallback="")):
+        if not (job_tpl_loc := conf.get(self.EXECUTOR_NAME, "default_job_template", fallback="")):
             return None
 
         job_tpl_path = Path(job_tpl_loc)
