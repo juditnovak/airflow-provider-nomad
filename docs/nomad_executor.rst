@@ -111,7 +111,7 @@ each of them to different docker containers.
 Configuration
 #################
 
-Configuration options that are available for ``NomadExecutor`` are the following:
+Configuration options that are available for ``NomadExecutor`` are to be found in the ``nomad_executor`` section of the Airflow configuration.
 
 ``parallelism``: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.
 
@@ -178,7 +178,7 @@ The Airflow configuration of the Airflow scheduler (running ``NomadExecutor``) h
 
 .. code-block:: ini
 
-    [nomad]
+    [nomad_executor]
     server_ip = <nomad_server_ip>
     cert_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem
     key_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem

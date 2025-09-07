@@ -47,9 +47,9 @@
     :maxdepth: 1
     :caption: References
 
-    Configuration <configurations-ref>
+..  Configuration <configurations-ref>
     Python API <_api/airflow/providers/nomad/index>
-    Nomad Job template <_api/airflow/providers/nomad/templates/nomad_job_template/index>
+..  Nomad Job template <_api/airflow/providers/nomad/templates/nomad_job_template/index>
 
 .. toctree::
     :hidden:
@@ -64,12 +64,12 @@
 .. THE REMAINDER OF THE FILE IS AUTOMATICALLY GENERATED. IT WILL BE OVERWRITTEN AT RELEASE TIME!
 
 
-.. toctree::
-    :hidden:
-    :maxdepth: 1
-    :caption: Commits
-
-    Detailed list of commits <commits>
+.. .. toctree::
+..     :hidden:
+..     :maxdepth: 1
+..     :caption: Commits
+..
+..     Detailed list of commits <commits>
 
 
 apache-airflow-providers-nomad package
