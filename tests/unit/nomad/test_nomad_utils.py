@@ -25,6 +25,6 @@ from airflow.providers.nomad.utils import parse_json_job_template
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
 def test_parse_json(filename, test_datadir):
     file_path = test_datadir / filename
-    assert json.loads(open(file_path).read()) == parse_json_job_template(file_path).model_dump(
+    assert json.loads(open(file_path).read()) == parse_json_job_template(file_path).model_dump(  # type: ignore[reportOptionalMemberAccess]
         exclude_unset=True
-    )  # type: ignore[reportOptionalMemberAccess]
+    )

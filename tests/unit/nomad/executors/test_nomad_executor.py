@@ -15,8 +15,10 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import json
 import logging
 from datetime import datetime
+from time import sleep
 from unittest.mock import ANY
 
 import pytest
@@ -159,6 +161,156 @@ def test_sync_run_failed(mock_nomad_client, caplog, taskinstance):
         finally:
             nomad_executor.end()
             pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_nomad_allocation_ok(mock_nomad_client, taskinstance, test_datadir):
+    # nomad job status == 'running'
+    file_path2 = test_datadir / "nomad_job_info.json"
+    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
+
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    task = ExecuteTask.make(taskinstance)
+    try:
+        nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+        # Faking that the task is running
+        nomad_executor.running.add(taskinstance.key)
+
+        nomad_executor.sync()
+
+        assert nomad_executor.task_queue.empty()
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+    finally:
+        nomad_executor.end()
+        pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_nomad_allocation_failing_timeout(
+    mock_nomad_client, caplog, taskinstance, test_datadir
+):
+    error = {"missing compatible host volumes": 1}
+    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path2 = test_datadir / "nomad_job_info_pending.json"
+    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
+
+    with conf_vars({("nomad_executor", "alloc_pending_timeout"): "1"}):
+        with caplog.at_level(logging.INFO):
+            nomad_executor = NomadExecutor()
+            nomad_executor.start()
+            task = ExecuteTask.make(taskinstance)
+            try:
+                nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+                # Faking that the task is running
+                nomad_executor.running.add(taskinstance.key)
+
+                nomad_executor.sync()
+                assert nomad_executor.task_queue.empty()
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+
+                sleep(3)
+                nomad_executor.sync()
+
+                assert nomad_executor.task_queue.empty()
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
+                assert any([str(error) in record.message for record in caplog.records])
+            finally:
+                nomad_executor.end()
+                pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_nomad_allocation_failing_within_timeout(
+    mock_nomad_client, caplog, taskinstance, test_datadir
+):
+    error = {"missing compatible host volumes": 1}
+    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path2 = test_datadir / "nomad_job_info_pending.json"
+    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
+
+    with conf_vars({("nomad_executor", "alloc_pending_timeout"): "100"}):
+        with caplog.at_level(logging.INFO):
+            nomad_executor = NomadExecutor()
+            nomad_executor.start()
+            task = ExecuteTask.make(taskinstance)
+            try:
+                nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+                # Faking that the task is running
+                nomad_executor.running.add(taskinstance.key)
+
+                nomad_executor.sync()
+                assert nomad_executor.task_queue.empty()
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+
+                nomad_executor.sync()
+
+                assert not any([str(error) in record.message for record in caplog.records])
+                assert nomad_executor.task_queue.empty()
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+            finally:
+                nomad_executor.end()
+                pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_nomad_job_submission_fails(mock_nomad_client, caplog, taskinstance, test_datadir):
+    error = "Failed to pull `novakjudi/af_nomad_test:latest`: Error response from daemon: pull access denied for novakjudi/af_nomad_test, repository does not exist or may require 'docker login': denied: requested access to the resource is denied"
+
+    file_path1 = test_datadir / "nomad_job_allocations_pending.json"
+    file_path2 = test_datadir / "nomad_job_summary_failed.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path1).read())
+    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path2).read())
+    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path3).read())
+
+    with caplog.at_level(logging.INFO):
+        nomad_executor = NomadExecutor()
+        nomad_executor.start()
+        task = ExecuteTask.make(taskinstance)
+        try:
+            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+            # Faking that the task is running
+            nomad_executor.running.add(taskinstance.key)
+
+            nomad_executor.sync()
+
+            assert nomad_executor.task_queue.empty()
+            assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
+            assert any([str(error) in record.message for record in caplog.records])
+        finally:
+            nomad_executor.end()
+            pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_sync_nomad_job_submission_failed_but_running_now(
+    mock_nomad_client, taskinstance, test_datadir
+):
+    file_path1 = test_datadir / "nomad_job_allocations_pending.json"
+    file_path2 = test_datadir / "nomad_job_summary_running.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path1).read())
+    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path2).read())
+    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path3).read())
+
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    task = ExecuteTask.make(taskinstance)
+    try:
+        nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+        # Faking that the task is running
+        nomad_executor.running.add(taskinstance.key)
+
+        nomad_executor.sync()
+
+        assert nomad_executor.task_queue.empty()
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+    finally:
+        nomad_executor.end()
+        pass
 
 
 @pytest.mark.parametrize("job_tpl", ["simple_job.json", "complex_job.json"])
