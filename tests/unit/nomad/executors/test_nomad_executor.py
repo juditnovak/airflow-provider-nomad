@@ -16,17 +16,33 @@
 # under the License.
 
 import logging
+from datetime import datetime
 from unittest.mock import ANY
 
 import pytest
-from airflow.models.taskinstancekey import TaskInstanceKey
+from airflow.executors.workloads import ExecuteTask
+from airflow.models.taskinstance import TaskInstance
 from airflow.utils.state import State
+from airflow.utils.types import DagRunType
 from nomad.api.exceptions import BaseNomadException
 from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
 
 EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
+
+DATE_VAL = (2016, 1, 1)
+DEFAULT_DATE = datetime(*DATE_VAL)
+
+
+@pytest.fixture
+def taskinstance(create_task_instance) -> TaskInstance:
+    return create_task_instance(
+        dag_id="dag",
+        task_id="task",
+        run_type=DagRunType.SCHEDULED,
+        logical_date=DEFAULT_DATE,
+    )
 
 
 @conf_vars({})
@@ -102,34 +118,29 @@ def test_connect():
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
-def test_sync_ok(mock_nomad_client):
+def test_sync_ok(mock_nomad_client, taskinstance):
     """ """
 
     nomad_executor = NomadExecutor()
     nomad_executor.start()
+    task = ExecuteTask.make(taskinstance)
 
     try:
-        try_number = 1
-        task_instance_key = TaskInstanceKey("dag", "task", "run_id", try_number)
-        nomad_executor.execute_async(
-            key=task_instance_key,
-            queue=None,
-            command=["airflow", "tasks", "run", "true", "some_parameter"],
-        )
+        nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
         nomad_executor.sync()
 
         # A job was registered
         assert mock_nomad_client.job.register_job.call_count == 1
 
         assert nomad_executor.task_queue.empty()
-        assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
     finally:
         nomad_executor.end()
         pass
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
-def test_sync_run_failed(mock_nomad_client, caplog):
+def test_sync_run_failed(mock_nomad_client, caplog, taskinstance):
     error = "Connection broken: ConnectionResetError(104, 'Connection reset by peer')"
 
     mock_nomad_client.job.register_job.side_effect = BaseNomadException(error)
@@ -137,20 +148,14 @@ def test_sync_run_failed(mock_nomad_client, caplog):
     with caplog.at_level(logging.ERROR):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
-
+        task = ExecuteTask.make(taskinstance)
         try:
-            try_number = 1
-            task_instance_key = TaskInstanceKey("dag", "task", "run_id", try_number)
-            nomad_executor.execute_async(
-                key=task_instance_key,
-                queue=None,
-                command=["airflow", "tasks", "run", "true", "some_parameter"],
-            )
+            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
             nomad_executor.sync()
 
             assert any([error in record.message for record in caplog.records])
             assert nomad_executor.task_queue.empty()
-            assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
+            assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
         finally:
             nomad_executor.end()
             pass
@@ -158,25 +163,20 @@ def test_sync_run_failed(mock_nomad_client, caplog):
 
 @pytest.mark.parametrize("job_tpl", ["simple_job.json", "complex_job.json"])
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
-def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir):
+def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir, taskinstance):
     with conf_vars({("nomad_executor", "default_job_template"): str(test_datadir / job_tpl)}):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
+        task = ExecuteTask.make(taskinstance)
 
         try:
-            try_number = 1
-            task_instance_key = TaskInstanceKey("dag", "task", "run_id", try_number)
-            nomad_executor.execute_async(
-                key=task_instance_key,
-                queue=None,
-                command=["airflow", "tasks", "run", "true", "some_parameter"],
-            )
+            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
             nomad_executor.sync()
 
             # A job was registered
             assert mock_nomad_client.job.register_job.call_count == 1
             assert nomad_executor.task_queue.empty()
-            assert nomad_executor.event_buffer[task_instance_key][0] == State.QUEUED
+            assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
         finally:
             nomad_executor.end()
             pass
@@ -184,7 +184,7 @@ def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir):
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 @pytest.mark.usefixtures("mock_nomad_client")
-def test_sync_def_template_hcl_secure(test_datadir, mocker):
+def test_sync_def_template_hcl_secure(test_datadir, mocker, taskinstance):
     """Checking if access to Nomad APU outside of the nomad client Python library
     has cert info added
     """
@@ -204,14 +204,10 @@ def test_sync_def_template_hcl_secure(test_datadir, mocker):
     ):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
+        task = ExecuteTask.make(taskinstance)
 
         try:
-            task_instance_key = TaskInstanceKey("dag", "task", "run_id", 1)
-            nomad_executor.execute_async(
-                key=task_instance_key,
-                queue=None,
-                command=["airflow", "tasks", "run", "true", "some_parameter"],
-            )
+            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
             nomad_executor.sync()
 
             # Secure parameters were appliet on call to Python requests
@@ -225,7 +221,7 @@ def test_sync_def_template_hcl_secure(test_datadir, mocker):
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 @pytest.mark.usefixtures("mock_nomad_client")
-def test_sync_def_template_hcl_not_secure(test_datadir, mocker):
+def test_sync_def_template_hcl_not_secure(test_datadir, mocker, taskinstance):
     """Checking if access to Nomad APU outside of the nomad client Python library
     has cert info added
     """
@@ -242,14 +238,10 @@ def test_sync_def_template_hcl_not_secure(test_datadir, mocker):
     ):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
+        task = ExecuteTask.make(taskinstance)
 
         try:
-            task_instance_key = TaskInstanceKey("dag", "task", "run_id", 1)
-            nomad_executor.execute_async(
-                key=task_instance_key,
-                queue=None,
-                command=["airflow", "tasks", "run", "true", "some_parameter"],
-            )
+            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
             nomad_executor.sync()
 
             # Secure parameters weren't appliet on call to Python requests
