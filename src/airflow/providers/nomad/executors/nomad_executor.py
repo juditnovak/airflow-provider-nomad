@@ -24,11 +24,15 @@ from __future__ import annotations
 
 import argparse
 import copy
+import json
 import logging
 from functools import cached_property
 from pathlib import Path
+from queue import Queue
 from typing import Any
+from pydantic import ValidationError
 
+from airflow.utils.state import TaskInstanceState
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
@@ -37,10 +41,18 @@ from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.utils.log.file_task_handler import FileTaskHandler
 from airflow.utils.log.logging_mixin import remove_escape_codes
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
+from nomad.api.exceptions import URLNotFoundNomadException
 
-from airflow.providers.nomad.exceptions import NomadValidationError
-from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
-from airflow.providers.nomad.models import NomadJobModel
+from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
+from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface, Job
+from airflow.providers.nomad.models import (
+    JobEvalStatus,
+    JobInfoStatus,
+    NomadJobModel,
+    NomadEvaluation,
+    NomadEvalList,
+    NomadJobSubmission,
+)
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 from airflow.providers.nomad.utils import parse_hcl_job_template, parse_json_job_template
@@ -63,6 +75,7 @@ class NomadExecutor(ExecutorInterface):
     EXECUTOR_NAME = "nomad_executor"
 
     def __init__(self):
+        super().__init__()
         self.parallelism: int = conf.getint(self.EXECUTOR_NAME, "parallelism", fallback=1)
         self.nomad_server_ip: str = conf.get(self.EXECUTOR_NAME, "server_ip", fallback="0.0.0.0")
         self.nomad_server_port: int = conf.getint(self.EXECUTOR_NAME, "server_port", fallback=4646)
@@ -71,6 +84,8 @@ class NomadExecutor(ExecutorInterface):
         self.key_path: str = conf.get(self.EXECUTOR_NAME, "key_path", fallback="")
         self.namespace: str = conf.get(self.EXECUTOR_NAME, "namespace", fallback="")
         self.token: str = conf.get(self.EXECUTOR_NAME, "token", fallback="")
+
+        self.completed_queue: Queue[Job] = self._manager.Queue()
 
         self.verify: bool | str
         verify = conf.get(self.EXECUTOR_NAME, "verify", fallback="")
@@ -82,7 +97,6 @@ class NomadExecutor(ExecutorInterface):
             self.verify = verify
 
         self.nomad: nomad.Nomad | None = None
-        self.nomad_jobs: dict[TaskInstanceKey, NomadJob] = {}
 
         super().__init__(parallelism=self.parallelism)
 
@@ -98,8 +112,10 @@ class NomadExecutor(ExecutorInterface):
             namespace=self.namespace,
             token=self.token,
         )
-        assert self.nomad, "Couldn't connect to Nomad"
-        self.log.info("Nomad client initiated")
+        if self.nomad:
+            self.log.info("Nomad client initiated")
+        else:
+            self.log.error("Can't initialize nomad client")
 
     @cached_property
     def nomad_url(self):
@@ -143,17 +159,19 @@ class NomadExecutor(ExecutorInterface):
             return job_template
         return None
 
-    def apply_command_to_job_template(
-        self, key: TaskInstanceKey, command: list[str]
-    ) -> dict[str, Any]:
-        """Apply command to the Nomad job template"""
+    def prepare_job_template(self, key: TaskInstanceKey, command: list[str]) -> dict[str, Any]:
+        """Adjutst template to suit upcoming job execution
+
+        :param key: reference to the task instance in question
+        :return: job template as as dictionary
+        """
         job_id = self.job_id_from_taskinstance_key(key)
         job_task_id = self.job_task_id_from_taskinstance_key(key)
 
         job_template = None
         if job_model := self._get_job_template():
-            job_template = job_model.model_dump(exclude_unset=True)
-            job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [
+            # job_template = job_model.model_dump(exclude_unset=True)
+            job_model.Job.TaskGroups[0].Tasks[0].Config.args = [
                 "python",
                 "-m",
                 "airflow.sdk.execution_time.execute_workload",
@@ -162,29 +180,116 @@ class NomadExecutor(ExecutorInterface):
 
         if not job_template:
             job_template = copy.deepcopy(default_task_template)
-            job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = command
-            job_template["Job"]["Name"] = f"airflow-run-{job_task_id}-{key[3]}"
+            job_model = NomadJobModel.model_validate(job_template)
+            job_model.Job.TaskGroups[0].Tasks[0].Config.args = command
+            job_model.Job.Name = f"airflow-run-{job_task_id}-{key[3]}"
 
-        job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Name"] = job_task_id
-        job_template["Job"]["ID"] = job_id
+        if not job_model:
+            raise NomadProviderException("Couldn't retrieve job template")
+
+        job_model.Job.TaskGroups[0].Tasks[0].Name = job_task_id
+        job_model.Job.ID = job_id
 
         self.log.debug(
             f"Command running: python -m airflow.sdk.execution_time.execute_workload --json-string '{command[0]}'\n"
         )
-        return job_template
+        return job_model.model_dump()
 
-    def run_job(self, key: TaskInstanceKey, job_template: dict[str, Any]) -> None:
-        """Execute the job described by job_template in Nomad."""
-        assert self.nomad, "Nomad client unavailable"
+    def run_job(self, job_template: dict[str, Any] | None) -> str | None:
+        """Execute the job defined by a potential job template
 
-        job_id = job_template["Job"]["ID"]
-        job_task_id = job_template["Job"]["TaskGroups"][0]["Tasks"][0]["Name"]
+        :param: Job template corresponding to the job
+        :return: No news is good news, or the error that occured on execution attempt
+        """
+        if not job_template:
+            raise NomadProviderException("Job template missing")
+
         try:
-            self.nomad.job.register_job(job_id, job_template)
-            self.nomad_jobs[key] = (job_id, job_task_id, "")
-            self.log.debug(f"Runing task ({job_id}) with template {job_template})")
+            job_model = NomadJobModel.model_validate(job_template)
+        except ValidationError:
+            raise NomadProviderException("Job template doesn't comply to expected format ({err})")
+
+        try:
+            self.nomad.job.register_job(job_model.Job.ID, job_template)  # type: ignore[reportOptionalMemberAccess, union-attr]
+
+            self.log.debug(
+                "Runing task (%s) with template %s)", job_model.Job.ID, str(job_template)
+            )
         except BaseNomadException as err:
-            self.log.error("Couldn't run task %s (%s)", key, err)
+            self.log.error("Couldn't run task %s (%s)", job_model.Job.ID, err)
+            try:
+                self.nomad.job.deregister_job(job_model.Job.ID)  # type: ignore[reportOptionalMemberAccess, union-attr]
+            except BaseNomadException:
+                pass
+            return str(err)
+        return None
+
+    def get_nomad_evaluations_info(self, job_id: str) -> NomadEvalList | None:  # type: ignore[return]
+        job_eval = self.nomad.job.get_evaluations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        try:
+            return NomadEvaluation.validate_python(job_eval)
+        except ValidationError as err:
+            self.log.error("Couldn't parse Nomad job validation output: %s %s", err, err.errors())
+
+    def get_nomad_job_submission_info(self, job_id: str) -> NomadJobSubmission | None:  # type: ignore[return]
+        job_status = self.nomad.job.get_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        try:
+            return NomadJobSubmission.model_validate(job_status)
+        except ValidationError as err:
+            self.log.error("Couldn't parse Nomad job submission info: %s %s", err, err.errors())
+
+    def is_job_dead(
+        self, key: TaskInstanceKey
+    ) -> tuple[bool, TaskInstanceState | None, str] | None:
+        """Whether the job failed on Nomad side
+
+        Typically on allocaton errors there is not feedback to Airflow, as the
+        job remains in 'pending' state on Nomad side. Such issues have to be detected
+        and the job execution is to be reported as failed.
+
+        NOTE: The executor failing a job run is considered as an ERROR by Airflow.
+        Despite the log message, this is the efficient way for this case. Potential Airflow-level
+        task re-tries are applied corectly.
+
+        :param key: reference to the task instance in question
+        :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
+                 or None if no data could be retrieved for the job
+        """
+        job_id = self.job_id_from_taskinstance_key(key)
+        try:
+            job_status = self.get_nomad_job_submission_info(job_id)
+        except URLNotFoundNomadException:
+            self.log.error("Summary retrieval error: job %s not found", job_id)
+            return None
+        except BaseNomadException as err:
+            self.log.error("Couldn't get job information %s", str(err))
+            return None
+
+        if not job_status:
+            return None
+
+        # If the is in a 'pending' state with allocation failures, then the job is likely to be stuck
+        if job_status.Status == JobEvalStatus.pending:
+            if job_eval := self.get_nomad_evaluations_info(job_id):
+                item = None
+                for item in job_eval:
+                    if (
+                        item.Status == JobEvalStatus.complete
+                        and item.TriggeredBy == "job-register"
+                        and item.FailedTGAllocs
+                    ):
+                        break
+
+                taskgroup_name = job_status.TaskGroups[0].Name
+                if item and (failed_alloc := item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
+                    self.log.info("Task %s seems dead, stopping it.", key)
+                    self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+                    error = failed_alloc.errors()
+                    return True, TaskInstanceState.FAILED, str(error)
+
+        if job_status.Status != JobInfoStatus.dead:
+            return True, None, ""
+        return False, None, ""
 
     def _get_task_log(
         self, ti: TaskInstance, try_number: int, stderr=False
@@ -205,9 +310,29 @@ class NomadExecutor(ExecutorInterface):
                 messages.append(f"Found {logtype} logs for running job via Nomad API")
         except Exception as e:
             messages.append(f"Reading {logtype} logs failed: {e}")
+
+        # In case the task didn't even make it to be submitted, we may be able to get info about reasons from Nomad
+        if not log and not stderr:
+            job_id = self.job_id_from_taskinstance_key(ti.key)
+            if job_eval := self.get_nomad_evaluations_info(job_id):
+                messages.append("Nomad job evaluations retrieved")
+                log.append(
+                    "No task logs found, but the following information was retrieved from Nomad:"
+                )
+                log += json.dumps(
+                    json.loads(NomadEvaluation.dump_json(job_eval)), sort_keys=True, indent=4
+                ).splitlines()
         return messages, log
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
+        """Universal way to retreive logs
+
+        Retrieving logs so that it's compatible both with FileTaskHandler, and
+        leaves space for NomadLogHandler grouping feature.
+
+        :params ti: TaskInstance in question
+        :return: a list of operational messages together with the logs (as a list of entries)
+        """
         messages, logs = self._get_task_log(ti, try_number)
         if (
             conf.get("logging", "task_log_reader", fallback=FileTaskHandler.name)
@@ -228,14 +353,12 @@ class NomadExecutor(ExecutorInterface):
         if not self.nomad:
             self.start()
 
-        assert self.nomad, "Couldn't initialize Nomad client"
-
         messages = []
         logs = ""
-        ""
         job_id = self.job_id_from_taskinstance_key(key)
         job_task_id = self.job_task_id_from_taskinstance_key(key)
-        allocations = self.nomad.job.get_allocations(job_id)
+        allocations = self.nomad.job.get_allocations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+
         if not isinstance(allocations, list):
             messages.append("Unexpected result from Nomad API allocations query")
         elif len(allocations) == 0:
@@ -251,11 +374,11 @@ class NomadExecutor(ExecutorInterface):
                 return (messages, [])
 
             if stderr:
-                logs = self.nomad.client.cat.read_file(
+                logs = self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
                     allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
                 )
             else:
-                logs = self.nomad.client.cat.read_file(
+                logs = self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
                     allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
                 )
         return messages, logs.splitlines()  # type: ignore[reportReturnType]

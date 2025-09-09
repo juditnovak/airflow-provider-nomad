@@ -22,15 +22,11 @@ from __future__ import annotations
 
 import argparse
 import contextlib
-import logging
 import multiprocessing
-import time
-from collections import Counter
 from collections.abc import Sequence
 from queue import Empty, Queue
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-from airflow.configuration import conf
 from airflow.executors import workloads
 from airflow.executors.base_executor import BaseExecutor
 from airflow.executors.workloads import All, ExecuteTask
@@ -42,7 +38,7 @@ from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
 
-Results = tuple[TaskInstanceKey, TaskInstanceState | str | None, str, str, str]
+Results = tuple[TaskInstanceKey, TaskInstanceState | str | None]
 
 
 class ExecutorInterface(BaseExecutor):
@@ -60,14 +56,6 @@ class ExecutorInterface(BaseExecutor):
 
         self._manager = multiprocessing.Manager()
         self.task_queue: Queue[Job] = self._manager.Queue()
-        self.result_queue: Queue[Results] = self._manager.Queue()
-        self.queued_tasks_exec: dict[TaskInstanceKey, ExecuteTask] = {}
-
-        self.last_handled: dict[TaskInstanceKey, float] = {}
-        self.task_publish_retries: Counter[TaskInstanceKey] = Counter()
-        self.task_publish_max_retries = conf.getint(
-            self.EXECUTOR_NAME, "task_publish_max_retries", fallback=0
-        )
         self.parallelism = parallelism
         super().__init__(parallelism=self.parallelism)
 
@@ -79,33 +67,41 @@ class ExecutorInterface(BaseExecutor):
         executor_config: Any | None = None,
     ) -> None:
         """Execute task asynchronously."""
-        assert self.task_queue
-
-        if self.log.isEnabledFor(logging.DEBUG):
-            self.log.debug(
-                "Add task %s with command %s, executor_config %s",
-                key,
-                command,
-                executor_config,
-            )
-        else:
-            self.log.info("Add task %s with command %s", key, command)
-
+        self.log.info("Adding task %s with command %s to run queue", key, command)
         self.event_buffer[key] = (TaskInstanceState.QUEUED, None)
         self.task_queue.put((key, command, executor_config))
-        # We keep a temporary local record that we've handled this so we don't
-        # try and remove it from the QUEUED state while we process it
-        self.last_handled[key] = time.time()
+
+    def set_state(self, key: TaskInstanceKey, state: TaskInstanceState, info: str = "") -> None:
+        self.log.info("Setting state for key: %s state: %s info: %s", key, state, info)
+
+        if state not in TaskInstanceState:
+            self.log.error("Unknown task state %s, setting it as failed", state)
+            self.fail(key)
+            return
+
+        if state == TaskInstanceState.QUEUED:
+            self.queued(key)
+        elif state == TaskInstanceState.SUCCESS:
+            self.success(key, info=info)
+        elif state == TaskInstanceState.FAILED:
+            self.fail(key, info=info)
+        elif state not in [
+            TaskInstanceState.RUNNING,
+            TaskInstanceState.RESTARTING,
+        ]:
+            self.change_state(key, state, remove_running=True, info=info)  # type: ignore[reportArgumentType]
 
     def sync(self) -> None:
         """Synchronize task state."""
-        assert self.result_queue
-        assert self.task_queue
-
         if self.running:
             self.log.debug("self.running: %s", self.running)
         if self.queued_tasks:
             self.log.debug("self.queued: %s", self.queued_tasks)
+
+        with contextlib.suppress(Empty):
+            for ti_key in list(self.running | set(self.queued_tasks)):
+                if (status := self.is_job_dead(ti_key)) and status[0] and status[1]:
+                    self.set_state(ti_key, state=status[1], info=status[2])
 
         with contextlib.suppress(Empty):
             task = self.task_queue.get_nowait()
@@ -121,7 +117,6 @@ class ExecutorInterface(BaseExecutor):
 
             try:
                 self.run_task(task)
-                self.task_publish_retries.pop(key, None)
             except Exception as err:
                 self.log.exception(
                     "Failed to run task %s with command %s (%s)", key, command, str(err)
@@ -132,40 +127,53 @@ class ExecutorInterface(BaseExecutor):
 
     def run_task(self, task: Job) -> None:
         """Run the next task in the queue."""
-        key, command, _ = task
-        dag_id, task_id, run_id, try_number, map_index = key
-        if len(command) == 1:
-            if isinstance(command[0], ExecuteTask):
-                workload = command[0]
-                command = self.workload_to_command_args(workload)
-            else:
-                raise ValueError(f"Workload of unsupported type: {type(command[0])}")
-        elif command[0:3] != ["airflow", "tasks", "run"]:
-            raise ValueError('The command must start with ["airflow", "tasks", "run"].')
+        key, instruction, _ = task
+        dag_id, task_id, run_id, try_number, _ = key
+        if not isinstance(instruction[0], ExecuteTask):
+            raise ValueError(f"Workload of unsupported type: {type(instruction[0])}")
 
-        if self.log.isEnabledFor(logging.DEBUG):
-            self.log.debug(
-                f"Runing task ({task_id}) from dag ({dag_id}) with run ID ({run_id}) (retries {try_number}, map index ({map_index}))"
-            )
-        else:
-            self.log.info(
-                f"Runing task ({task_id}) from dag ({dag_id}) with run ID ({run_id}) (retries {try_number})"
-            )
-        job_template = self.apply_command_to_job_template(key, command)
-        self.run_job(key, job_template)
+        command = self.workload_to_command_args(instruction[0])
+
+        self.log.info(
+            f"Runing task ({task_id}) from dag ({dag_id}) with run ID ({run_id}) (retries {try_number})"
+        )
+        job_template = self.prepare_job_template(key, command)
+        if failed_info := self.run_job(job_template):
+            self.log.error("Received info %s, failing job", failed_info)
+            self.fail(key, info=failed_info)
 
     def workload_to_command_args(self, workload: ExecuteTask) -> list[str]:
         """Convert a workload object to Task SDK command arguments."""
         return [workload.model_dump_json()]
 
-    def apply_command_to_job_template(
-        self, key: TaskInstanceKey, command: list[str]
-    ) -> dict[str, Any]:
+    def prepare_job_template(self, key: TaskInstanceKey, command: list[str]) -> dict[str, Any]:
+        """Adjutst template to suit upcoming job execution
+
+        :param key: reference to the task instance in question
+        :return: job template as as dictionary
+        """
         self.log.debug(f"Executing key {key} with command {command}")
         raise NotImplementedError
 
-    def run_job(self, key: TaskInstanceKey, job_template: dict[str, Any]) -> None:
-        self.log.debug(f"Executing key {key} template {job_template}")
+    def run_job(self, job_template: dict[str, Any] | None) -> str | None:
+        """Execute the job defined by a potential job template
+
+        :param: Job template corresponding to the job
+        :return: No news is good news, or the error that occured on execution attempt
+        """
+        self.log.debug(f"Executing template {job_template}")
+        raise NotImplementedError
+
+    def is_job_dead(
+        self, key: TaskInstanceKey
+    ) -> tuple[bool, TaskInstanceState | None, str] | None:
+        """Whether the job failed (typically outside of Airflow execution)
+
+        :param key: reference to the task instance in question
+        :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
+                 or None if no data could be retrieved for the job
+        """
+        self.log.debug(f"Evaluating status of key {key}")
         raise NotImplementedError
 
     def queue_workload(self, workload: All, session: Session) -> None:
@@ -174,7 +182,6 @@ class ExecutorInterface(BaseExecutor):
                 f"Un-handled workload kind {type(workload).__name__!r} in {type(self).__name__}"
             )
         ti = workload.ti
-        self.queued_tasks_exec[ti.key] = workload
         self.queued_tasks[ti.key] = workload  # type: ignore
 
     def _process_workloads(self, workloads: Sequence[workloads.All]) -> None:
@@ -202,21 +209,14 @@ class ExecutorInterface(BaseExecutor):
 
     def end(self) -> None:
         """Shut down the executor."""
-        if TYPE_CHECKING:
-            assert self.task_queue
-            assert self.result_queue
-
         self.log.info("Shutting down Nomad executor")
         try:
             # self.log.debug("Flushing task_queue...")
             # self._flush_task_queue()
-            # self.log.debug("Flushing result_queue...")
-            # self._flush_result_queue()
             # Both queues should be empty...
             self.task_queue.join()
-            self.result_queue.join()
         except ConnectionResetError:
-            self.log.exception("Connection Reset error while flushing task_queue and result_queue.")
+            self.log.exception("Connection Reset error while flushing task_queue.")
         except Exception:
             self.log.exception("Unknown error while flushing task queue and result queue.")
         self._manager.shutdown()

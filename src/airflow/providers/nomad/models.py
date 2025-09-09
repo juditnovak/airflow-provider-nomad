@@ -1,6 +1,26 @@
-from typing import Literal
+from enum import Enum
+from typing import TypeAlias, Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, TypeAdapter
+
+
+class JobType(str, Enum):
+    batch = "batch"
+    service = "service"
+
+
+class JobInfoStatus(str, Enum):
+    dead = "dead"
+    pending = "pending"
+    running = "running"
+
+
+class JobEvalStatus(str, Enum):
+    complete = "complete"
+    blocked = "blocked"
+    pending = "pending"
+    canceled = "canceled"
+    failed = "failed"
 
 
 class Resource(BaseModel):
@@ -46,9 +66,7 @@ class TaskConfigRaw(BaseModel):
 
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow")
-    Config: (
-        TaskConfigRaw | TaskConfigEntrypoint | TaskConfigArgs | TaskConfigCmd | TaskConfigImglessCmd
-    )
+    Config: TaskConfigEntrypoint | TaskConfigArgs
     Name: str
     Resources: Resource
 
@@ -65,9 +83,85 @@ class Job(BaseModel):
     ID: str
     Name: str
     Namespace: str | None = None
-    Type: Literal["batch", "service"]
+    Type: JobType
 
 
 class NomadJobModel(BaseModel):
     model_config = ConfigDict(extra="allow")
     Job: Job
+
+
+class NomadFailedAllocInfo(BaseModel):
+    AllocationTime: int
+    ClassExhausted: Any | None = None
+    ClassFiltered: Any | None = None
+    CoalescedFailures: int
+    ConstraintFiltered: dict[str, int] | None = None
+    DimensionExhausted: dict[str, int] | None = None
+    NodePool: str
+    NodesAvailable: dict[str, int]
+    NodesEvaluated: int
+    NodesExhausted: int
+    NodesFiltered: int
+    NodesInPool: int
+    QuotaExhausted: Any | None = None
+    ResourcesExhausted: dict[str, dict] | None = None
+    ScoreMetaData: Any | None = None
+    Scores: Any | None = None
+
+    def errors(self) -> list[Any]:
+        """Turn an evaluation failure record into an error message"""
+        errors: list[Any] = []
+        if self.ClassExhausted:
+            errors.append(str(self.ClassExhausted))
+        if self.ClassFiltered:
+            errors.append(str(self.ClassFiltered))
+        if self.ConstraintFiltered:
+            errors.append(str(self.ConstraintFiltered))
+        if self.DimensionExhausted:
+            errors.append(str(self.DimensionExhausted))
+        if self.QuotaExhausted:
+            errors.append(str(self.QuotaExhausted))
+        if self.ResourcesExhausted:
+            errors.append(str(self.ResourcesExhausted))
+        return errors
+
+
+class NomadEvaluationInfo(BaseModel):
+    BlockedEval: str | None = None
+    ClassEligibility: dict[str, bool] | None = None
+    CreateIndex: int
+    CreateTime: int
+    FailedTGAllocs: dict[str, NomadFailedAllocInfo] | None = None
+    ID: str
+    JobID: str
+    JobModifyIndex: int | None = None
+    ModifyIndex: int
+    ModifyTime: int
+    Namespace: str
+    PreviousEval: str | None = None
+    Priority: int
+    SnapshotIndex: int | None = None
+    Status: JobEvalStatus
+    StatusDescription: str | None = None
+    TriggeredBy: str
+    Type: JobType
+
+
+NomadEvalList: TypeAlias = list[NomadEvaluationInfo]
+NomadEvaluation = TypeAdapter(NomadEvalList)
+
+
+class NomadJobSubmission(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    Status: JobInfoStatus
+    Namespace: str
+    ID: str
+    Name: str
+    Type: JobType
+    Priority: int
+    AllAtOnce: bool
+    Datacenters: list[str]
+    NodePool: str
+    TaskGroups: list[TaskGroup]
