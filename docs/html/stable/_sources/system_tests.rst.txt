@@ -28,7 +28,7 @@ Nomad Provider System Tests involve a base level of complexity.
 
  * A Nomad server has to be present
  * And Airflow API has to be ready to process task updates
- * The local ``pytset`` environment has to load the same dags, as what will be made available for the runners
+ * The local ``pytest`` environment has to load the same dags, as what will be made available for the runners
 
 
 Structure
@@ -82,7 +82,7 @@ Local Test Environment
 
 .. warning:: This step will modify AIRFLOW_HOME/airflow.cfg
 
-.. note:: The recommended ``AIRFLOW_HOME`` setting is the designated area within the ``sserver`` space: ``<nomad_systest_root>server/airflow_home``
+.. note:: The recommended ``AIRFLOW_HOME`` setting is the designated area within the ``server`` space: ``<nomad_systest_root>server/airflow_home``
 
 
 Services
@@ -133,7 +133,9 @@ or add
 
 
 
-Nomad System Test dags:
+System Test DAGs
 =======================
 
-The full list of `System Test Dags <_api/tests/system/nomad/dags/index>`_ 
+The full list of `System Test Dags <_api/tests/system/nomad/dags/index.html>`_ 
+
+NOTE: These are not the only System Tests executed against a live environment. See `System Tests <_api/tests/system/nomad/index.html>`_ for the full list.

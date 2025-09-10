@@ -48,10 +48,10 @@ default_task_template: dict[str, Any] = {
                 "Meta": None,
                 "Name": "airflow-execution-taskgroup",
                 "RestartPolicy": {
-                    "Attempts": 3,
+                    "Attempts": 0,
                     "Delay": 25000000000,
                     "Interval": 300000000000,
-                    "Mode": "delay",
+                    "Mode": "fail",
                 },
                 "Tasks": [
                     {

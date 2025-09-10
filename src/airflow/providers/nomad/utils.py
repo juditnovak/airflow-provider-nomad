@@ -43,10 +43,16 @@ def parse_json_job_template(path: Path) -> NomadJobModel | None:
     return validate_nomad_job(data)
 
 
-def parse_hcl_job_template(nomad_url: str, path: Path) -> NomadJobModel | None:
+def parse_hcl_job_template(
+    nomad_url: str, path: Path, verify: bool | str = False, cert: tuple[str, str] = ("", "")
+) -> NomadJobModel | None:
     content = open(path).read()
     payload = jq.compile("{ JobHCL: ., Canonicalize: true }").input_value(content).first()
-    response = requests.post(nomad_url + "/v1/jobs/parse", data=json.dumps(payload))
+    args: dict[str, Any] = {"verify": verify}
+    if cert[0]:
+        args["cert"] = cert
+
+    response = requests.post(nomad_url + "/v1/jobs/parse", **args, data=json.dumps(payload))
     if response.status_code != 200:
         raise NomadValidationError(response.text)
 
@@ -54,3 +60,7 @@ def parse_hcl_job_template(nomad_url: str, path: Path) -> NomadJobModel | None:
     data = {"Job": data}
 
     return validate_nomad_job(data)
+
+
+def dict_to_lines(d: dict[str, Any]) -> list[str]:
+    return json.dumps(d, sort_keys=True, indent=4).splitlines()

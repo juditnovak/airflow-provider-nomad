@@ -119,6 +119,13 @@ def get_provider_info():
                         "example": "/absolute/path/to/job_template.{json,hcl}",
                         "default": "",
                     },
+                    "alloc_pending_timeout": {
+                        "description": "Timeout in seconds before failed allocations may be considered as failed jobs",
+                        "version_added": None,
+                        "type": "integer",
+                        "example": "600",
+                        "default": "600",
+                    },
                 },
             },
         },

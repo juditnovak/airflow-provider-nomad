@@ -1,0 +1,22 @@
+{
+    "Children": {
+        "Dead": 0,
+        "Pending": 0,
+        "Running": 0
+    },
+    "CreateIndex": 324,
+    "JobID": "example_bash_operator_judit_new-runme_2-manual__2025-09-10T09:01:15.900701+00:00-7--1",
+    "ModifyIndex": 351,
+    "Namespace": "default",
+    "Summary": {
+        "airflow-execution-taskgroup": {
+            "Complete": 0,
+            "Failed": 2,
+            "Lost": 0,
+            "Queued": 0,
+            "Running": 0,
+            "Starting": 0,
+            "Unknown": 0
+        }
+    }
+}

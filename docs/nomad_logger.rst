@@ -68,4 +68,7 @@ Examples:
     The above image is showing the output once the task execution also produced standard output
 
 
+.. figure:: images/logs_nomad_job_info.png
+
+    The above image is showing the Nomad context once task execution did not perform.
 

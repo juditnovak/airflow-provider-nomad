@@ -1,3 +1,4 @@
+import json
 import logging.config
 from collections.abc import Callable
 from datetime import datetime
@@ -359,17 +360,15 @@ def test_airflow_log_ok_with_stderr(mocker, unittest_root):
     assert [line.event for line in loglist][3:] == fake_stderr.splitlines()
 
 
-# Failure cases
-
-
 @pytest.mark.parametrize(
     "handler, config",
     [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
-def test_nomad_log_no_alloc(handler, config, mocker):
+def test_nomad_side_error(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
     is that here no allocation is returned (so we get an errror)
     """
+
     with conf_vars({("core", "executor"): EXECUTOR, **config}):
         reload(executor_loader)
 
@@ -377,10 +376,18 @@ def test_nomad_log_no_alloc(handler, config, mocker):
         mock_client = mocker.patch(
             "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
         ).return_value
-        # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
-        # (Note: This value isn't used, but the mock above requires to have it defined)
-        mock_allocations_request.return_value = None
+        mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
+        mock_client.client.cat.read_file.side_effect = ["", ""]
+
+        file_path1 = test_datadir / "nomad_job_evaluation.json"
+        file_path2 = test_datadir / "nomad_job_info_pending.json"
+        file_path3 = test_datadir / "nomad_job_allocations_pending.json"
+        file_path4 = test_datadir / "nomad_job_summary_failed.json"
+        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
+        mock_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
+        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
 
         ti = submit_python_task()
 
@@ -397,10 +404,27 @@ def test_nomad_log_no_alloc(handler, config, mocker):
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content
-        assert loglist[0].model_extra["sources"][1] == (  # type: ignore
-            "Unexpected result from Nomad API allocations query"
+        assert loglist[2].event == (
+            "No task logs found, but the following information was retrieved from Nomad:"
         )
-        assert len(loglist) == 2
+
+        assert loglist[3].event == "Job evaluations:"
+        eval_data = open(file_path1).read().splitlines()
+        startind = 4
+        lastind = len(eval_data) + startind
+        assert [item.event for item in loglist][startind:lastind] == eval_data
+
+        assert loglist[lastind].event == "Job allocations info:"
+        startind = lastind + 1
+        alloc_data = open(file_path3).read().splitlines()
+        lastind = startind + len(alloc_data)
+        assert [item.event for item in loglist][startind:lastind] == alloc_data
+
+        assert loglist[lastind].event == "Job summary:"
+        startind = lastind + 1
+        summary_data = open(file_path4).read().splitlines()
+        lastind = startind + len(summary_data)
+        assert [item.event for item in loglist][startind:lastind] == summary_data
 
 
 @pytest.mark.parametrize(
@@ -423,6 +447,7 @@ def test_nomad_log_multi_alloc(handler, config, mocker):
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
         mock_allocations_request.return_value = multi_alloc
+        mock_client.client.cat.read_file.side_effect = ["loglist1", "loglist2"]
 
         ti = submit_python_task()
 
@@ -440,18 +465,25 @@ def test_nomad_log_multi_alloc(handler, config, mocker):
 
         # Checking if logs have the expected content
         assert loglist[0].model_extra["sources"][1] == (  # type: ignore
-            f"Multiple allocations found found for {jobid}/{DAG_ID}-{TASK_ID}: {multi_alloc}"
+            "Found standard logs for running job via Nomad API"
         )
-        assert len(loglist) == 2
+
+        assert loglist[2].event == "Allocation ID <UUID1>:"
+        assert loglist[3].event == "loglist1"
+        assert loglist[4].event == "Allocation ID <UUID2>:"
+        assert loglist[5].event == "loglist2"
+
+
+# Failure cases
 
 
 @pytest.mark.parametrize(
     "handler, config",
     [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
-def test_nomad_log_no_alloc_id(handler, config, mocker):
+def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
-    is that wrong allocation data is returned from Nomad API (so we get an errror)
+    is that here no allocation is returned (so we get an errror)
     """
     with conf_vars({("core", "executor"): EXECUTOR, **config}):
         reload(executor_loader)
@@ -463,7 +495,15 @@ def test_nomad_log_no_alloc_id(handler, config, mocker):
         # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
-        mock_allocations_request.side_effect = [{"wrong": "data"}]
+        mock_allocations_request.return_value = None
+
+        # Ignore -- Nomad log retrieval mocked to reduce validation errors
+        file_path1 = test_datadir / "nomad_job_evaluation.json"
+        file_path2 = test_datadir / "nomad_job_info_pending.json"
+        file_path4 = test_datadir / "nomad_job_summary_failed.json"
+        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
+        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
 
         ti = submit_python_task()
 
@@ -483,14 +523,61 @@ def test_nomad_log_no_alloc_id(handler, config, mocker):
         assert loglist[0].model_extra["sources"][1] == (  # type: ignore
             "Unexpected result from Nomad API allocations query"
         )
-        assert len(loglist) == 2
 
 
 @pytest.mark.parametrize(
     "handler, config",
     [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
-def test_nomad_log_retrieval_false(handler, config, mocker):
+def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
+    """The difference between this test and test_nomad_log_ok
+    is that wrong allocation data is returned from Nomad API (so we get an errror)
+    """
+    with conf_vars({("core", "executor"): EXECUTOR, **config}):
+        reload(executor_loader)
+
+        # Getting hold of the (already automatically mocked) Nomad client
+        mock_client = mocker.patch(
+            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
+        ).return_value
+        # We'll verify that the log request was targeting this task
+        mock_allocations_request = mock_client.job.get_allocations
+        # (Note: This value isn't used, but the mock above requires to have it defined)
+        mock_allocations_request.side_effect = [{"wrong": "data"}, {"wrong", "data"}]
+
+        # Ignore -- Nomad log retrieval mocked to reduce validation errors
+        file_path1 = test_datadir / "nomad_job_evaluation.json"
+        file_path2 = test_datadir / "nomad_job_info_pending.json"
+        file_path4 = test_datadir / "nomad_job_summary_failed.json"
+        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
+        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+
+        ti = submit_python_task()
+
+        # "Hacking" the task into the logger's space
+        assert ti.task, f"Taskinstance {ti} has no task"
+        ti.task.log.disabled = False
+
+        loghandler = get_and_wipe_loghandler(ti, handler)
+        logs = loghandler.read(ti, TRY_NUMBER)  # type: ignore[reportAttributeAccessIssue]
+        loglist = list(logs[0])
+
+        # Checking if request to Nomad was for the right job
+        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        mock_allocations_request.assert_called_with(jobid)
+
+        # Checking if logs have the expected content
+        assert loglist[0].model_extra["sources"][1] == (  # type: ignore
+            "Unexpected result from Nomad API allocations query"
+        )
+
+
+@pytest.mark.parametrize(
+    "handler, config",
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+)
+def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
     is that here the log retrieval raises an exception
     """
@@ -505,7 +592,15 @@ def test_nomad_log_retrieval_false(handler, config, mocker):
         # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
-        mock_allocations_request.side_effect = Exception(message)
+        mock_allocations_request.side_effect = [Exception(message), {"wrong", "data"}]
+
+        # Ignore -- Nomad log retrieval mocked to reduce validation errors
+        file_path1 = test_datadir / "nomad_job_evaluation.json"
+        file_path2 = test_datadir / "nomad_job_info_pending.json"
+        file_path4 = test_datadir / "nomad_job_summary_failed.json"
+        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
+        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
+        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
 
         ti = submit_python_task()
 
@@ -525,4 +620,3 @@ def test_nomad_log_retrieval_false(handler, config, mocker):
         assert loglist[0].model_extra["sources"][1] == (  # type: ignore
             f"Reading standard logs failed: {message}"
         )
-        assert len(loglist) == 2

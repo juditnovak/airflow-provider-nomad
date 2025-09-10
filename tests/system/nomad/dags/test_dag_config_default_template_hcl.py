@@ -20,8 +20,9 @@ from datetime import timedelta
 
 import attrs
 import pendulum
+from airflow.providers.standard.operators.bash import BashOperator
 from airflow.providers.standard.operators.empty import EmptyOperator
-from airflow.sdk import DAG, chain
+from airflow.sdk import DAG
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -70,11 +71,18 @@ with myDAG(
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
     dagrun_timeout=timedelta(minutes=60),
-    tags=["example", "example2"],
+    tags=["test", "config", "json_template"],
 ) as dag:
-    empty_task = EmptyOperator(task_id="empty")
+    run_this_last = EmptyOperator(
+        task_id="run_this_last",
+    )
 
-    chain(empty_task)
+    run_this = BashOperator(
+        task_id="placeholder",
+        bash_command="echo 'Testing default_job_template' parameter with HCL",
+    )
+
+    run_this >> run_this_last
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
@@ -86,7 +94,9 @@ try:
     from ..constants import TEST_DATA_PATH
 
     conf.set(
-        "nomad", "default_job_template", str(TEST_DATA_PATH / "nomad_provider_job_template.hcl")
+        "nomad_executor",
+        "default_job_template",
+        str(TEST_DATA_PATH / "nomad_provider_job_template.hcl"),
     )
     test_run = get_test_run(dag)
 except ImportError:
