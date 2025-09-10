@@ -31,7 +31,19 @@ Changelog
 0.0.1
 ......
 
-Features
-~~~~~~~~
+* Nomad executor with bash operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/1
+* System tests by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/3
+* Testts completed and cleaned up by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/4
+* Cleanup and small executor enhancements by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/5
+* Pipeline on merge to `main` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/6
+* Logging finalized by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/7
+* Base documentation by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/8
+* Modification on logging by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/9
+* Enabling secure Nomad connections by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/10
+* Configuration parameter `default_job_template` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/11
+* Handling Job submission errors by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/13
 
-* ``Initial release of Nomad Executor ()``
+## New Contributors
+* @juditnovak made their first contribution in https://github.com/juditnovak/airflow-provider-nomad/pull/1
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/commits/0.0.1
