@@ -250,7 +250,6 @@ class NomadExecutor(ExecutorInterface):
 
     def get_nomad_job_allocation_info(self, job_id: str) -> NomadJobAllocList | None:  # type: ignore[return]
         job_allocations = self.nomad.job.get_allocations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
-        self.log.info(json.dumps(job_allocations, indent=4))
         try:
             return NomadJobAllocations.validate_python(job_allocations)
         except ValidationError as err:
@@ -258,7 +257,6 @@ class NomadExecutor(ExecutorInterface):
 
     def get_nomad_job_summary(self, job_id: str) -> NomadJobSummary | None:  # type: ignore[return]
         job_summary = self.nomad.job.get_summary(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
-        self.log.info(json.dumps(job_summary, indent=4))
         try:
             return NomadJobSummary.model_validate(job_summary)
         except ValidationError as err:
@@ -423,24 +421,23 @@ class NomadExecutor(ExecutorInterface):
             messages.append("Unexpected result from Nomad API allocations query")
         elif len(allocations) == 0:
             messages.append(f"No allocations found for {job_id}/{job_task_id}")
-        elif len(allocations) > 1:
-            messages.append(
-                f"Multiple allocations found found for {job_id}/{job_task_id}: {allocations}"
-            )
         else:
-            allocation_id = allocations[0].get("ID")
-            if not allocation_id:
-                messages.append(f"Allocation for {job_id}/{job_task_id} not found")
-                return (messages, [])
+            for allocation in allocations:
+                allocation_id = allocation.get("ID")
+                if not allocation_id:
+                    messages.append(f"Allocation for {job_id}/{job_task_id} not found")
+                    return (messages, [])
+                elif len(allocations) > 1:
+                    logs += f"\nAllocation ID {allocation_id}:\n"
 
-            if stderr:
-                logs = self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
-                    allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
-                )
-            else:
-                logs = self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
-                    allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
-                )
+                if stderr:
+                    logs += self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
+                        allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
+                    )
+                else:
+                    logs += self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
+                        allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
+                    )
         return messages, logs.splitlines()  # type: ignore[reportReturnType]
 
     @staticmethod

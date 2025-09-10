@@ -191,15 +191,20 @@ class NomadEvent(BaseModel):
     Time: int
     Type: str
     ValidationError: str
+    VaultError: str
 
 
 class NomadTaskState(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     Events: list[NomadEvent]
     Failed: bool
     State: str
 
 
 class NomadJobAllocationInfo(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     ClientStatus: str
     EvalID: str
     FollowupEvalID: str
@@ -233,6 +238,8 @@ class NomadJobAllocationInfo(BaseModel):
                     errors[task][event.Type].append(event.KillReason)
                 if event.ValidationError:
                     errors[task][event.Type].append(event.ValidationError)
+                if event.VaultError:
+                    errors[task][event.Type].append(event.VaultError)
                 if not errors[task][event.Type]:
                     errors[task].pop(event.Type)
             if not errors[task]:
@@ -261,6 +268,8 @@ class NomadJobSummaryInfo(BaseModel):
 
 
 class NomadJobSummary(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     Children: NomadChildrenSummary
     JobID: str
     Namespace: str
