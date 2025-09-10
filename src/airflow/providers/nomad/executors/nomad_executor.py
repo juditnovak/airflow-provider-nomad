@@ -26,13 +26,11 @@ import argparse
 import copy
 import json
 import logging
+from datetime import datetime
 from functools import cached_property
 from pathlib import Path
-from queue import Queue
 from typing import Any
-from pydantic import ValidationError
 
-from airflow.utils.state import TaskInstanceState
 import nomad  # type: ignore[import-untyped]
 from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
@@ -40,22 +38,31 @@ from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.utils.log.file_task_handler import FileTaskHandler
 from airflow.utils.log.logging_mixin import remove_escape_codes
+from airflow.utils.state import TaskInstanceState
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
-from nomad.api.exceptions import URLNotFoundNomadException
+from nomad.api.exceptions import URLNotFoundNomadException  # type: ignore[import-untyped]
+from pydantic import ValidationError
 
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
-from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface, Job
+from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
-    NomadJobModel,
-    NomadEvaluation,
     NomadEvalList,
+    NomadEvaluation,
+    NomadJobAllocations,
+    NomadJobAllocList,
+    NomadJobModel,
     NomadJobSubmission,
+    NomadJobSummary,
 )
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
-from airflow.providers.nomad.utils import parse_hcl_job_template, parse_json_job_template
+from airflow.providers.nomad.utils import (
+    dict_to_lines,
+    parse_hcl_job_template,
+    parse_json_job_template,
+)
 
 NOMAD_COMMANDS = ()
 
@@ -85,7 +92,10 @@ class NomadExecutor(ExecutorInterface):
         self.namespace: str = conf.get(self.EXECUTOR_NAME, "namespace", fallback="")
         self.token: str = conf.get(self.EXECUTOR_NAME, "token", fallback="")
 
-        self.completed_queue: Queue[Job] = self._manager.Queue()
+        self.alloc_pending_timeout: int = conf.getint(
+            self.EXECUTOR_NAME, "alloc_pending_timeout", fallback=600
+        )
+        self.pending_jobs: dict[TaskInstanceKey, int] = {}
 
         self.verify: bool | str
         verify = conf.get(self.EXECUTOR_NAME, "verify", fallback="")
@@ -238,6 +248,30 @@ class NomadExecutor(ExecutorInterface):
         except ValidationError as err:
             self.log.error("Couldn't parse Nomad job submission info: %s %s", err, err.errors())
 
+    def get_nomad_job_allocation_info(self, job_id: str) -> NomadJobAllocList | None:  # type: ignore[return]
+        job_allocations = self.nomad.job.get_allocations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        self.log.info(json.dumps(job_allocations, indent=4))
+        try:
+            return NomadJobAllocations.validate_python(job_allocations)
+        except ValidationError as err:
+            self.log.error("Couldn't parse Nomad job allocations info: %s %s", err, err.errors())
+
+    def get_nomad_job_summary(self, job_id: str) -> NomadJobSummary | None:  # type: ignore[return]
+        job_summary = self.nomad.job.get_summary(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        self.log.info(json.dumps(job_summary, indent=4))
+        try:
+            return NomadJobSummary.model_validate(job_summary)
+        except ValidationError as err:
+            self.log.error("Couldn't parse Nomad job summary: %s %s", err, err.errors())
+
+    def timeout_expired(self, key: TaskInstanceKey) -> bool:
+        now = int(datetime.now().timestamp())
+        if not self.pending_jobs.get(key):
+            self.pending_jobs[key] = now
+            return False
+        else:
+            return now - self.pending_jobs[key] > self.alloc_pending_timeout
+
     def is_job_dead(
         self, key: TaskInstanceKey
     ) -> tuple[bool, TaskInstanceState | None, str] | None:
@@ -268,27 +302,44 @@ class NomadExecutor(ExecutorInterface):
         if not job_status:
             return None
 
-        # If the is in a 'pending' state with allocation failures, then the job is likely to be stuck
+        # Allocation failures: job is stuck in a 'pending' state
         if job_status.Status == JobEvalStatus.pending:
-            if job_eval := self.get_nomad_evaluations_info(job_id):
-                item = None
-                for item in job_eval:
-                    if (
-                        item.Status == JobEvalStatus.complete
-                        and item.TriggeredBy == "job-register"
-                        and item.FailedTGAllocs
-                    ):
-                        break
+            if not self.timeout_expired(key):
+                return False, None, ""
 
-                taskgroup_name = job_status.TaskGroups[0].Name
-                if item and (failed_alloc := item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
-                    self.log.info("Task %s seems dead, stopping it.", key)
-                    self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
-                    error = failed_alloc.errors()
-                    return True, TaskInstanceState.FAILED, str(error)
+            if not (job_eval := self.get_nomad_evaluations_info(job_id)):
+                return None
 
-        if job_status.Status != JobInfoStatus.dead:
-            return True, None, ""
+            item = None
+            for item in job_eval:
+                if (
+                    item.Status == JobEvalStatus.complete
+                    and item.TriggeredBy == "job-register"
+                    and item.FailedTGAllocs
+                ):
+                    break
+
+            taskgroup_name = job_status.TaskGroups[0].Name
+            if item and (failed_alloc := item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
+                self.log.info("Task %s was pending beyond timeout, stopping it.", key)
+                self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+                error = failed_alloc.errors()
+                return True, TaskInstanceState.FAILED, str(error)
+        else:
+            self.pending_jobs.pop(key, None)
+
+        # Failures during job setup: job is stuck in a 'dead' state
+        if job_status.Status == JobInfoStatus.dead:
+            job_alloc_info = self.get_nomad_job_allocation_info(job_id)
+            job_summary = self.get_nomad_job_summary(job_id)
+            if job_summary and job_summary.all_failed():
+                self.log.info("Task %s seems dead, stopping it.", key)
+                self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+                if job_alloc_info:
+                    errors = [alloc.errors() for alloc in job_alloc_info]
+                    return True, TaskInstanceState.FAILED, str(errors)
+                return True, TaskInstanceState.FAILED, ""
+
         return False, None, ""
 
     def _get_task_log(
@@ -314,14 +365,23 @@ class NomadExecutor(ExecutorInterface):
         # In case the task didn't even make it to be submitted, we may be able to get info about reasons from Nomad
         if not log and not stderr:
             job_id = self.job_id_from_taskinstance_key(ti.key)
-            if job_eval := self.get_nomad_evaluations_info(job_id):
+            job_eval = self.get_nomad_evaluations_info(job_id)
+            job_alloc_info = self.get_nomad_job_allocation_info(job_id)
+            job_summary = self.get_nomad_job_summary(job_id)
+            if job_eval or job_alloc_info or job_summary:
                 messages.append("Nomad job evaluations retrieved")
                 log.append(
                     "No task logs found, but the following information was retrieved from Nomad:"
                 )
-                log += json.dumps(
-                    json.loads(NomadEvaluation.dump_json(job_eval)), sort_keys=True, indent=4
-                ).splitlines()
+            if job_eval:
+                log.append("Job evaluations:")
+                log += dict_to_lines(json.loads(NomadEvaluation.dump_json(job_eval)))
+            if job_alloc_info:
+                log.append("Job allocations info:")
+                log += dict_to_lines(json.loads(NomadJobAllocations.dump_json(job_alloc_info)))
+            if job_summary:
+                log.append("Job summary:")
+                log += dict_to_lines(json.loads(NomadJobSummary.model_dump_json(job_summary)))
         return messages, log
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:

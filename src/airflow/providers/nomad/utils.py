@@ -60,3 +60,7 @@ def parse_hcl_job_template(
     data = {"Job": data}
 
     return validate_nomad_job(data)
+
+
+def dict_to_lines(d: dict[str, Any]) -> list[str]:
+    return json.dumps(d, sort_keys=True, indent=4).splitlines()

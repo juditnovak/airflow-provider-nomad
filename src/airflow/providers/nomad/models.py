@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import TypeAlias, Any
+from typing import Any, TypeAlias
 
 from pydantic import BaseModel, ConfigDict, TypeAdapter
 
@@ -165,3 +165,115 @@ class NomadJobSubmission(BaseModel):
     Datacenters: list[str]
     NodePool: str
     TaskGroups: list[TaskGroup]
+
+
+class NomadEvent(BaseModel):
+    Details: dict
+    DiskLimit: int
+    DisplayMessage: str
+    DownloadError: str
+    DriverError: str
+    DriverMessage: str
+    ExitCode: int
+    FailedSibling: str
+    FailsTask: bool
+    GenericSource: str
+    KillError: str
+    KillReason: str
+    KillTimeout: int
+    Message: str
+    RestartReason: str
+    SetupError: str
+    Signal: int
+    StartDelay: int
+    TaskSignal: str
+    TaskSignalReason: str
+    Time: int
+    Type: str
+    ValidationError: str
+
+
+class NomadTaskState(BaseModel):
+    Events: list[NomadEvent]
+    Failed: bool
+    State: str
+
+
+class NomadJobAllocationInfo(BaseModel):
+    ClientStatus: str
+    EvalID: str
+    FollowupEvalID: str
+    ID: str
+    JobID: str
+    JobType: JobType
+    JobVersion: int
+    Name: str
+    Namespace: str
+    NextAllocation: str
+    NodeID: str
+    TaskGroup: str
+    TaskStates: dict[str, NomadTaskState]
+
+    def errors(self) -> dict[str, dict[str, list[Any]]]:
+        """Turn an evaluation failure record into an error message"""
+        errors: dict[str, dict[str, list[Any]]] = {}
+        for task in self.TaskStates:
+            errors[task] = {}
+            for event in self.TaskStates[task].Events:
+                errors[task][event.Type] = []
+                if event.DownloadError:
+                    errors[task][event.Type].append(event.DownloadError)
+                if event.DriverError:
+                    errors[task][event.Type].append(event.DriverError)
+                if event.DriverError:
+                    errors[task][event.Type].append(event.DriverError)
+                if event.KillError:
+                    errors[task][event.Type].append(event.KillError)
+                if event.KillReason:
+                    errors[task][event.Type].append(event.KillReason)
+                if event.ValidationError:
+                    errors[task][event.Type].append(event.ValidationError)
+                if not errors[task][event.Type]:
+                    errors[task].pop(event.Type)
+            if not errors[task]:
+                errors.pop(task)
+        return errors
+
+
+NomadJobAllocList: TypeAlias = list[NomadJobAllocationInfo]
+NomadJobAllocations = TypeAdapter(NomadJobAllocList)
+
+
+class NomadChildrenSummary(BaseModel):
+    Dead: int
+    Pending: int
+    Running: int
+
+
+class NomadJobSummaryInfo(BaseModel):
+    Complete: int
+    Failed: int
+    Lost: int
+    Queued: int
+    Running: int
+    Starting: int
+    Unknown: int
+
+
+class NomadJobSummary(BaseModel):
+    Children: NomadChildrenSummary
+    JobID: str
+    Namespace: str
+    Summary: dict[str, NomadJobSummaryInfo]
+
+    def all_failed(self) -> bool:
+        for taskgroup in self.Summary.values():
+            if not (
+                (taskgroup.Failed > 0 or taskgroup.Lost > 0 or taskgroup.Unknown > 0)
+                and taskgroup.Complete == 0
+                and taskgroup.Queued == 0
+                and taskgroup.Running == 0
+                and taskgroup.Starting == 0
+            ):
+                return False
+        return True
