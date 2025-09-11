@@ -68,7 +68,7 @@ class Task(BaseModel):
     model_config = ConfigDict(extra="allow")
     Config: TaskConfigEntrypoint | TaskConfigArgs
     Name: str
-    Resources: Resource
+    Resources: Resource | None = None
 
 
 class TaskGroup(BaseModel):

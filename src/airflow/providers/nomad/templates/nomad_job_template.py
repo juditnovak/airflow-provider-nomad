@@ -57,6 +57,7 @@ default_task_template: dict[str, Any] = {
                     {
                         "Artifacts": None,
                         "Config": {
+                            # "image": "debian:testing",
                             "image": "novakjudit/af_nomad_test:latest",
                             "entrypoint": [
                                 "python",
@@ -65,6 +66,7 @@ default_task_template: dict[str, Any] = {
                                 "--json-string",
                             ],
                             "args": [],
+                            # "entrypoint": ["tail", "-f", "/dev/null"]
                         },
                         "Constraints": None,
                         "DispatchPayload": None,
