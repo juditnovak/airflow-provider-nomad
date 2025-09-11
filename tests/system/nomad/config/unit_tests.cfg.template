@@ -2342,7 +2342,8 @@ xcom_objectstorage_compression =
 # Variable: AIRFLOW__NOMAD_EXECUTOR__PARALLELISM
 #
 parallelism = 128
-server_ip = 127.0.0.1
+# server_ip = 127.0.0.1
+server_ip = <NOMAD_SERVER_IP>
 
 # Nomad server IP
 #

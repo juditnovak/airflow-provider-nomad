@@ -31,7 +31,7 @@ def test_parse_hcl(filename, test_datadir):
 
     assert (
         json.loads(open(json_file_path).read())
-        == parse_hcl_job_template(nomad_executor.nomad_url, hcl_file_path).model_dump(
+        == parse_hcl_job_template(nomad_executor.nomad_mgr.nomad_url, hcl_file_path).model_dump(
             exclude_unset=True
         )  # type: ignore[reportOptionalMemberAccess]
     )

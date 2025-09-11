@@ -32,5 +32,5 @@ def test_connect():
     nomad_executor = NomadExecutor()
     nomad_executor.start()
 
-    assert nomad_executor.nomad
-    assert nomad_executor.nomad.agent.get_members()
+    assert nomad_executor.nomad_mgr.nomad
+    assert nomad_executor.nomad_mgr.nomad.agent.get_members()

@@ -82,7 +82,7 @@ with myDAG(
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
     dagrun_timeout=timedelta(minutes=60),
-    tags=["example", "example2"],
+    tags=["test", "python"],
     params=ParamsDict({"example_key": "example_value"}),
 ) as dag:
     run_this_last = EmptyOperator(
@@ -120,6 +120,7 @@ with myDAG(
     def my_sleeping_function(random_base):
         """This is a function that will run within the DAG execution"""
         time.sleep(random_base)
+        # time.sleep(100000000)
 
     for i in range(5):
         sleeping_task = PythonOperator(
