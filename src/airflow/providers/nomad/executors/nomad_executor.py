@@ -42,7 +42,7 @@ from airflow.providers.nomad.exceptions import NomadProviderException, NomadVali
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.job_manager import NomadJobManager
 from airflow.providers.nomad.models import (
-    NomadEvaluation,
+    NomadJobEvaluation,
     NomadJobAllocations,
     NomadJobModel,
     NomadJobSummary,
@@ -233,7 +233,7 @@ class NomadExecutor(ExecutorInterface):
                 log += dict_to_lines(json.loads(NomadJobAllocations.dump_json(job_alloc_info)))
             if job_eval:
                 log.append("Job evaluations:")
-                log += dict_to_lines(json.loads(NomadEvaluation.dump_json(job_eval)))
+                log += dict_to_lines(json.loads(NomadJobEvaluation.dump_json(job_eval)))
         return messages, log
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:

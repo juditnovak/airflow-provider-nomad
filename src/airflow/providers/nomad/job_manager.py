@@ -35,8 +35,8 @@ from airflow.providers.nomad.exceptions import NomadProviderException
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
-    NomadEvalList,
-    NomadEvaluation,
+    NomadJobEvalList,
+    NomadJobEvaluation,
     NomadJobAllocations,
     NomadJobAllocList,
     NomadJobModel,
@@ -90,10 +90,10 @@ class NomadJobManager(LoggingMixin):
         protocol = "http" if not self.secure else "https"
         return f"{protocol}://{self.nomad_server_ip}:{self.nomad_server_port}"
 
-    def get_nomad_evaluations_info(self, job_id: str) -> NomadEvalList | None:  # type: ignore[return]
+    def get_nomad_evaluations_info(self, job_id: str) -> NomadJobEvalList | None:  # type: ignore[return]
         job_eval = self.nomad.job.get_evaluations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
         try:
-            return NomadEvaluation.validate_python(job_eval)
+            return NomadJobEvaluation.validate_python(job_eval)
         except ValidationError as err:
             self.log.error("Couldn't parse Nomad job validation output: %s %s", err, err.errors())
 
@@ -186,17 +186,13 @@ class NomadJobManager(LoggingMixin):
             if not (job_eval := self.get_nomad_evaluations_info(job_id)):
                 return None
 
-            item = None
+            failed_item = None
             for item in job_eval:
-                if (
-                    item.Status == JobEvalStatus.complete
-                    and item.TriggeredBy == "job-register"
-                    and item.FailedTGAllocs
-                ):
-                    break
+                if item.Status in JobEvalStatus.done_states() and item.FailedTGAllocs:
+                    failed_item = item
 
             taskgroup_name = job_status.TaskGroups[0].Name
-            if item and (failed_alloc := item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
+            if failed_item and (failed_alloc := failed_item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
                 self.log.info("Task %s was pending beyond timeout, stopping it.", job_id)
                 self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 error = failed_alloc.errors()

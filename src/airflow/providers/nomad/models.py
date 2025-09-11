@@ -22,6 +22,10 @@ class JobEvalStatus(str, Enum):
     canceled = "canceled"
     failed = "failed"
 
+    @classmethod
+    def done_states(cls) -> list["JobEvalStatus"]:
+        return [cls.failed, cls.canceled, cls.complete]
+
 
 class Resource(BaseModel):
     model_config = ConfigDict(extra="allow")
@@ -127,7 +131,7 @@ class NomadFailedAllocInfo(BaseModel):
         return errors
 
 
-class NomadEvaluationInfo(BaseModel):
+class NomadJobEvaluationInfo(BaseModel):
     BlockedEval: str | None = None
     ClassEligibility: dict[str, bool] | None = None
     CreateIndex: int
@@ -148,8 +152,8 @@ class NomadEvaluationInfo(BaseModel):
     Type: JobType
 
 
-NomadEvalList: TypeAlias = list[NomadEvaluationInfo]
-NomadEvaluation = TypeAdapter(NomadEvalList)
+NomadJobEvalList: TypeAlias = list[NomadJobEvaluationInfo]
+NomadJobEvaluation = TypeAdapter(NomadJobEvalList)
 
 
 class NomadJobSubmission(BaseModel):
