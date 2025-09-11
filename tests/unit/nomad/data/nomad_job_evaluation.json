@@ -1,51 +1,6 @@
 [
     {
         "BlockedEval": null,
-        "ClassEligibility": {
-            "v1:5061977284114673726": true
-        },
-        "CreateIndex": 89,
-        "CreateTime": 1757434411913000685,
-        "FailedTGAllocs": {
-            "airflow-execution-taskgroup": {
-                "AllocationTime": 109201,
-                "ClassExhausted": null,
-                "ClassFiltered": null,
-                "CoalescedFailures": 0,
-                "ConstraintFiltered": {
-                    "missing compatible host volumes": 1
-                },
-                "DimensionExhausted": null,
-                "NodePool": "default",
-                "NodesAvailable": {
-                    "dc1": 1
-                },
-                "NodesEvaluated": 1,
-                "NodesExhausted": 0,
-                "NodesFiltered": 1,
-                "NodesInPool": 1,
-                "QuotaExhausted": null,
-                "ResourcesExhausted": null,
-                "ScoreMetaData": null,
-                "Scores": null
-            }
-        },
-        "ID": "5462b9d7-8d43-d716-7ec2-a3a58bfa45ab",
-        "JobID": "example_bash_operator_judit_new-also_run_this-manual__2025-09-09T16:11:25.364061+00:00-3--1",
-        "JobModifyIndex": 88,
-        "ModifyIndex": 92,
-        "ModifyTime": 1757434412186147344,
-        "Namespace": "default",
-        "PreviousEval": "20f25aa6-5588-7249-b46c-1ac5f2b8cbca",
-        "Priority": 50,
-        "SnapshotIndex": 88,
-        "Status": "canceled",
-        "StatusDescription": "evaluation \"18e354fd-fda3-479b-5656-69a99fcfbd2e\" successful",
-        "TriggeredBy": "queued-allocs",
-        "Type": "batch"
-    },
-    {
-        "BlockedEval": null,
         "ClassEligibility": null,
         "CreateIndex": 91,
         "CreateTime": 1757434412182302464,
@@ -63,48 +18,5 @@
         "StatusDescription": null,
         "TriggeredBy": "job-deregister",
         "Type": "service"
-    },
-    {
-        "BlockedEval": "5462b9d7-8d43-d716-7ec2-a3a58bfa45ab",
-        "ClassEligibility": null,
-        "CreateIndex": 88,
-        "CreateTime": 1757434411908742184,
-        "FailedTGAllocs": {
-            "airflow-execution-taskgroup": {
-                "AllocationTime": 109201,
-                "ClassExhausted": null,
-                "ClassFiltered": null,
-                "CoalescedFailures": 0,
-                "ConstraintFiltered": {
-                    "missing compatible host volumes": 1
-                },
-                "DimensionExhausted": null,
-                "NodePool": "default",
-                "NodesAvailable": {
-                    "dc1": 1
-                },
-                "NodesEvaluated": 1,
-                "NodesExhausted": 0,
-                "NodesFiltered": 1,
-                "NodesInPool": 1,
-                "QuotaExhausted": null,
-                "ResourcesExhausted": null,
-                "ScoreMetaData": null,
-                "Scores": null
-            }
-        },
-        "ID": "20f25aa6-5588-7249-b46c-1ac5f2b8cbca",
-        "JobID": "example_bash_operator_judit_new-also_run_this-manual__2025-09-09T16:11:25.364061+00:00-3--1",
-        "JobModifyIndex": 88,
-        "ModifyIndex": 90,
-        "ModifyTime": 1757434411914069135,
-        "Namespace": "default",
-        "PreviousEval": null,
-        "Priority": 50,
-        "SnapshotIndex": 88,
-        "Status": "complete",
-        "StatusDescription": null,
-        "TriggeredBy": "job-register",
-        "Type": "batch"
     }
 ]

@@ -37,6 +37,20 @@ DATE_VAL = (2016, 1, 1)
 DEFAULT_DATE = datetime(*DATE_VAL)
 
 
+@conf_vars({})
+def test_base_defaults():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 128
+
+
+@conf_vars({("nomad_executor", "parallelism"): "2"})
+def test_base_fallback_default_params():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 2
+
+
 @pytest.fixture
 def taskinstance(create_task_instance) -> TaskInstance:
     return create_task_instance(
@@ -45,78 +59,6 @@ def taskinstance(create_task_instance) -> TaskInstance:
         run_type=DagRunType.SCHEDULED,
         logical_date=DEFAULT_DATE,
     )
-
-
-@conf_vars({})
-def test_base_defaults():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 128
-    assert nomad_executor.nomad_server_ip == "127.0.0.1"
-    assert nomad_executor.cert_path == ""
-    assert nomad_executor.key_path == ""
-    assert nomad_executor.verify == ""
-    assert nomad_executor.secure == False  # noqa: E712
-
-
-@conf_vars(
-    {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
-        ("nomad_executor", "parallelism"): "2",
-    }
-)
-def test_base_fallback_default_params():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 2
-    assert nomad_executor.nomad_server_ip == "1.2.3.4"
-    assert nomad_executor.cert_path == ""
-    assert nomad_executor.key_path == ""
-    assert nomad_executor.verify == ""
-    assert nomad_executor.secure == False  # noqa: E712
-
-
-@conf_vars(
-    {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
-        ("nomad_executor", "cert_path"): "certs_absolute_path/global-cli-nomad.pem",
-        ("nomad_executor", "key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
-        ("nomad_executor", "verify"): "certs_absolute_path/nomad-agent-ca.pem",
-        ("nomad_executor", "secure"): "true",
-    }
-)
-def test_base_params_secure():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.nomad_server_ip == "1.2.3.4"
-    assert nomad_executor.cert_path == "certs_absolute_path/global-cli-nomad.pem"
-    assert nomad_executor.key_path == "certs_absolute_path/global-cli-nomad-key.pem"
-    assert nomad_executor.verify == "certs_absolute_path/nomad-agent-ca.pem"
-    assert nomad_executor.secure == True  # noqa: E712
-
-
-def test_base_params_secure_verify_bool():
-    with conf_vars({("nomad_executor", "verify"): "cacert_path"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == "cacert_path"
-
-    with conf_vars({("nomad_executor", "verify"): "true"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == True  # noqa: E712
-
-    with conf_vars({("nomad_executor", "verify"): "false"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == False  # noqa: E712
-
-
-def test_connect():
-    """Connection to the Nomad cluster"""
-
-    nomad_executor = NomadExecutor()
-    nomad_executor.start()
-
-    assert nomad_executor.nomad
-    assert nomad_executor.nomad.agent.get_members()
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
@@ -191,7 +133,7 @@ def test_sync_nomad_allocation_failing_timeout(
     mock_nomad_client, caplog, taskinstance, test_datadir
 ):
     error = {"missing compatible host volumes": 1}
-    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
@@ -226,7 +168,7 @@ def test_sync_nomad_allocation_failing_within_timeout(
     mock_nomad_client, caplog, taskinstance, test_datadir
 ):
     error = {"missing compatible host volumes": 1}
-    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())

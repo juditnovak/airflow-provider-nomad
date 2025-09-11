@@ -1,3 +1,20 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 import json
 import logging.config
 from collections.abc import Callable
@@ -30,7 +47,7 @@ NOMAD_LOGGING_CONFIG = {
     (
         "logging",
         "logging_config_class",
-    ): "airflow.providers.nomad.executors.nomad_log.NOMAD_LOG_CONFIG",
+    ): "airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG",
 }
 AiRFLOW_LOGHANDLER = "task"
 AIRFLOW_LOGGING_CONFIG = {
@@ -165,7 +182,7 @@ def test_get_task_log_task_finished(create_task_instance, mocker):
     )
 
     mock_nomad_get_task_log.return_value = ([], [])
-    executor_name = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
+    executor_name = "airflow.providers.nomad.job_manager.NomadExecutor"
     ti = create_task_instance(
         dag_id=DAG_ID,
         task_id="task_test+log_handler",
@@ -186,18 +203,17 @@ def test_get_task_log_task_finished(create_task_instance, mocker):
 
 
 @conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG})
-def test_nomad_log_ok(mocker, unittest_root):
+def test_nomad_log_ok(mocker, unittest_root, test_datadir):
     reload(executor_loader)
     fake_logfile = open(unittest_root / "data/task.log", "r").read()
+    job_alloc = test_datadir / "nomad_job_allocations.json"
 
     # Getting hold of the (already automatically mocked) Nomad client
-    mock_client = mocker.patch(
-        "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-    ).return_value
+    mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
     # We'll verify that the log request was targeting this task
     mock_allocations_request = mock_client.job.get_allocations
     # (Note: This value isn't used, but the mock above requires to have it defined)
-    mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
+    mock_client.job.get_allocations.return_value = json.loads(open(job_alloc).read())
     # We fake the logfile output
     mock_client.client.cat.read_file.side_effect = [fake_logfile, None]
 
@@ -227,20 +243,19 @@ def test_nomad_log_ok(mocker, unittest_root):
 
 
 @conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG})
-def test_nomad_log_ok_with_stderr(mocker, unittest_root):
+def test_nomad_log_ok_with_stderr(mocker, unittest_root, test_datadir):
     reload(executor_loader)
 
+    job_alloc = test_datadir / "nomad_job_allocations.json"
     fake_logfile = open(unittest_root / "data/oneline_task.log", "r").read()
     fake_stderr = open(unittest_root / "data/err.log", "r").read()
 
     # Getting hold of the (already automatically mocked) Nomad client
-    mock_client = mocker.patch(
-        "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-    ).return_value
+    mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
     # We'll verify that the log request was targeting this task
     mock_allocations_request = mock_client.job.get_allocations
     # (Note: This value isn't used, but the mock above requires to have it defined)
-    mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
+    mock_client.job.get_allocations.return_value = json.loads(open(job_alloc).read())
     # We fake the logfile output
     mock_client.client.cat.read_file.side_effect = [fake_logfile, fake_stderr]
 
@@ -286,18 +301,18 @@ def test_nomad_log_ok_with_stderr(mocker, unittest_root):
 
 
 @conf_vars({("core", "executor"): EXECUTOR, **AIRFLOW_LOGGING_CONFIG})
-def test_airflow_log_ok(mocker, unittest_root):
+def test_airflow_log_ok(mocker, unittest_root, test_datadir):
     reload(executor_loader)
+
+    job_alloc = test_datadir / "nomad_job_allocations.json"
     fake_logfile = open(unittest_root / "data/task.log", "r").read()
 
     # Getting hold of the (already automatically mocked) Nomad client
-    mock_client = mocker.patch(
-        "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-    ).return_value
+    mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
     # We'll verify that the log request was targeting this task
     mock_allocations_request = mock_client.job.get_allocations
     # (Note: This value isn't used, but the mock above requires to have it defined)
-    mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
+    mock_client.job.get_allocations.return_value = json.loads(open(job_alloc).read())
     # We fake the logfile output
     mock_client.client.cat.read_file.side_effect = [fake_logfile, None]
 
@@ -321,18 +336,18 @@ def test_airflow_log_ok(mocker, unittest_root):
 
 
 @conf_vars({("core", "executor"): EXECUTOR, **AIRFLOW_LOGGING_CONFIG})
-def test_airflow_log_ok_with_stderr(mocker, unittest_root):
+def test_airflow_log_ok_with_stderr(mocker, unittest_root, test_datadir):
     reload(executor_loader)
+
+    job_alloc = test_datadir / "nomad_job_allocations.json"
     fake_logfile = open(unittest_root / "data/oneline_task.log", "r").read()
     fake_stderr = open(unittest_root / "data/err.log", "r").read()
     # Getting hold of the (already automatically mocked) Nomad client
-    mock_client = mocker.patch(
-        "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-    ).return_value
+    mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
     # We'll verify that the log request was targeting this task
     mock_allocations_request = mock_client.job.get_allocations
     # (Note: This value isn't used, but the mock above requires to have it defined)
-    mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
+    mock_client.job.get_allocations.return_value = json.loads(open(job_alloc).read())
     # We fake the logfile output
     mock_client.client.cat.read_file.side_effect = [fake_logfile, fake_stderr]
 
@@ -373,9 +388,7 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
         reload(executor_loader)
 
         # Getting hold of the (already automatically mocked) Nomad client
-        mock_client = mocker.patch(
-            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-        ).return_value
+        mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
         mock_allocations_request = mock_client.job.get_allocations
         mock_allocations_request.return_value = [{"ID": "fake_UUID"}]
         mock_client.client.cat.read_file.side_effect = ["", ""]
@@ -408,17 +421,7 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
             "No task logs found, but the following information was retrieved from Nomad:"
         )
 
-        assert loglist[3].event == "Job evaluations:"
-        eval_data = open(file_path1).read().splitlines()
-        startind = 4
-        lastind = len(eval_data) + startind
-        assert [item.event for item in loglist][startind:lastind] == eval_data
-
-        assert loglist[lastind].event == "Job allocations info:"
-        startind = lastind + 1
-        alloc_data = open(file_path3).read().splitlines()
-        lastind = startind + len(alloc_data)
-        assert [item.event for item in loglist][startind:lastind] == alloc_data
+        lastind = 3
 
         assert loglist[lastind].event == "Job summary:"
         startind = lastind + 1
@@ -426,27 +429,34 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
         lastind = startind + len(summary_data)
         assert [item.event for item in loglist][startind:lastind] == summary_data
 
+        assert loglist[lastind].event == "Job allocations info:"
+        startind = lastind + 1
+        alloc_data = open(file_path3).read().splitlines()
+        lastind = startind + len(alloc_data)
+        assert [item.event for item in loglist][startind:lastind] == alloc_data
+
+        assert loglist[lastind].event == "Job evaluations:"
+        startind = lastind + 1
+        eval_data = open(file_path1).read().splitlines()
+        lastind = startind + len(eval_data)
+        assert [item.event for item in loglist][startind:lastind] == eval_data
+
 
 @pytest.mark.parametrize(
     "handler, config",
     [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
-def test_nomad_log_multi_alloc(handler, config, mocker):
+def test_nomad_log_multi_alloc(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
     is that here multiple allocation are returned by Nomad API (so we get an errror)
     """
     with conf_vars({("core", "executor"): EXECUTOR, **config}):
         reload(executor_loader)
-        multi_alloc = [{"ID": "<UUID1>"}, {"ID": "<UUID2>"}]
 
-        # Getting hold of the (already automatically mocked) Nomad client
-        mock_client = mocker.patch(
-            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-        ).return_value
-        # We'll verify that the log request was targeting this task
+        file_path = test_datadir / "nomad_job_multi_allocations.json"
+        mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
         mock_allocations_request = mock_client.job.get_allocations
-        # (Note: This value isn't used, but the mock above requires to have it defined)
-        mock_allocations_request.return_value = multi_alloc
+        mock_allocations_request.return_value = json.loads(open(file_path).read())
         mock_client.client.cat.read_file.side_effect = ["loglist1", "loglist2"]
 
         ti = submit_python_task()
@@ -468,9 +478,9 @@ def test_nomad_log_multi_alloc(handler, config, mocker):
             "Found standard logs for running job via Nomad API"
         )
 
-        assert loglist[2].event == "Allocation ID <UUID1>:"
+        assert loglist[2].event == "Allocation ID 32ffc170-4cfd-2a63-5b8b-52981636a216:"
         assert loglist[3].event == "loglist1"
-        assert loglist[4].event == "Allocation ID <UUID2>:"
+        assert loglist[4].event == "Allocation ID 32ffc170-4cfd-2a63-5b8b-52981636a226:"
         assert loglist[5].event == "loglist2"
 
 
@@ -489,9 +499,7 @@ def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
         reload(executor_loader)
 
         # Getting hold of the (already automatically mocked) Nomad client
-        mock_client = mocker.patch(
-            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-        ).return_value
+        mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
         # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
@@ -537,9 +545,7 @@ def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
         reload(executor_loader)
 
         # Getting hold of the (already automatically mocked) Nomad client
-        mock_client = mocker.patch(
-            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-        ).return_value
+        mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
         # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
@@ -586,9 +592,7 @@ def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
         message = "Something bad happened"
 
         # Getting hold of the (already automatically mocked) Nomad client
-        mock_client = mocker.patch(
-            "airflow.providers.nomad.executors.nomad_executor.nomad.Nomad"
-        ).return_value
+        mock_client = mocker.patch("airflow.providers.nomad.job_manager.nomad.Nomad").return_value
         # We'll verify that the log request was targeting this task
         mock_allocations_request = mock_client.job.get_allocations
         # (Note: This value isn't used, but the mock above requires to have it defined)
