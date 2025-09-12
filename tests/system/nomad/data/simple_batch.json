@@ -14,13 +14,13 @@
     "Datacenters": null,
     "DispatchIdempotencyToken": null,
     "Dispatched": false,
-    "ID": "docs",
+    "ID": "simple-job-template",
     "JobModifyIndex": 0,
     "Meta": null,
     "Migrate": null,
     "ModifyIndex": 0,
     "Multiregion": null,
-    "Name": "docs",
+    "Name": "simple-job-template",
     "Namespace": "default",
     "NodePool": "",
     "NomadTokenID": "",
@@ -81,8 +81,8 @@
             "Affinities": null,
             "Artifacts": null,
             "Config": {
-              "image": "hashicorp/http-echo",
-              "args": ["-text", "hello world"]
+              "image": "alpine:latest",
+              "args": ["uptime"]
             },
             "Constraints": null,
             "Consul": null,

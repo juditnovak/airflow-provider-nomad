@@ -107,8 +107,7 @@ jobs:
         env:
           AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
-      - name: Run System tests
-        id: systest
+      - name: System tests for NomadExecutor and NomadJobOperator
         run: |
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
@@ -120,7 +119,19 @@ jobs:
 
           uv run airflow db reset -y
           uv run airflow api-server &
+
           uv run tox run -e system_test
+
+      - name: System tests for NomadJobOperator on LocalExecutor
+        run: |
+          set -x
+          export AIRFLOW_SOURCES=$PWD/airflow
+          export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
+
+          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
+
+          sed -i "s/airflow.providers.nomad.executors.nomad_executor.NomadExecutor/LocalExecutor/" tests/system/nomad/config/unit_tests.cfg.template
+          uv run tox run -e system_test_localexecutor
 
       - name: Save nomad logs
         if: failure()

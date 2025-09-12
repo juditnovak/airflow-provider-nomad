@@ -50,7 +50,7 @@ default_timezone = utc
 #
 # executor = LocalExecutor
 #
-# [NOMAD]
+# executor = LocalExecutor
 executor = airflow.providers.nomad.executors.nomad_executor.NomadExecutor
 
 # The auth manager class that airflow should use. Full import path to the auth manager class.
@@ -150,7 +150,7 @@ max_consecutive_failed_dag_runs_per_dag = 0
 #
 # Variable: AIRFLOW__CORE__LOAD_EXAMPLES
 #
-load_examples = True
+load_examples = False
 
 # Path to the folder containing Airflow plugins
 #
@@ -648,7 +648,7 @@ migration_batch_size = 10000
 #
 # Variable: AIRFLOW__LOGGING__BASE_LOG_FOLDER
 #
-base_log_folder = /home/devel/share/workspace_airflow/airflow/../airflow_breeze_home//logs
+base_log_folder = <SYSTEST_AIRFLOW_HOME>/logs
 
 # Airflow can store logs remotely in AWS S3, Google Cloud Storage or Elastic Search.
 # Set this to ``True`` if you want to enable remote logging.
@@ -790,7 +790,7 @@ dag_processor_log_format = [%%(asctime)s] [SOURCE:DAG_PROCESSOR] {%%(filename)s:
 #
 # Variable: AIRFLOW__LOGGING__DAG_PROCESSOR_CHILD_PROCESS_LOG_DIRECTORY
 #
-dag_processor_child_process_log_directory = /home/devel/share/workspace_airflow/airflow/../airflow_breeze_home//logs/dag_processor
+dag_processor_child_process_log_directory = <SYSTEST_AIRFLOW_HOME>/logs/dag_processor
 
 # Determines the formatter class used by Airflow for structuring its log messages
 # The default formatter class is timezone-aware, which means that timestamps attached to log entries
@@ -2182,6 +2182,13 @@ dag_bundle_config_list = [
         "name": "testing",
         "classpath": "airflow.dag_processing.bundles.local.LocalDagBundle",
         "kwargs": {}
+      },
+      {
+        "name": "dags-folder",
+        "classpath": "airflow.dag_processing.bundles.local.LocalDagBundle",
+        "kwargs": {
+            "path": "<SYSTEST_ROOT>/dags"
+        }
       }
     ]
 
@@ -2342,7 +2349,6 @@ xcom_objectstorage_compression =
 # Variable: AIRFLOW__NOMAD_EXECUTOR__PARALLELISM
 #
 parallelism = 128
-# server_ip = 127.0.0.1
 server_ip = <NOMAD_SERVER_IP>
 
 # Nomad server IP
