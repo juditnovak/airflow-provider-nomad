@@ -7,3 +7,7 @@ class NomadProviderException(AirflowException):
 
 class NomadValidationError(NomadProviderException):
     """Used when can't parse Nomad job input."""
+
+
+class NomadJobOperatorError(NomadProviderException):
+    """Errors for NomadJobOperator"""

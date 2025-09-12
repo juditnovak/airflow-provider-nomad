@@ -1,7 +1,8 @@
 from enum import Enum
+from typing_extensions import Self
 from typing import Any, TypeAlias
 
-from pydantic import BaseModel, ConfigDict, TypeAdapter
+from pydantic import BaseModel, ConfigDict, TypeAdapter, model_validator
 
 
 class JobType(str, Enum):
@@ -68,9 +69,25 @@ class TaskConfigRaw(BaseModel):
     image: str | None = None
 
 
+class TaskConfig(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
+
+    image: str | None = None
+    entrypoint: list[str] | None = None
+    args: list[str] | None = None
+    command: str | list[str] | None = None
+
+    @model_validator(mode="after")
+    def compatible_fields(self) -> Self:
+        if self.entrypoint and self.command:
+            raise ValueError("Both 'entrypoint' and 'command' specified")
+        return self
+
+
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow")
-    Config: TaskConfigEntrypoint | TaskConfigArgs
+    # Config: TaskConfigEntrypoint | TaskConfigArgs | TaskConfigCmd | TaskConfigRaw
+    Config: TaskConfig
     Name: str
     Resources: Resource | None = None
 
@@ -93,6 +110,9 @@ class Job(BaseModel):
 class NomadJobModel(BaseModel):
     model_config = ConfigDict(extra="allow")
     Job: Job
+
+    def tasknames(self) -> list[str]:
+        return [task.Name for group in self.Job.TaskGroups for task in group.Tasks]
 
 
 class NomadFailedAllocInfo(BaseModel):
@@ -287,6 +307,18 @@ class NomadJobSummary(BaseModel):
                 and taskgroup.Queued == 0
                 and taskgroup.Running == 0
                 and taskgroup.Starting == 0
+            ):
+                return False
+        return True
+
+    def all_done(self) -> bool:
+        for taskgroup in self.Summary.values():
+            if not (
+                (taskgroup.Failed > 0 or taskgroup.Lost > 0 or taskgroup.Complete > 0)
+                and taskgroup.Queued == 0
+                and taskgroup.Running == 0
+                and taskgroup.Starting == 0
+                and taskgroup.Unknown == 0
             ):
                 return False
         return True
