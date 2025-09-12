@@ -28,7 +28,9 @@ from airflow.providers.nomad.models import (
 
 def test_parse_nomad_job(test_datadir):
     file_path = test_datadir / "nomad_provider_job_template.json"
-    assert NomadJobModel.model_validate(json.loads(open(file_path).read()))
+    job_model = NomadJobModel.model_validate(json.loads(open(file_path).read()))
+    assert job_model
+    assert job_model.tasknames() == ["airflow-task-1"]
 
 
 def test_parse_nomad_job_evaluation(test_datadir):

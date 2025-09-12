@@ -1,20 +1,27 @@
 {
-  "Job": {
+  "Job":
+  {
     "Affinities": null,
     "AllAtOnce": false,
-    "Constraints": null,
+    "Constraints": [
+      {
+        "LTarget": "${attr.kernel.name}",
+        "Operand": "=",
+        "RTarget": "linux"
+      }
+    ],
     "ConsulNamespace": "",
     "CreateIndex": 0,
     "Datacenters": null,
     "DispatchIdempotencyToken": null,
     "Dispatched": false,
-    "ID": "test_nomad_provider_config_default_job_template_json",
+    "ID": "docs",
     "JobModifyIndex": 0,
     "Meta": null,
     "Migrate": null,
     "ModifyIndex": 0,
     "Multiregion": null,
-    "Name": "test_nomad_provider_config_default_job_template_json",
+    "Name": "docs",
     "Namespace": "default",
     "NodePool": "",
     "NomadTokenID": "",
@@ -36,7 +43,7 @@
         "Affinities": null,
         "Constraints": null,
         "Consul": null,
-        "Count": 1,
+        "Count": 2,
         "Disconnect": null,
         "EphemeralDisk": {
           "Migrate": false,
@@ -46,7 +53,7 @@
         "MaxClientDisconnect": null,
         "Meta": null,
         "Migrate": null,
-        "Name": "testgroup",
+        "Name": "example",
         "Networks": null,
         "PreventRescheduleOnLost": null,
         "ReschedulePolicy": {
@@ -75,17 +82,17 @@
             "Affinities": null,
             "Artifacts": null,
             "Config": {
-              "image": "novakjudit/af_nomad_test:latest"
+              "image": "hashicorp/http-echo",
+              "args": [
+                "-text",
+                "hello world"
+              ]
             },
             "Constraints": null,
             "Consul": null,
             "DispatchPayload": null,
             "Driver": "docker",
-            "Env": {
-              "AIRFLOW_CONFIG": "/opt/airflow/config/airflow.cfg",
-              "AIRFLOW_HOME": "/opt/airflow/",
-              "AIRFLOW__LOGGING__BASE_LOG_FOLDER": "/usr/src/runner/logs/"
-            },
+            "Env": null,
             "Identities": null,
             "Identity": null,
             "KillSignal": "",
@@ -100,7 +107,7 @@
               "MaxFiles": 10
             },
             "Meta": null,
-            "Name": "airflow-task-1",
+            "Name": "uptime",
             "Resources": {
               "CPU": 100,
               "Cores": 0,
@@ -127,49 +134,11 @@
             "Templates": null,
             "User": "",
             "Vault": null,
-            "VolumeMounts": [
-              {
-                "Destination": "/opt/airflow/config",
-                "PropagationMode": "private",
-                "ReadOnly": false,
-                "SELinuxLabel": "",
-                "Volume": "config"
-              },
-              {
-                "Destination": "/opt/airflow/dags",
-                "PropagationMode": "private",
-                "ReadOnly": false,
-                "SELinuxLabel": "",
-                "Volume": "dags"
-              }
-            ]
+            "VolumeMounts": null
           }
         ],
         "Update": null,
-        "Volumes": {
-          "config": {
-            "AccessMode": "",
-            "AttachmentMode": "",
-            "MountOptions": null,
-            "Name": "config",
-            "PerAlloc": false,
-            "ReadOnly": true,
-            "Source": "config",
-            "Sticky": false,
-            "Type": "host"
-          },
-          "dags": {
-            "AccessMode": "",
-            "AttachmentMode": "",
-            "MountOptions": null,
-            "Name": "dags",
-            "PerAlloc": false,
-            "ReadOnly": true,
-            "Source": "dags",
-            "Sticky": false,
-            "Type": "host"
-          }
-        }
+        "Volumes": null
       }
     ],
     "Type": "batch",

@@ -53,7 +53,7 @@ def load_airflow_config():
 def mock_nomad_client(mocker):
     """Mock the Nomad client to avoid real connections during unit tests."""
     return mocker.patch(
-        "airflow.providers.nomad.job_manager.nomad.Nomad", autospec=True
+        "airflow.providers.nomad.nomad_manager.nomad.Nomad", autospec=True
     ).return_value
 
 
