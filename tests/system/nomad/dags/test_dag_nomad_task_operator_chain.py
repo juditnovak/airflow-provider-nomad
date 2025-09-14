@@ -24,11 +24,11 @@ from airflow.providers.standard.operators.bash import BashOperator
 from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
+from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-job-operator-chain"
+DAG_ID = "test-nomad-task-operator-chain"
 JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
@@ -98,9 +98,9 @@ with myDAG(
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
-    params=ParamsDict({"template_content": content}),
+    params=ParamsDict({"template_content": content, "image": "alpine:3.21", "args": ["date"]}),
 ) as dag:
-    run_this_first = NomadJobOperator(task_id="nomad_task", do_xcom_push=True)
+    run_this_first = NomadTaskOperator(task_id="nomad_task", do_xcom_push=True)
 
     run_this_last = BashOperator(
         task_id="bash_task",

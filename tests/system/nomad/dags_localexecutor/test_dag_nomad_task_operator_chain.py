@@ -28,7 +28,7 @@ from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-job-operator-chain"
+DAG_ID = "test-nomad-task-operator-chain"
 JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
@@ -98,7 +98,7 @@ with myDAG(
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
-    params=ParamsDict({"template_content": content}),
+    params=ParamsDict({"template_content": content, "image": "alpine:3.21", "args": ["date"]}),
 ) as dag:
     run_this_first = NomadJobOperator(task_id="nomad_task", do_xcom_push=True)
 
@@ -112,9 +112,17 @@ with myDAG(
 
 # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:
+    from airflow.configuration import conf
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-    test_run = get_test_run(dag)
+    from ..constants import TEST_DAGS_LOCALEXECUTOR_PATH
+
+    os.environ["TEST_DAGS_PATH"] = str(TEST_DAGS_LOCALEXECUTOR_PATH)
+
+    # Sadly none of the DAG executor settings are considered in the test environment
+    # Running it only in a pre-configured environment
+    if conf.get("core", "executor") == "LocalExecutor":
+        test_run = get_test_run(dag)
 
 except ImportError:
     pass
