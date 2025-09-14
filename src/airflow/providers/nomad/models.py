@@ -1,8 +1,8 @@
 from enum import Enum
-from typing_extensions import Self
 from typing import Any, TypeAlias
 
 from pydantic import BaseModel, ConfigDict, TypeAdapter, model_validator
+from typing_extensions import Self
 
 
 class JobType(str, Enum):
@@ -35,40 +35,6 @@ class Resource(BaseModel):
     MemoryMB: int | None = 256
 
 
-class TaskConfigImglessCmd(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    command: str | list[str] | None = None
-
-
-class TaskConfigCmd(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str
-    command: str | list[str] | None = None
-
-
-class TaskConfigEntrypoint(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
-    entrypoint: list[str]
-    args: list[str] | None = None
-
-
-class TaskConfigArgs(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
-    args: list[str] | None = None
-
-
-class TaskConfigRaw(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
-
-
 class TaskConfig(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
 
@@ -86,7 +52,6 @@ class TaskConfig(BaseModel):
 
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow")
-    # Config: TaskConfigEntrypoint | TaskConfigArgs | TaskConfigCmd | TaskConfigRaw
     Config: TaskConfig
     Name: str
     Resources: Resource | None = None

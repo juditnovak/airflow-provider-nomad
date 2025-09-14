@@ -9,5 +9,13 @@ class NomadValidationError(NomadProviderException):
     """Used when can't parse Nomad job input."""
 
 
-class NomadJobOperatorError(NomadProviderException):
+class NomadOperatorError(NomadProviderException):
+    """Errors for NomadJobOperator"""
+
+
+class NomadJobOperatorError(NomadOperatorError):
+    """Errors for NomadJobOperator"""
+
+
+class NomadTaskOperatorError(NomadOperatorError):
     """Errors for NomadJobOperator"""

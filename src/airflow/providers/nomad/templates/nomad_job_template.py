@@ -17,6 +17,12 @@
 
 from typing import Any
 
+from airflow.configuration import conf
+
+default_image = conf.get(
+    "nomad_executor", "default_docker_image", fallback="novakjudit/af_nomad_test:latest"
+)
+
 default_task_template: dict[str, Any] = {
     "Job": {
         "AllAtOnce": None,
@@ -57,8 +63,7 @@ default_task_template: dict[str, Any] = {
                     {
                         "Artifacts": None,
                         "Config": {
-                            # "image": "debian:testing",
-                            "image": "novakjudit/af_nomad_test:latest",
+                            "image": default_image,
                             "entrypoint": [
                                 "python",
                                 "-m",
@@ -66,7 +71,6 @@ default_task_template: dict[str, Any] = {
                                 "--json-string",
                             ],
                             "args": [],
-                            # "entrypoint": ["tail", "-f", "/dev/null"]
                         },
                         "Constraints": None,
                         "DispatchPayload": None,
@@ -79,7 +83,7 @@ default_task_template: dict[str, Any] = {
                         "Leader": False,
                         "LogConfig": None,
                         "Meta": None,
-                        "Name": "<placeholder>",
+                        "Name": "airflow-task",
                         "Resources": {
                             "CPU": 500,
                             "DiskMB": None,

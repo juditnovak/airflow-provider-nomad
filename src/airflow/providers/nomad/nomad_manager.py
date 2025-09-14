@@ -23,14 +23,13 @@ that are used both on executor and operator side.
 
 from datetime import datetime
 from functools import cached_property
-from typing import Callable, Any
+from typing import Any, Callable
 
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
 from airflow.utils.log.logging_mixin import LoggingMixin
 from nomad.api.exceptions import BadRequestNomadException  # type: ignore[import-untyped]
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
-from nomad.api.exceptions import URLNotFoundNomadException  # type: ignore[import-untyped]
 from pydantic import ValidationError
 
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
@@ -107,40 +106,40 @@ class NomadManager(LoggingMixin):
         return decorator
 
     @catch_nomad_exception()
-    def get_nomad_job_evaluations(self, job_id: str) -> NomadJobEvalList | None:  # type: ignore[return]
-        job_eval = self.nomad.job.get_evaluations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
-        try:
-            return NomadJobEvaluation.validate_python(job_eval)
-        except ValidationError as err:
-            self.log.error("Couldn't parse Nomad job validation output: %s %s", err, err.errors())
-
     def get_nomad_job_submission(self, job_id: str) -> NomadJobSubmission | None:  # type: ignore[return]
-        try:
-            job_status = self.nomad.job.get_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
-        except URLNotFoundNomadException:
-            self.log.error("Summary retrieval error: job %s not found", job_id)
+        if not (job_status := self.nomad.job.get_job(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
             return  # type: ignore [return-value]
-
         try:
             return NomadJobSubmission.model_validate(job_status)
         except ValidationError as err:
-            self.log.error("Couldn't parse Nomad job submission info: %s %s", err, err.errors())
+            self.log.debug("Couldn't parse Nomad job submission info: %s %s", err, err.errors())
+
+    @catch_nomad_exception()
+    def get_nomad_job_evaluations(self, job_id: str) -> NomadJobEvalList | None:  # type: ignore[return]
+        if not (job_eval := self.nomad.job.get_evaluations(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
+            return  # type: ignore [return-value]
+        try:
+            return NomadJobEvaluation.validate_python(job_eval)
+        except ValidationError as err:
+            self.log.debug("Couldn't parse Nomad job validation output: %s %s", err, err.errors())
 
     @catch_nomad_exception()
     def get_nomad_job_allocation(self, job_id: str) -> NomadJobAllocList | None:  # type: ignore[return]
-        job_allocations = self.nomad.job.get_allocations(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        if not (job_allocations := self.nomad.job.get_allocations(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
+            return  # type: ignore [return-value]
         try:
             return NomadJobAllocations.validate_python(job_allocations)
         except ValidationError as err:
-            self.log.error("Couldn't parse Nomad job allocations info: %s %s", err, err.errors())
+            self.log.debug("Couldn't parse Nomad job allocations info: %s %s", err, err.errors())
 
     @catch_nomad_exception()
     def get_nomad_job_summary(self, job_id: str) -> NomadJobSummary | None:  # type: ignore[return]
-        job_summary = self.nomad.job.get_summary(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        if not (job_summary := self.nomad.job.get_summary(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
+            return  # type: ignore [return-value]
         try:
             return NomadJobSummary.model_validate(job_summary)
         except ValidationError as err:
-            self.log.error("Couldn't parse Nomad job summary: %s %s", err, err.errors())
+            self.log.debug("Couldn't parse Nomad job summary: %s %s", err, err.errors())
 
     @catch_nomad_exception(exc_retval="")
     def get_job_stdout(self, allocation_id: str, job_task_id: str) -> str:
@@ -223,7 +222,7 @@ class NomadManager(LoggingMixin):
                     failed_item = item
 
             taskgroup_name = job_status.TaskGroups[0].Name
-            if failed_item and (failed_alloc := failed_item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess]
+            if failed_item and (failed_alloc := failed_item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess, union-attr]
                 self.log.info("Task %s was pending beyond timeout, stopping it.", job_id)
                 self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 error = failed_alloc.errors()
