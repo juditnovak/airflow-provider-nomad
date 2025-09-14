@@ -17,19 +17,19 @@
 
 
 import json
-import pytest
 from time import sleep
 
+import pytest
 from tests_common.test_utils.config import conf_vars
 
-from airflow.providers.nomad.nomad_manager import NomadManager
 from airflow.providers.nomad.models import (
     NomadJobAllocationInfo,
     NomadJobEvaluationInfo,
+    NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
-    NomadJobModel,
 )
+from airflow.providers.nomad.nomad_manager import NomadManager
 
 
 @conf_vars({})

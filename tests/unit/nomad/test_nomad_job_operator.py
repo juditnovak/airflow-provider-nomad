@@ -15,16 +15,17 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import pytest
 import json
 import logging
 from pathlib import Path
 
-from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
-from airflow.providers.nomad.exceptions import NomadJobOperatorError
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
-from airflow.providers.nomad.models import NomadJobModel
+import pytest
 from airflow.sdk import Context
+from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
+
+from airflow.providers.nomad.exceptions import NomadJobOperatorError
+from airflow.providers.nomad.models import NomadJobModel
+from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
@@ -51,7 +52,7 @@ def test_nomad_job_operator_execute_ok(filename, test_datadir, mock_nomad_client
     retval = NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
-        "example", NomadJobModel.model_validate_json(content).model_dump()
+        "example", NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     )
     assert retval == str({"Summary": 30})
 
@@ -85,7 +86,7 @@ def test_nomad_job_operator_execute_ok_with_task_logs(
         retval = op.execute(context)
 
         mock_job_register.assert_called_once_with(
-            "example", NomadJobModel.model_validate_json(content).model_dump()
+            "example", NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
         )
         assert retval == str({"Summary": 30})
         assert any([job_log in record.message for record in caplog.records])
@@ -106,7 +107,7 @@ def test_nomad_job_operator_execute_job_submission_fails(filename, test_datadir,
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
-        "example", NomadJobModel.model_validate_json(content).model_dump()
+        "example", NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     )
     assert str(err.value).startswith("Job submission failed")
 
@@ -133,9 +134,12 @@ def test_nomad_job_operator_execute_failed(filename, test_datadir, mock_nomad_cl
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
-        "example", NomadJobModel.model_validate_json(content).model_dump()
+        "example", NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     )
-    assert str(err.value).startswith("Job submission failed")
+    assert str(err.value).startswith("Job summary:Job example got killed due to error")
+    assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in str(
+        err.value
+    )
 
 
 def test_sanitize_logs():
