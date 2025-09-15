@@ -2516,12 +2516,12 @@ xcom_objectstorage_threshold = -1
 #
 xcom_objectstorage_compression =
 
-[nomad_executor]
+[nomad_provider]
 # Generic Airflow executor parallelism (should be higher than 0)
 #
 # Example: parallelism = 128
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__PARALLELISM
+# Variable: AIRFLOW__NOMAD_PROVIDER__PARALLELISM
 #
 parallelism = 128
 
@@ -2529,15 +2529,15 @@ parallelism = 128
 #
 # Example: server_ip = 192.168.122.226
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__SERVER_IP
+# Variable: AIRFLOW__NOMAD_PROVIDER__SERVER_IP
 #
-server_ip = <NOMAD_SERVER_IP>
+agent_server_ip = <NOMAD_SERVER_IP>
 
 # Whether TLS certificates are to be considered
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__SECURE
+# Variable: AIRFLOW__NOMAD_PROVIDER__SECURE
 #
-secure = False
+agent_secure = False
 
 [standard]
 # Options for the standard provider operators.

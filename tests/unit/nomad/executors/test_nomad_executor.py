@@ -43,7 +43,7 @@ def test_base_defaults():
     assert nomad_executor.parallelism == 128
 
 
-@conf_vars({("nomad_executor", "parallelism"): "2"})
+@conf_vars({("nomad_provider", "parallelism"): "2"})
 def test_base_fallback_default_params():
     nomad_executor = NomadExecutor()
     assert nomad_executor
@@ -137,7 +137,7 @@ def test_sync_nomad_allocation_failing_timeout(
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
 
-    with conf_vars({("nomad_executor", "alloc_pending_timeout"): "1"}):
+    with conf_vars({("nomad_provider", "alloc_pending_timeout"): "1"}):
         with caplog.at_level(logging.INFO):
             nomad_executor = NomadExecutor()
             nomad_executor.start()
@@ -172,7 +172,7 @@ def test_sync_nomad_allocation_failing_within_timeout(
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
 
-    with conf_vars({("nomad_executor", "alloc_pending_timeout"): "100"}):
+    with conf_vars({("nomad_provider", "alloc_pending_timeout"): "100"}):
         with caplog.at_level(logging.INFO):
             nomad_executor = NomadExecutor()
             nomad_executor.start()
@@ -257,7 +257,7 @@ def test_sync_nomad_job_submission_failed_but_running_now(
 @pytest.mark.parametrize("job_tpl", ["simple_job.json", "complex_job.json"])
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir, taskinstance):
-    with conf_vars({("nomad_executor", "default_job_template"): str(test_datadir / job_tpl)}):
+    with conf_vars({("nomad_provider", "default_job_template"): str(test_datadir / job_tpl)}):
         nomad_executor = NomadExecutor()
         nomad_executor.start()
         task = ExecuteTask.make(taskinstance)

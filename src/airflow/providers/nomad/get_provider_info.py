@@ -67,71 +67,78 @@ def get_provider_info():
         #     },
         # ],
         "config": {
-            "nomad_executor": {
+            "nomad_provider": {
                 "description": None,
                 "options": {
                     "parallelism": {
                         "description": "Generic Airflow executor parallelism (should be higher than 0)",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "integer",
                         "example": "128",
                         "default": "1",
                     },
-                    "server_ip": {
+                    "agent_server_ip": {
                         "description": "Nomad server IP",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "string",
                         "example": "192.168.122.226",
                         "default": None,
                     },
-                    "secure": {
+                    "agent_secure": {
                         "description": "Whether TLS certificates are to be considered",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "boolean",
                         "example": None,
                         "default": "False",
                     },
-                    "cert_path": {
+                    "agent_cert_path": {
                         "description": "Absolute path to client certificate",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "string",
                         "example": "/absolute/path/to/certs/global-cli-nomad.pem",
                         "default": "",
                     },
-                    "key_path": {
+                    "agent_key_path": {
                         "description": "Absolute path to client key",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "string",
                         "example": "/absolute/path/to/certs/global-cli-nomad-key.pem",
                         "default": "",
                     },
-                    "verify": {
+                    "agent_verify": {
                         "description": "Absolute paht to CA certificate or true/false",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "string",
                         "example": "/absolute/path/to/certs/nomad-agent-ca.pem",
                         "default": "",
                     },
                     "default_job_template": {
                         "description": "Specific .hcl or .json template to use for job submission, instead of in-built defaults",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "string",
                         "example": "/absolute/path/to/job_template.{json,hcl}",
                         "default": "",
                     },
+                    "default_docker_image": {
+                        "description": "Default Docker image for the default job template",
+                        "version_added": "0.0.2",
+                        "type": "string",
+                        "example": "python:latest",
+                        "default": "novakjudit/af_nomad_test:latest",
+                    },
                     "alloc_pending_timeout": {
                         "description": "Timeout in seconds before failed allocations may be considered as failed jobs",
-                        "version_added": None,
+                        "version_added": "0.0.1",
                         "type": "integer",
                         "example": "600",
                         "default": "600",
                     },
-                    "default_docker_image": {
-                        "description": "Default Docker image for the default job template",
-                        "version_added": None,
-                        "type": "string",
-                        "example": "python:latest",
-                        "default": "novakjudit/af_nomad_test:latest",
+                    "operator_poll_delay": {
+                        "description": "Time delay for Nomad Opeators supervision cycle, to check on child Nomad job",
+                        "version_added": "0.0.2",
+                        "type": "integer",
+                        "example": "5",
+                        "default": "10",
                     },
                 },
             },

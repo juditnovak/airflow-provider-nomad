@@ -45,26 +45,27 @@ from airflow.providers.nomad.models import (
     NomadJobSummary,
 )
 from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
-
-EXECUTOR_NAME = "nomad_executor"
+from airflow.providers.nomad.constants import CONFIG_SECTION
 
 
 class NomadManager(LoggingMixin):
     def __init__(self):
-        self.nomad_server_ip: str = conf.get(EXECUTOR_NAME, "server_ip", fallback="0.0.0.0")
-        self.nomad_server_port: int = conf.getint(EXECUTOR_NAME, "server_port", fallback=4646)
-        self.secure: bool = conf.getboolean(EXECUTOR_NAME, "secure", fallback=False)
-        self.cert_path: str = conf.get(EXECUTOR_NAME, "cert_path", fallback="")
-        self.key_path: str = conf.get(EXECUTOR_NAME, "key_path", fallback="")
-        self.namespace: str = conf.get(EXECUTOR_NAME, "namespace", fallback="")
-        self.token: str = conf.get(EXECUTOR_NAME, "token", fallback="")
+        self.nomad_server_ip: str = conf.get(CONFIG_SECTION, "agent_server_ip", fallback="0.0.0.0")
+        self.nomad_server_port: int = conf.getint(
+            CONFIG_SECTION, "agent_server_port", fallback=4646
+        )
+        self.secure: bool = conf.getboolean(CONFIG_SECTION, "agent_secure", fallback=False)
+        self.cert_path: str = conf.get(CONFIG_SECTION, "agent_cert_path", fallback="")
+        self.key_path: str = conf.get(CONFIG_SECTION, "agent_key_path", fallback="")
+        self.namespace: str = conf.get(CONFIG_SECTION, "agent_namespace", fallback="")
+        self.token: str = conf.get(CONFIG_SECTION, "agent_token", fallback="")
 
         self.alloc_pending_timeout: int = conf.getint(
-            EXECUTOR_NAME, "alloc_pending_timeout", fallback=600
+            CONFIG_SECTION, "alloc_pending_timeout", fallback=600
         )
 
         self.verify: bool | str
-        verify = conf.get(EXECUTOR_NAME, "verify", fallback="")
+        verify = conf.get(CONFIG_SECTION, "agent_verify", fallback="")
         if verify == "true":
             self.verify = True
         elif verify == "false":

@@ -21,8 +21,6 @@ from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import 
 from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 
-EXECUTOR_NAME = "nomad_executor"
-
 
 class NomadJobOperator(NomadOperator):
     def __init__(self, observe: bool = True, job_log_file: str | None = None, **kwargs):

@@ -18,9 +18,10 @@
 from typing import Any
 
 from airflow.configuration import conf
+from airflow.providers.nomad.constants import CONFIG_SECTION
 
 default_image = conf.get(
-    "nomad_executor", "default_docker_image", fallback="novakjudit/af_nomad_test:latest"
+    CONFIG_SECTION, "default_docker_image", fallback="novakjudit/af_nomad_test:latest"
 )
 
 default_task_template: dict[str, Any] = {

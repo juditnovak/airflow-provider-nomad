@@ -111,7 +111,7 @@ def test_nomad_task_operator_execute_ok_with_task_logs(
         assert any([job_log in record.message for record in caplog.records])
 
 
-@conf_vars({("nomad_executor", "alloc_pending_timeout"): "0"})
+@conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
 def test_nomad_task_operator_execute_job_submission_fails(
     filename, test_datadir, mock_nomad_client

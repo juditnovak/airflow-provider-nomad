@@ -24,8 +24,6 @@ from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import 
 from airflow.providers.nomad.models import NomadJobModel, TaskConfig
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
 
-EXECUTOR_NAME = "nomad_executor"
-
 
 class NomadTaskOperator(NomadOperator):
     def __init__(self, **kwargs):

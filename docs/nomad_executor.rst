@@ -109,11 +109,11 @@ each of them to different docker containers.
 Configuration
 #################
 
-Configuration options that are available for ``NomadExecutor`` are to be found in the ``nomad_executor`` section of the Airflow configuration.
+Configuration options that are available for ``NomadExecutor`` are to be found in the ``nomad_provider`` section of the Airflow configuration.
 
 ``parallelism``: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.
 
-``server_ip``: The IP address of the Nomad server. (Default: ``127.0.0.1``)
+``agent_server_ip``: The IP address of the Nomad server. (Default: ``127.0.0.1``)
 
 ``default_job_template``: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the `Job submission template`_ section.
 
@@ -123,13 +123,13 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 
 
 
-``secure``: Whether TLS is enabled. 
+``agent_secure``: Whether TLS is enabled. 
 
-``verify``: This configuration may either hold a boolean value (``true``/``false``) or the absolute path of the CA certificate. (Exactly as for `Python Requests SSL cert verification <https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_)
+``agent_verify``: This configuration may either hold a boolean value (``true``/``false``) or the absolute path of the CA certificate. (Exactly as for `Python Requests SSL cert verification <https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_)
 
-``cert_path``: The absolute path of the client certificate.
+``agent_cert_path``: The absolute path of the client certificate.
 
-``key_path``: The absolute path of the client key.
+``agent_key_path``: The absolute path of the client key.
 
 
 For TLS-related configuration in detail, see the `Security`_ section.

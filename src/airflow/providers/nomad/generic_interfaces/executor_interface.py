@@ -46,7 +46,6 @@ class ExecutorInterface(BaseExecutor):
 
     RUNNING_POD_LOG_LINES = 100
     supports_ad_hoc_ti_run: bool = True
-    EXECUTOR_NAME = "generic_executor"
 
     serve_logs = True
 

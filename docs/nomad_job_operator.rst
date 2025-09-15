@@ -35,6 +35,10 @@ Parameters
 ``observe``: Supervise the lifetime of the spawned Nomad execution, or abandon it as a "daemon" task. NOTE: In this case the job is loosing track from an Airflow point of view
 
 
+Configuration
+###############
+
+``operator_poll_delay``: Wait time between repetititve checks on submitted child job
 
 Examples
 ##############

@@ -45,7 +45,7 @@ def test_base_defaults():
 
 @conf_vars(
     {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
+        ("nomad_provider", "agent_server_ip"): "1.2.3.4",
     }
 )
 def test_base_fallback_default_params():
@@ -60,11 +60,11 @@ def test_base_fallback_default_params():
 
 @conf_vars(
     {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
-        ("nomad_executor", "cert_path"): "certs_absolute_path/global-cli-nomad.pem",
-        ("nomad_executor", "key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
-        ("nomad_executor", "verify"): "certs_absolute_path/nomad-agent-ca.pem",
-        ("nomad_executor", "secure"): "true",
+        ("nomad_provider", "agent_server_ip"): "1.2.3.4",
+        ("nomad_provider", "agent_cert_path"): "certs_absolute_path/global-cli-nomad.pem",
+        ("nomad_provider", "agent_key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
+        ("nomad_provider", "agent_verify"): "certs_absolute_path/nomad-agent-ca.pem",
+        ("nomad_provider", "agent_secure"): "true",
     }
 )
 def test_base_params_secure():
@@ -78,15 +78,15 @@ def test_base_params_secure():
 
 
 def test_base_params_secure_verify_bool():
-    with conf_vars({("nomad_executor", "verify"): "cacert_path"}):
+    with conf_vars({("nomad_provider", "agent_verify"): "cacert_path"}):
         nomad_mgr = NomadManager()
         assert nomad_mgr.verify == "cacert_path"
 
-    with conf_vars({("nomad_executor", "verify"): "true"}):
+    with conf_vars({("nomad_provider", "agent_verify"): "true"}):
         nomad_mgr = NomadManager()
         assert nomad_mgr.verify == True  # noqa: E712
 
-    with conf_vars({("nomad_executor", "verify"): "false"}):
+    with conf_vars({("nomad_provider", "agent_verify"): "false"}):
         nomad_mgr = NomadManager()
         assert nomad_mgr.verify == False  # noqa: E712
 
@@ -211,7 +211,7 @@ def test_get_job_submission(mock_nomad_client, test_datadir):
     assert not nomad_mgr.get_nomad_job_submission("somejob")
 
 
-@conf_vars({("nomad_executor", "alloc_pending_timeout"): "0"})
+@conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
 def test_remove_job_if_hanging_good_job(mock_nomad_client, test_datadir):
     """Job submission is all good, job is not to be killed"""
     nomad_mgr = NomadManager()
@@ -231,7 +231,7 @@ def test_remove_job_if_hanging_good_job(mock_nomad_client, test_datadir):
     mock_kill.assert_not_called()
 
 
-@conf_vars({("nomad_executor", "alloc_pending_timeout"): "0"})
+@conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
 def test_remove_job_if_hanging_evaluation_timeout(mock_nomad_client, test_datadir):
     """Job allocation failed, and it's passing configured timeout"""
     nomad_mgr = NomadManager()
@@ -254,7 +254,7 @@ def test_remove_job_if_hanging_evaluation_timeout(mock_nomad_client, test_datadi
     mock_kill.assert_called_once()
 
 
-@conf_vars({("nomad_executor", "alloc_pending_timeout"): "100"})
+@conf_vars({("nomad_provider", "alloc_pending_timeout"): "100"})
 def test_remove_job_if_hanging_no_evaluation_timeout(mock_nomad_client, test_datadir):
     """Job allocation failed, but we've been within the timeout so the job isn't killed"""
     nomad_mgr = NomadManager()
@@ -274,7 +274,7 @@ def test_remove_job_if_hanging_no_evaluation_timeout(mock_nomad_client, test_dat
     mock_kill.assert_not_called()
 
 
-@conf_vars({("nomad_executor", "alloc_pending_timeout"): "0"})
+@conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
 def test_remove_job_if_hanging_alloc_failure(mock_nomad_client, test_datadir):
     """Job evaluation failed, Nomad status is 'dead', job is killed ultimately"""
     nomad_mgr = NomadManager()

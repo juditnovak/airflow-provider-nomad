@@ -43,6 +43,7 @@ from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.nomad_manager import NomadManager
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.constants import CONFIG_SECTION
 
 NOMAD_COMMANDS = ()
 
@@ -59,10 +60,9 @@ class NomadExecutor(ExecutorInterface):
 
     RUNNING_POD_LOG_LINES = 100
     supports_ad_hoc_ti_run: bool = True
-    EXECUTOR_NAME = "nomad_executor"
 
     def __init__(self):
-        self.parallelism: int = conf.getint(self.EXECUTOR_NAME, "parallelism", fallback=128)
+        self.parallelism: int = conf.getint(CONFIG_SECTION, "parallelism", fallback=128)
         self.nomad_mgr = NomadManager()
         super().__init__(parallelism=self.parallelism)
 
@@ -82,7 +82,7 @@ class NomadExecutor(ExecutorInterface):
         return f"{dag_id}-{task_id}"
 
     def _get_job_template(self) -> NomadJobModel | None:
-        if not (job_tpl_loc := conf.get(self.EXECUTOR_NAME, "default_job_template", fallback="")):
+        if not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
             return None
 
         job_tpl_path = Path(job_tpl_loc)

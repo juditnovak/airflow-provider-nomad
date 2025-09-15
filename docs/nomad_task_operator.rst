@@ -42,6 +42,20 @@ Parameters
 ``command (dict[str])``: Command to be run by the Docker image (incompatible with ``entrypoint``)
 
 
+Configuration
+###############
+
+``operator_poll_delay``: Wait time between repetititve checks on submitted child job
+
+
+Job submission
+################
+
+Job submission and execution are following the the principles of `Nomad Executor Job submission <nomad_executor.html#job-execution>`_.
+
+In addition
+
+
 Examples
 ##############
 
