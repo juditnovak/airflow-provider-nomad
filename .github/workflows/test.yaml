@@ -10,7 +10,7 @@ jobs:
   lint:
     name: Lint and type checks
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v5
