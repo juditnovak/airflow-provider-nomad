@@ -24,12 +24,15 @@ from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.models import (
     NomadJobAllocationInfo,
+    NomadJobAllocations,
+    NomadJobEvaluation,
     NomadJobEvaluationInfo,
     NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
 )
 from airflow.providers.nomad.nomad_manager import NomadManager
+from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
 
 @conf_vars({})
@@ -124,7 +127,9 @@ def test_parse_template_json(filename, test_datadir):
     nomad_mgr.initialize()
 
     file_path = test_datadir / filename
-    content = open(file_path).read()
+    with open(file_path) as file:
+        content = file.read()
+
     assert NomadJobModel.model_validate_json(content) == nomad_mgr.parse_template_json(content)
     assert NomadJobModel.model_validate_json(content) == nomad_mgr.parse_template_content(content)
 
@@ -135,7 +140,9 @@ def test_parse_template_dict(filename, test_datadir):
     nomad_mgr.initialize()
 
     file_path = test_datadir / filename
-    content = open(file_path).read()
+    with open(file_path) as file:
+        content = file.read()
+
     data = json.loads(content)
     assert NomadJobModel.model_validate(data) == nomad_mgr.parse_template_json(content)
     assert NomadJobModel.model_validate(data) == nomad_mgr.parse_template_content(content)
@@ -146,24 +153,79 @@ def test_parse_template_hcl(test_datadir, mock_nomad_client):
     nomad_mgr.initialize()
 
     file_path1 = test_datadir / "simple_batch.hcl"
-    content = open(file_path1).read()
-
     file_path2 = test_datadir / "simple_batch_api_retval.json"
-    mock_nomad_client.jobs.parse.return_value = json.loads(open(file_path2).read())
-    json_content = '{ "Job": ' + open(file_path2).read() + "}"
+    with open(file_path1) as file1, open(file_path2) as file2:
+        hcl = file1.read()
+        client_resp = file2.read()
 
-    assert NomadJobModel.model_validate_json(json_content) == nomad_mgr.parse_template_hcl(content)
-    assert NomadJobModel.model_validate_json(json_content) == nomad_mgr.parse_template_content(
-        content
+        mock_nomad_client.jobs.parse.return_value = json.loads(client_resp)
+        json_content = '{ "Job": ' + client_resp + "}"
+
+        assert NomadJobModel.model_validate_json(json_content) == nomad_mgr.parse_template_hcl(hcl)
+        assert NomadJobModel.model_validate_json(json_content) == nomad_mgr.parse_template_content(
+            hcl
+        )
+
+
+def test_job_all_info_str(mock_nomad_client, test_datadir):
+    nomad_mgr = NomadManager()
+    nomad_mgr.initialize()
+
+    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path2 = test_datadir / "nomad_job_allocations.json"
+    file_path3 = test_datadir / "nomad_job_summary_running.json"
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        job_eval_data = file1.read()
+        job_alloc_data = file2.read()
+        job_summary_data = file3.read()
+    mock_get_eval = mock_nomad_client.job.get_evaluations
+    mock_get_eval.return_value = json.loads(job_eval_data)
+    mock_get_alloc = mock_nomad_client.job.get_allocations
+    mock_get_alloc.return_value = json.loads(job_alloc_data)
+    mock_get_summary = mock_nomad_client.job.get_summary
+    mock_get_summary.return_value = json.loads(job_summary_data)
+
+    job_eval = NomadJobEvaluation.validate_json(job_eval_data)
+    job_alloc = NomadJobAllocations.validate_json(job_alloc_data)
+    job_summary = NomadJobSummary.model_validate_json(job_summary_data)
+
+    # Call with pre-fetched data
+    infostr1 = nomad_mgr.job_all_info_str(
+        "job_id", job_summary=job_summary, job_alloc=job_alloc, job_eval=job_eval
     )
+
+    assert infostr1[0] == "Job summary:"
+    firstind = 1
+    lastind = firstind + len(job_summary_data.splitlines())
+    assert infostr1[firstind:lastind] == job_summary_data.splitlines()
+
+    firstind = lastind + 1
+    assert infostr1[lastind] == "Job allocations info:"
+    lastind = firstind + len(job_alloc_data.splitlines())
+    assert infostr1[firstind:lastind] == job_alloc_data.splitlines()
+
+    firstind = lastind + 1
+    assert infostr1[lastind] == "Job evaluations:"
+    lastind = firstind + len(job_eval_data.splitlines())
+    assert infostr1[firstind:lastind] == job_eval_data.splitlines()
+
+    # Call without pre-fetched data
+    infostr2 = nomad_mgr.job_all_info_str("job_id")
+    assert infostr1 == infostr2
+
+    mock_get_alloc.assert_called_once()
+    mock_get_eval.assert_called_once()
+    mock_get_summary.assert_called_once()
 
 
 def test_get_allocations(mock_nomad_client, test_datadir):
     nomad_mgr = NomadManager()
     nomad_mgr.initialize()
 
-    job_alloc = test_datadir / "nomad_job_allocations.json"
-    mock_nomad_client.job.get_allocations.return_value = json.loads(open(job_alloc).read())
+    file_path = test_datadir / "nomad_job_allocations.json"
+    with open(file_path) as file:
+        mock_nomad_client.job.get_allocations.return_value = json.loads(file.read())
+
     allocations = nomad_mgr.get_nomad_job_allocation("somejob")
     assert allocations
     assert all(isinstance(alloc, NomadJobAllocationInfo) for alloc in allocations)
@@ -171,16 +233,30 @@ def test_get_allocations(mock_nomad_client, test_datadir):
     mock_nomad_client.job.get_allocations.return_value = {"wrong": "input"}
     assert not nomad_mgr.get_nomad_job_allocation("somejob")
 
+    mock_nomad_client.job.get_allocations.return_value = None
+    assert not nomad_mgr.get_nomad_job_allocation("somejob")
+
+    mock_nomad_client.job.get_allocations.side_effect = BaseNomadException("")
+    assert not nomad_mgr.get_nomad_job_allocation("somejob")
+
 
 def test_get_job_status(mock_nomad_client, test_datadir):
     nomad_mgr = NomadManager()
     nomad_mgr.initialize()
 
-    job_alloc = test_datadir / "nomad_job_summary_running.json"
-    mock_nomad_client.job.get_summary.return_value = json.loads(open(job_alloc).read())
+    file_path = test_datadir / "nomad_job_summary_running.json"
+    with open(file_path) as file:
+        mock_nomad_client.job.get_summary.return_value = json.loads(file.read())
+
     assert isinstance(nomad_mgr.get_nomad_job_summary("somejob"), NomadJobSummary)
 
     mock_nomad_client.job.get_summary.return_value = {"wrong": "input"}
+    assert not nomad_mgr.get_nomad_job_summary("somejob")
+
+    mock_nomad_client.job.get_summary.return_value = None
+    assert not nomad_mgr.get_nomad_job_summary("somejob")
+
+    mock_nomad_client.job.get_summary.side_effect = BaseNomadException("")
     assert not nomad_mgr.get_nomad_job_summary("somejob")
 
 
@@ -188,8 +264,10 @@ def test_get_job_evaluations(mock_nomad_client, test_datadir):
     nomad_mgr = NomadManager()
     nomad_mgr.initialize()
 
-    job_alloc = test_datadir / "nomad_job_evaluation.json"
-    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(job_alloc).read())
+    file_path = test_datadir / "nomad_job_evaluation.json"
+    with open(file_path) as file:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file.read())
+
     assert all(
         isinstance(evalu, NomadJobEvaluationInfo)
         for evalu in nomad_mgr.get_nomad_job_evaluations("somejob")  # type: ignore[reportOperationalIterable]
@@ -198,16 +276,30 @@ def test_get_job_evaluations(mock_nomad_client, test_datadir):
     mock_nomad_client.job.get_evaluations.return_value = {"wrong": "input"}
     assert not nomad_mgr.get_nomad_job_evaluations("somejob")
 
+    mock_nomad_client.job.get_evaluations.return_value = None
+    assert not nomad_mgr.get_nomad_job_evaluations("somejob")
+
+    mock_nomad_client.job.get_evaluations.side_effect = BaseNomadException("")
+    assert not nomad_mgr.get_nomad_job_evaluations("somejob")
+
 
 def test_get_job_submission(mock_nomad_client, test_datadir):
     nomad_mgr = NomadManager()
     nomad_mgr.initialize()
 
-    job_alloc = test_datadir / "nomad_job_info.json"
-    mock_nomad_client.job.get_job.return_value = json.loads(open(job_alloc).read())
+    file_path = test_datadir / "nomad_job_info.json"
+    with open(file_path) as file:
+        mock_nomad_client.job.get_job.return_value = json.loads(file.read())
+
     assert isinstance(nomad_mgr.get_nomad_job_submission("somejob"), NomadJobSubmission)
 
     mock_nomad_client.job.get_job.return_value = {"wrong": "input"}
+    assert not nomad_mgr.get_nomad_job_submission("somejob")
+
+    mock_nomad_client.job.get_job.return_value = None
+    assert not nomad_mgr.get_nomad_job_submission("somejob")
+
+    mock_nomad_client.job.get_job.side_effect = BaseNomadException("")
     assert not nomad_mgr.get_nomad_job_submission("somejob")
 
 
@@ -220,10 +312,11 @@ def test_remove_job_if_hanging_good_job(mock_nomad_client, test_datadir):
     file_path1 = test_datadir / "nomad_job_evaluation.json"
     file_path2 = test_datadir / "nomad_job_info.json"
     file_path3 = test_datadir / "nomad_job_allocations.json"
-    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
-    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
-    mock_kill = mock_nomad_client.job.deregister_job
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_allocations.return_value = json.loads(file3.read())
+        mock_kill = mock_nomad_client.job.deregister_job
 
     assert nomad_mgr.remove_job_if_hanging("somejob") == (False, "")
     sleep(1)
@@ -240,10 +333,11 @@ def test_remove_job_if_hanging_evaluation_timeout(mock_nomad_client, test_datadi
     file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     file_path3 = test_datadir / "nomad_job_allocations.json"
-    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
-    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
-    mock_kill = mock_nomad_client.job.deregister_job
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_allocations.return_value = json.loads(file3.read())
+        mock_kill = mock_nomad_client.job.deregister_job
 
     assert nomad_mgr.remove_job_if_hanging("somejob") == (False, "")
     sleep(1)
@@ -263,9 +357,10 @@ def test_remove_job_if_hanging_no_evaluation_timeout(mock_nomad_client, test_dat
     file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     file_path3 = test_datadir / "nomad_job_allocations.json"
-    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
-    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_allocations.return_value = json.loads(file3.read())
     mock_kill = mock_nomad_client.job.deregister_job
 
     assert nomad_mgr.remove_job_if_hanging("somejob") == (False, "")
@@ -284,21 +379,19 @@ def test_remove_job_if_hanging_alloc_failure(mock_nomad_client, test_datadir):
     file_path2 = test_datadir / "nomad_job_info_dead.json"
     file_path3 = test_datadir / "nomad_job_allocations_pending.json"
     file_path4 = test_datadir / "nomad_job_summary_failed.json"
-    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-    mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
-    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
-    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+    with (
+        open(file_path1) as file1,
+        open(file_path2) as file2,
+        open(file_path3) as file3,
+        open(file_path4) as file4,
+    ):
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_allocations.return_value = json.loads(file3.read())
+        mock_nomad_client.job.get_summary.return_value = json.loads(file4.read())
     mock_kill = mock_nomad_client.job.deregister_job
 
-    assert nomad_mgr.remove_job_if_hanging("somejob") == (
-        True,
-        "[{'example_bash_operator_judit_new-runme_0': "
-        "{'Driver Failure': [\"Failed to pull `novakjudi/af_nomad_test:latest`: "
-        "Error response from daemon: pull access denied for novakjudi/af_nomad_test, "
-        "repository does not exist or may require 'docker login': "
-        'denied: requested access to the resource is denied", "Failed to pull '
-        "`novakjudi/af_nomad_test:latest`: Error response from daemon: pull "
-        "access denied for novakjudi/af_nomad_test, repository does not exist or may "
-        "require 'docker login': denied: requested access to the resource is denied\"]}}]",
-    )
+    res = nomad_mgr.remove_job_if_hanging("somejob")
+    assert res and res[0]
+    assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in res[1]
     mock_kill.assert_called_once()

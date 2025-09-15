@@ -23,7 +23,7 @@ import pytest
 from airflow.sdk import Context
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
-from airflow.providers.nomad.exceptions import NomadJobOperatorError
+from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
@@ -103,7 +103,7 @@ def test_nomad_job_operator_execute_job_submission_fails(filename, test_datadir,
     # Job output
     mock_nomad_client.client.cat.read_file.side_effect = ["", ""]
 
-    with pytest.raises(NomadJobOperatorError) as err:
+    with pytest.raises(NomadOperatorError) as err:
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
@@ -130,7 +130,7 @@ def test_nomad_job_operator_execute_failed(filename, test_datadir, mock_nomad_cl
     mock_job_register = mock_nomad_client.job.register_job
     context = Context({"params": {"template_content": content}})
 
-    with pytest.raises(NomadJobOperatorError) as err:
+    with pytest.raises(NomadOperatorError) as err:
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
