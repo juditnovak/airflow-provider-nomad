@@ -17,6 +17,7 @@
 
 import datetime
 import os
+from time import time
 
 import attrs
 import pendulum
@@ -68,8 +69,9 @@ class myDAG(DAG):
 ##############################################################################
 
 
-content = """
-job "nomad-test-hcl" {
+content = (
+    """
+job "nomad-test-hcl-%s" {
   type = "batch"
 
   constraint {
@@ -89,6 +91,8 @@ job "nomad-test-hcl" {
   }
 }
 """.strip()
+    % time()
+)
 
 
 with myDAG(
