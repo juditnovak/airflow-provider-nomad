@@ -80,7 +80,7 @@
 ..     Detailed list of commits <commits>
 
 
-Release: 0.0.1
+Release: 0.0.2
 
 .. Release Date: ``|PypiReleaseDate|``
 
