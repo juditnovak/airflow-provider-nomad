@@ -1,4 +1,4 @@
-job "docs" {
+job "simple-job-template" {
   type = "batch"
 
   constraint {
@@ -11,8 +11,8 @@ job "docs" {
     task "uptime" {
       driver = "docker"
       config {
-        image = "hashicorp/http-echo"
-        args = ["-text", "hello world"]
+        image = "alpine:latest"
+        args = ["uptime"]
       }
     }
   }

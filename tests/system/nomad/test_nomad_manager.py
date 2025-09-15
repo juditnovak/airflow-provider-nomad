@@ -17,21 +17,22 @@
 
 import json
 
-import pytest
-
-from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
-from airflow.providers.nomad.utils import parse_hcl_job_template
+from airflow.providers.nomad.models import NomadJobModel
+from airflow.providers.nomad.nomad_manager import NomadManager
 
 
-@pytest.mark.parametrize("filename", ["simple_batch", "simple_server", "complex_job"])
-def test_parse_hcl(filename, test_datadir):
-    nomad_executor = NomadExecutor()
-    hcl_file_path = test_datadir / f"{filename}.hcl"
-    json_file_path = test_datadir / f"{filename}.json"
+def test_nomad_job_operator_parse_template_hcl(test_datadir):
+    mgr = NomadManager()
+    mgr.initialize()
 
-    assert (
-        json.loads(open(json_file_path).read())
-        == parse_hcl_job_template(nomad_executor.nomad_url, hcl_file_path).model_dump(
-            exclude_unset=True
-        )  # type: ignore[reportOptionalMemberAccess]
+    file_path1 = test_datadir / "simple_batch.hcl"
+    hcl_content = open(file_path1).read()
+
+    dict_content = mgr.nomad.jobs.parse(hcl_content)  # type: ignore[optionalMemberAccess, union-attr]
+    dict_content = {"Job": dict_content}
+    assert NomadJobModel.model_validate_json(
+        json.dumps(dict_content)
+    ) == mgr.parse_template_content(hcl_content)
+    assert NomadJobModel.model_validate_json(json.dumps(dict_content)) == mgr.parse_template_hcl(
+        hcl_content
     )

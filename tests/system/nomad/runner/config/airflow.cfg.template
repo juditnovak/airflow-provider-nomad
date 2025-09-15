@@ -2531,7 +2531,7 @@ parallelism = 128
 #
 # Variable: AIRFLOW__NOMAD_EXECUTOR__SERVER_IP
 #
-# server_ip =
+server_ip = <NOMAD_SERVER_IP>
 
 # Whether TLS certificates are to be considered
 #

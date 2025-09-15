@@ -135,8 +135,27 @@ def option_airflow_api_ip_netiface(request):
 
 
 def pytest_configure(config):
-    """Ahead of ***ANYTHING*** running, AIRFLOW_HOME/airflow.cfg must be generated"""
-    unit_test_conf = airflow_test_servces_config()
+    """Ahead of ***ANYTHING*** running, AIRFLOW_HOME/airflow.cfg must be generated
+
+    NOTE: This function is particularly important, as it seems to enforce initialization
+    before 'import-level' system tests would kick in
+    """
+
+    # Sadly we can't use the service_ip fixture yet :-/
+    addr = os.environ.get(TEST_ENV_API_HOST, config.getoption("airflow_api_host"))
+
+    if not addr:
+        iface = os.environ.get(TEST_ENV_API_IP_NETIFACE, config.getoption("api_ip_netiface"))
+        addr = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]["addr"]
+
+        if not addr:
+            logger.error("Could not determine IP address for interface %s", iface)
+            logger.error(
+                "(Note: default is eth0, configurable via ENV VAR %s)",
+                TEST_ENV_API_IP_NETIFACE,
+            )
+            exit(1)
+    unit_test_conf = airflow_test_servces_config(addr)
     airflow_test_servces_setup(unit_test_conf)
 
 
@@ -146,10 +165,7 @@ def pytest_configure(config):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host):
-    """The runners need a different airflow.cfg than the servers.
-    Reason: different local environment (example: dag-file = /opt/airflow/dags)
-    """
+def service_ip(option_airflow_api_ip_netiface, option_airflow_api_host):
     addr = os.environ.get(TEST_ENV_API_HOST, option_airflow_api_host)
 
     if not addr:
@@ -163,8 +179,15 @@ def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host)
                 TEST_ENV_API_IP_NETIFACE,
             )
             exit(1)
+    return addr
 
-    if not check_service_available(addr, 8080):
+
+@pytest.fixture(autouse=True, scope="session")
+def nomad_runner_config(service_ip):
+    """The runners need a different airflow.cfg than the servers.
+    Reason: different local environment (example: dag-file = /opt/airflow/dags)
+    """
+    if not check_service_available(service_ip, 8080):
         logger.error("Airflow web API is is not available at http:{ip}:8080.")
         logger.error(
             "Airflow services (except the ones targeted by the tests) should be started manually."
@@ -172,11 +195,11 @@ def nomad_runner_config(option_airflow_api_ip_netiface, option_airflow_api_host)
         exit(1)
 
     nomad_runner_config = NOMAD_CONFIG_PATH / Path("airflow.cfg")
-    update_template(nomad_runner_config, {"<API_IP>": addr})
+    update_template(nomad_runner_config, {"<API_IP>": service_ip, "<NOMAD_SERVER_IP>": service_ip})
 
 
 @pytest.fixture(autouse=True, scope="session")
-def nomad_agent(nomad_runner_config, option_nomad_agent):
+def nomad_agent(nomad_runner_config, option_nomad_agent, service_ip):
     log_volume_creation_script = str(NOMAD_SCRIPTS_PATH / Path("create_dynamic_logs_volume.sh"))
     log_volume_creation_hcl = str(NOMAD_CONFIG_PATH / Path("volume_dynamic_logs.json"))
 
@@ -206,6 +229,8 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
             "nomad",
             "agent",
             "-dev",
+            "-bind",
+            f"{service_ip}",
             "-config",
             nomad_client_config,
         ]
@@ -226,7 +251,7 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
             time.sleep(5)
             try:
                 for line in stream_subprocess_output(
-                    [log_volume_creation_script, log_volume_creation_hcl]
+                    [log_volume_creation_script, "-i", service_ip, log_volume_creation_hcl]
                 ):
                     logger.info(line.strip())
             except subprocess.CalledProcessError as err:
@@ -241,7 +266,7 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
         logger.warning("Keep in mind that dynamic log volumes are necessary. See ")
 
     timeout = 30
-    if not check_service_available("127.0.0.1", 4646, timeout=timeout):
+    if not check_service_available(service_ip, 4646, timeout=timeout):
         logger.error(
             "Nomad agent unavailable within %d seconds. (See logs at: %s)",
             timeout,
@@ -264,13 +289,14 @@ def nomad_agent(nomad_runner_config, option_nomad_agent):
 # Though not fixtures, still rather left here for readability
 
 
-def airflow_test_servces_config():
+def airflow_test_servces_config(service_ip):
     airflow_unit_test_config = SYSTEST_ROOT / TEST_CONFIG_PATH / Path("unit_tests.cfg")
     update_template(
         airflow_unit_test_config,
         {
             "<SYSTEST_ROOT>": str(SYSTEST_ROOT),
             "<SYSTEST_AIRFLOW_HOME>": str(AIRFLOW_HOME_PATH),
+            "<NOMAD_SERVER_IP>": str(service_ip),
         },
     )
 

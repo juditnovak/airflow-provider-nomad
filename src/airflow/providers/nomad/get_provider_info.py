@@ -30,15 +30,15 @@ def get_provider_info():
                 "tags": ["software"],
             },
         ],
-        # "operators": [
-        #     {
-        #         "integration-name": "Nomad",
-        #         "python-modules": [
-        #             "airflow.providers.nomad.operators.nomad",
-        #             "airflow.providers.nomad.operators.job",
-        #         ],
-        #     }
-        # ],
+        "operators": [
+            {
+                "integration-name": "Nomad",
+                "python-modules": [
+                    "airflow.providers.nomad.operators.nomad_job",
+                    "airflow.providers.nomad.operators.nomad_task",
+                ],
+            }
+        ],
         # "sensors": [
         #     {
         #         "integration-name": "Nomad",
@@ -125,6 +125,13 @@ def get_provider_info():
                         "type": "integer",
                         "example": "600",
                         "default": "600",
+                    },
+                    "default_docker_image": {
+                        "description": "Default Docker image for the default job template",
+                        "version_added": None,
+                        "type": "string",
+                        "example": "python:latest",
+                        "default": "novakjudit/af_nomad_test:latest",
                     },
                 },
             },

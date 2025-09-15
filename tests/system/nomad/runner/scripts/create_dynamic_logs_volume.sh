@@ -17,14 +17,22 @@ PROTOCOL=http
 HOST=localhost
 PORT=4646
 
-while getopts "sh:" opt; do
+while getopts "shi:" opt; do
   case "$opt" in
     h)
-      help
-      exit 0
-      ;;
-    s)  PROTOCOL='https'
-      ;;
+        help
+        exit 0
+        ;;
+    s)
+        PROTOCOL='https'
+        ;;
+    i)
+        HOST=${OPTARG}
+        ;;
+    *)
+        help
+        exit 0
+        ;;
   esac
 done
 

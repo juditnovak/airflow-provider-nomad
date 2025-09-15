@@ -100,8 +100,9 @@ class ExecutorInterface(BaseExecutor):
 
         with contextlib.suppress(Empty):
             for ti_key in list(self.running | set(self.queued_tasks)):
-                if (status := self.is_job_dead(ti_key)) and status[0] and status[1]:
-                    self.set_state(ti_key, state=status[1], info=status[2])
+                if status := self.remove_job_if_hanging(ti_key):
+                    state, info = status
+                    self.set_state(ti_key, state=state, info=info)
 
         with contextlib.suppress(Empty):
             task = self.task_queue.get_nowait()
@@ -164,9 +165,7 @@ class ExecutorInterface(BaseExecutor):
         self.log.debug(f"Executing template {job_template}")
         raise NotImplementedError
 
-    def is_job_dead(
-        self, key: TaskInstanceKey
-    ) -> tuple[bool, TaskInstanceState | None, str] | None:
+    def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
         """Whether the job failed (typically outside of Airflow execution)
 
         :param key: reference to the task instance in question

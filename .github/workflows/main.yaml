@@ -65,7 +65,7 @@ jobs:
           uv run airflow db reset -y
           COVERAGE_FILE=.coverage_unit uv run pytest -s -v --with-db-init --cov=src tests/unit/nomad
 
-      - name: Run system tests
+      - name: System tests for NomadExecutor and NomadJobOperator
         run: |
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
@@ -78,9 +78,20 @@ jobs:
           uv run airflow db reset -y
           uv run airflow api-server &
           uv run tox run -e system_test
-          COVERAGE_FILE=.coverage_system1 uv run pytest -s -v --ignore dags --without-db-init --cov=src tests/system/nomad/
+          COVERAGE_FILE=.coverage_system1 uv run pytest -s -v --without-db-init --cov=src tests/system/nomad/
 
-          COVERAGE_FILE=.coverage_system2 uv run pytest -s -v --ignore dags --without-db-init --system --cov=src tests/system/nomad/
+          COVERAGE_FILE=.coverage_system2 uv run pytest -s -v --ignore tests/system/nomad/dags_localexecutor --without-db-init --system --cov=src tests/system/nomad/
+
+      - name: System tests for NomadJobOperator on LocalExecutor
+        run: |
+          set -x
+          export AIRFLOW_SOURCES=$PWD/airflow
+          export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
+
+          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
+
+          sed -i "s/airflow.providers.nomad.executors.nomad_executor.NomadExecutor/LocalExecutor/" tests/system/nomad/config/unit_tests.cfg.template
+          COVERAGE_FILE=.coverage_system3 uv run pytest -s -v --ignore tests/system/nomad/dags --without-db-init --system --cov=src tests/system/nomad/
 
       - name: Overall coverage reports
         run: |
@@ -88,13 +99,18 @@ jobs:
           uv run coverage report --data-file=.coverage_unit
 
           echo
-          echo "System tests 1."
+          echo "System tests 1. (Generic tests)"
           uv run coverage report --data-file=.coverage_system1
 
           echo
-          echo "System tests 2."
+          echo "System tests 2. (NomadExecutor and NomadJobOperator via DAGs)"
           uv run coverage report --data-file=.coverage_system2
-          uv run coverage combine -q .coverage_unit .coverage_system1 .coverage_system2
+
+          echo
+          echo "System tests 3. (NomadJobOperator on LocalExecutor via DAGs)"
+          uv run coverage report --data-file=.coverage_system3
+
+          uv run coverage combine -q .coverage_unit .coverage_system1 .coverage_system2 .coverage_system3
           echo
           echo "Accumulated coverage"
           uv run coverage report

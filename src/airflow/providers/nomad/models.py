@@ -1,7 +1,8 @@
 from enum import Enum
 from typing import Any, TypeAlias
 
-from pydantic import BaseModel, ConfigDict, TypeAdapter
+from pydantic import BaseModel, ConfigDict, TypeAdapter, model_validator
+from typing_extensions import Self
 
 
 class JobType(str, Enum):
@@ -22,6 +23,10 @@ class JobEvalStatus(str, Enum):
     canceled = "canceled"
     failed = "failed"
 
+    @classmethod
+    def done_states(cls) -> list["JobEvalStatus"]:
+        return [cls.failed, cls.canceled, cls.complete]
+
 
 class Resource(BaseModel):
     model_config = ConfigDict(extra="allow")
@@ -30,45 +35,26 @@ class Resource(BaseModel):
     MemoryMB: int | None = 256
 
 
-class TaskConfigImglessCmd(BaseModel):
-    model_config = ConfigDict(extra="allow")
+class TaskConfig(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
+    image: str | None = None
+    entrypoint: list[str] | None = None
+    args: list[str] | None = None
     command: str | list[str] | None = None
 
-
-class TaskConfigCmd(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str
-    command: str | list[str] | None = None
-
-
-class TaskConfigEntrypoint(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
-    entrypoint: list[str]
-    args: list[str] | None = None
-
-
-class TaskConfigArgs(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
-    args: list[str] | None = None
-
-
-class TaskConfigRaw(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    image: str | None = None
+    @model_validator(mode="after")
+    def compatible_fields(self) -> Self:
+        if self.entrypoint and self.command:
+            raise ValueError("Both 'entrypoint' and 'command' specified")
+        return self
 
 
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow")
-    Config: TaskConfigEntrypoint | TaskConfigArgs
+    Config: TaskConfig
     Name: str
-    Resources: Resource
+    Resources: Resource | None = None
 
 
 class TaskGroup(BaseModel):
@@ -89,6 +75,9 @@ class Job(BaseModel):
 class NomadJobModel(BaseModel):
     model_config = ConfigDict(extra="allow")
     Job: Job
+
+    def tasknames(self) -> list[str]:
+        return [task.Name for group in self.Job.TaskGroups for task in group.Tasks]
 
 
 class NomadFailedAllocInfo(BaseModel):
@@ -127,7 +116,7 @@ class NomadFailedAllocInfo(BaseModel):
         return errors
 
 
-class NomadEvaluationInfo(BaseModel):
+class NomadJobEvaluationInfo(BaseModel):
     BlockedEval: str | None = None
     ClassEligibility: dict[str, bool] | None = None
     CreateIndex: int
@@ -148,8 +137,8 @@ class NomadEvaluationInfo(BaseModel):
     Type: JobType
 
 
-NomadEvalList: TypeAlias = list[NomadEvaluationInfo]
-NomadEvaluation = TypeAdapter(NomadEvalList)
+NomadJobEvalList: TypeAlias = list[NomadJobEvaluationInfo]
+NomadJobEvaluation = TypeAdapter(NomadJobEvalList)
 
 
 class NomadJobSubmission(BaseModel):
@@ -283,6 +272,18 @@ class NomadJobSummary(BaseModel):
                 and taskgroup.Queued == 0
                 and taskgroup.Running == 0
                 and taskgroup.Starting == 0
+            ):
+                return False
+        return True
+
+    def all_done(self) -> bool:
+        for taskgroup in self.Summary.values():
+            if not (
+                (taskgroup.Failed > 0 or taskgroup.Lost > 0 or taskgroup.Complete > 0)
+                and taskgroup.Queued == 0
+                and taskgroup.Running == 0
+                and taskgroup.Starting == 0
+                and taskgroup.Unknown == 0
             ):
                 return False
         return True

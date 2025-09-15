@@ -18,8 +18,8 @@
 import json
 
 from airflow.providers.nomad.models import (
-    NomadEvaluation,
     NomadJobAllocations,
+    NomadJobEvaluation,
     NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
@@ -28,12 +28,14 @@ from airflow.providers.nomad.models import (
 
 def test_parse_nomad_job(test_datadir):
     file_path = test_datadir / "nomad_provider_job_template.json"
-    assert NomadJobModel.model_validate(json.loads(open(file_path).read()))
+    job_model = NomadJobModel.model_validate(json.loads(open(file_path).read()))
+    assert job_model
+    assert job_model.tasknames() == ["airflow-task-1"]
 
 
 def test_parse_nomad_job_evaluation(test_datadir):
-    file_path = test_datadir / "nomad_job_evaluation.json"
-    evaluations = NomadEvaluation.validate_python(json.loads(open(file_path).read()))
+    file_path = test_datadir / "nomad_job_evaluation_failed.json"
+    evaluations = NomadJobEvaluation.validate_python(json.loads(open(file_path).read()))
     assert evaluations
 
     eval_errors = [
@@ -42,7 +44,6 @@ def test_parse_nomad_job_evaluation(test_datadir):
         if evaluation.FailedTGAllocs
     ]
     assert eval_errors == [
-        ["{'missing compatible host volumes': 1}"],
         ["{'missing compatible host volumes': 1}"],
     ]
 

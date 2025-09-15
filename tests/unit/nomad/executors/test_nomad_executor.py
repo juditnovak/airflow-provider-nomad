@@ -19,7 +19,6 @@ import json
 import logging
 from datetime import datetime
 from time import sleep
-from unittest.mock import ANY
 
 import pytest
 from airflow.executors.workloads import ExecuteTask
@@ -37,6 +36,20 @@ DATE_VAL = (2016, 1, 1)
 DEFAULT_DATE = datetime(*DATE_VAL)
 
 
+@conf_vars({})
+def test_base_defaults():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 128
+
+
+@conf_vars({("nomad_executor", "parallelism"): "2"})
+def test_base_fallback_default_params():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 2
+
+
 @pytest.fixture
 def taskinstance(create_task_instance) -> TaskInstance:
     return create_task_instance(
@@ -45,78 +58,6 @@ def taskinstance(create_task_instance) -> TaskInstance:
         run_type=DagRunType.SCHEDULED,
         logical_date=DEFAULT_DATE,
     )
-
-
-@conf_vars({})
-def test_base_defaults():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 128
-    assert nomad_executor.nomad_server_ip == "127.0.0.1"
-    assert nomad_executor.cert_path == ""
-    assert nomad_executor.key_path == ""
-    assert nomad_executor.verify == ""
-    assert nomad_executor.secure == False  # noqa: E712
-
-
-@conf_vars(
-    {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
-        ("nomad_executor", "parallelism"): "2",
-    }
-)
-def test_base_fallback_default_params():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 2
-    assert nomad_executor.nomad_server_ip == "1.2.3.4"
-    assert nomad_executor.cert_path == ""
-    assert nomad_executor.key_path == ""
-    assert nomad_executor.verify == ""
-    assert nomad_executor.secure == False  # noqa: E712
-
-
-@conf_vars(
-    {
-        ("nomad_executor", "server_ip"): "1.2.3.4",
-        ("nomad_executor", "cert_path"): "certs_absolute_path/global-cli-nomad.pem",
-        ("nomad_executor", "key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
-        ("nomad_executor", "verify"): "certs_absolute_path/nomad-agent-ca.pem",
-        ("nomad_executor", "secure"): "true",
-    }
-)
-def test_base_params_secure():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.nomad_server_ip == "1.2.3.4"
-    assert nomad_executor.cert_path == "certs_absolute_path/global-cli-nomad.pem"
-    assert nomad_executor.key_path == "certs_absolute_path/global-cli-nomad-key.pem"
-    assert nomad_executor.verify == "certs_absolute_path/nomad-agent-ca.pem"
-    assert nomad_executor.secure == True  # noqa: E712
-
-
-def test_base_params_secure_verify_bool():
-    with conf_vars({("nomad_executor", "verify"): "cacert_path"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == "cacert_path"
-
-    with conf_vars({("nomad_executor", "verify"): "true"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == True  # noqa: E712
-
-    with conf_vars({("nomad_executor", "verify"): "false"}):
-        nomad_executor = NomadExecutor()
-        assert nomad_executor.verify == False  # noqa: E712
-
-
-def test_connect():
-    """Connection to the Nomad cluster"""
-
-    nomad_executor = NomadExecutor()
-    nomad_executor.start()
-
-    assert nomad_executor.nomad
-    assert nomad_executor.nomad.agent.get_members()
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
@@ -191,7 +132,7 @@ def test_sync_nomad_allocation_failing_timeout(
     mock_nomad_client, caplog, taskinstance, test_datadir
 ):
     error = {"missing compatible host volumes": 1}
-    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
@@ -226,7 +167,7 @@ def test_sync_nomad_allocation_failing_within_timeout(
     mock_nomad_client, caplog, taskinstance, test_datadir
 ):
     error = {"missing compatible host volumes": 1}
-    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
     file_path2 = test_datadir / "nomad_job_info_pending.json"
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
     mock_nomad_client.job.get_job.return_value = json.loads(open(file_path2).read())
@@ -336,68 +277,25 @@ def test_sync_def_template(job_tpl, mock_nomad_client, test_datadir, taskinstanc
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
 @pytest.mark.usefixtures("mock_nomad_client")
-def test_sync_def_template_hcl_secure(test_datadir, mocker, taskinstance):
+def test_sync_def_template_hcl_secure(test_datadir, mock_nomad_client, mocker, taskinstance):
     """Checking if access to Nomad APU outside of the nomad client Python library
     has cert info added
     """
 
-    mock_requests_post = mocker.patch("airflow.providers.nomad.utils.requests.post")
+    file_path2 = test_datadir / "simple_batch_api_retval.json"
+    mock_nomad_client.jobs.parse.return_value = json.loads(open(file_path2).read())
 
-    ca_cert = "/absolute/path/to/ca-cert.pem"
-    client_key = "/absolute/path/to/client-key.pem"
-    client_cert = "/absolute/path/to/client-cert.pem"
-    with conf_vars(
-        {
-            ("nomad_executor", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
-            ("nomad_executor", "verify"): ca_cert,
-            ("nomad_executor", "key_path"): client_key,
-            ("nomad_executor", "cert_path"): client_cert,
-        }
-    ):
-        nomad_executor = NomadExecutor()
-        nomad_executor.start()
-        task = ExecuteTask.make(taskinstance)
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    task = ExecuteTask.make(taskinstance)
 
-        try:
-            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
-            nomad_executor.sync()
+    try:
+        nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
+        nomad_executor.sync()
 
-            # Secure parameters were appliet on call to Python requests
-            mock_requests_post.assert_called_once_with(
-                ANY, verify=ca_cert, cert=(client_cert, client_key), data=ANY
-            )
-        finally:
-            nomad_executor.end()
-            pass
-
-
-@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
-@pytest.mark.usefixtures("mock_nomad_client")
-def test_sync_def_template_hcl_not_secure(test_datadir, mocker, taskinstance):
-    """Checking if access to Nomad APU outside of the nomad client Python library
-    has cert info added
-    """
-
-    mock_requests_post = mocker.patch("airflow.providers.nomad.utils.requests.post")
-
-    with conf_vars(
-        {
-            ("nomad_executor", "default_job_template"): str(test_datadir / "simple_batch.hcl"),
-            ("nomad_executor", "verify"): "false",
-            ("nomad_executor", "key_path"): "",
-            ("nomad_executor", "cert_path"): "",
-        }
-    ):
-        nomad_executor = NomadExecutor()
-        nomad_executor.start()
-        task = ExecuteTask.make(taskinstance)
-
-        try:
-            nomad_executor.execute_async(key=taskinstance.key, queue=None, command=[task])
-            nomad_executor.sync()
-
-            # Secure parameters weren't appliet on call to Python requests
-            mock_requests_post.assert_called_once_with(ANY, data=ANY, verify=False)
-        finally:
-            nomad_executor.end()
-            pass
+        assert mock_nomad_client.job.register_job.call_count == 1
+        assert nomad_executor.task_queue.empty()
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+    finally:
+        nomad_executor.end()
+        pass

@@ -16,11 +16,10 @@
 # under the License.
 
 import json
+from json.decoder import JSONDecodeError
 from pathlib import Path
 from typing import Any
 
-import jq  # type: ignore
-import requests  # type: ignore[import-untyped]
 from pydantic import ValidationError
 
 from airflow.providers.nomad.exceptions import NomadValidationError
@@ -34,31 +33,19 @@ def validate_nomad_job(data: dict[str, Any]) -> NomadJobModel:
         raise NomadValidationError(err)
 
 
+def validate_nomad_job_json(json_str: str) -> NomadJobModel:
+    try:
+        return NomadJobModel.model_validate_json(json_str)
+    except (ValidationError, JSONDecodeError) as err:
+        raise NomadValidationError(err)
+
+
 def parse_json_job_template(path: Path) -> NomadJobModel | None:
     """try to parse a json or hcl input as a nomad job template"""
     try:
         data = json.load(open(str(path)))
     except json.JSONDecodeError:
         return None
-    return validate_nomad_job(data)
-
-
-def parse_hcl_job_template(
-    nomad_url: str, path: Path, verify: bool | str = False, cert: tuple[str, str] = ("", "")
-) -> NomadJobModel | None:
-    content = open(path).read()
-    payload = jq.compile("{ JobHCL: ., Canonicalize: true }").input_value(content).first()
-    args: dict[str, Any] = {"verify": verify}
-    if cert[0]:
-        args["cert"] = cert
-
-    response = requests.post(nomad_url + "/v1/jobs/parse", **args, data=json.dumps(payload))
-    if response.status_code != 200:
-        raise NomadValidationError(response.text)
-
-    data = response.json()
-    data = {"Job": data}
-
     return validate_nomad_job(data)
 
 

@@ -100,7 +100,7 @@
               "MaxFiles": 10
             },
             "Meta": null,
-            "Name": "airflow",
+            "Name": "airflow-task-1",
             "Resources": {
               "CPU": 100,
               "Cores": 0,

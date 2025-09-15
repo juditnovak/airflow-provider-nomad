@@ -21,7 +21,7 @@
             <link rel="stylesheet" type="text/css" href="_static/custom.css?v=957f1c83" />
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
-            <link rel="next" title="NomadLoghandler" href="nomad_logger.html" />
+            <link rel="next" title="Nomad Job Operator" href="nomad_job_operator.html" />
             <link rel="prev" title="Releasing security patches" href="security.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/nomad_executor.html" />
@@ -350,6 +350,11 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Operators</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_task_operator.html">NomadTaskOperator</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_logger.html">NomadLoghandler</a></li>
@@ -498,6 +503,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operators</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_task_operator.html">NomadTaskOperator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
@@ -681,6 +691,7 @@ each of them to different docker containers.</p>
 <p><code class="docutils literal notranslate"><span class="pre">parallelism</span></code>: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.</p>
 <p><code class="docutils literal notranslate"><span class="pre">server_ip</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p>
 <p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the <a class="reference internal" href="#job-submission-template">Job submission template</a> section.</p>
+<p><code class="docutils literal notranslate"><span class="pre">default_docker_image</span></code>: In case not a whole template, but only the default Docker image is to be specified</p>
 <p><code class="docutils literal notranslate"><span class="pre">alloc_pending_timeout</span></code>: How long to wait (in seconds) before failing a task pending with failed Nomad allocations. See <a class="reference internal" href="#job-execution">Job execution</a> for more information.</p>
 <p><code class="docutils literal notranslate"><span class="pre">secure</span></code>: Whether TLS is enabled.</p>
 <p><code class="docutils literal notranslate"><span class="pre">verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate. (Exactly as for <a class="reference external" href="https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">Python Requests SSL cert verification</a>)</p>
@@ -810,7 +821,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
             <a rel="prev" title="Releasing security patches" href="security.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
             </a>
-            <a rel="next" title="NomadLoghandler" href="nomad_logger.html" >
+            <a rel="next" title="Nomad Job Operator" href="nomad_job_operator.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="n">Next</button>
             </a>
     </div>

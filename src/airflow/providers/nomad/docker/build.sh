@@ -2,8 +2,9 @@
 
 
 help () {
-    echo "Usage: $0 <docker_image> [<tag>]"
-    echo "You must be authenticated with Docker Services"
+    echo "Usage: $0 <docker_image_name> [<tag>]"
+    echo
+    echo "NOTE: You must be authenticated with Docker Services"
     echo "(as we are about to push a Docker image to DockerHub)"
 
 
@@ -13,10 +14,16 @@ help () {
 if [ -z $1 ]
 then
     help
+    exit 1
 fi
 
 IMAGE=$1
-TAG=${$2:~latest}
+
+TAG=latest
+if [ $2 ]
+then
+    TAG=$2
+fi
 
 echo "Bulding $IMAGE:$TAG"
 
@@ -32,7 +39,7 @@ fi
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-build=$(docker build -f $SCRIPT_DIR/Dockerfile.runner -t novakjudit/af_nomad_test:latest . )
+build=$(docker build -f $SCRIPT_DIR/Dockerfile.runner -t $IMAGE:$TAG . )
 if ! $build
 then
     echo "Build failed"
@@ -41,8 +48,9 @@ then
 fi
 
 
-push=$(docker push novakjudit/af_nomad_test:latest)
-if ! $push
+# push=$(docker push $IMAGE:$TAG)
+docker push $IMAGE:$TAG
+if [ ! $? ]
 then
     echo "Couldn't push image $IMAGE:$TAG to DockerHub"
     echo "(HINT: Soure you have access to the namespace?)"

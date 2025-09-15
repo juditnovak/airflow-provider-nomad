@@ -33,7 +33,7 @@ Changelog
 
 * Nomad executor with bash operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/1
 * System tests by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/3
-* Testts completed and cleaned up by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/4
+* Tests completed and cleaned up by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/4
 * Cleanup and small executor enhancements by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/5
 * Pipeline on merge to `main` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/6
 * Logging finalized by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/7
