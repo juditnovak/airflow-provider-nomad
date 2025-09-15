@@ -38,6 +38,14 @@
 .. toctree::
     :hidden:
     :maxdepth: 2
+    :caption: Operators
+
+    NomadJobOperator <nomad_job_operator>
+    NomadTaskOperator <nomad_task_operator>
+
+.. toctree::
+    :hidden:
+    :maxdepth: 2
     :caption: Loggers
 
     NomadLoghandler <nomad_logger>

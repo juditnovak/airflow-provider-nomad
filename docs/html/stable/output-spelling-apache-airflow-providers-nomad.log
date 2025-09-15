@@ -229,8 +229,8 @@ loading intersphinx inventory 'docker' from /home/devel/share/workspace_airflow/
 loading intersphinx inventory 'hdfs' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/hdfs/objects.inv ...
 loading intersphinx inventory 'jinja2' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/jinja2/objects.inv ...
 loading intersphinx inventory 'mongodb' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/mongodb/objects.inv ...
-loading intersphinx inventory 'python' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/python/objects.inv ...
 loading intersphinx inventory 'pandas' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/pandas/objects.inv ...
+loading intersphinx inventory 'python' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/python/objects.inv ...
 loading intersphinx inventory 'requests' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/requests/objects.inv ...
 loading intersphinx inventory 'sqlalchemy' from /home/devel/share/workspace_airflow/airflow/generated/_inventory_cache/sqlalchemy/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-airbyte/stable/objects.inv ...
@@ -256,10 +256,10 @@ loading intersphinx inventory 'apache-airflow-providers-arangodb' from /home/dev
 loading intersphinx inventory 'apache-airflow-providers-asana' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-asana/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-atlassian-jira' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-atlassian-jira/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-celery' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-celery/stable/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-cloudant' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-cloudant/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-cncf-kubernetes' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-cncf-kubernetes/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-cohere' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-cohere/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-compat' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-common-compat/stable/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cloudant' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-cloudant/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-io' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-common-io/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-messaging' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-common-messaging/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-sql' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-common-sql/stable/objects.inv ...
@@ -341,7 +341,7 @@ loading intersphinx inventory 'docker-stack' from /home/devel/share/workspace_ai
 [01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/devel/share/workspace_airflow/airflow/providers/nomad/tests/unit/__init__.py[39;49;00m
 [01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/devel/share/workspace_airflow/airflow/providers/nomad/tests/system/__init__.py[39;49;00m
 [01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/devel/share/workspace_airflow/airflow/providers/nomad/tests/system/nomad/conftest.py[39;49;00m
-[autosummary] generating autosummary for: _api/airflow/providers/nomad/executors/index.rst, _api/airflow/providers/nomad/executors/nomad_executor/index.rst, _api/airflow/providers/nomad/executors/nomad_log/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_interface/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst, _api/airflow/providers/nomad/generic_interfaces/index.rst, _api/airflow/providers/nomad/get_provider_info/index.rst, _api/airflow/providers/nomad/index.rst, _api/airflow/providers/nomad/templates/nomad_job_template/index.rst, _api/tests/system/nomad/dags/example_bash_operator/index.rst, ..., _api/tests/system/nomad/utils/index.rst, changelog.rst, commits.rst, configurations-ref.rst, index.rst, nomad_executor.rst, nomad_logger.rst, security.rst, system_tests.rst, usage.rst
+[autosummary] generating autosummary for: _api/airflow/providers/nomad/executors/index.rst, _api/airflow/providers/nomad/executors/nomad_executor/index.rst, _api/airflow/providers/nomad/executors/nomad_log/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_interface/index.rst, _api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst, _api/airflow/providers/nomad/generic_interfaces/index.rst, _api/airflow/providers/nomad/get_provider_info/index.rst, _api/airflow/providers/nomad/index.rst, _api/airflow/providers/nomad/templates/nomad_job_template/index.rst, _api/tests/system/nomad/dags/example_bash_operator/index.rst, ..., commits.rst, configurations-ref.rst, index.rst, nomad_executor.rst, nomad_job_operator.rst, nomad_logger.rst, nomad_task_operator.rst, security.rst, system_tests.rst, usage.rst
 [01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date
 [01mwriting output... [39;49;00m
 [01mbuilding [spelling]: [39;49;00mall documents
@@ -352,33 +352,32 @@ loading intersphinx inventory 'docker-stack' from /home/devel/share/workspace_ai
 [01mcopying assets... [39;49;00m
 [01mcopying assets: [39;49;00mdone
 [01mwriting output... [39;49;00m[  3%] [32m_api/airflow/providers/nomad/executors/index[39;49;00m
-[01mwriting output... [39;49;00m[  7%] [32m_api/airflow/providers/nomad/executors/nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[  6%] [32m_api/airflow/providers/nomad/executors/nomad_executor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 10%] [32m_api/airflow/providers/nomad/executors/nomad_log/index[39;49;00m
-[01mwriting output... [39;49;00m[ 14%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
-[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
-[01mwriting output... [39;49;00m[ 21%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
-[01mwriting output... [39;49;00m[ 24%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
-[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 31%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
-[01mwriting output... [39;49;00m[ 34%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/nomad/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/index[39;49;00m
-[01mwriting output... [39;49;00m[ 45%] [32m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 55%] [32m_api/tests/system/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 66%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 69%] [32m_api/tests/system/nomad/utils/index[39;49;00m
+[01mwriting output... [39;49;00m[ 13%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
+[01mwriting output... [39;49;00m[ 19%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
+[01mwriting output... [39;49;00m[ 23%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 29%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 32%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 35%] [32m_api/tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/index[39;49;00m
+[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 45%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 55%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 65%] [32m_api/tests/system/nomad/utils/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:25:<autosummary>:1: : Spell check: [91mfunciton[39;49;00m: NOTE: This funciton by design may raise exceptions such as 'select.error'..
 providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:40: : Spell check: [91mfunciton[39;49;00m: NOTE: This funciton by design may raise exceptions such as ‘select.error’..
 Writing /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/utils/index.spelling
-[01mwriting output... [39;49;00m[ 72%] [32mchangelog[39;49;00m
+[01mwriting output... [39;49;00m[ 68%] [32mchangelog[39;49;00m
 providers/nomad/docs/changelog.rst:34: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
 providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
-providers/nomad/docs/changelog.rst:36: : Spell check: [91mTestts[39;49;00m: Testts completed and cleaned up by @juditnovak in .
-providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Testts completed and cleaned up by @juditnovak in .
+providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
 providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
 providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
 providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
@@ -389,14 +388,16 @@ providers/nomad/docs/changelog.rst:43: : Spell check: [91mjuditnovak[39;49;00m
 providers/nomad/docs/changelog.rst:44: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
 providers/nomad/docs/changelog.rst:47: : Spell check: [91mjuditnovak[39;49;00m: * @juditnovak made their first contribution in .
 Writing /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/changelog.spelling
-[01mwriting output... [39;49;00m[ 76%] [32mcommits[39;49;00m
-[01mwriting output... [39;49;00m[ 79%] [32mconfigurations-ref[39;49;00m
-[01mwriting output... [39;49;00m[ 83%] [32mindex[39;49;00m
-[01mwriting output... [39;49;00m[ 86%] [32mnomad_executor[39;49;00m
-[01mwriting output... [39;49;00m[ 90%] [32mnomad_logger[39;49;00m
-[01mwriting output... [39;49;00m[ 93%] [32msecurity[39;49;00m
+[01mwriting output... [39;49;00m[ 71%] [32mcommits[39;49;00m
+[01mwriting output... [39;49;00m[ 74%] [32mconfigurations-ref[39;49;00m
+[01mwriting output... [39;49;00m[ 77%] [32mindex[39;49;00m
+[01mwriting output... [39;49;00m[ 81%] [32mnomad_executor[39;49;00m
+[01mwriting output... [39;49;00m[ 84%] [32mnomad_job_operator[39;49;00m
+[01mwriting output... [39;49;00m[ 87%] [32mnomad_logger[39;49;00m
+[01mwriting output... [39;49;00m[ 90%] [32mnomad_task_operator[39;49;00m
+[01mwriting output... [39;49;00m[ 94%] [32msecurity[39;49;00m
 [01mwriting output... [39;49;00m[ 97%] [32msystem_tests[39;49;00m
 [01mwriting output... [39;49;00m[100%] [32musage[39;49;00m
 
-[91mWARNING: Found 15 misspelled words[39;49;00m
+[91mWARNING: Found 14 misspelled words[39;49;00m
 [01mbuild finished with problems, 1 warning (with warnings treated as errors).[39;49;00m

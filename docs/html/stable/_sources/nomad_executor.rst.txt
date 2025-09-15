@@ -117,7 +117,10 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 
 ``default_job_template``: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the `Job submission template`_ section.
 
+``default_docker_image``: In case not a whole template, but only the default Docker image is to be specified
+
 ``alloc_pending_timeout``: How long to wait (in seconds) before failing a task pending with failed Nomad allocations. See `Job execution`_ for more information.
+
 
 
 ``secure``: Whether TLS is enabled. 
