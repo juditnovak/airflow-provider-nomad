@@ -100,20 +100,20 @@ class NomadFailedAllocInfo(BaseModel):
 
     def errors(self) -> list[Any]:
         """Turn an evaluation failure record into an error message"""
-        errors: list[Any] = []
+        errors: set[Any] = set()
         if self.ClassExhausted:
-            errors.append(str(self.ClassExhausted))
+            errors.add(str(self.ClassExhausted))
         if self.ClassFiltered:
-            errors.append(str(self.ClassFiltered))
+            errors.add(str(self.ClassFiltered))
         if self.ConstraintFiltered:
-            errors.append(str(self.ConstraintFiltered))
+            errors.add(str(self.ConstraintFiltered))
         if self.DimensionExhausted:
-            errors.append(str(self.DimensionExhausted))
+            errors.add(str(self.DimensionExhausted))
         if self.QuotaExhausted:
-            errors.append(str(self.QuotaExhausted))
+            errors.add(str(self.QuotaExhausted))
         if self.ResourcesExhausted:
-            errors.append(str(self.ResourcesExhausted))
-        return errors
+            errors.add(str(self.ResourcesExhausted))
+        return list(errors)
 
 
 class NomadJobEvaluationInfo(BaseModel):

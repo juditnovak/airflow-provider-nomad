@@ -18,6 +18,7 @@
 from typing import Any
 
 from airflow.configuration import conf
+
 from airflow.providers.nomad.constants import CONFIG_SECTION
 
 default_image = conf.get(

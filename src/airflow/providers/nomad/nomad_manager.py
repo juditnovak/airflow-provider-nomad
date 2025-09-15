@@ -32,6 +32,7 @@ from nomad.api.exceptions import BadRequestNomadException  # type: ignore[import
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from pydantic import ValidationError
 
+from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
 from airflow.providers.nomad.models import (
     JobEvalStatus,
@@ -45,7 +46,6 @@ from airflow.providers.nomad.models import (
     NomadJobSummary,
 )
 from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
-from airflow.providers.nomad.constants import CONFIG_SECTION
 
 
 class NomadManager(LoggingMixin):
@@ -76,6 +76,32 @@ class NomadManager(LoggingMixin):
         self.nomad: nomad.Nomad | None = None
         self.pending_jobs: dict[str, int] = {}
 
+    def catch_nomad_exception(exc_retval: Any | None = None):  # type: ignore [reportGeneralTypeIssues]
+        def decorator(f: Callable):
+            def wrapped(self, *args, **kwargs):
+                try:
+                    return f(self, *args, **kwargs)
+                except BaseNomadException as err:
+                    self.log.info("Nomad error occurred: {%s}", err)
+                return exc_retval
+
+            return wrapped
+
+        return decorator
+
+    def ensure_nomad_client(f: Callable):  # type: ignore [reportGeneralTypeIssues, misc]
+        def wrapped(self, *args, **kwargs):
+            try:
+                if not self.nomad:
+                    self.initialize()
+
+                return f(self, *args, **kwargs)
+            except BaseNomadException as err:
+                self.log.info("Nomad error occurred: {%s}", err)
+
+        return wrapped
+
+    @catch_nomad_exception()
     def initialize(self):
         self.nomad = nomad.Nomad(
             host=self.nomad_server_ip,
@@ -93,20 +119,8 @@ class NomadManager(LoggingMixin):
         protocol = "http" if not self.secure else "https"
         return f"{protocol}://{self.nomad_server_ip}:{self.nomad_server_port}"
 
-    def catch_nomad_exception(exc_retval: Any | None = None):  # type: ignore [reportGeneralTypeIssues]
-        def decorator(f: Callable):
-            def wrapped(self, *args, **kwargs):
-                try:
-                    return f(self, *args, **kwargs)
-                except BaseNomadException as err:
-                    self.log.info("Nomad error occurred: {%s}", err)
-                return exc_retval
-
-            return wrapped
-
-        return decorator
-
     @catch_nomad_exception()
+    @ensure_nomad_client
     def get_nomad_job_submission(self, job_id: str) -> NomadJobSubmission | None:  # type: ignore[return]
         if not (job_status := self.nomad.job.get_job(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
             return  # type: ignore [return-value]
@@ -116,6 +130,7 @@ class NomadManager(LoggingMixin):
             self.log.debug("Couldn't parse Nomad job submission info: %s %s", err, err.errors())
 
     @catch_nomad_exception()
+    @ensure_nomad_client
     def get_nomad_job_evaluations(self, job_id: str) -> NomadJobEvalList | None:  # type: ignore[return]
         if not (job_eval := self.nomad.job.get_evaluations(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
             return  # type: ignore [return-value]
@@ -125,6 +140,7 @@ class NomadManager(LoggingMixin):
             self.log.debug("Couldn't parse Nomad job validation output: %s %s", err, err.errors())
 
     @catch_nomad_exception()
+    @ensure_nomad_client
     def get_nomad_job_allocation(self, job_id: str) -> NomadJobAllocList | None:  # type: ignore[return]
         if not (job_allocations := self.nomad.job.get_allocations(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
             return  # type: ignore [return-value]
@@ -134,6 +150,7 @@ class NomadManager(LoggingMixin):
             self.log.debug("Couldn't parse Nomad job allocations info: %s %s", err, err.errors())
 
     @catch_nomad_exception()
+    @ensure_nomad_client
     def get_nomad_job_summary(self, job_id: str) -> NomadJobSummary | None:  # type: ignore[return]
         if not (job_summary := self.nomad.job.get_summary(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
             return  # type: ignore [return-value]
@@ -143,29 +160,36 @@ class NomadManager(LoggingMixin):
             self.log.debug("Couldn't parse Nomad job summary: %s %s", err, err.errors())
 
     @catch_nomad_exception(exc_retval="")
+    @ensure_nomad_client
     def get_job_stdout(self, allocation_id: str, job_task_id: str) -> str:
         return self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
             allocation_id, path=f"alloc/logs/{job_task_id}.stdout.0"
         )
 
     @catch_nomad_exception(exc_retval="")
+    @ensure_nomad_client
     def get_job_stderr(self, allocation_id: str, job_task_id: str) -> str:
         return self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
             allocation_id, path=f"alloc/logs/{job_task_id}.stderr.0"
         )
 
     @catch_nomad_exception(exc_retval="")
+    @ensure_nomad_client
     def get_job_file(self, allocation_id: str, file_path: str) -> str:
         return self.nomad.client.cat.read_file(  # type: ignore[reportOptionalMemberAccess, union-attr]
             allocation_id, path=f"alloc/{file_path}"
         )
 
+    @ensure_nomad_client
     def register_job(self, job_model: NomadJobModel) -> str | None:
+        if self.get_nomad_job_summary(job_model.Job.ID):
+            raise NomadProviderException(
+                f"Job {job_model.Job.ID} already exists. Job submission requires a unique ID."
+            )
+
         template = job_model.model_dump()
         try:
             self.nomad.job.register_job(job_model.Job.ID, template)  # type: ignore[reportOptionalMemberAccess, union-attr]
-
-            self.log.debug("Runing task (%s) with template %s)", job_model.Job.ID, str(template))
         except BaseNomadException as err:
             self.log.error("Couldn't run task %s (%s)", job_model.Job.ID, err)
             try:
@@ -173,6 +197,8 @@ class NomadManager(LoggingMixin):
             except BaseNomadException:
                 pass
             return str(err)
+        self.log.info("Nomad job '%s' was submitted)", job_model.Job.ID)
+        self.log.debug("Job template for '%s':\n%s)", job_model.Job.ID, str(template))
         return None
 
     def timeout_expired(self, job_id: str) -> bool:
@@ -183,6 +209,7 @@ class NomadManager(LoggingMixin):
         else:
             return now - self.pending_jobs[job_id] > self.alloc_pending_timeout
 
+    @ensure_nomad_client
     def remove_job_if_hanging(
         self,
         job_id: str,
@@ -224,7 +251,7 @@ class NomadManager(LoggingMixin):
 
             taskgroup_name = job_status.TaskGroups[0].Name
             if failed_item and (failed_alloc := failed_item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess, union-attr]
-                self.log.info("Task %s was pending beyond timeout, stopping it.", job_id)
+                self.log.info("Job %s was pending beyond timeout, stopping it.", job_id)
                 self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 error = failed_alloc.errors()
                 return True, str(error)
@@ -242,7 +269,7 @@ class NomadManager(LoggingMixin):
                 self.log.info("Task %s seems dead, stopping it.", job_id)
                 self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 if job_alloc:
-                    return True, str([alloc.errors() for alloc in job_alloc])
+                    return True, str({str(alloc.errors()) for alloc in job_alloc})
                 return True, ""
 
         return False, ""
@@ -251,14 +278,16 @@ class NomadManager(LoggingMixin):
         try:
             return validate_nomad_job_json(template_content)
         except NomadValidationError as err:
-            self.log.info("Couldn't parse template  as json, trying it as HCL (%s)", err)
+            self.log.debug("Couldn't parse template as json (%s)", err)
 
+    @catch_nomad_exception()
+    @ensure_nomad_client
     def parse_template_hcl(self, template_content: str) -> NomadJobModel | None:  # type: ignore [return]
         try:
             body = self.nomad.jobs.parse(template_content)  # type: ignore[optionalMemberAccess, union-attr]
             return validate_nomad_job({"Job": body})
         except BadRequestNomadException as err:
-            self.log.info("Couldn't parse template as HCL (%s)", err)
+            self.log.debug("Couldn't parse template as HCL (%s)", err)
 
     def parse_template_content(self, template_content: str) -> NomadJobModel | None:  # type: ignore [return]
         if not template_content:

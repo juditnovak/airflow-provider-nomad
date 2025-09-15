@@ -37,13 +37,17 @@ from airflow.utils.log.logging_mixin import remove_escape_codes
 from airflow.utils.state import TaskInstanceState
 from pydantic import ValidationError
 
+from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.nomad_manager import NomadManager
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
-from airflow.providers.nomad.constants import CONFIG_SECTION
+from airflow.providers.nomad.utils import (
+    job_id_from_taskinstance_key,
+    job_task_id_from_taskinstance_key,
+)
 
 NOMAD_COMMANDS = ()
 
@@ -70,16 +74,6 @@ class NomadExecutor(ExecutorInterface):
         """Start the executor."""
         self.log.info("Starting Nomad executor")
         self.nomad_mgr.initialize()
-
-    @classmethod
-    def job_id_from_taskinstance_key(cls, key: TaskInstanceKey) -> str:
-        dag_id, task_id, run_id, try_number, map_index = key
-        return f"{dag_id}-{task_id}-{run_id}-{try_number}-{map_index}"
-
-    @classmethod
-    def job_task_id_from_taskinstance_key(cls, key: TaskInstanceKey) -> str:
-        dag_id, task_id, _, _, _ = key
-        return f"{dag_id}-{task_id}"
 
     def _get_job_template(self) -> NomadJobModel | None:
         if not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
@@ -108,8 +102,8 @@ class NomadExecutor(ExecutorInterface):
         :param key: reference to the task instance in question
         :return: job template as as dictionary
         """
-        job_id = self.job_id_from_taskinstance_key(key)
-        job_task_id = self.job_task_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
+        job_task_id = job_task_id_from_taskinstance_key(key)
 
         job_template = None
         if job_model := self._get_job_template():
@@ -168,7 +162,7 @@ class NomadExecutor(ExecutorInterface):
         :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
                  or None if no data could be retrieved for the job
         """
-        job_id = self.job_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
         if not (outcome := self.nomad_mgr.remove_job_if_hanging(job_id)):
             return None
 
@@ -199,7 +193,7 @@ class NomadExecutor(ExecutorInterface):
 
         # In case the task didn't even make it to be submitted, we may be able to get info about reasons from Nomad
         if not log and not stderr:
-            job_id = self.job_id_from_taskinstance_key(ti.key)
+            job_id = job_id_from_taskinstance_key(ti.key)
             if job_info := self.nomad_mgr.job_all_info_str(job_id):
                 messages.append("Nomad job evaluations retrieved")
                 log.append(
@@ -240,7 +234,7 @@ class NomadExecutor(ExecutorInterface):
 
         messages = []
         logs = ""
-        job_id = self.job_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
         allocations = self.nomad_mgr.get_nomad_job_allocation(job_id)
 
         if not isinstance(allocations, list):

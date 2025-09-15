@@ -16,6 +16,7 @@
 # under the License.
 
 from airflow.sdk import Context
+from pydantic import ValidationError
 
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
 from airflow.providers.nomad.models import NomadJobModel
@@ -26,8 +27,12 @@ class NomadJobOperator(NomadOperator):
     def __init__(self, observe: bool = True, job_log_file: str | None = None, **kwargs):
         super().__init__(observe=observe, job_log_file=job_log_file, **kwargs)
 
-    def prepare_job_template(self, context: Context) -> NomadJobModel | None:
+    def prepare_job_template(self, context: Context):
         if content := context.get("params", {}).get("template_content", ""):
-            return self.nomad_mgr.parse_template_content(content)
-        else:
-            return NomadJobModel.model_validate(default_task_template)
+            self.template = self.nomad_mgr.parse_template_content(content)
+            return
+
+        try:
+            self.template = NomadJobModel.model_validate(default_task_template)
+        except ValidationError:
+            self.log.error("Default template validation failed")

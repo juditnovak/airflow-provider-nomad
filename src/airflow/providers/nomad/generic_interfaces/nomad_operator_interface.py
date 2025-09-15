@@ -23,7 +23,7 @@ from airflow.sdk import Context
 from airflow.sdk.bases.operator import BaseOperator
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
-from airflow.providers.nomad.exceptions import NomadJobOperatorError
+from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
@@ -44,6 +44,7 @@ class NomadOperator(BaseOperator):
         self.operator_poll_delay: int = conf.getint(
             EXECUTOR_NAME, "operator_poll_delay", fallback=10
         )
+        self.template: NomadJobModel | None = None
         super().__init__(**kwargs)
 
     @staticmethod
@@ -89,21 +90,24 @@ class NomadOperator(BaseOperator):
 
         return ",".join(all_output), all_logs
 
-    def prepare_job_template(self, context: Context) -> NomadJobModel | None:
+    def prepare_job_template(self, context: Context):
         raise NotImplementedError
 
     def execute(self, context: Context):
-        if not (template := self.prepare_job_template(context)):
-            raise NomadJobOperatorError("Nothing to execute")
+        if not self.template:
+            self.prepare_job_template(context)
 
-        job_id = template.Job.ID
+        if not self.template:
+            raise NomadOperatorError("Nothing to execute")
+
+        job_id = self.template.Job.ID
         try:
             response = self.nomad_mgr.nomad.job.register_job(  # type: ignore[optionalMemberAccess, union-attr]
-                job_id, template.model_dump(exclude_unset=True)
+                job_id, self.template.model_dump(exclude_unset=True)
             )
         except BaseNomadException as err:
-            raise NomadJobOperatorError(
-                f"Job submission failed ({err}), job template: {template.model_dump_json()}"
+            raise NomadOperatorError(
+                f"Job submission failed ({err}), job template: {self.template.model_dump_json()}"
             )
 
         if not response:
@@ -143,7 +147,7 @@ class NomadOperator(BaseOperator):
                 ) and result[0]:
                     _, error = result
                     if job_info := self.nomad_mgr.job_all_info_str(job_id, **job_snapshot):
-                        raise NomadJobOperatorError(
+                        raise NomadOperatorError(
                             f"Job {job_id} got killed due to error: {error}\n"
                             "Additional info:\n"
                             "\n".join(job_info)
@@ -171,4 +175,4 @@ class NomadOperator(BaseOperator):
             job_id, job_alloc=job_alloc, job_eval=job_eval, job_summary=job_summary
         )
         job_info_str = "\n".join(job_info)
-        raise NomadJobOperatorError(f"Job submission failed {job_info_str}")
+        raise NomadOperatorError(f"Job submission failed {job_info_str}")

@@ -15,14 +15,17 @@
 # specific language governing permissions and limitations
 # under the License.
 
+from random import randint
+
 from airflow.sdk import Context
 from airflow.sdk.types import RuntimeTaskInstanceProtocol
 from pydantic import ValidationError  # type: ignore[import-untyped]
 
-from airflow.providers.nomad.exceptions import NomadOperatorError
+from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
 from airflow.providers.nomad.models import NomadJobModel, TaskConfig
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
 class NomadTaskOperator(NomadOperator):
@@ -30,38 +33,39 @@ class NomadTaskOperator(NomadOperator):
         super().__init__(observe=True, **kwargs)
 
     def job_id(self, ti: RuntimeTaskInstanceProtocol):
-        return f"nomad-task-{ti.dag_id}-{ti.task_id}-{ti.run_id}-{ti.try_number}-{ti.map_index}"
+        id_base = job_id_from_taskinstance(ti)
+        rnd = randint(0, 10000)
+        while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}"):
+            rnd = randint(0, 10000)
+        return f"{id_base}-{rnd}"
 
-    def prepare_job_template(self, context: Context) -> NomadJobModel | None:
-        default_template = False
+    def prepare_job_template(self, context: Context):
         try:
             if content := context.get("params", {}).get("template_content", ""):
                 template = self.nomad_mgr.parse_template_content(content)
             else:
                 template = NomadJobModel.model_validate(default_task_template)
-                default_template = True
-
-            if not template:
-                raise NomadOperatorError("Nothing to execute")
-
-            if len(template.Job.TaskGroups) > 1:
-                raise NomadOperatorError("NomadTaskOperator only allows for a single taskgroup")
-
-            if len(template.Job.TaskGroups[0].Tasks) > 1:
-                raise NomadOperatorError("NomadTaskOperator only allows for a single task")
-
-            if image := context.get("params", {}).get("image"):
-                template.Job.TaskGroups[0].Tasks[0].Config.image = image
-
-            if entrypoint := context.get("params", {}).get("entrypoint"):
-                template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
-            elif default_template:
                 # Removing (Airflow SDK execution) entrypoint from default template
                 config_dict = (
                     template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)
                 )
                 config_dict.pop("entrypoint")
                 template.Job.TaskGroups[0].Tasks[0].Config = TaskConfig.model_validate(config_dict)
+
+            if not template:
+                raise NomadTaskOperatorError("Nothing to execute")
+
+            if len(template.Job.TaskGroups) > 1:
+                raise NomadTaskOperatorError("NomadTaskOperator only allows for a single taskgroup")
+
+            if len(template.Job.TaskGroups[0].Tasks) > 1:
+                raise NomadTaskOperatorError("NomadTaskOperator only allows for a single task")
+
+            if image := context.get("params", {}).get("image"):
+                template.Job.TaskGroups[0].Tasks[0].Config.image = image
+
+            if entrypoint := context.get("params", {}).get("entrypoint"):
+                template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
 
             if args := context.get("params", {}).get("args"):
                 template.Job.TaskGroups[0].Tasks[0].Config.args = args
@@ -70,11 +74,10 @@ class NomadTaskOperator(NomadOperator):
                 template.Job.TaskGroups[0].Tasks[0].Config.command = command
 
         except ValidationError as err:
-            raise NomadOperatorError(f"Template validation failed: {err.errors()}")
+            raise NomadTaskOperatorError(f"Template validation failed: {err.errors()}")
 
         if not (ti := context.get("ti")):
-            raise NomadOperatorError(f"No task instance found in context {context}")
+            raise NomadTaskOperatorError(f"No task instance found in context {context}")
 
         template.Job.ID = self.job_id(ti)
-
-        return template
+        self.template = template
