@@ -50,7 +50,7 @@ from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, val
 
 class NomadManager(LoggingMixin):
     def __init__(self):
-        self.nomad_server_ip: str = conf.get(CONFIG_SECTION, "agent_server_ip", fallback="0.0.0.0")
+        self.nomad_server: str = conf.get(CONFIG_SECTION, "agent_host", fallback="0.0.0.0")
         self.nomad_server_port: int = conf.getint(
             CONFIG_SECTION, "agent_server_port", fallback=4646
         )
@@ -104,7 +104,7 @@ class NomadManager(LoggingMixin):
     @catch_nomad_exception()
     def initialize(self):
         self.nomad = nomad.Nomad(
-            host=self.nomad_server_ip,
+            host=self.nomad_server,
             secure=self.secure,
             cert=(self.cert_path, self.key_path),
             verify=self.verify,  # type: ignore[reportArtumentType]
@@ -117,7 +117,7 @@ class NomadManager(LoggingMixin):
     @cached_property
     def nomad_url(self):
         protocol = "http" if not self.secure else "https"
-        return f"{protocol}://{self.nomad_server_ip}:{self.nomad_server_port}"
+        return f"{protocol}://{self.nomad_server}:{self.nomad_server_port}"
 
     @catch_nomad_exception()
     @ensure_nomad_client

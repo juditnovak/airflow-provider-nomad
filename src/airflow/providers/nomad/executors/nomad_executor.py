@@ -85,13 +85,20 @@ class NomadExecutor(ExecutorInterface):
             return None
 
         job_template = None
+
         try:
-            content = open(job_tpl_path).read()
+            with open(job_tpl_path) as file:
+                content = file.read()
+        except (IOError, OSError) as err:
+            self.log.error("Couldn't open job template file %s (%s)", job_tpl_path, err)
+            return  # type: ignore [return-value]
+
+        try:
             if job_tpl_path.suffix == ".json":
                 job_template = self.nomad_mgr.parse_template_json(content)
             elif job_tpl_path.suffix == ".hcl":
                 job_template = self.nomad_mgr.parse_template_hcl(content)
-        except (NomadValidationError, IOError) as err:
+        except NomadValidationError as err:
             self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
 
         return job_template

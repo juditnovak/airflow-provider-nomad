@@ -23,6 +23,7 @@ from airflow.sdk import Context
 from airflow.sdk.bases.operator import BaseOperator
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
+from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import (
     JobEvalStatus,
@@ -32,8 +33,6 @@ from airflow.providers.nomad.models import (
 )
 from airflow.providers.nomad.nomad_manager import NomadManager
 
-EXECUTOR_NAME = "nomad_executor"
-
 
 class NomadOperator(BaseOperator):
     def __init__(self, observe: bool = True, job_log_file: str | None = None, **kwargs):
@@ -42,21 +41,22 @@ class NomadOperator(BaseOperator):
         self.observe = observe
         self.job_log_file = job_log_file
         self.operator_poll_delay: int = conf.getint(
-            EXECUTOR_NAME, "operator_poll_delay", fallback=10
+            CONFIG_SECTION, "operator_poll_delay", fallback=10
         )
         self.template: NomadJobModel | None = None
         super().__init__(**kwargs)
 
     @staticmethod
     def sanitize_logs(alloc_id: str, task_name: str, logs: str) -> str:
-        sanitized_logs = logs
+        if not logs:
+            return logs
 
+        sanitized_logs = logs
         fileloc = Path(f"{alloc_id}-{task_name}.log")
         if fileloc.is_file():
             with fileloc.open("r") as file:
                 prefix = file.read()
-                if logs.startswith(prefix):
-                    sanitized_logs = logs[len(prefix) :]
+                sanitized_logs = logs[len(prefix) :]
 
         with fileloc.open("w") as file:
             file.write(logs)
@@ -89,6 +89,13 @@ class NomadOperator(BaseOperator):
                     self.log.info("[job: %s][alloc: %s] %s", job_id, allocation.ID, line)
 
         return ",".join(all_output), all_logs
+
+    @staticmethod
+    def figure_path(path_str: str):
+        path = Path(path_str)
+        if not path.is_absolute():
+            path = Path(conf.get_mandatory_value("core", "dags_folder")) / path
+        return path
 
     def prepare_job_template(self, context: Context):
         raise NotImplementedError

@@ -11,7 +11,6 @@ RUN pip install apache-airflow-task-sdk
 
 RUN pip install nomad
 
-
 # To be replaced later with
 # RUN pip install apache-airflow-providers-nomad
 COPY . .

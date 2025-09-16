@@ -70,8 +70,8 @@ def parse_json_job_template(path: Path) -> NomadJobModel | None:
     """try to parse a json or hcl input as a nomad job template"""
     try:
         file = open(str(path))
-    except IOError:
-        logger.error(f"File '{path}' not found")
+    except (IOError, OSError) as err:
+        logger.error(f"Can't open file: {path}' ({err})")
         return  # type: ignore [return-value]
 
     with file:

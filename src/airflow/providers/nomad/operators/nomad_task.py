@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+from collections.abc import Collection
 from random import randint
 
 from airflow.sdk import Context
@@ -29,7 +30,35 @@ from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
 class NomadTaskOperator(NomadOperator):
-    def __init__(self, **kwargs):
+    template_fields: Collection[str] = [
+        "template_content",
+        "image",
+        "entrypoint",
+        "args",
+        "command",
+        "env",
+    ]
+
+    def __init__(
+        self,
+        template_path: str | None = None,
+        template_content: str | None = None,
+        env: dict[str, str] | None = None,
+        image: str | None = None,
+        entrypoint: list[str] | None = None,
+        args: list[str] | None = None,
+        command: str | None = None,
+        **kwargs,
+    ):
+        if template_path and template_content:
+            raise ValueError("Only one of 'template_content' and 'template_path' can be specified")
+        self.template_content = template_content
+        self.template_path = template_path
+        self.image = image
+        self.entrypoint = entrypoint
+        self.args = args
+        self.command = command
+        self.env = env
         super().__init__(observe=True, **kwargs)
 
     def job_id(self, ti: RuntimeTaskInstanceProtocol):
@@ -40,8 +69,21 @@ class NomadTaskOperator(NomadOperator):
         return f"{id_base}-{rnd}"
 
     def prepare_job_template(self, context: Context):
+        content = None
+        if self.template_path:
+            filepath = self.figure_path(self.template_path)
+            try:
+                with open(filepath) as f:
+                    content = f.read()
+            except (OSError, IOError) as err:
+                self.log.error(f"Can't load job template ({err})")
+                return
         try:
-            if content := context.get("params", {}).get("template_content", ""):
+            if (
+                content
+                or (content := self.template_content)
+                or (content := context.get("params", {}).get("template_content", ""))
+            ):
                 template = self.nomad_mgr.parse_template_content(content)
             else:
                 template = NomadJobModel.model_validate(default_task_template)
@@ -61,17 +103,25 @@ class NomadTaskOperator(NomadOperator):
             if len(template.Job.TaskGroups[0].Tasks) > 1:
                 raise NomadTaskOperatorError("NomadTaskOperator only allows for a single task")
 
-            if image := context.get("params", {}).get("image"):
+            if template.Job.TaskGroups[0].Count and template.Job.TaskGroups[0].Count > 1:
+                raise NomadTaskOperatorError("Only a single execution is allowed (count=1)")
+
+            if (image := self.image) or (image := context.get("params", {}).get("image")):
                 template.Job.TaskGroups[0].Tasks[0].Config.image = image
 
-            if entrypoint := context.get("params", {}).get("entrypoint"):
+            if (entrypoint := self.entrypoint) or (
+                entrypoint := context.get("params", {}).get("entrypoint")
+            ):
                 template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
 
-            if args := context.get("params", {}).get("args"):
+            if (args := self.args) or (args := context.get("params", {}).get("args")):
                 template.Job.TaskGroups[0].Tasks[0].Config.args = args
 
-            if command := context.get("params", {}).get("command"):
+            if (command := self.command) or (command := context.get("params", {}).get("command")):
                 template.Job.TaskGroups[0].Tasks[0].Config.command = command
+
+            if (env := self.env) or (env := context.get("params", {}).get("env")):
+                template.Job.TaskGroups[0].Tasks[0].Env = env
 
         except ValidationError as err:
             raise NomadTaskOperatorError(f"Template validation failed: {err.errors()}")

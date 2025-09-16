@@ -30,6 +30,7 @@ def get_provider_info():
                 "tags": ["software"],
             },
         ],
+        "executors": ["airflow.providers.nomad.executors.nomad_executor.NomadExecutor"],
         "operators": [
             {
                 "integration-name": "Nomad",
@@ -75,14 +76,14 @@ def get_provider_info():
                         "version_added": "0.0.1",
                         "type": "integer",
                         "example": "128",
-                        "default": "1",
+                        "default": "128",
                     },
-                    "agent_server_ip": {
-                        "description": "Nomad server IP",
+                    "agent_host": {
+                        "description": "Nomad server (FQDN or IP)",
                         "version_added": "0.0.1",
                         "type": "string",
                         "example": "192.168.122.226",
-                        "default": None,
+                        "default": "0.0.0.0",
                     },
                     "agent_secure": {
                         "description": "Whether TLS certificates are to be considered",
@@ -124,7 +125,7 @@ def get_provider_info():
                         "version_added": "0.0.2",
                         "type": "string",
                         "example": "python:latest",
-                        "default": "novakjudit/af_nomad_test:latest",
+                        "default": "novakjudit/airflow-nomad-runner:latest",
                     },
                     "alloc_pending_timeout": {
                         "description": "Timeout in seconds before failed allocations may be considered as failed jobs",
@@ -143,5 +144,4 @@ def get_provider_info():
                 },
             },
         },
-        "executors": ["airflow.providers.nomad.executors.nomad_executor.Nomadxecutor"],
     }

@@ -29,7 +29,7 @@ class JobEvalStatus(str, Enum):
 
 
 class Resource(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     CPU: int | None = 500
     MemoryMB: int | None = 256
@@ -51,20 +51,23 @@ class TaskConfig(BaseModel):
 
 
 class Task(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Config: TaskConfig
     Name: str
     Resources: Resource | None = None
+    Driver: str
+    Env: dict[str, str] | None = None
 
 
 class TaskGroup(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Tasks: list[Task]
     Name: str
+    Count: int | None = None
 
 
 class Job(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     TaskGroups: list[TaskGroup]
     ID: str
     Name: str
@@ -73,7 +76,7 @@ class Job(BaseModel):
 
 
 class NomadJobModel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Job: Job
 
     def tasknames(self) -> list[str]:
@@ -142,7 +145,7 @@ NomadJobEvaluation = TypeAdapter(NomadJobEvalList)
 
 
 class NomadJobSubmission(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Status: JobInfoStatus
     Namespace: str
@@ -184,7 +187,7 @@ class NomadEvent(BaseModel):
 
 
 class NomadTaskState(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Events: list[NomadEvent]
     Failed: bool
@@ -192,7 +195,7 @@ class NomadTaskState(BaseModel):
 
 
 class NomadJobAllocationInfo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     ClientStatus: str
     EvalID: str
@@ -257,7 +260,7 @@ class NomadJobSummaryInfo(BaseModel):
 
 
 class NomadJobSummary(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Children: NomadChildrenSummary
     JobID: str
