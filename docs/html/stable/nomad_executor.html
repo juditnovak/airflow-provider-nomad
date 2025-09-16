@@ -22,7 +22,7 @@
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
             <link rel="next" title="Nomad Job Operator" href="nomad_job_operator.html" />
-            <link rel="prev" title="Releasing security patches" href="security.html" />
+            <link rel="prev" title="Changelog" href="changelog.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/nomad_executor.html" />
 
@@ -292,7 +292,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.1</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -337,15 +337,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -446,7 +445,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.1</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -491,15 +490,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -632,6 +630,12 @@ not at all need to be running on Nomad, but does need API access to a Nomad clus
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <section id="pre-requisites">
 <h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The configuration presented below is one of multiple alternative solutions, not a strict requirement of the <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code></p>
+</div>
+</div></blockquote>
 <p>Assuming that a Nomad cluster is already available, there must be a few configuration details
 to be adjusted on the cluster’s side.</p>
 <p>Airflow executions will require two shared folders on each runner:</p>
@@ -672,8 +676,8 @@ configuration has to contain the following information:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
 <span class="na">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">airflow.providers.nomad.executors.nomad_executor.NomadExecutor</span>
 
-<span class="k">[nomad_executor]</span>
-<span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;server_ip&gt;</span>
+<span class="k">[nomad_provider]</span>
+<span class="na">agent_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;host&gt;</span>
 </pre></div>
 </div>
 <p>After these changes, the scheduler has to be restarted with</p>
@@ -687,16 +691,16 @@ each of them to different docker containers.</p>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
-<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are to be found in the <code class="docutils literal notranslate"><span class="pre">nomad_executor</span></code> section of the Airflow configuration.</p>
+<p>Configuration options that are available for <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> are to be found in the <code class="docutils literal notranslate"><span class="pre">nomad_provider</span></code> section of the Airflow configuration.</p>
 <p><code class="docutils literal notranslate"><span class="pre">parallelism</span></code>: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.</p>
-<p><code class="docutils literal notranslate"><span class="pre">server_ip</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">agent_host</span></code>: The IP address of the Nomad server. (Default: <code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code>)</p>
 <p><code class="docutils literal notranslate"><span class="pre">default_job_template</span></code>: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the <a class="reference internal" href="#job-submission-template">Job submission template</a> section.</p>
 <p><code class="docutils literal notranslate"><span class="pre">default_docker_image</span></code>: In case not a whole template, but only the default Docker image is to be specified</p>
 <p><code class="docutils literal notranslate"><span class="pre">alloc_pending_timeout</span></code>: How long to wait (in seconds) before failing a task pending with failed Nomad allocations. See <a class="reference internal" href="#job-execution">Job execution</a> for more information.</p>
-<p><code class="docutils literal notranslate"><span class="pre">secure</span></code>: Whether TLS is enabled.</p>
-<p><code class="docutils literal notranslate"><span class="pre">verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate. (Exactly as for <a class="reference external" href="https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">Python Requests SSL cert verification</a>)</p>
-<p><code class="docutils literal notranslate"><span class="pre">cert_path</span></code>: The absolute path of the client certificate.</p>
-<p><code class="docutils literal notranslate"><span class="pre">key_path</span></code>: The absolute path of the client key.</p>
+<p><code class="docutils literal notranslate"><span class="pre">agent_secure</span></code>: Whether TLS is enabled.</p>
+<p><code class="docutils literal notranslate"><span class="pre">agent_verify</span></code>: This configuration may either hold a boolean value (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>) or the absolute path of the CA certificate. (Exactly as for <a class="reference external" href="https://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">Python Requests SSL cert verification</a>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">agent_cert_path</span></code>: The absolute path of the client certificate.</p>
+<p><code class="docutils literal notranslate"><span class="pre">agent_key_path</span></code>: The absolute path of the client key.</p>
 <p>For TLS-related configuration in detail, see the <a class="reference internal" href="#security">Security</a> section.</p>
 <section id="job-submission-template">
 <h3>Job submission template<a class="headerlink" href="#job-submission-template" title="Link to this heading">¶</a></h3>
@@ -720,9 +724,35 @@ Core assumptions regarding the job submission template:</p>
 <li><p>The Docker image used by default was generated using the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> available at <code class="docutils literal notranslate"><span class="pre">src/airflow/providers/nomad/docker</span></code></p></li>
 <li><p>The default job submission template resides in the <code class="docutils literal notranslate"><span class="pre">src/airflow/providers/nomad/templates/nomad_job_template.py</span></code>.</p></li>
 </ul>
-<p>The default job submission template can be overridden by the <cite>nomad_executor/default_job_template</cite> configuration parameter, expecting
+<p>The default job submission template can be overridden by the <cite>nomad_provider/default_job_template</cite> configuration parameter, expecting
 HCL or JSON template. For successful job submission the template has to comply to the above.</p>
 </section>
+</section>
+<section id="job-execution">
+<h2>Job execution<a class="headerlink" href="#job-execution" title="Link to this heading">¶</a></h2>
+<p>Each job is submitted with a generated Job ID, using the Airflow task instance details.</p>
+<p>The execution workflow is fairly basic so far. In principal, following the Airflow standards:</p>
+<ul class="simple">
+<li><p>job remain in a <code class="docutils literal notranslate"><span class="pre">QUEUED</span></code> state until successfully contacting the API server confirming that <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> state started</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> or <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state is declared based on the task reporting to the API server</p></li>
+</ul>
+<p>In addition, Nomad-side failures are also considered. Such errors can have multiple reasons.</p>
+<p>Allocation failures:</p>
+<blockquote>
+<div><p>Allocation failures may not be real failures. They can occur for example when the cluster is overloaded, or if
+requested resources may not be temporarily available. Depending on the job configuration, these may have automated
+re-allocation attempts.
+Such tasks have a time delay defined by the <code class="docutils literal notranslate"><span class="pre">nomad_provider/alloc_pendidng_timeout</span></code>. In case
+they show no change in state, they are failed by the executor as the timeout expires.
+(The Airflow tasks are forcefully moved to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state by the executor, and the corresponding Nomad jobs are stopped.)</p>
+</div></blockquote>
+<p>Job submission failures:</p>
+<blockquote>
+<div><p>On the other hand, actual failures may happen before job execution could start. (For example: specified Docker image can’t be downloaded.)
+On these occasions, the Airflow jobs are set to <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> and the Nomad jobs are stopped right away.</p>
+</div></blockquote>
+<p>Once the executor may move tasks to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state, Airflow-level re-tries apply.</p>
+<p>Analysis on the Nomad context is performed, aiming to provide information about the failures, both in the Airflow service logs and the job logs.</p>
 </section>
 <section id="security">
 <h2>Security<a class="headerlink" href="#security" title="Link to this heading">¶</a></h2>
@@ -758,12 +788,12 @@ HCL or JSON template. For successful job submission the template has to comply t
 </pre></div>
 </div>
 <p>The Airflow configuration of the Airflow scheduler (running <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>) has to be changed such as</p>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad_executor]</span>
-<span class="na">server_ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;nomad_server_ip&gt;</span>
-<span class="na">cert_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem</span>
-<span class="na">key_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem</span>
-<span class="na">verify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem</span>
-<span class="na">secure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[nomad_provider]</span>
+<span class="na">agent_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;nomad_host&gt;</span>
+<span class="na">agent_cert_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem</span>
+<span class="na">agent_key_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem</span>
+<span class="na">agent_verify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem</span>
+<span class="na">agent_secure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
 </pre></div>
 </div>
 <p>Having restarted the scheduler, job submission to the Nomad cluster is enabled.</p>
@@ -771,31 +801,6 @@ HCL or JSON template. For successful job submission the template has to comply t
 <p class="admonition-title">Note</p>
 <p>In case of self-signed certificates, make sure that <code class="docutils literal notranslate"><span class="pre">keyUsage</span></code> extension is enabled and required (see <a class="reference external" href="https://www.herongyang.com/PKI-Certificate/OpenSSL-Add-keyUsage-into-Root-CA.html">helpful guidelines</a>)</p>
 </div>
-</section>
-<section id="job-execution">
-<h2>Job execution<a class="headerlink" href="#job-execution" title="Link to this heading">¶</a></h2>
-<p>The execution workflow is fairly basic so far. In principal, following the Airflow standards:</p>
-<ul class="simple">
-<li><p>job remain in a <code class="docutils literal notranslate"><span class="pre">QUEUED</span></code> state until successfully contacting the API server confirming that <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> state started</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> or <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state is declared based on the task reporting to the API server</p></li>
-</ul>
-<p>In addition, Nomad-side failures are also considered. Such errors can have multiple reasons.</p>
-<p>Allocation failures:</p>
-<blockquote>
-<div><p>Allocation failures may not be real failures. They can occur for example when the cluster is overloaded, or if
-requested resources may not be temporarily available. Depending on the job configuration, these may have automated
-re-allocation attempts.
-Such tasks have a time delay defined by the <code class="docutils literal notranslate"><span class="pre">nomad_executor/alloc_penidng_timeout</span></code>. In case
-they show no change in state, they are failed by the executor as the timeout expires.
-(The Airflow tasks are forcefully moved to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state by the executor, and the corresponding Nomad jobs are stopped.)</p>
-</div></blockquote>
-<p>Job submission failures:</p>
-<blockquote>
-<div><p>On the other hand, actual failures may happen before job execution could start. (For example: specified Docker image can’t be downloaded.)
-On these occasions, the Airflow jobs are set to <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> and the Nomad jobs are stopped right away.</p>
-</div></blockquote>
-<p>Once the executor may move tasks to a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state, Airflow-level re-tries apply.</p>
-<p>Analysis on the Nomad context is performed, aiming to provide information about the failures, both in the Airflow service logs and the job logs.</p>
 </section>
 <section id="logging">
 <h2>Logging<a class="headerlink" href="#logging" title="Link to this heading">¶</a></h2>
@@ -818,7 +823,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 
 
     <div class="pager" role="navigation" aria-label="related navigation">
-            <a rel="prev" title="Releasing security patches" href="security.html" >
+            <a rel="prev" title="Changelog" href="changelog.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
             </a>
             <a rel="next" title="Nomad Job Operator" href="nomad_job_operator.html" >
@@ -901,8 +906,8 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 <li><a class="reference internal" href="#job-submission-template">Job submission template</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#security">Security</a></li>
 <li><a class="reference internal" href="#job-execution">Job execution</a></li>
+<li><a class="reference internal" href="#security">Security</a></li>
 <li><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>

@@ -43,7 +43,5 @@ Changelog
 * Configuration parameter `default_job_template` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/11
 * Handling Job submission errors by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/13
 
-## New Contributors
-* @juditnovak made their first contribution in https://github.com/juditnovak/airflow-provider-nomad/pull/1
-
 **Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/commits/0.0.1
+**Release Notes**: https://github.com/juditnovak/airflow-provider-nomad/releases/tag/0.0.1
