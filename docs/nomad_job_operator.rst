@@ -24,21 +24,31 @@ Nomad Job Operator
 The ``NomadJobOperator`` is spawning a new Nomad job to run the wrapped task.
 Practically the operator is useful when complete job templates are to be run as separate Nomad executions.
 
-There is no restriction on the template (number of ``Tasks``, or ``TaskGroups``, etc.)
+There is no restriction on the template (number of ``Tasks``, or ``TaskGroups``, ``Count``, etc.)
+
+The Nomad job template is executed with no modification.
+
+ .. note:: Only job submission with unique Job IDs is supported
+
+
 
 
 Parameters
 ############
 
-``template_content (str)``: A nomad job in the shape of either JSON, HCL or a Python dictionary
+``template_path (str)``: Path to a Nomad job JSON or HCL file. if not specified, then the default nomad executor template is used
 
-``observe``: Supervise the lifetime of the spawned Nomad execution, or abandon it as a "daemon" task. NOTE: In this case the job is loosing track from an Airflow point of view
+``template_content (str)``: A JSON or HCL string, or a Python dictionary.
+
+``observe (bool)``: Supervise the lifetime of the spawned Nomad execution, or abandon it as a "daemon" task. NOTE: In the latter case the Airflow is loosing track of the job
+
+The same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
 
 
 Configuration
 ###############
 
-``operator_poll_delay``: Wait time between repetititve checks on submitted child job
+``operator_poll_delay``: Wait time between repeating checks on submitted child job that is observed
 
 Examples
 ##############
@@ -86,3 +96,67 @@ Examples
         )
 
         run_this_first >> run_this_last
+
+
+.. code-block:: Python
+
+    content = (
+        """
+    job "nomad-test-hcl-%s" {
+      type = "batch"
+
+      group "example" {
+        count = 1
+        task "first" {
+          driver = "docker"
+          config {
+            image = "alpine:latest"
+            entrypoint = ["/bin/sh", "-c"]
+            args = ["echo -n $STARTVAR"]
+          }
+          env {
+            STARTVAR = "Message from 1st task"
+          }
+        }
+      }
+    }
+    """.strip()
+        % time()
+    )
+
+
+    with myDAG(
+        dag_id=DAG_ID,
+        schedule="0 0 * * *",
+        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+        catchup=False,
+        dagrun_timeout=datetime.timedelta(minutes=60),
+        tags=["nomad", "nomadjoboperator", "nomadexecutor"],
+    ) as dag:
+        run_this_first = NomadJobOperator(
+            task_id="nomad_job1", template_content=content, do_xcom_push=True
+        )
+
+        run_this_last = NomadJobOperator(
+            task_id="nomad_job2",
+            template_content="""
+    job "nomad-test-hcl-%s" {
+      type = "batch"
+
+      group "example" {
+        task "second" {
+          driver = "docker"
+          config {
+            image = "alpine:latest"
+            entrypoint = ["/bin/sh", "-c"]
+            args = ["echo -n The 1st task told me: {{ task_instance.xcom_pull(task_ids='nomad_job1') }}"]
+          }
+        }
+      }
+    }
+    """.strip()
+            % time(),
+            do_xcom_push=True,
+        )
+
+    run_this_first >> run_this_last

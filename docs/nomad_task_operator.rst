@@ -24,14 +24,11 @@ Nomad Task Operator
 The ``NomadTaskOperator`` is spawning a new Nomad job to run the wrapped task.
 The operator is handy to run Nomad jobs with lightweight, minimal configuration.
 
-Optionally a template can be specified as well, as JSON, HCL or Python dictionary.
-However the template must not have more than a single ``TaskGroup`` an a single ``Task`` within.
+All parameters are supporting Airflow's Jinja-based templating mechanism.
 
 
 Parameters
 ############
-
-``template_content (str)``: A nomad job in the shape of either JSON, HCL or a Python dictionary. If not specified, then the default Nomad Executor template is used
 
 ``image (str)``: The docker image to be run
 
@@ -41,19 +38,32 @@ Parameters
 
 ``command (dict[str])``: Command to be run by the Docker image (incompatible with ``entrypoint``)
 
+``env (dict[str, str])``: Environment variables specified as a Python dictionary
+
+``template_path (str)``: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.
+
+``template_content (str)``: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.
+
+    In case a template was specified, it must have a single ``TaskGroup`` with a single ``Task`` within,
+    and can only have a single execution (``Count`` is ``1``).
+
+The same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
+
 
 Configuration
 ###############
 
-``operator_poll_delay``: Wait time between repetititve checks on submitted child job
+``operator_poll_delay (int)``: Wait time between repeating checks on submitted child job
 
 
 Job submission
 ################
 
-Job submission and execution are following the the principles of `Nomad Executor Job submission <nomad_executor.html#job-execution>`_.
+Job submission and execution are following the the principles of `Nomad Executor Job submission <nomad_provider.html#job-execution>`_.
 
-In addition
+The job is submitted by the Operator using a unique Job ID (overriding the corresponding field of the template).
+
+The operator is refreshing information about the spawned task state every ``nomad_provider/operator_poll_delay`` intervals.
 
 
 Examples
@@ -68,9 +78,13 @@ Examples
         catchup=False,
         dagrun_timeout=datetime.timedelta(minutes=60),
         tags=["nomad-example"],
-        params=ParamsDict({"image": "alpine:latest", "args": ["date"]}),
     ) as dag:
-        run_this_first = NomadTaskOperator(task_id="nomad_task", do_xcom_push=True)
+        run_this_first = NomadTaskOperator(
+            task_id="nomad_task", 
+            image="alpine:latest",
+            args=["date"],
+            do_xcom_push=True
+        )
 
         run_this_last = BashOperator(
             task_id="bash_task",
@@ -79,3 +93,32 @@ Examples
 
         run_this_first >> run_this_last
 
+
+.. code-block:: Python
+
+    with DAG(
+        dag_id="nomad-task-af-template",
+        schedule="0 0 * * *",
+        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
+        catchup=False,
+        dagrun_timeout=datetime.timedelta(minutes=60),
+        tags=["nomad", "nomadtask"],
+    ) as dag:
+
+        run_this_first = NomadTaskOperator(
+            task_id="nomad_task1",
+            image="alpine:3.21",
+            entrypoint=["/bin/sh", "-c"],
+            args=["echo -n $MYVAR"],
+            env={"MYVAR": "{{ task_instance.xcom_pull(task_ids='nomad_job2') }}"},
+            do_xcom_push=True,
+        )
+
+        run_this_last = NomadTaskOperator(
+            task_id="nomad_task2",
+            image="alpine:3.21",
+            entrypoint=["/bin/sh", "-c"],
+            args=["echo -n Job 1. said so: {{ task_instance.xcom_pull(task_ids='nomad_task2') }}" ],
+        )
+
+        run_this_first >> run_this_last

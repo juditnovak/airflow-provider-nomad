@@ -39,6 +39,9 @@ Usage
 Pre-requisites
 **********************
 
+ .. note:: The configuration presented below is one of multiple alternative solutions, not a strict requirement of the ``NomadExecutor``
+
+
 Assuming that a Nomad cluster is already available, there must be a few configuration details
 to be adjusted on the cluster's side.
 
@@ -76,8 +79,6 @@ NOTE: This configuration is different from the Airflow server's configuration in
     base_log_folder = /opt/airflow/logs
 
 
-
-
 Enabling ``NomadExecutor``
 **********************************
 
@@ -89,8 +90,8 @@ configuration has to contain the following information:
    [core]
    executor = airflow.providers.nomad.executors.nomad_executor.NomadExecutor
 
-   [nomad_executor]
-   server_ip = <server_ip>
+   [nomad_provider]
+   agent_host = <host>
 
 
 After these changes, the scheduler has to be restarted with 
@@ -113,7 +114,7 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 
 ``parallelism``: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.
 
-``agent_server_ip``: The IP address of the Nomad server. (Default: ``127.0.0.1``)
+``agent_host``: The IP address of the Nomad server. (Default: ``0.0.0.0``)
 
 ``default_job_template``: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the `Job submission template`_ section.
 
@@ -159,8 +160,41 @@ Defaults:
 - The Docker image used by default was generated using the ``Dockerfile`` available at ``src/airflow/providers/nomad/docker``
 - The default job submission template resides in the ``src/airflow/providers/nomad/templates/nomad_job_template.py``.
 
-The default job submission template can be overridden by the `nomad_executor/default_job_template` configuration parameter, expecting
+The default job submission template can be overridden by the `nomad_provider/default_job_template` configuration parameter, expecting
 HCL or JSON template. For successful job submission the template has to comply to the above.
+
+
+Job execution
+#################
+
+Each job is submitted with a generated Job ID, using the Airflow task instance details.
+
+The execution workflow is fairly basic so far. In principal, following the Airflow standards:
+
+- job remain in a ``QUEUED`` state until successfully contacting the API server confirming that ``RUNNING`` state started
+- ``SUCCESS`` or ``FAILED`` state is declared based on the task reporting to the API server
+
+In addition, Nomad-side failures are also considered. Such errors can have multiple reasons.
+
+
+Allocation failures:
+
+    Allocation failures may not be real failures. They can occur for example when the cluster is overloaded, or if
+    requested resources may not be temporarily available. Depending on the job configuration, these may have automated
+    re-allocation attempts. 
+    Such tasks have a time delay defined by the ``nomad_provider/alloc_pendidng_timeout``. In case
+    they show no change in state, they are failed by the executor as the timeout expires.
+    (The Airflow tasks are forcefully moved to a ``FAILED`` state by the executor, and the corresponding Nomad jobs are stopped.)
+
+
+Job submission failures:
+
+    On the other hand, actual failures may happen before job execution could start. (For example: specified Docker image can't be downloaded.)
+    On these occasions, the Airflow jobs are set to ``FAILED`` and the Nomad jobs are stopped right away.
+
+Once the executor may move tasks to a ``FAILED`` state, Airflow-level re-tries apply.
+
+Analysis on the Nomad context is performed, aiming to provide information about the failures, both in the Airflow service logs and the job logs.
 
 
 Security
@@ -206,12 +240,12 @@ The Airflow configuration of the Airflow scheduler (running ``NomadExecutor``) h
 
 .. code-block:: ini
 
-    [nomad_executor]
-    server_ip = <nomad_server_ip>
-    cert_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem
-    key_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem
-    verify = /home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem
-    secure = true
+    [nomad_provider]
+    agent_host = <nomad_host>
+    agent_cert_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad.pem
+    agent_key_path = /home/devel/share/workspace_airflow/nomad_provider/certs/global-cli-nomad-key.pem
+    agent_verify = /home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem
+    agent_secure = true
 
 
 Having restarted the scheduler, job submission to the Nomad cluster is enabled.
@@ -219,37 +253,6 @@ Having restarted the scheduler, job submission to the Nomad cluster is enabled.
 .. note::
 
    In case of self-signed certificates, make sure that ``keyUsage`` extension is enabled and required (see `helpful guidelines <https://www.herongyang.com/PKI-Certificate/OpenSSL-Add-keyUsage-into-Root-CA.html>`_)
-
-
-Job execution
-#################
-
-The execution workflow is fairly basic so far. In principal, following the Airflow standards:
-
-- job remain in a ``QUEUED`` state until successfully contacting the API server confirming that ``RUNNING`` state started
-- ``SUCCESS`` or ``FAILED`` state is declared based on the task reporting to the API server
-
-In addition, Nomad-side failures are also considered. Such errors can have multiple reasons.
-
-
-Allocation failures:
-
-    Allocation failures may not be real failures. They can occur for example when the cluster is overloaded, or if
-    requested resources may not be temporarily available. Depending on the job configuration, these may have automated
-    re-allocation attempts. 
-    Such tasks have a time delay defined by the ``nomad_executor/alloc_penidng_timeout``. In case
-    they show no change in state, they are failed by the executor as the timeout expires.
-    (The Airflow tasks are forcefully moved to a ``FAILED`` state by the executor, and the corresponding Nomad jobs are stopped.)
-
-
-Job submission failures:
-
-    On the other hand, actual failures may happen before job execution could start. (For example: specified Docker image can't be downloaded.)
-    On these occasions, the Airflow jobs are set to ``FAILED`` and the Nomad jobs are stopped right away.
-
-Once the executor may move tasks to a ``FAILED`` state, Airflow-level re-tries apply.
-
-Analysis on the Nomad context is performed, aiming to provide information about the failures, both in the Airflow service logs and the job logs.
 
 
 Logging
