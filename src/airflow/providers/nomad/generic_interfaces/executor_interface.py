@@ -38,8 +38,6 @@ from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
 
-Results = tuple[TaskInstanceKey, TaskInstanceState | str | None]
-
 
 class ExecutorInterface(BaseExecutor):
     """Executor with run-queues."""

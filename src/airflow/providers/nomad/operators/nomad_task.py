@@ -30,13 +30,16 @@ from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
 class NomadTaskOperator(NomadOperator):
+    """Nomad Operator allowing for lightweight job submission"""
+
     template_fields: Collection[str] = [
-        "template_content",
         "image",
         "entrypoint",
         "args",
         "command",
         "env",
+        "template_content",
+        "template_path",
     ]
 
     def __init__(

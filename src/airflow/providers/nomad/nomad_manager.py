@@ -15,12 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 
-"""Nomad Job Manager
-
-The purpose of this module is to de-couple Nomad job management functionalities,
-that are used both on executor and operator side.
-"""
-
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Callable
@@ -28,7 +22,6 @@ from typing import Any, Callable
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
 from airflow.utils.log.logging_mixin import LoggingMixin
-from nomad.api.exceptions import BadRequestNomadException  # type: ignore[import-untyped]
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from pydantic import ValidationError
 
@@ -49,6 +42,11 @@ from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, val
 
 
 class NomadManager(LoggingMixin):
+    """A layer of abstraction and encapsulate direct Nomad interactions and Nomad job management.
+
+    Functionalities provided are equally used on Executor and Operator side.
+    """
+
     def __init__(self):
         self.nomad_server: str = conf.get(CONFIG_SECTION, "agent_host", fallback="0.0.0.0")
         self.nomad_server_port: int = conf.getint(
@@ -217,6 +215,7 @@ class NomadManager(LoggingMixin):
         job_alloc: NomadJobAllocList | None = None,
         job_eval: NomadJobEvalList | None = None,
         job_summary: NomadJobSummary | None = None,
+        ignore_dead: bool = False,
     ) -> tuple[bool, str] | None:
         """Whether the job failed on Nomad side
 
@@ -229,7 +228,7 @@ class NomadManager(LoggingMixin):
         task re-tries are applied corectly.
 
         :param key: reference to the task instance in question
-        :return: either a tuple of: True/False, additional info or None if no data could be
+        :return: either a tuple of: (True/False, additional info) or None if no data could be
                 retrieved for the job
         """
 
@@ -259,7 +258,7 @@ class NomadManager(LoggingMixin):
             self.pending_jobs.pop(job_id, None)
 
         # Failures during job setup: job is stuck in a 'dead' state
-        if job_status.Status == JobInfoStatus.dead:
+        if not ignore_dead and job_status.Status == JobInfoStatus.dead:
             if not job_alloc:
                 job_alloc = self.get_nomad_job_allocation(job_id)
             if not job_summary:
@@ -286,22 +285,23 @@ class NomadManager(LoggingMixin):
         try:
             body = self.nomad.jobs.parse(template_content)  # type: ignore[optionalMemberAccess, union-attr]
             return validate_nomad_job({"Job": body})
-        except BadRequestNomadException as err:
+        except BaseNomadException as err:
             self.log.debug("Couldn't parse template as HCL (%s)", err)
 
     def parse_template_content(self, template_content: str) -> NomadJobModel | None:  # type: ignore [return]
         if not template_content:
             return None
 
-        if isinstance(template_content, dict):
-            return validate_nomad_job(template_content)
+        try:
+            if isinstance(template_content, dict):
+                return validate_nomad_job(template_content)
 
-        template = self.parse_template_json(template_content)
+            if template := self.parse_template_json(template_content):
+                return template
 
-        if not template:
-            template = self.parse_template_hcl(template_content)
-
-        return template
+            return self.parse_template_hcl(template_content)
+        except NomadValidationError as err:
+            self.log.error("Couldn't parse template '%s', (%s)", template_content, err)
 
     def job_all_info_str(
         self,

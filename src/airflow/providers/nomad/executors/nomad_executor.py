@@ -28,7 +28,6 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
@@ -49,12 +48,6 @@ from airflow.providers.nomad.utils import (
     job_task_id_from_taskinstance_key,
 )
 
-NOMAD_COMMANDS = ()
-
-# For Nomad: jobID,  taskID (within that job submission),  allocation
-NomadJob = tuple[str, str, str]
-
-PROVIDER_NAME = "nomad"
 
 logger = logging.getLogger(__name__)
 
@@ -155,18 +148,10 @@ class NomadExecutor(ExecutorInterface):
         return self.nomad_mgr.register_job(job_model)
 
     def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
-        """Whether the job failed on Nomad side
-
-        Typically on allocaton errors there is not feedback to Airflow, as the
-        job remains in 'pending' state on Nomad side. Such issues have to be detected
-        and the job execution is to be reported as failed.
-
-        NOTE: The executor failing a job run is considered as an ERROR by Airflow.
-        Despite the log message, this is the efficient way for this case. Potential Airflow-level
-        task re-tries are applied corectly.
+        """Whether the job failed outside of the Airflow context
 
         :param key: reference to the task instance in question
-        :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
+        :return: either a tuple of: (task status to set (typically: FAILED), additional info)
                  or None if no data could be retrieved for the job
         """
         job_id = job_id_from_taskinstance_key(key)
@@ -264,16 +249,6 @@ class NomadExecutor(ExecutorInterface):
                         logs += self.nomad_mgr.get_job_stdout(allocation.ID, task_name)
 
         return messages, logs.splitlines()  # type: ignore[reportReturnType]
-
-    @staticmethod
-    def get_cli_commands() -> list[GroupCommand]:
-        return [
-            GroupCommand(
-                name=PROVIDER_NAME,
-                help=f"Tools to help run the {PROVIDER_NAME} executor",
-                subcommands=NOMAD_COMMANDS,
-            )
-        ]
 
 
 def _get_parser() -> argparse.ArgumentParser:  # pragma: no-cover

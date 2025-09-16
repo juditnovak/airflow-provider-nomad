@@ -35,6 +35,8 @@ from airflow.providers.nomad.nomad_manager import NomadManager
 
 
 class NomadOperator(BaseOperator):
+    """Abstract class to provide shared functionality across Nomad Operators"""
+
     def __init__(self, observe: bool = True, job_log_file: str | None = None, **kwargs):
         self.nomad_mgr = NomadManager()
         self.nomad_mgr.initialize()
@@ -149,7 +151,7 @@ class NomadOperator(BaseOperator):
             if not job_status or job_status.Status != JobInfoStatus.running:
                 if (
                     result := self.nomad_mgr.remove_job_if_hanging(
-                        job_id, job_status=job_status, **job_snapshot
+                        job_id, ignore_dead=True, job_status=job_status, **job_snapshot
                     )
                 ) and result[0]:
                     _, error = result
@@ -165,16 +167,7 @@ class NomadOperator(BaseOperator):
             status = job_status.Status if job_status else None
             all_done = job_summary.all_done() if job_summary else False
 
-        if job_eval and any(evalu.Status == JobEvalStatus.complete for evalu in job_eval):
-            if output:
-                return output
-            if not job_info:
-                job_info = self.nomad_mgr.job_all_info_str(job_id, **job_snapshot)
-                return (
-                    f"No output from job. Logs/stderr: {logs.splitlines()}\nJob info: \n"
-                    + "\n".join(job_info)
-                )
-
+        # Collecting final status
         job_alloc = self.nomad_mgr.get_nomad_job_allocation(job_id)
         job_eval = self.nomad_mgr.get_nomad_job_evaluations(job_id)
         job_summary = self.nomad_mgr.get_nomad_job_summary(job_id)
@@ -182,4 +175,13 @@ class NomadOperator(BaseOperator):
             job_id, job_alloc=job_alloc, job_eval=job_eval, job_summary=job_summary
         )
         job_info_str = "\n".join(job_info)
+        if job_eval and any(evalu.Status == JobEvalStatus.complete for evalu in job_eval):
+            if output:
+                return output
+            if job_summary and not job_summary.all_failed():
+                return (
+                    f"No output from job. Logs/stderr: {logs.splitlines()}\nJob info: \n"
+                    + "\n".join(job_info)
+                )
+
         raise NomadOperatorError(f"Job submission failed {job_info_str}")

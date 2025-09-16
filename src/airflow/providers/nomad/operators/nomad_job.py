@@ -26,7 +26,9 @@ from airflow.providers.nomad.templates.nomad_job_template import default_task_te
 
 
 class NomadJobOperator(NomadOperator):
-    template_fields: Collection[str] = ["template_content"]
+    """Nomad Operator for direct template submission"""
+
+    template_fields: Collection[str] = ["template_content", "template_path"]
 
     def __init__(
         self,
