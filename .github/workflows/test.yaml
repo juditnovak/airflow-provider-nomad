@@ -64,8 +64,84 @@ jobs:
           uv run airflow db reset -y
           uv run tox run -e unit_test -- --with-db-init
 
+  integration_tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup `nomad`
+        uses: hashicorp/setup-nomad@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+
+      - name: Run `nomad version`
+        id: version
+        run: "nomad version"
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      # Target repo is to be checked out first (order matters!)
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      # Airflow's python plugin is not portable, thus we use it from the source
+      - name: Clone Airflow sources, to enable Airflow pytset plugin
+        uses: actions/checkout@v4
+        with:
+          repository: apache/airflow
+          path: airflow
+          ref: ${{ env.AIRFLOW_VERSION }}
+
+      - name: Adjust Airflow version for local env
+        run: |
+          sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
+          echo "Airflow Version is $AIRFLOW_VERSION"
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+
+      - name: System tests for NomadExecutor and NomadJobOperator
+        run: |
+          set -x
+          export AIRFLOW_SOURCES=$PWD/airflow
+          export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
+
+          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
+
+          ./tests/system/nomad/scripts/init_airflow_cfg.sh
+
+          uv run airflow db reset -y
+          uv run airflow api-server &
+
+          uv run tox run -e integration_test
+
+      - name: Save nomad logs
+        if: failure()
+        run: |
+          mkdir nomad_logs
+          sudo cp -r /tmp/Nomad* nomad_logs
+          sudo tar -czvf nomad_logs.tar.gz nomad_logs
+          sudo chmod 777 nomad_logs.tar.gz
+          mv nomad_logs.tar.gz tests/system/nomad/server/logs
+
+      - name: Collect logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: nomad_provider_test_output
+          path: |
+            tests/system/nomad/server/logs/*
+
+
   system_tests:
-    name: System tests on local Nomad instance
+    name: Airflow system tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -122,6 +198,66 @@ jobs:
 
           uv run tox run -e system_test
 
+      - name: Save nomad logs
+        if: failure()
+        run: |
+          mkdir nomad_logs
+          sudo cp -r /tmp/Nomad* nomad_logs
+          sudo tar -czvf nomad_logs.tar.gz nomad_logs
+          sudo chmod 777 nomad_logs.tar.gz
+          mv nomad_logs.tar.gz tests/system/nomad/server/logs
+
+      - name: Collect logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: nomad_provider_test_output
+          path: |
+            tests/system/nomad/server/logs/*
+
+  system_tests_localexecutor:
+    name: Airflow system tests on LocalExecutor for Nomad Operators
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup `nomad`
+        uses: hashicorp/setup-nomad@main
+        id: setup
+        with:
+          version: ${{ env.PRODUCT_VERSION }}
+
+      - name: Run `nomad version`
+        id: version
+        run: "nomad version"
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+
+      # Target repo is to be checked out first (order matters!)
+      - name: Cloning target repository
+        uses: actions/checkout@v4
+
+      # Airflow's python plugin is not portable, thus we use it from the source
+      - name: Clone Airflow sources, to enable Airflow pytset plugin
+        uses: actions/checkout@v4
+        with:
+          repository: apache/airflow
+          path: airflow
+          ref: ${{ env.AIRFLOW_VERSION }}
+
+      - name: Adjust Airflow version for local env
+        run: |
+          sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
+          echo "Airflow Version is $AIRFLOW_VERSION"
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+
       - name: System tests for NomadJobOperator on LocalExecutor
         run: |
           set -x
@@ -129,6 +265,11 @@ jobs:
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
 
           export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
+
+          ./tests/system/nomad/scripts/init_airflow_cfg.sh
+
+          uv run airflow db reset -y
+          uv run airflow api-server &
 
           sed -i "s/airflow.providers.nomad.executors.nomad_executor.NomadExecutor/LocalExecutor/" tests/system/nomad/config/unit_tests.cfg.template
           uv run tox run -e system_test_localexecutor

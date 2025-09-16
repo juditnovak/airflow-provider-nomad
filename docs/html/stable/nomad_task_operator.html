@@ -292,7 +292,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.1</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -337,7 +337,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
@@ -348,6 +347,8 @@
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadTaskOperator</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-submission">Job submission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -443,7 +444,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.1</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -488,7 +489,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul>
@@ -499,6 +499,8 @@
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadTaskOperator</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-submission">Job submission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -620,15 +622,31 @@
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">NomadTaskOperator</span></code> is spawning a new Nomad job to run the wrapped task.
 The operator is handy to run Nomad jobs with lightweight, minimal configuration.</p>
-<p>Optionally a template can be specified as well, as JSON, HCL or Python dictionary.
-However the template must not have more than a single <code class="docutils literal notranslate"><span class="pre">TaskGroup</span></code> an a single <code class="docutils literal notranslate"><span class="pre">Task</span></code> within.</p>
+<p>All parameters are supporting Airflow’s Jinja-based templating mechanism.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">template_content</span> <span class="pre">(str)</span></code>: A nomad job in the shape of either JSON, HCL or a Python dictionary. If not specified, then the default Nomad Executor template is used</p>
 <p><code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">(str)</span></code>: The docker image to be run</p>
 <p><code class="docutils literal notranslate"><span class="pre">entrypoint</span> <span class="pre">(list[str])</span></code>: Entrypoint to the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">command</span></code>)</p>
 <p><code class="docutils literal notranslate"><span class="pre">args</span> <span class="pre">(dict[str])</span></code>: Arguments to be added to the Docker image entrypoint</p>
 <p><code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">(dict[str])</span></code>: Command to be run by the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">entrypoint</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">env</span> <span class="pre">(dict[str,</span> <span class="pre">str])</span></code>: Environment variables specified as a Python dictionary</p>
+<p><code class="docutils literal notranslate"><span class="pre">template_path</span> <span class="pre">(str)</span></code>: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.</p>
+<p><code class="docutils literal notranslate"><span class="pre">template_content</span> <span class="pre">(str)</span></code>: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.</p>
+<blockquote>
+<div><p>In case a template was specified, it must have a single <code class="docutils literal notranslate"><span class="pre">TaskGroup</span></code> with a single <code class="docutils literal notranslate"><span class="pre">Task</span></code> within,
+and can only have a single execution (<code class="docutils literal notranslate"><span class="pre">Count</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>).</p>
+</div></blockquote>
+<p>The same parameters are also recognized if submitted as DAG/task <code class="docutils literal notranslate"><span class="pre">params</span></code>. However in this case templating may not apply.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">operator_poll_delay</span> <span class="pre">(int)</span></code>: Wait time between repeating checks on submitted child job</p>
+</section>
+<section id="job-submission">
+<h2>Job submission<a class="headerlink" href="#job-submission" title="Link to this heading">¶</a></h2>
+<p>Job submission and execution are following the the principles of <a class="reference external" href="nomad_provider.html#job-execution">Nomad Executor Job submission</a>.</p>
+<p>The job is submitted by the Operator using a unique Job ID (overriding the corresponding field of the template).</p>
+<p>The operator is refreshing information about the spawned task state every <code class="docutils literal notranslate"><span class="pre">nomad_provider/operator_poll_delay</span></code> intervals.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
@@ -639,13 +657,45 @@ However the template must not have more than a single <code class="docutils lite
     <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
     <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad-example&quot;</span><span class="p">],</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">ParamsDict</span><span class="p">({</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;alpine:latest&quot;</span><span class="p">,</span> <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]}),</span>
 <span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
-    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task&quot;</span><span class="p">,</span> <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task&quot;</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:latest&quot;</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span>
+        <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
     <span class="n">run_this_last</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;bash_task&quot;</span><span class="p">,</span>
         <span class="n">bash_command</span><span class="o">=</span><span class="s2">&quot;echo &#39;Nomad executoin time was: {{ task_instance.xcom_pull(task_ids=&#39;nomad_task&#39;) }}&#39;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-af-template&quot;</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="s2">&quot;0 0 * * *&quot;</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">pendulum</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad&quot;</span><span class="p">,</span> <span class="s2">&quot;nomadtask&quot;</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task1&quot;</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.21&quot;</span><span class="p">,</span>
+        <span class="n">entrypoint</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/bin/sh&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;echo -n $MYVAR&quot;</span><span class="p">],</span>
+        <span class="n">env</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;MYVAR&quot;</span><span class="p">:</span> <span class="s2">&quot;{{ task_instance.xcom_pull(task_ids=&#39;nomad_job2&#39;) }}&quot;</span><span class="p">},</span>
+        <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">run_this_last</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task2&quot;</span><span class="p">,</span>
+        <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:3.21&quot;</span><span class="p">,</span>
+        <span class="n">entrypoint</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/bin/sh&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;echo -n Job 1. said so: {{ task_instance.xcom_pull(task_ids=&#39;nomad_task2&#39;) }}&quot;</span> <span class="p">],</span>
     <span class="p">)</span>
 
     <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
@@ -731,6 +781,8 @@ However the template must not have more than a single <code class="docutils lite
             <ul>
 <li><a class="reference internal" href="#">Nomad Task Operator</a><ul>
 <li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#job-submission">Job submission</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>

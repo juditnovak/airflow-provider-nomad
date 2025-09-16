@@ -22,8 +22,9 @@ from pathlib import Path
 import pytest
 from airflow.sdk import Context
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
+from tests_common.test_utils.config import conf_vars
 
-from airflow.providers.nomad.exceptions import NomadJobOperatorError
+from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
@@ -76,7 +77,8 @@ def test_nomad_job_operator_execute_ok_with_task_logs(
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path5).read())
     # The first read is on stderr, second is on stdout
     job_log = "Submitted task is saying hello"
-    mock_nomad_client.client.cat.read_file.side_effect = [job_log, str({"Summary": 30}), ""]
+    job_err = "Minor error"
+    mock_nomad_client.client.cat.read_file.side_effect = [job_log, str({"Summary": 30}), job_err]
 
     mock_job_register = mock_nomad_client.job.register_job
     context = Context({"params": {"template_content": content}})
@@ -90,6 +92,7 @@ def test_nomad_job_operator_execute_ok_with_task_logs(
         )
         assert retval == str({"Summary": 30})
         assert any([job_log in record.message for record in caplog.records])
+        assert any([job_err in record.message for record in caplog.records])
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
@@ -103,7 +106,7 @@ def test_nomad_job_operator_execute_job_submission_fails(filename, test_datadir,
     # Job output
     mock_nomad_client.client.cat.read_file.side_effect = ["", ""]
 
-    with pytest.raises(NomadJobOperatorError) as err:
+    with pytest.raises(NomadOperatorError) as err:
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
@@ -130,16 +133,53 @@ def test_nomad_job_operator_execute_failed(filename, test_datadir, mock_nomad_cl
     mock_job_register = mock_nomad_client.job.register_job
     context = Context({"params": {"template_content": content}})
 
-    with pytest.raises(NomadJobOperatorError) as err:
+    with pytest.raises(NomadOperatorError) as err:
         NomadJobOperator(task_id="task_id").execute(context)
 
     mock_job_register.assert_called_once_with(
         "example", NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     )
-    assert str(err.value).startswith("Job summary:Job example got killed due to error")
+    assert str(err.value).startswith("Job submission failed")
     assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in str(
         err.value
     )
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+def test_args_template_content(filename, test_datadir):
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    op = NomadJobOperator(task_id="task_id", template_content=content)
+    op.prepare_job_template({})
+    assert op.template == NomadJobModel.model_validate_json(content)
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+def test_args_template_path(filename, test_datadir):
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    op = NomadJobOperator(task_id="task_id", template_path=file_path)
+    op.prepare_job_template({})
+    assert op.template == NomadJobModel.model_validate_json(content)
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
+def test_args_figure_path(filename, test_datadir):
+    file_path = test_datadir / filename
+    assert str(NomadJobOperator(task_id="task_id").figure_path(str(file_path))) == str(file_path)
+    assert (
+        str(NomadJobOperator(task_id="task_id").figure_path(filename))
+        == "/abs/path/to/dags/" + filename
+    )
+
+
+def test_args_invalid_template():
+    with pytest.raises(ValueError) as err:
+        NomadJobOperator(task_id="task_id", template_path="/some/path", template_content="<HCL>")
+    assert "Only one of 'template_content' and 'template_path' can be specified" in str(err.value)
 
 
 def test_sanitize_logs():

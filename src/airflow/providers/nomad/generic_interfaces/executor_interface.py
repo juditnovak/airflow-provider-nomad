@@ -38,15 +38,12 @@ from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 Job = tuple[TaskInstanceKey, Any, Any]
 
-Results = tuple[TaskInstanceKey, TaskInstanceState | str | None]
-
 
 class ExecutorInterface(BaseExecutor):
     """Executor with run-queues."""
 
     RUNNING_POD_LOG_LINES = 100
     supports_ad_hoc_ti_run: bool = True
-    EXECUTOR_NAME = "generic_executor"
 
     serve_logs = True
 

@@ -17,10 +17,11 @@
 
 import datetime
 import os
+from time import time
 
 import attrs
 import pendulum
-from airflow.sdk import DAG, chain
+from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
 from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
@@ -67,8 +68,9 @@ class myDAG(DAG):
 ##############################################################################
 
 
-content = """
-job "nomad-test-hcl" {
+content = (
+    """
+job "nomad-test-hcl-%s" {
   type = "batch"
 
   constraint {
@@ -88,6 +90,8 @@ job "nomad-test-hcl" {
   }
 }
 """.strip()
+    % time()
+)
 
 
 with myDAG(
@@ -99,10 +103,13 @@ with myDAG(
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
     params=ParamsDict({"template_content": content}),
 ) as dag:
-    run_this_last = NomadJobOperator(task_id="nomad_job")
+    run_this_first = NomadJobOperator(task_id="nomad_job_from_content", template_content=content)
 
-    chain(run_this_last)
+    run_this_last = NomadJobOperator(
+        task_id="nomad_job_from_path", template_path="templates/simple_batch.json"
+    )
 
+    run_this_first >> run_this_last
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:

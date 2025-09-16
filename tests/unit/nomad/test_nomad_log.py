@@ -34,9 +34,9 @@ from airflow.utils.types import DagRunTriggeredByType, DagRunType
 from tests_common.test_utils.compat import PythonOperator
 from tests_common.test_utils.config import conf_vars
 
-from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
 from airflow.providers.nomad.nomad_log import NOMAD_LOG_CONFIG
+from airflow.providers.nomad.utils import job_id_from_taskinstance_key
 
 DATE_VAL = (2016, 1, 1)
 DEFAULT_DATE = datetime(*DATE_VAL)
@@ -228,7 +228,7 @@ def test_nomad_log_ok(mocker, unittest_root, test_datadir):
     loglist = list(logs[0])
 
     # Checking if request to Nomad was for the right job
-    jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+    jobid = job_id_from_taskinstance_key(ti.key)
     mock_allocations_request.assert_called_with(jobid)
 
     assert loglist[0].model_extra["sources"][0] == (  # type: ignore
@@ -270,7 +270,7 @@ def test_nomad_log_ok_with_stderr(mocker, unittest_root, test_datadir):
     loglist = list(logs[0])
 
     # Checking if request to Nomad was for the right job
-    jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+    jobid = job_id_from_taskinstance_key(ti.key)
     mock_allocations_request.assert_called_with(jobid)
 
     # Checking if logs have the expected headers and content
@@ -327,7 +327,7 @@ def test_airflow_log_ok(mocker, unittest_root, test_datadir):
     loglist = list(logs[0])
 
     # Checking if request to Nomad was for the right job
-    jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+    jobid = job_id_from_taskinstance_key(ti.key)
     mock_allocations_request.assert_called_with(jobid)
 
     assert "Found standard logs for running job via Nomad API" in loglist[0].model_extra["sources"]
@@ -362,7 +362,7 @@ def test_airflow_log_ok_with_stderr(mocker, unittest_root, test_datadir):
     loglist = list(logs[0])
 
     # Checking if request to Nomad was for the right job
-    jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+    jobid = job_id_from_taskinstance_key(ti.key)
     mock_allocations_request.assert_called_with(jobid)
 
     # FileTaskHandler added it's 1s liner group
@@ -397,10 +397,19 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
         file_path2 = test_datadir / "nomad_job_info_pending.json"
         file_path3 = test_datadir / "nomad_job_allocations_pending.json"
         file_path4 = test_datadir / "nomad_job_summary_failed.json"
-        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
-        mock_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
-        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+        with (
+            open(file_path1) as file1,
+            open(file_path2) as file2,
+            open(file_path3) as file3,
+            open(file_path4) as file4,
+        ):
+            eval_data = file1.read()
+            alloc_data = file3.read()
+            summary_data = file4.read()
+            mock_client.job.get_job.return_value = json.loads(file2.read())
+            mock_client.job.get_evaluations.return_value = json.loads(eval_data)
+            mock_client.job.get_allocations.return_value = json.loads(alloc_data)
+            mock_client.job.get_summary.return_value = json.loads(summary_data)
 
         ti = submit_python_task()
 
@@ -413,7 +422,7 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
         loglist = list(logs[0])
 
         # Checking if request to Nomad was for the right job
-        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        jobid = job_id_from_taskinstance_key(ti.key)
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content
@@ -425,21 +434,21 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
 
         assert loglist[lastind].event == "Job summary:"
         startind = lastind + 1
-        summary_data = open(file_path4).read().splitlines()
-        lastind = startind + len(summary_data)
-        assert [item.event for item in loglist][startind:lastind] == summary_data
+        summary_lines = summary_data.splitlines()
+        lastind = startind + len(summary_lines)
+        assert [item.event for item in loglist][startind:lastind] == summary_lines
 
         assert loglist[lastind].event == "Job allocations info:"
         startind = lastind + 1
-        alloc_data = open(file_path3).read().splitlines()
-        lastind = startind + len(alloc_data)
-        assert [item.event for item in loglist][startind:lastind] == alloc_data
+        alloc_lines = alloc_data.splitlines()
+        lastind = startind + len(alloc_lines)
+        assert [item.event for item in loglist][startind:lastind] == alloc_lines
 
         assert loglist[lastind].event == "Job evaluations:"
         startind = lastind + 1
-        eval_data = open(file_path1).read().splitlines()
-        lastind = startind + len(eval_data)
-        assert [item.event for item in loglist][startind:lastind] == eval_data
+        eval_lines = eval_data.splitlines()
+        lastind = startind + len(eval_lines)
+        assert [item.event for item in loglist][startind:lastind] == eval_lines
 
 
 @pytest.mark.parametrize(
@@ -470,7 +479,7 @@ def test_nomad_log_multi_alloc(handler, config, mocker, test_datadir):
         loglist = list(logs[0])
 
         # Checking if request to Nomad was for the right job
-        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        jobid = job_id_from_taskinstance_key(ti.key)
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content
@@ -508,10 +517,11 @@ def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
         # Ignore -- Nomad log retrieval mocked to reduce validation errors
         file_path1 = test_datadir / "nomad_job_evaluation.json"
         file_path2 = test_datadir / "nomad_job_info_pending.json"
-        file_path4 = test_datadir / "nomad_job_summary_failed.json"
-        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
-        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+        file_path3 = test_datadir / "nomad_job_summary_failed.json"
+        with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+            mock_client.job.get_evaluations.return_value = json.loads(file1.read())
+            mock_client.job.get_job.return_value = json.loads(file2.read())
+            mock_client.job.get_summary.return_value = json.loads(file3.read())
 
         ti = submit_python_task()
 
@@ -524,7 +534,7 @@ def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
         loglist = list(logs[0])
 
         # Checking if request to Nomad was for the right job
-        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        jobid = job_id_from_taskinstance_key(ti.key)
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content
@@ -554,10 +564,11 @@ def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
         # Ignore -- Nomad log retrieval mocked to reduce validation errors
         file_path1 = test_datadir / "nomad_job_evaluation.json"
         file_path2 = test_datadir / "nomad_job_info_pending.json"
-        file_path4 = test_datadir / "nomad_job_summary_failed.json"
-        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
-        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+        file_path3 = test_datadir / "nomad_job_summary_failed.json"
+        with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+            mock_client.job.get_evaluations.return_value = json.loads(file1.read())
+            mock_client.job.get_job.return_value = json.loads(file2.read())
+            mock_client.job.get_summary.return_value = json.loads(file3.read())
 
         ti = submit_python_task()
 
@@ -570,7 +581,7 @@ def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
         loglist = list(logs[0])
 
         # Checking if request to Nomad was for the right job
-        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        jobid = job_id_from_taskinstance_key(ti.key)
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content
@@ -601,10 +612,11 @@ def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
         # Ignore -- Nomad log retrieval mocked to reduce validation errors
         file_path1 = test_datadir / "nomad_job_evaluation.json"
         file_path2 = test_datadir / "nomad_job_info_pending.json"
-        file_path4 = test_datadir / "nomad_job_summary_failed.json"
-        mock_client.job.get_evaluations.return_value = json.loads(open(file_path1).read())
-        mock_client.job.get_job.return_value = json.loads(open(file_path2).read())
-        mock_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+        file_path3 = test_datadir / "nomad_job_summary_failed.json"
+        with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+            mock_client.job.get_evaluations.return_value = json.loads(file1.read())
+            mock_client.job.get_job.return_value = json.loads(file2.read())
+            mock_client.job.get_summary.return_value = json.loads(file3.read())
 
         ti = submit_python_task()
 
@@ -617,7 +629,7 @@ def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
         loglist = list(logs[0])
 
         # Checking if request to Nomad was for the right job
-        jobid = NomadExecutor.job_id_from_taskinstance_key(ti.key)
+        jobid = job_id_from_taskinstance_key(ti.key)
         mock_allocations_request.assert_called_with(jobid)
 
         # Checking if logs have the expected content

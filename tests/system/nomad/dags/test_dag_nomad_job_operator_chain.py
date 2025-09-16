@@ -17,12 +17,12 @@
 
 import datetime
 import os
+from time import time
 
 import attrs
 import pendulum
 from airflow.providers.standard.operators.bash import BashOperator
 from airflow.sdk import DAG
-from airflow.sdk.definitions.param import ParamsDict
 
 from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
@@ -68,8 +68,9 @@ class myDAG(DAG):
 ##############################################################################
 
 
-content = """
-job "nomad-test-hcl" {
+content = (
+    """
+job "nomad-test-hcl-%s" {
   type = "batch"
 
   constraint {
@@ -89,6 +90,8 @@ job "nomad-test-hcl" {
   }
 }
 """.strip()
+    % time()
+)
 
 
 with myDAG(
@@ -98,9 +101,10 @@ with myDAG(
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
-    params=ParamsDict({"template_content": content}),
 ) as dag:
-    run_this_first = NomadJobOperator(task_id="nomad_task", do_xcom_push=True)
+    run_this_first = NomadJobOperator(
+        task_id="nomad_task", template_content=content, do_xcom_push=True
+    )
 
     run_this_last = BashOperator(
         task_id="bash_task",

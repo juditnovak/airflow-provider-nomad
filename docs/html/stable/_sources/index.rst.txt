@@ -26,7 +26,7 @@
 
     Home <self>
     Changelog <changelog>
-    Security <security>
+.. Security <security>
 
 .. toctree::
     :hidden:
@@ -80,12 +80,12 @@
 ..     Detailed list of commits <commits>
 
 
-Release: 0.0.1
+Release: 0.0.2
 
 .. Release Date: ``|PypiReleaseDate|``
 
-The package contains and Airflow provider for the `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__
-workload orchestrator. All classes for this package are included in the ``airflow.providers.nomad`` python package.
+Airflow provider for the `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__ workload orchestrator. 
+
 
 Installation
 ------------

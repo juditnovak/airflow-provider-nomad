@@ -1,3 +1,20 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 from enum import Enum
 from typing import Any, TypeAlias
 
@@ -29,7 +46,7 @@ class JobEvalStatus(str, Enum):
 
 
 class Resource(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     CPU: int | None = 500
     MemoryMB: int | None = 256
@@ -51,20 +68,23 @@ class TaskConfig(BaseModel):
 
 
 class Task(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Config: TaskConfig
     Name: str
     Resources: Resource | None = None
+    Driver: str
+    Env: dict[str, str] | None = None
 
 
 class TaskGroup(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Tasks: list[Task]
     Name: str
+    Count: int | None = None
 
 
 class Job(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     TaskGroups: list[TaskGroup]
     ID: str
     Name: str
@@ -73,7 +93,7 @@ class Job(BaseModel):
 
 
 class NomadJobModel(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
     Job: Job
 
     def tasknames(self) -> list[str]:
@@ -100,20 +120,20 @@ class NomadFailedAllocInfo(BaseModel):
 
     def errors(self) -> list[Any]:
         """Turn an evaluation failure record into an error message"""
-        errors: list[Any] = []
+        errors: set[Any] = set()
         if self.ClassExhausted:
-            errors.append(str(self.ClassExhausted))
+            errors.add(str(self.ClassExhausted))
         if self.ClassFiltered:
-            errors.append(str(self.ClassFiltered))
+            errors.add(str(self.ClassFiltered))
         if self.ConstraintFiltered:
-            errors.append(str(self.ConstraintFiltered))
+            errors.add(str(self.ConstraintFiltered))
         if self.DimensionExhausted:
-            errors.append(str(self.DimensionExhausted))
+            errors.add(str(self.DimensionExhausted))
         if self.QuotaExhausted:
-            errors.append(str(self.QuotaExhausted))
+            errors.add(str(self.QuotaExhausted))
         if self.ResourcesExhausted:
-            errors.append(str(self.ResourcesExhausted))
-        return errors
+            errors.add(str(self.ResourcesExhausted))
+        return list(errors)
 
 
 class NomadJobEvaluationInfo(BaseModel):
@@ -142,7 +162,7 @@ NomadJobEvaluation = TypeAdapter(NomadJobEvalList)
 
 
 class NomadJobSubmission(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Status: JobInfoStatus
     Namespace: str
@@ -184,7 +204,7 @@ class NomadEvent(BaseModel):
 
 
 class NomadTaskState(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Events: list[NomadEvent]
     Failed: bool
@@ -192,7 +212,7 @@ class NomadTaskState(BaseModel):
 
 
 class NomadJobAllocationInfo(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     ClientStatus: str
     EvalID: str
@@ -257,7 +277,7 @@ class NomadJobSummaryInfo(BaseModel):
 
 
 class NomadJobSummary(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
 
     Children: NomadChildrenSummary
     JobID: str

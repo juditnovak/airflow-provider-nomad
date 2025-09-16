@@ -23,7 +23,8 @@ from airflow.sdk import Context
 from airflow.sdk.bases.operator import BaseOperator
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
-from airflow.providers.nomad.exceptions import NomadJobOperatorError
+from airflow.providers.nomad.constants import CONFIG_SECTION
+from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
@@ -32,30 +33,32 @@ from airflow.providers.nomad.models import (
 )
 from airflow.providers.nomad.nomad_manager import NomadManager
 
-EXECUTOR_NAME = "nomad_executor"
-
 
 class NomadOperator(BaseOperator):
+    """Abstract class to provide shared functionality across Nomad Operators"""
+
     def __init__(self, observe: bool = True, job_log_file: str | None = None, **kwargs):
         self.nomad_mgr = NomadManager()
         self.nomad_mgr.initialize()
         self.observe = observe
         self.job_log_file = job_log_file
         self.operator_poll_delay: int = conf.getint(
-            EXECUTOR_NAME, "operator_poll_delay", fallback=10
+            CONFIG_SECTION, "operator_poll_delay", fallback=10
         )
+        self.template: NomadJobModel | None = None
         super().__init__(**kwargs)
 
     @staticmethod
     def sanitize_logs(alloc_id: str, task_name: str, logs: str) -> str:
-        sanitized_logs = logs
+        if not logs:
+            return logs
 
+        sanitized_logs = logs
         fileloc = Path(f"{alloc_id}-{task_name}.log")
         if fileloc.is_file():
             with fileloc.open("r") as file:
                 prefix = file.read()
-                if logs.startswith(prefix):
-                    sanitized_logs = logs[len(prefix) :]
+                sanitized_logs = logs[len(prefix) :]
 
         with fileloc.open("w") as file:
             file.write(logs)
@@ -89,21 +92,31 @@ class NomadOperator(BaseOperator):
 
         return ",".join(all_output), all_logs
 
-    def prepare_job_template(self, context: Context) -> NomadJobModel | None:
+    @staticmethod
+    def figure_path(path_str: str):
+        path = Path(path_str)
+        if not path.is_absolute():
+            path = Path(conf.get_mandatory_value("core", "dags_folder")) / path
+        return path
+
+    def prepare_job_template(self, context: Context):
         raise NotImplementedError
 
     def execute(self, context: Context):
-        if not (template := self.prepare_job_template(context)):
-            raise NomadJobOperatorError("Nothing to execute")
+        if not self.template:
+            self.prepare_job_template(context)
 
-        job_id = template.Job.ID
+        if not self.template:
+            raise NomadOperatorError("Nothing to execute")
+
+        job_id = self.template.Job.ID
         try:
             response = self.nomad_mgr.nomad.job.register_job(  # type: ignore[optionalMemberAccess, union-attr]
-                job_id, template.model_dump(exclude_unset=True)
+                job_id, self.template.model_dump(exclude_unset=True)
             )
         except BaseNomadException as err:
-            raise NomadJobOperatorError(
-                f"Job submission failed ({err}), job template: {template.model_dump_json()}"
+            raise NomadOperatorError(
+                f"Job submission failed ({err}), job template: {self.template.model_dump_json()}"
             )
 
         if not response:
@@ -138,12 +151,12 @@ class NomadOperator(BaseOperator):
             if not job_status or job_status.Status != JobInfoStatus.running:
                 if (
                     result := self.nomad_mgr.remove_job_if_hanging(
-                        job_id, job_status=job_status, **job_snapshot
+                        job_id, ignore_dead=True, job_status=job_status, **job_snapshot
                     )
                 ) and result[0]:
                     _, error = result
                     if job_info := self.nomad_mgr.job_all_info_str(job_id, **job_snapshot):
-                        raise NomadJobOperatorError(
+                        raise NomadOperatorError(
                             f"Job {job_id} got killed due to error: {error}\n"
                             "Additional info:\n"
                             "\n".join(job_info)
@@ -154,16 +167,7 @@ class NomadOperator(BaseOperator):
             status = job_status.Status if job_status else None
             all_done = job_summary.all_done() if job_summary else False
 
-        if job_eval and any(evalu.Status == JobEvalStatus.complete for evalu in job_eval):
-            if output:
-                return output
-            if not job_info:
-                job_info = self.nomad_mgr.job_all_info_str(job_id, **job_snapshot)
-                return (
-                    f"No output from job. Logs/stderr: {logs.splitlines()}\nJob info: \n"
-                    + "\n".join(job_info)
-                )
-
+        # Collecting final status
         job_alloc = self.nomad_mgr.get_nomad_job_allocation(job_id)
         job_eval = self.nomad_mgr.get_nomad_job_evaluations(job_id)
         job_summary = self.nomad_mgr.get_nomad_job_summary(job_id)
@@ -171,4 +175,13 @@ class NomadOperator(BaseOperator):
             job_id, job_alloc=job_alloc, job_eval=job_eval, job_summary=job_summary
         )
         job_info_str = "\n".join(job_info)
-        raise NomadJobOperatorError(f"Job submission failed {job_info_str}")
+        if job_eval and any(evalu.Status == JobEvalStatus.complete for evalu in job_eval):
+            if output:
+                return output
+            if job_summary and not job_summary.all_failed():
+                return (
+                    f"No output from job. Logs/stderr: {logs.splitlines()}\nJob info: \n"
+                    + "\n".join(job_info)
+                )
+
+        raise NomadOperatorError(f"Job submission failed {job_info_str}")

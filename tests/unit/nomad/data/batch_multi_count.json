@@ -1,5 +1,6 @@
 {
-  "Job": {
+  "Job":
+  {
     "Affinities": null,
     "AllAtOnce": false,
     "Constraints": [
@@ -14,13 +15,13 @@
     "Datacenters": null,
     "DispatchIdempotencyToken": null,
     "Dispatched": false,
-    "ID": "simple-job-template",
+    "ID": "docs",
     "JobModifyIndex": 0,
     "Meta": null,
     "Migrate": null,
     "ModifyIndex": 0,
     "Multiregion": null,
-    "Name": "simple-job-template",
+    "Name": "docs",
     "Namespace": "default",
     "NodePool": "",
     "NomadTokenID": "",
@@ -42,7 +43,7 @@
         "Affinities": null,
         "Constraints": null,
         "Consul": null,
-        "Count": 1,
+        "Count": 2,
         "Disconnect": null,
         "EphemeralDisk": {
           "Migrate": false,
@@ -81,8 +82,11 @@
             "Affinities": null,
             "Artifacts": null,
             "Config": {
-              "image": "alpine:latest",
-              "args": ["uptime"]
+              "image": "hashicorp/http-echo",
+              "args": [
+                "-text",
+                "hello world"
+              ]
             },
             "Constraints": null,
             "Consul": null,

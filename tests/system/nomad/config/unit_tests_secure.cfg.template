@@ -2334,28 +2334,86 @@ xcom_objectstorage_threshold = -1
 #
 xcom_objectstorage_compression =
 
-[nomad_executor]
+[nomad_provider]
 # Generic Airflow executor parallelism (should be higher than 0)
 #
 # Example: parallelism = 128
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__PARALLELISM
+# Variable: AIRFLOW__NOMAD_PROVIDER__PARALLELISM
 #
-parallelism = 1
+parallelism = 128
 
-# Nomad server IP
+# Nomad server
 #
-# Example: server_ip = 192.168.122.226
+# Example: agent_host = 192.168.122.226
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__SERVER_IP
+# Variable: AIRFLOW__NOMAD_PROVIDER__AGENT_HOST
 #
-# server_ip =
+# agent_host =
+agent_host = <NOMAD_SERVER_IP>
 
 # Whether TLS certificates are to be considered
 #
-# Variable: AIRFLOW__NOMAD_EXECUTOR__SECURE
+# Variable: AIRFLOW__NOMAD_PROVIDER__AGENT_SECURE
 #
-secure = False
+agent_secure = true
+
+# Absolute path to client certificate
+#
+# Example: agent_cert_path = /absolute/path/to/certs/global-cli-nomad.pem
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__AGENT_CERT_PATH
+#
+agent_cert_path = <SYSTEST_ROOT>/runner/certs/global-cli-nomad.pem
+
+# Absolute path to client key
+#
+# Example: agent_key_path = /absolute/path/to/certs/global-cli-nomad-key.pem
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__AGENT_KEY_PATH
+#
+agent_key_path = <SYSTEST_ROOT>/runner/certs/global-cli-nomad-key.pem
+
+# Absolute paht to CA certificate or true/false
+#
+# Example: agent_verify = /absolute/path/to/certs/nomad-agent-ca.pem
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__AGENT_VERIFY
+#
+agent_verify = /home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem
+
+# Specific .hcl or .json template to use for job submission, instead of in-built defaults
+#
+# Example: default_job_template = /absolute/path/to/job_template.{json,hcl}
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__DEFAULT_JOB_TEMPLATE
+#
+default_job_template =
+
+# Default Docker image for the default job template
+#
+# Example: default_docker_image = python:latest
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__DEFAULT_DOCKER_IMAGE
+#
+default_docker_image = novakjudit/airflow-nomad-runner:0.0.2
+
+# Timeout in seconds before failed allocations may be considered as failed jobs
+#
+# Example: alloc_pending_timeout = 600
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__ALLOC_PENDING_TIMEOUT
+#
+alloc_pending_timeout = 600
+
+# Time delay for Nomad Opeators supervision cycle, to check on child Nomad job
+#
+# Example: operator_poll_delay = 5
+#
+# Variable: AIRFLOW__NOMAD_PROVIDER__OPERATOR_POLL_DELAY
+#
+operator_poll_delay = 10
+
 
 [standard]
 # Options for the standard provider operators.
@@ -2372,11 +2430,3 @@ secure = False
 # Variable: AIRFLOW__STANDARD__VENV_INSTALL_METHOD
 #
 venv_install_method = auto
-
-[nomad]
-parallelism = 128
-server_ip = 127.0.0.1
-cert_path = <SYSTEST_ROOT>/runner/certs/global-cli-nomad.pem
-key_path = <SYSTEST_ROOT>/runner/certs/global-cli-nomad-key.pem
-verify = /home/devel/share/workspace_airflow/nomad_provider/certs/nomad-agent-ca.pem
-secure = true

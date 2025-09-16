@@ -1,5 +1,6 @@
 {
-  "Job": {
+  "Job":
+  {
     "Affinities": null,
     "AllAtOnce": false,
     "Constraints": [
@@ -14,13 +15,13 @@
     "Datacenters": null,
     "DispatchIdempotencyToken": null,
     "Dispatched": false,
-    "ID": "simple-job-template",
+    "ID": "docs",
     "JobModifyIndex": 0,
     "Meta": null,
     "Migrate": null,
     "ModifyIndex": 0,
     "Multiregion": null,
-    "Name": "simple-job-template",
+    "Name": "docs",
     "Namespace": "default",
     "NodePool": "",
     "NomadTokenID": "",
@@ -42,7 +43,7 @@
         "Affinities": null,
         "Constraints": null,
         "Consul": null,
-        "Count": 1,
+        "Count": 2,
         "Disconnect": null,
         "EphemeralDisk": {
           "Migrate": false,
@@ -81,8 +82,11 @@
             "Affinities": null,
             "Artifacts": null,
             "Config": {
-              "image": "alpine:latest",
-              "args": ["uptime"]
+              "image": "hashicorp/http-echo",
+              "args": [
+                "-text",
+                "hello world"
+              ]
             },
             "Constraints": null,
             "Consul": null,
@@ -104,6 +108,65 @@
             },
             "Meta": null,
             "Name": "uptime",
+            "Resources": {
+              "CPU": 100,
+              "Cores": 0,
+              "Devices": null,
+              "DiskMB": null,
+              "IOPS": null,
+              "MemoryMB": 300,
+              "MemoryMaxMB": null,
+              "NUMA": null,
+              "Networks": null,
+              "SecretsMB": null
+            },
+            "RestartPolicy": {
+              "Attempts": 3,
+              "Delay": 15000000000,
+              "Interval": 86400000000000,
+              "Mode": "fail",
+              "RenderTemplates": false
+            },
+            "ScalingPolicies": null,
+            "Schedule": null,
+            "Services": null,
+            "ShutdownDelay": 0,
+            "Templates": null,
+            "User": "",
+            "Vault": null,
+            "VolumeMounts": null
+          },
+          {
+            "Actions": null,
+            "Affinities": null,
+            "Artifacts": null,
+            "Config": {
+              "image": "hashicorp/http-echo",
+              "args": [
+                "-text",
+                "hello world here too"
+              ]
+            },
+            "Constraints": null,
+            "Consul": null,
+            "DispatchPayload": null,
+            "Driver": "docker",
+            "Env": null,
+            "Identities": null,
+            "Identity": null,
+            "KillSignal": "",
+            "KillTimeout": 5000000000,
+            "Kind": "",
+            "Leader": false,
+            "Lifecycle": null,
+            "LogConfig": {
+              "Disabled": false,
+              "Enabled": null,
+              "MaxFileSizeMB": 10,
+              "MaxFiles": 10
+            },
+            "Meta": null,
+            "Name": "uptime2",
             "Resources": {
               "CPU": 100,
               "Cores": 0,

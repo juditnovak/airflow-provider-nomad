@@ -72,11 +72,6 @@ content = """
 job "nomad-test-hcl" {
   type = "batch"
 
-  constraint {
-    attribute = "${attr.kernel.name}"
-    value     = "linux"
-  }
-
   group "example" {
     count = 1
     task "uptime" {
@@ -100,7 +95,7 @@ with myDAG(
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
     params=ParamsDict({"template_content": content, "image": "alpine:3.21", "args": ["date"]}),
 ) as dag:
-    run_this_first = NomadTaskOperator(task_id="nomad_task", do_xcom_push=True)
+    run_this_first = NomadTaskOperator(task_id="nomad_task_op_test_chain", do_xcom_push=True)
 
     run_this_last = BashOperator(
         task_id="bash_task",

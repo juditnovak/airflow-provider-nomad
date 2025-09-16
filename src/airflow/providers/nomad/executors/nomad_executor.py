@@ -28,7 +28,6 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from airflow.cli.cli_config import GroupCommand
 from airflow.configuration import conf
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
@@ -37,19 +36,18 @@ from airflow.utils.log.logging_mixin import remove_escape_codes
 from airflow.utils.state import TaskInstanceState
 from pydantic import ValidationError
 
+from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.models import NomadJobModel
 from airflow.providers.nomad.nomad_log import NomadLogHandler
 from airflow.providers.nomad.nomad_manager import NomadManager
 from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.utils import (
+    job_id_from_taskinstance_key,
+    job_task_id_from_taskinstance_key,
+)
 
-NOMAD_COMMANDS = ()
-
-# For Nomad: jobID,  taskID (within that job submission),  allocation
-NomadJob = tuple[str, str, str]
-
-PROVIDER_NAME = "nomad"
 
 logger = logging.getLogger(__name__)
 
@@ -59,10 +57,9 @@ class NomadExecutor(ExecutorInterface):
 
     RUNNING_POD_LOG_LINES = 100
     supports_ad_hoc_ti_run: bool = True
-    EXECUTOR_NAME = "nomad_executor"
 
     def __init__(self):
-        self.parallelism: int = conf.getint(self.EXECUTOR_NAME, "parallelism", fallback=128)
+        self.parallelism: int = conf.getint(CONFIG_SECTION, "parallelism", fallback=128)
         self.nomad_mgr = NomadManager()
         super().__init__(parallelism=self.parallelism)
 
@@ -71,18 +68,8 @@ class NomadExecutor(ExecutorInterface):
         self.log.info("Starting Nomad executor")
         self.nomad_mgr.initialize()
 
-    @classmethod
-    def job_id_from_taskinstance_key(cls, key: TaskInstanceKey) -> str:
-        dag_id, task_id, run_id, try_number, map_index = key
-        return f"{dag_id}-{task_id}-{run_id}-{try_number}-{map_index}"
-
-    @classmethod
-    def job_task_id_from_taskinstance_key(cls, key: TaskInstanceKey) -> str:
-        dag_id, task_id, _, _, _ = key
-        return f"{dag_id}-{task_id}"
-
     def _get_job_template(self) -> NomadJobModel | None:
-        if not (job_tpl_loc := conf.get(self.EXECUTOR_NAME, "default_job_template", fallback="")):
+        if not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
             return None
 
         job_tpl_path = Path(job_tpl_loc)
@@ -91,13 +78,20 @@ class NomadExecutor(ExecutorInterface):
             return None
 
         job_template = None
+
         try:
-            content = open(job_tpl_path).read()
+            with open(job_tpl_path) as file:
+                content = file.read()
+        except (IOError, OSError) as err:
+            self.log.error("Couldn't open job template file %s (%s)", job_tpl_path, err)
+            return  # type: ignore [return-value]
+
+        try:
             if job_tpl_path.suffix == ".json":
                 job_template = self.nomad_mgr.parse_template_json(content)
             elif job_tpl_path.suffix == ".hcl":
                 job_template = self.nomad_mgr.parse_template_hcl(content)
-        except (NomadValidationError, IOError) as err:
+        except NomadValidationError as err:
             self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
 
         return job_template
@@ -108,8 +102,8 @@ class NomadExecutor(ExecutorInterface):
         :param key: reference to the task instance in question
         :return: job template as as dictionary
         """
-        job_id = self.job_id_from_taskinstance_key(key)
-        job_task_id = self.job_task_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
+        job_task_id = job_task_id_from_taskinstance_key(key)
 
         job_template = None
         if job_model := self._get_job_template():
@@ -154,21 +148,13 @@ class NomadExecutor(ExecutorInterface):
         return self.nomad_mgr.register_job(job_model)
 
     def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
-        """Whether the job failed on Nomad side
-
-        Typically on allocaton errors there is not feedback to Airflow, as the
-        job remains in 'pending' state on Nomad side. Such issues have to be detected
-        and the job execution is to be reported as failed.
-
-        NOTE: The executor failing a job run is considered as an ERROR by Airflow.
-        Despite the log message, this is the efficient way for this case. Potential Airflow-level
-        task re-tries are applied corectly.
+        """Whether the job failed outside of the Airflow context
 
         :param key: reference to the task instance in question
-        :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
+        :return: either a tuple of: (task status to set (typically: FAILED), additional info)
                  or None if no data could be retrieved for the job
         """
-        job_id = self.job_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
         if not (outcome := self.nomad_mgr.remove_job_if_hanging(job_id)):
             return None
 
@@ -199,7 +185,7 @@ class NomadExecutor(ExecutorInterface):
 
         # In case the task didn't even make it to be submitted, we may be able to get info about reasons from Nomad
         if not log and not stderr:
-            job_id = self.job_id_from_taskinstance_key(ti.key)
+            job_id = job_id_from_taskinstance_key(ti.key)
             if job_info := self.nomad_mgr.job_all_info_str(job_id):
                 messages.append("Nomad job evaluations retrieved")
                 log.append(
@@ -240,7 +226,7 @@ class NomadExecutor(ExecutorInterface):
 
         messages = []
         logs = ""
-        job_id = self.job_id_from_taskinstance_key(key)
+        job_id = job_id_from_taskinstance_key(key)
         allocations = self.nomad_mgr.get_nomad_job_allocation(job_id)
 
         if not isinstance(allocations, list):
@@ -263,16 +249,6 @@ class NomadExecutor(ExecutorInterface):
                         logs += self.nomad_mgr.get_job_stdout(allocation.ID, task_name)
 
         return messages, logs.splitlines()  # type: ignore[reportReturnType]
-
-    @staticmethod
-    def get_cli_commands() -> list[GroupCommand]:
-        return [
-            GroupCommand(
-                name=PROVIDER_NAME,
-                help=f"Tools to help run the {PROVIDER_NAME} executor",
-                subcommands=NOMAD_COMMANDS,
-            )
-        ]
 
 
 def _get_parser() -> argparse.ArgumentParser:  # pragma: no-cover
