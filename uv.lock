@@ -414,7 +414,6 @@ dependencies = [
     { name = "apache-airflow-task-sdk" },
     { name = "flask" },
     { name = "jq" },
-    { name = "netifaces" },
     { name = "pydantic" },
     { name = "python-nomad" },
     { name = "requests" },
@@ -424,6 +423,7 @@ dependencies = [
 dev = [
     { name = "apache-airflow-devel-common" },
     { name = "isort" },
+    { name = "netifaces" },
     { name = "pre-commit" },
     { name = "pudb" },
     { name = "pytest" },
@@ -439,7 +439,6 @@ requires-dist = [
     { name = "apache-airflow-task-sdk" },
     { name = "flask", specifier = ">=3.1.2" },
     { name = "jq", specifier = ">=1.10.0" },
-    { name = "netifaces", specifier = ">=0.11.0" },
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "python-nomad", specifier = ">=2.1.0" },
     { name = "requests", specifier = ">=2.32.5" },
@@ -449,6 +448,7 @@ requires-dist = [
 dev = [
     { name = "apache-airflow-devel-common", git = "https://github.com/apache/airflow.git?subdirectory=devel-common&tag=3.0.6" },
     { name = "isort", specifier = ">=6.0.1" },
+    { name = "netifaces", specifier = ">=0.11.0" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "pudb", specifier = ">=2025.1" },
     { name = "pytest", specifier = ">=8.4.1" },

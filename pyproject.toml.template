@@ -57,7 +57,6 @@ dependencies = [
     "apache-airflow-task-sdk",
     "flask>=3.1.2",
     "jq>=1.10.0",
-    "netifaces>=0.11.0",
     "pydantic>=2.11.7",
     "python-nomad>=2.1.0",
     "requests>=2.32.5",
@@ -71,6 +70,7 @@ dev = [
     "tox>=4.28.4",
     "pudb>=2025.1",
     "isort>=6.0.1",
+    "netifaces>=0.11.0",
     "pre-commit>=4.3.0",
 ]
 
