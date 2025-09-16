@@ -17,10 +17,10 @@
 
 import json
 import logging
+
 import pytest
 
 from airflow.providers.nomad.exceptions import NomadValidationError
-
 from airflow.providers.nomad.utils import (
     dict_to_lines,
     parse_json_job_template,
@@ -64,7 +64,7 @@ def test_parse_json_job_template(filename, test_datadir):
 
 def test_parse_json_job_template_fails(test_datadir, caplog):
     file_path = test_datadir / "bla"
-    error = f"File '{str(file_path)}' not found"
+    error = f"Can't open file: {str(file_path)}"
     with caplog.at_level(logging.ERROR):
         assert parse_json_job_template(file_path) is None
         assert any([error in record.message for record in caplog.records])

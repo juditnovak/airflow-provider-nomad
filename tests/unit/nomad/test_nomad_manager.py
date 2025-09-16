@@ -15,11 +15,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-
+import logging
 import json
 from time import sleep
 
 import pytest
+from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.models import (
@@ -32,14 +33,13 @@ from airflow.providers.nomad.models import (
     NomadJobSummary,
 )
 from airflow.providers.nomad.nomad_manager import NomadManager
-from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
 
 @conf_vars({})
 def test_base_defaults():
     nomad_mgr = NomadManager()
     assert nomad_mgr
-    assert nomad_mgr.nomad_server_ip == "127.0.0.1"
+    assert nomad_mgr.nomad_server == "127.0.0.1"
     assert nomad_mgr.cert_path == ""
     assert nomad_mgr.key_path == ""
     assert nomad_mgr.verify == ""
@@ -48,13 +48,13 @@ def test_base_defaults():
 
 @conf_vars(
     {
-        ("nomad_provider", "agent_server_ip"): "1.2.3.4",
+        ("nomad_provider", "agent_host"): "1.2.3.4",
     }
 )
 def test_base_fallback_default_params():
     nomad_mgr = NomadManager()
     assert nomad_mgr
-    assert nomad_mgr.nomad_server_ip == "1.2.3.4"
+    assert nomad_mgr.nomad_server == "1.2.3.4"
     assert nomad_mgr.cert_path == ""
     assert nomad_mgr.key_path == ""
     assert nomad_mgr.verify == ""
@@ -63,7 +63,7 @@ def test_base_fallback_default_params():
 
 @conf_vars(
     {
-        ("nomad_provider", "agent_server_ip"): "1.2.3.4",
+        ("nomad_provider", "agent_host"): "1.2.3.4",
         ("nomad_provider", "agent_cert_path"): "certs_absolute_path/global-cli-nomad.pem",
         ("nomad_provider", "agent_key_path"): "certs_absolute_path/global-cli-nomad-key.pem",
         ("nomad_provider", "agent_verify"): "certs_absolute_path/nomad-agent-ca.pem",
@@ -73,7 +73,7 @@ def test_base_fallback_default_params():
 def test_base_params_secure():
     nomad_mgr = NomadManager()
     assert nomad_mgr
-    assert nomad_mgr.nomad_server_ip == "1.2.3.4"
+    assert nomad_mgr.nomad_server == "1.2.3.4"
     assert nomad_mgr.cert_path == "certs_absolute_path/global-cli-nomad.pem"
     assert nomad_mgr.key_path == "certs_absolute_path/global-cli-nomad-key.pem"
     assert nomad_mgr.verify == "certs_absolute_path/nomad-agent-ca.pem"
@@ -165,6 +165,15 @@ def test_parse_template_hcl(test_datadir, mock_nomad_client):
         assert NomadJobModel.model_validate_json(json_content) == nomad_mgr.parse_template_content(
             hcl
         )
+
+
+def test_parse_template_error(caplog):
+    nomad_mgr = NomadManager()
+    nomad_mgr.initialize()
+
+    with caplog.at_level(logging.ERROR):
+        assert not nomad_mgr.parse_template_content("bad content")
+    assert "Couldn't parse template 'bad content'" in caplog.text
 
 
 def test_job_all_info_str(mock_nomad_client, test_datadir):
