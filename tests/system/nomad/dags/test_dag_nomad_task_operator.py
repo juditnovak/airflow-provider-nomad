@@ -21,7 +21,6 @@ import os
 import attrs
 import pendulum
 from airflow.sdk import DAG, chain
-from airflow.sdk.definitions.param import ParamsDict
 
 from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
 
@@ -97,12 +96,12 @@ with myDAG(
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
     tags=["nomad", "nomadTaskoperator", "nomadexecutor"],
-    params=ParamsDict({"template_content": content, "image": "alpine:3.21", "args": ["date"]}),
 ) as dag:
-    run_this_last = NomadTaskOperator(task_id="nomad_job")
+    run_this_last = NomadTaskOperator(
+        task_id="nomad_job", template_content=content, image="alpine:3.21", args=["date"]
+    )
 
     chain(run_this_last)
-
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:

@@ -89,8 +89,8 @@ with myDAG(
 try:
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-    from airflow.providers.nomad.executors.nomad_executor import conf
     from airflow.providers.nomad.constants import CONFIG_SECTION
+    from airflow.providers.nomad.executors.nomad_executor import conf
 
     from ..constants import TEST_DATA_PATH
 

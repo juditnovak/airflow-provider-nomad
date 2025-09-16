@@ -17,17 +17,18 @@
 
 import datetime
 import os
+from time import time
 
 import attrs
 import pendulum
-from airflow.providers.standard.operators.bash import BashOperator
 from airflow.sdk import DAG
 
 from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
+from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-job-operator"
+DAG_ID = "test-nomad-task-operator-combined"
 JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
@@ -66,28 +67,29 @@ class myDAG(DAG):
 
 ##############################################################################
 
-
-content = """
-job "nomad-test-hcl" {
+content = (
+    """
+job "nomad-test-hcl-%s" {
   type = "batch"
-
-  constraint {
-    attribute = "${attr.kernel.name}"
-    value     = "linux"
-  }
 
   group "example" {
     count = 1
-    task "uptime" {
+    task "first" {
       driver = "docker"
       config {
         image = "alpine:latest"
-        args = ["uptime"]
+        entrypoint = ["/bin/sh", "-c"]
+        args = ["echo -n $STARTVAR"]
+      }
+      env {
+        STARTVAR = "Message from 1st task"
       }
     }
   }
 }
 """.strip()
+    % time()
+)
 
 
 with myDAG(
@@ -99,15 +101,57 @@ with myDAG(
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
 ) as dag:
     run_this_first = NomadJobOperator(
-        task_id="nomad_task", template_content=content, do_xcom_push=True
+        task_id="nomad_job1", template_content=content, do_xcom_push=True
     )
 
-    run_this_last = BashOperator(
-        task_id="bash_task",
-        bash_command="echo 'Uptime was: {{ task_instance.xcom_pull(task_ids='nomad_task') }}'",
+    run_this_middle1 = NomadJobOperator(
+        task_id="nomad_job2",
+        template_content="""
+job "nomad-test-hcl-%s" {
+  type = "batch"
+
+  group "example" {
+    task "second" {
+      driver = "docker"
+      config {
+        image = "alpine:latest"
+        entrypoint = ["/bin/sh", "-c"]
+        args = ["echo -n $SECONDVAR"]
+      }
+      env {
+        SECONDVAR = "The 1st task told me: {{ task_instance.xcom_pull(task_ids='nomad_job1') }}"
+      }
+    }
+  }
+}
+""".strip()
+        % time(),
+        do_xcom_push=True,
     )
 
-    run_this_first >> run_this_last
+    run_this_middle2 = NomadTaskOperator(
+        task_id="nomad_job3",
+        params={
+            "image": "alpine:3.21",
+            "entrypoint": ["/bin/sh", "-c"],
+            "args": ["echo -n 'I heard from Job2 that: '$THIRDVAR"],
+        },
+        env={"THIRDVAR": "{{ task_instance.xcom_pull(task_ids='nomad_job2') }}"},
+        do_xcom_push=True,
+    )
+
+    run_this_last = NomadTaskOperator(
+        task_id="nomad_job4",
+        params={
+            "image": "alpine:3.21",
+            "entrypoint": ["/bin/sh", "-c"],
+            "args": ["echo -n 'Finally Job3 said so: '$FOURTHVAR"],
+        },
+        env={"FOURTHVAR": "{{ task_instance.xcom_pull(task_ids='nomad_job3') }}"},
+        do_xcom_push=True,
+    )
+
+    run_this_first >> run_this_middle1 >> run_this_middle2 >> run_this_last
 
 
 # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
@@ -117,11 +161,9 @@ try:
 
     from ..constants import TEST_DAGS_LOCALEXECUTOR_PATH
 
-    os.environ["TEST_DAGS_PATH"] = str(TEST_DAGS_LOCALEXECUTOR_PATH)
-
-    # Sadly none of the DAG executor settings are considered in the test environment
-    # Running it only in a pre-configured environment
     if conf.get("core", "executor") == "LocalExecutor":
+        os.environ["TEST_DAGS_PATH"] = str(TEST_DAGS_LOCALEXECUTOR_PATH)
         test_run = get_test_run(dag)
+
 except ImportError:
     pass

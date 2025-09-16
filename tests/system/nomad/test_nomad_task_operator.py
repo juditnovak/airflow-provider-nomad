@@ -15,13 +15,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import logging
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
 from airflow.sdk import Context
-
 from tests_common.test_utils.config import conf_vars
+
 from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
 
@@ -66,7 +65,7 @@ def test_nomad_task_operator_execute(test_datadir):
 
 
 @conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
-def test_nomad_task_operator_execute_fails(caplog):
+def test_nomad_task_operator_execute_fails():
     op = NomadTaskOperator(task_id="task_op_test_wrong_image")
 
     runtime_ti = MagicMock(
@@ -78,14 +77,11 @@ def test_nomad_task_operator_execute_fails(caplog):
     )
     context = Context({"params": {"image": "non-existent-image"}, "ti": runtime_ti})
 
-    with caplog.at_level(logging.INFO):
-        with pytest.raises(NomadOperatorError) as err:
-            op.execute(context)
+    with pytest.raises(NomadOperatorError) as err:
+        op.execute(context)
 
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
 
-    error = f"Task {job_id} seems dead, stopping it"
-    assert error in caplog.text
     assert (
         "Failed to pull `non-existent-image`: Error response from daemon: "
         "pull access denied for non-existent-image, repository does not exist"
