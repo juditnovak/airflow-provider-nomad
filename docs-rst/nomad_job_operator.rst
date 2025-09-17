@@ -154,8 +154,7 @@ Examples
         }
       }
     }
-    """.strip()
-            % time(),
+    """.strip() % time(),
             do_xcom_push=True,
         )
 
