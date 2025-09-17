@@ -287,9 +287,9 @@ loading intersphinx inventory 'apache-airflow-providers-jdbc' from /home/devel/s
 loading intersphinx inventory 'apache-airflow-providers-jenkins' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-jenkins/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-azure' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-microsoft-azure/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-mssql' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-microsoft-mssql/stable/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-psrp' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-microsoft-psrp/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-winrm' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-microsoft-winrm/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-mongo' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-mongo/stable/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-microsoft-psrp' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-microsoft-psrp/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-mysql' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-mysql/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-neo4j' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-neo4j/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-odbc' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-odbc/stable/objects.inv ...
@@ -375,20 +375,20 @@ providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:25:<autosummary>:1:
 providers/nomad/docs/_api/tests/system/nomad/utils/index.rst:40: : Spell check: [91mfunciton[39;49;00m: NOTE: This funciton by design may raise exceptions such as ‘select.error’..
 Writing /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/utils/index.spelling
 [01mwriting output... [39;49;00m[ 68%] [32mchangelog[39;49;00m
-providers/nomad/docs/changelog.rst:34: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: * [CI] Timeout increase by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: * Enabling support for Airflow templating by @juditnovak in .
-providers/nomad/docs/changelog.rst:47: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
-providers/nomad/docs/changelog.rst:48: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
-providers/nomad/docs/changelog.rst:49: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
-providers/nomad/docs/changelog.rst:50: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
-providers/nomad/docs/changelog.rst:51: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:52: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
-providers/nomad/docs/changelog.rst:53: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
-providers/nomad/docs/changelog.rst:54: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
-providers/nomad/docs/changelog.rst:55: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
-providers/nomad/docs/changelog.rst:56: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:57: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
+providers/nomad/docs/changelog.rst:34: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
+providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
+providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
+providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
+providers/nomad/docs/changelog.rst:40: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
+providers/nomad/docs/changelog.rst:41: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
+providers/nomad/docs/changelog.rst:42: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
+providers/nomad/docs/changelog.rst:43: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:44: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
+providers/nomad/docs/changelog.rst:45: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:46: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
+providers/nomad/docs/changelog.rst:47: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
 Writing /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/changelog.spelling
 [01mwriting output... [39;49;00m[ 71%] [32mcommits[39;49;00m
 [01mwriting output... [39;49;00m[ 74%] [32mconfigurations-ref[39;49;00m

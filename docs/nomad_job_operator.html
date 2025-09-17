@@ -645,11 +645,6 @@ Practically the operator is useful when complete job templates are to be run as 
 <span class="s2">job &quot;nomad-test-hcl&quot; {</span>
 <span class="s2">  type = &quot;batch&quot;</span>
 
-<span class="s2">  constraint {</span>
-<span class="s2">    attribute = &quot;$</span><span class="si">{attr.kernel.name}</span><span class="s2">&quot;</span>
-<span class="s2">    value     = &quot;linux&quot;</span>
-<span class="s2">  }</span>
-
 <span class="s2">  group &quot;example&quot; {</span>
 <span class="s2">    count = 1</span>
 <span class="s2">    task &quot;uptime&quot; {</span>
@@ -664,58 +659,48 @@ Practically the operator is useful when complete job templates are to be run as 
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
 
-<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
-    <span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-job-example&quot;</span>
-    <span class="n">schedule</span><span class="o">=</span><span class="s2">&quot;0 0 * * *&quot;</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="n">pendulum</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
-    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
-    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad-example&quot;</span><span class="p">],</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">ParamsDict</span><span class="p">({</span><span class="s2">&quot;template_content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">}),</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
-    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadJobOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task&quot;</span><span class="p">,</span> <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-job-example&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadJobOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_job&quot;</span><span class="p">,</span>
+        <span class="n">template_content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+        <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">run_this_middle</span><span class="o">=</span> <span class="n">NomadJobOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_job_from_path&quot;</span><span class="p">,</span>
+        <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;templates/simple_batch.json&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">run_this_last</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;bash_task&quot;</span><span class="p">,</span>
-        <span class="n">bash_command</span><span class="o">=</span><span class="s2">&quot;echo &#39;Uptime was: {{ task_instance.xcom_pull(task_ids=&#39;nomad_task&#39;) }}&#39;&quot;</span><span class="p">,</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s2">&quot;echo &#39;Uptime was: {{ task_instance.xcom_pull(task_ids=&#39;nomad_job&#39;) }}&#39;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
+    <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_middle</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">job &quot;nomad-test-hcl-%s&quot; {</span>
-<span class="sd">  type = &quot;batch&quot;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">job &quot;nomad-test-hcl-</span><span class="si">%s</span><span class="s2">&quot; {</span>
+<span class="s2">  type = &quot;batch&quot;</span>
 
-<span class="sd">  group &quot;example&quot; {</span>
-<span class="sd">    count = 1</span>
-<span class="sd">    task &quot;first&quot; {</span>
-<span class="sd">      driver = &quot;docker&quot;</span>
-<span class="sd">      config {</span>
-<span class="sd">        image = &quot;alpine:latest&quot;</span>
-<span class="sd">        entrypoint = [&quot;/bin/sh&quot;, &quot;-c&quot;]</span>
-<span class="sd">        args = [&quot;echo -n $STARTVAR&quot;]</span>
-<span class="sd">      }</span>
-<span class="sd">      env {</span>
-<span class="sd">        STARTVAR = &quot;Message from 1st task&quot;</span>
-<span class="sd">      }</span>
-<span class="sd">    }</span>
-<span class="sd">  }</span>
-<span class="sd">}</span>
-<span class="sd">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="o">%</span> <span class="n">time</span><span class="p">()</span>
-<span class="p">)</span>
+<span class="s2">  group &quot;example&quot; {</span>
+<span class="s2">    count = 1</span>
+<span class="s2">    task &quot;first&quot; {</span>
+<span class="s2">      driver = &quot;docker&quot;</span>
+<span class="s2">      config {</span>
+<span class="s2">        image = &quot;alpine:latest&quot;</span>
+<span class="s2">        entrypoint = [&quot;/bin/sh&quot;, &quot;-c&quot;]</span>
+<span class="s2">        args = [&quot;echo -n $STARTVAR&quot;]</span>
+<span class="s2">      }</span>
+<span class="s2">      env {</span>
+<span class="s2">        STARTVAR = &quot;Message from 1st task&quot;</span>
+<span class="s2">      }</span>
+<span class="s2">    }</span>
+<span class="s2">  }</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">%</span> <span class="n">time</span><span class="p">()</span>
 
-
-<span class="k">with</span> <span class="n">myDAG</span><span class="p">(</span>
-    <span class="n">dag_id</span><span class="o">=</span><span class="n">DAG_ID</span><span class="p">,</span>
-    <span class="n">schedule</span><span class="o">=</span><span class="s2">&quot;0 0 * * *&quot;</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="n">pendulum</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
-    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
-    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad&quot;</span><span class="p">,</span> <span class="s2">&quot;nomadjoboperator&quot;</span><span class="p">,</span> <span class="s2">&quot;nomadexecutor&quot;</span><span class="p">],</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="n">DAG_ID</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
     <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadJobOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_job1&quot;</span><span class="p">,</span> <span class="n">template_content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
@@ -737,8 +722,7 @@ Practically the operator is useful when complete job templates are to be run as 
 <span class="s2">    }</span>
 <span class="s2">  }</span>
 <span class="s2">}</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="o">%</span> <span class="n">time</span><span class="p">(),</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">%</span> <span class="n">time</span><span class="p">(),</span>
         <span class="n">do_xcom_push</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 

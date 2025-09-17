@@ -71,14 +71,7 @@ Examples
 
 .. code-block:: Python
 
-    with DAG(
-        dag_id="nomad-task-example"
-        schedule="0 0 * * *",
-        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-        catchup=False,
-        dagrun_timeout=datetime.timedelta(minutes=60),
-        tags=["nomad-example"],
-    ) as dag:
+    with DAG(dag_id="nomad-task-example") as dag:
         run_this_first = NomadTaskOperator(
             task_id="nomad_task", 
             image="alpine:latest",
@@ -96,14 +89,7 @@ Examples
 
 .. code-block:: Python
 
-    with DAG(
-        dag_id="nomad-task-af-template",
-        schedule="0 0 * * *",
-        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-        catchup=False,
-        dagrun_timeout=datetime.timedelta(minutes=60),
-        tags=["nomad", "nomadtask"],
-    ) as dag:
+    with DAG(dag_id="nomad-task-af-template") as dag:
 
         run_this_first = NomadTaskOperator(
             task_id="nomad_task1",

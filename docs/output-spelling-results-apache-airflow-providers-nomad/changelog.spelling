@@ -1,14 +1,14 @@
-providers/nomad/docs/changelog.rst:34: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:35: (juditnovak)  * [CI] Timeout increase by @juditnovak in 
-providers/nomad/docs/changelog.rst:35: (juditnovak)  * Enabling support for Airflow templating by @juditnovak in 
-providers/nomad/docs/changelog.rst:47: (juditnovak)  Nomad executor with bash operator by @juditnovak in 
-providers/nomad/docs/changelog.rst:48: (juditnovak)  System tests by @juditnovak in 
-providers/nomad/docs/changelog.rst:49: (juditnovak)  Tests completed and cleaned up by @juditnovak in 
-providers/nomad/docs/changelog.rst:50: (juditnovak)  Cleanup and small executor enhancements by @juditnovak in 
-providers/nomad/docs/changelog.rst:51: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:52: (juditnovak)  Logging finalized by @juditnovak in 
-providers/nomad/docs/changelog.rst:53: (juditnovak)  Base documentation by @juditnovak in 
-providers/nomad/docs/changelog.rst:54: (juditnovak)  Modification on logging by @juditnovak in 
-providers/nomad/docs/changelog.rst:55: (juditnovak)  Enabling secure Nomad connections by @juditnovak in 
-providers/nomad/docs/changelog.rst:56: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:57: (juditnovak)  Handling Job submission errors by @juditnovak in 
+providers/nomad/docs/changelog.rst:34: (juditnovak)  Nomad executor with bash operator by @juditnovak in 
+providers/nomad/docs/changelog.rst:35: (juditnovak)  System tests by @juditnovak in 
+providers/nomad/docs/changelog.rst:36: (juditnovak)  Tests completed and cleaned up by @juditnovak in 
+providers/nomad/docs/changelog.rst:37: (juditnovak)  Cleanup and small executor enhancements by @juditnovak in 
+providers/nomad/docs/changelog.rst:38: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:39: (juditnovak)  Logging finalized by @juditnovak in 
+providers/nomad/docs/changelog.rst:40: (juditnovak)  Base documentation by @juditnovak in 
+providers/nomad/docs/changelog.rst:41: (juditnovak)  Modification on logging by @juditnovak in 
+providers/nomad/docs/changelog.rst:42: (juditnovak)  Enabling secure Nomad connections by @juditnovak in 
+providers/nomad/docs/changelog.rst:43: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:44: (juditnovak)  Handling Job submission errors by @juditnovak in 
+providers/nomad/docs/changelog.rst:45: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:46: (juditnovak)  [CI] Timeout increase by @juditnovak in 
+providers/nomad/docs/changelog.rst:47: (juditnovak)  Enabling support for Airflow templating by @juditnovak in 

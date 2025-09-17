@@ -60,11 +60,6 @@ Examples
     job "nomad-test-hcl" {
       type = "batch"
 
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value     = "linux"
-      }
-
       group "example" {
         count = 1
         task "uptime" {
@@ -79,29 +74,29 @@ Examples
     """.strip()
 
 
-    with DAG(
-        dag_id="nomad-job-example"
-        schedule="0 0 * * *",
-        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-        catchup=False,
-        dagrun_timeout=datetime.timedelta(minutes=60),
-        tags=["nomad-example"],
-        params=ParamsDict({"template_content": content}),
-    ) as dag:
-        run_this_first = NomadJobOperator(task_id="nomad_task", do_xcom_push=True)
+    with DAG(dag_id="nomad-job-example") as dag:
+        run_this_first = NomadJobOperator(
+            task_id="nomad_job",
+            template_content=content,
+            do_xcom_push=True
+        )
+
+        run_this_middle= NomadJobOperator(
+            task_id="nomad_job_from_path",
+            template_path="templates/simple_batch.json"
+        )
 
         run_this_last = BashOperator(
             task_id="bash_task",
-            bash_command="echo 'Uptime was: {{ task_instance.xcom_pull(task_ids='nomad_task') }}'",
+            bash_command="echo 'Uptime was: {{ task_instance.xcom_pull(task_ids='nomad_job') }}'",
         )
 
-        run_this_first >> run_this_last
+        run_this_first >> run_this_middle >> run_this_last
 
 
 .. code-block:: Python
 
-    content = (
-        """
+    content = """
     job "nomad-test-hcl-%s" {
       type = "batch"
 
@@ -120,19 +115,9 @@ Examples
         }
       }
     }
-    """.strip()
-        % time()
-    )
+    """.strip() % time()
 
-
-    with myDAG(
-        dag_id=DAG_ID,
-        schedule="0 0 * * *",
-        start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-        catchup=False,
-        dagrun_timeout=datetime.timedelta(minutes=60),
-        tags=["nomad", "nomadjoboperator", "nomadexecutor"],
-    ) as dag:
+    with DAG(dag_id=DAG_ID) as dag:
         run_this_first = NomadJobOperator(
             task_id="nomad_job1", template_content=content, do_xcom_push=True
         )

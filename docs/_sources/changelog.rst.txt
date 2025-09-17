@@ -31,19 +31,6 @@ Changelog
 0.0.2
 ......
 
-## What's Changed
-* Operators: `NomadJobOperator` and `NomadTaskOperator` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/15
-* [CI] Timeout increase by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/16
-* Enabling support for Airflow templating by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/17
-
-
-**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.1...0.0.2
-**Release Notes**: https://github.com/juditnovak/airflow-provider-nomad/releases/tag/0.0.2
-
-
-0.0.1
-......
-
 * Nomad executor with bash operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/1
 * System tests by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/3
 * Tests completed and cleaned up by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/4
@@ -55,6 +42,11 @@ Changelog
 * Enabling secure Nomad connections by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/10
 * Configuration parameter `default_job_template` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/11
 * Handling Job submission errors by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/13
+* Operators: `NomadJobOperator` and `NomadTaskOperator` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/15
+* [CI] Timeout increase by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/16
+* Enabling support for Airflow templating by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/17
 
-**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/commits/0.0.1
-**Release Notes**: https://github.com/juditnovak/airflow-provider-nomad/releases/tag/0.0.1
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.2
+
+**Release Notes**: https://github.com/juditnovak/airflow-provider-nomad/releases/tag/0.0.2

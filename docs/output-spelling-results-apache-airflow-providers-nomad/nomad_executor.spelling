@@ -1,4 +1,0 @@
-providers/nomad/docs/nomad_executor.rst:229: (failuers)  In addition, Nomad-side failuers are also considered. Such errors can hanve multiple reasons.
-providers/nomad/docs/nomad_executor.rst:229: (hanve)  In addition, Nomad-side failuers are also considered. Such errors can hanve multiple reasons.
-providers/nomad/docs/nomad_executor.rst:244: (exeution)  On the other hand, actual failures may happen before job exeution could start. (For example: specified Docker image can’t be downloaded.)
-providers/nomad/docs/nomad_executor.rst:270: (didn)  The above image is showing the Nomad context once task execution didn’t perform.
