@@ -650,14 +650,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
-    <span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-example&quot;</span>
-    <span class="n">schedule</span><span class="o">=</span><span class="s2">&quot;0 0 * * *&quot;</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="n">pendulum</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
-    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
-    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad-example&quot;</span><span class="p">],</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-example&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
     <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task&quot;</span><span class="p">,</span>
         <span class="n">image</span><span class="o">=</span><span class="s2">&quot;alpine:latest&quot;</span><span class="p">,</span>
@@ -673,14 +666,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
     <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
-    <span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-af-template&quot;</span><span class="p">,</span>
-    <span class="n">schedule</span><span class="o">=</span><span class="s2">&quot;0 0 * * *&quot;</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="n">pendulum</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
-    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">dagrun_timeout</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
-    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nomad&quot;</span><span class="p">,</span> <span class="s2">&quot;nomadtask&quot;</span><span class="p">],</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-af-template&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
 
     <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task1&quot;</span><span class="p">,</span>
