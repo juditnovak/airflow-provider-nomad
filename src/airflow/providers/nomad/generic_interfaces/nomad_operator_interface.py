@@ -17,7 +17,7 @@ from pathlib import Path
 
 from airflow.configuration import conf
 from airflow.sdk import Context
-from airflow.sdk.bases.operator import BaseOperator
+from airflow.models import BaseOperator
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
 from airflow.providers.nomad.constants import CONFIG_SECTION
