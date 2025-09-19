@@ -32,8 +32,8 @@ def get_provider_info():
             {
                 "integration-name": "Nomad",
                 "python-modules": [
-                    "airflow.providers.nomad.operators.nomad_job",
-                    "airflow.providers.nomad.operators.nomad_task",
+                    "airflow.providers.nomad.operators.job",
+                    "airflow.providers.nomad.operators.task",
                 ],
             }
         ],

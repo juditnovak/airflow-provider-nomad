@@ -16,19 +16,19 @@ import time
 from pathlib import Path
 
 from airflow.configuration import conf
+from airflow.models import BaseOperator
 from airflow.sdk import Context
-from airflow.sdk.bases.operator import BaseOperator
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
 from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadOperatorError
+from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
     NomadJobAllocList,
     NomadJobModel,
 )
-from airflow.providers.nomad.nomad_manager import NomadManager
 
 
 class NomadOperator(BaseOperator):
@@ -77,7 +77,7 @@ class NomadOperator(BaseOperator):
                     logs += self.nomad_mgr.get_job_file(allocation.ID, self.job_log_file)
 
                 if output := self.nomad_mgr.get_job_stdout(allocation.ID, task_name):
-                    all_output.append(output)
+                    all_output.append(output.strip())
                     logs += output
 
                 logs += self.nomad_mgr.get_job_stderr(allocation.ID, task_name)

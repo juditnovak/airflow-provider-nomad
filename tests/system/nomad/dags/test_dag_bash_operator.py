@@ -69,14 +69,14 @@ with myDAG(
     )
     # [END howto_operator_bash]
 
-    run_this >> run_this_last
+    run_this >> run_this_last  # type: ignore [reportUnusedExpression]
 
     for i in range(3):
         task = BashOperator(
             task_id=f"runme_{i}",
             bash_command='echo "{{ task_instance_key_str }}" && sleep 1',
         )
-        task >> run_this
+        task >> run_this  # type: ignore [reportUnusedExpression]
 
     # [START howto_operator_bash_template]
     also_run_this = BashOperator(
@@ -84,7 +84,7 @@ with myDAG(
         bash_command='echo "ti_key={{ task_instance_key_str }}"',
     )
     # [END howto_operator_bash_template]
-    also_run_this >> run_this_last
+    also_run_this >> run_this_last  # type: ignore [reportUnusedExpression]
 
     try:
         # We are in the local Airflow test environment
@@ -92,7 +92,7 @@ with myDAG(
 
         # This test needs watcher in order to properly mark success/failure
         # when "tearDown" task with trigger rule is part of the DAG
-        list(dag.tasks) >> watcher()
+        list(dag.tasks) >> watcher()  # type: ignore [reportUnusedExpression]
     except ImportError:
         # We are in the remote runner, now 'wathcer()' is needed
         pass

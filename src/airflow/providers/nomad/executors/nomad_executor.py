@@ -36,15 +36,14 @@ from pydantic import ValidationError
 from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
+from airflow.providers.nomad.log import NomadLogHandler
+from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.nomad_log import NomadLogHandler
-from airflow.providers.nomad.nomad_manager import NomadManager
-from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import default_task_template
 from airflow.providers.nomad.utils import (
     job_id_from_taskinstance_key,
     job_task_id_from_taskinstance_key,
 )
-
 
 logger = logging.getLogger(__name__)
 

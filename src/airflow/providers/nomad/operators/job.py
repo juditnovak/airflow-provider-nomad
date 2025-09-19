@@ -19,7 +19,7 @@ from pydantic import ValidationError
 
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import default_task_template
 
 
 class NomadJobOperator(NomadOperator):

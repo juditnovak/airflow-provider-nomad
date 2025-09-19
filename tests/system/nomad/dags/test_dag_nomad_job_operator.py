@@ -7,7 +7,7 @@ import pendulum
 from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -92,7 +92,7 @@ with myDAG(
         task_id="nomad_job_from_path", template_path="templates/simple_batch.json"
     )
 
-    run_this_first >> run_this_last
+    run_this_first >> run_this_last  # type: ignore [reportUnusedExpression]
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:

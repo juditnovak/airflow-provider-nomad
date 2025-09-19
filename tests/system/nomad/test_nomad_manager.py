@@ -5,8 +5,8 @@
 
 import json
 
+from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.nomad_manager import NomadManager
 
 
 def test_nomad_job_operator_parse_template_hcl(test_datadir):

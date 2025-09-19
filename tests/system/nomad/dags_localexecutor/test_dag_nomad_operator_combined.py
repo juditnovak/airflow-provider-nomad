@@ -6,8 +6,8 @@ import attrs
 import pendulum
 from airflow.sdk import DAG
 
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
-from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
+from airflow.providers.nomad.operators.job import NomadJobOperator
+from airflow.providers.nomad.operators.task import NomadTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -134,7 +134,7 @@ job "nomad-test-hcl-%s" {
         do_xcom_push=True,
     )
 
-    run_this_first >> run_this_middle1 >> run_this_middle2 >> run_this_last
+    run_this_first >> run_this_middle1 >> run_this_middle2 >> run_this_last  # type: ignore [reportUnusedExpression]
 
 
 # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)

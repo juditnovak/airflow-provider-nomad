@@ -1,11 +1,12 @@
-import logging
 import json
+import logging
 from time import sleep
 
 import pytest
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
 
+from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import (
     NomadJobAllocationInfo,
     NomadJobAllocations,
@@ -15,7 +16,6 @@ from airflow.providers.nomad.models import (
     NomadJobSubmission,
     NomadJobSummary,
 )
-from airflow.providers.nomad.nomad_manager import NomadManager
 
 
 @conf_vars({})
