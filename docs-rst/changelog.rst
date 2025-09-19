@@ -28,6 +28,14 @@ Changelog
 ##########
 
 
+0.0.3
+......
+
+* Decorators by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/22
+
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.2...0.0.3
+
 0.0.2
 ......
 

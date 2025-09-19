@@ -27,7 +27,7 @@ from airflow import __version__ as airflow_version  # type: ignore
 
 __all__ = ["__version__"]
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 if packaging.version.parse(  # pragma: no cover
     packaging.version.parse(airflow_version).base_version
