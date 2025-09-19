@@ -35,7 +35,7 @@ NOMAD_HANDLER_NAME = NomadLogHandler.name
 NOMAD_LOG_CONFIG = copy.deepcopy(DEFAULT_LOGGING_CONFIG)
 
 NOMAD_LOG_CONFIG["handlers"][NOMAD_HANDLER_NAME] = {
-    "class": "airflow.providers.nomad.nomad_log.NomadLogHandler",
+    "class": "airflow.providers.nomad.log.NomadLogHandler",
     "formatter": "airflow",
     "filters": ["mask_secrets"],
 }

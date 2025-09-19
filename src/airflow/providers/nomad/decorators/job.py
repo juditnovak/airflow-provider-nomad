@@ -25,10 +25,10 @@ from airflow.sdk.definitions._internal.types import SET_DURING_EXECUTION
 from airflow.utils.context import context_merge
 from airflow.utils.operator_helpers import determine_kwargs
 
-from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 
-class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
+class _NomadJobDecoratedOperator(DecoratedOperator, NomadJobOperator):
     """
     Wraps a Python callable and uses the callable return value as the Docker 'args' to be executed.
 
@@ -41,11 +41,11 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
 
     template_fields: Sequence[str] = (  # type: ignore [reportIncompatibleVariableOverride]
         *DecoratedOperator.template_fields,
-        *NomadTaskOperator.template_fields,
+        *NomadJobOperator.template_fields,
     )
     template_fields_renderers: ClassVar[dict[str, str]] = {
         **DecoratedOperator.template_fields_renderers,
-        **NomadTaskOperator.template_fields_renderers,
+        **NomadJobOperator.template_fields_renderers,
     }
 
     custom_operator_name: str = "@task.nomad"
@@ -70,7 +70,7 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
             python_callable=python_callable,
             op_args=op_args,
             op_kwargs=op_kwargs,
-            args=SET_DURING_EXECUTION,
+            template_content=SET_DURING_EXECUTION,
             multiple_outputs=False,
             **kwargs,
         )
@@ -79,24 +79,22 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
         context_merge(context, self.op_kwargs)
         kwargs = determine_kwargs(self.python_callable, self.op_args, context)
 
-        self.args = self.python_callable(*self.op_args, **kwargs)
+        self.template_content = self.python_callable(*self.op_args, **kwargs)
 
-        if not self.args or not isinstance(self.args, list):
-            raise TypeError(
-                "The returned value from the TaskFlow callable must be a list of string(s)."
-            )
+        if not self.template_content or not isinstance(self.template_content, str):
+            raise TypeError("The returned value from the TaskFlow callable must be a string.")
 
         context["ti"].render_templates()  # type: ignore[attr-defined]
 
         return super().execute(context)
 
 
-def nomad_task(
+def nomad_job(
     python_callable: Callable | None = None,
     **kwargs,
 ) -> TaskDecorator:
     """
-    Wrap a function into a NomadTaskOperator.
+    Wrap a function into a NomadJobOperator.
 
     Accepts kwargs for operator kwargs. Can be reused in a single DAG. This function is only used only used
     during type checking or auto-completion.
@@ -107,6 +105,6 @@ def nomad_task(
     """
     return task_decorator_factory(
         python_callable=python_callable,
-        decorated_operator_class=_NomadTaskDecoratedOperator,
+        decorated_operator_class=_NomadJobDecoratedOperator,
         **kwargs,
     )

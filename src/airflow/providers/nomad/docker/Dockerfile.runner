@@ -13,20 +13,26 @@
 # under the License.
 
 
-FROM python:latest
+FROM python:3.12-alpine
 
-RUN useradd -ms /bin/bash runner
+# RUN useradd -ms /bin/bash runner
+RUN addgroup -S appgroup && adduser -S runner -G appgroup
+
+# gcc & co. needed for psutils (necessary for Airflow)
+RUN apk add --no-cache gcc python3-dev musl-dev linux-headers
+
 USER runner
 
-# As recommended by the Python docker container docs
-WORKDIR /usr/src/runner
-
-RUN pip install apache-airflow
+RUN pip install apache-airflow-core
 RUN pip install apache-airflow-task-sdk
-
-RUN pip install nomad
 
 # To be replaced later with
 # RUN pip install apache-airflow-providers-nomad
-COPY . .
-RUN pip install -e .
+COPY ./src ./src
+COPY pyproject.toml README.rst  .
+RUN pip install  . --user
+
+RUN pip cache purge
+
+# As recommended by the Python docker container docs
+WORKDIR /usr/src/runner

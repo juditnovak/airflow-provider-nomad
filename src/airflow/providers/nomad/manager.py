@@ -314,6 +314,10 @@ class NomadManager(LoggingMixin):
         if job_alloc or (job_alloc := self.get_nomad_job_allocation(job_id)):
             output.append("Job allocations info:")
             output += dict_to_lines(NomadJobAllocations.dump_python(job_alloc))
+        if not job_alloc and not job_summary:
+            if job_submission_info := self.get_nomad_job_submission(job_id):
+                output.append("Job submission info:")
+                output += dict_to_lines(NomadJobSubmission.model_dump(job_submission_info))
         if job_eval or (job_eval := self.get_nomad_job_evaluations(job_id)):
             output.append("Job evaluations:")
             output += dict_to_lines(NomadJobEvaluation.dump_python(job_eval))

@@ -22,7 +22,7 @@ from pydantic import ValidationError  # type: ignore[import-untyped]
 from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
 from airflow.providers.nomad.models import NomadJobModel, TaskConfig
-from airflow.providers.nomad.templates.nomad_job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import default_task_template
 from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
