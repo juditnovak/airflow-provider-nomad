@@ -9,7 +9,7 @@ from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.exceptions import NomadOperatorError
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])

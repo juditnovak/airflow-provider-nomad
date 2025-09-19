@@ -35,9 +35,7 @@ def load_airflow_config():
 @pytest.fixture(autouse=True)
 def mock_nomad_client(mocker):
     """Mock the Nomad client to avoid real connections during unit tests."""
-    return mocker.patch(
-        "airflow.providers.nomad.nomad_manager.nomad.Nomad", autospec=True
-    ).return_value
+    return mocker.patch("airflow.providers.nomad.manager.nomad.Nomad", autospec=True).return_value
 
 
 @pytest.fixture
