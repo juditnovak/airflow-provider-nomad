@@ -26,6 +26,21 @@ For high-level changelog, see :doc:`package information including changelog <ind
 .. airflow-providers-commits::
 
 
+0.0.3
+......
+
+Latest change: 2025-09-19
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+`d9c2e20 <https://github.com/juditnovak/airflow-provider-nomad/commit/d9c2e209d3d318d3cb725f90dc6025ec8610f168>`__ 2025-09-19 ``0.0.3rc (#24)``
+`fc08ddc <https://github.com/juditnovak/airflow-provider-nomad/commit/fc08ddc17a784772102845f01f629ce0a63c8478>`__ 2025-09-19 ``Docs in Production structure, versioning enabled (#23)``
+
+`79e5dc4 <https://github.com/juditnovak/airflow-provider-nomad/commit/79e5dc4f5a67252393f36cfd3a5f9ace2fa025a6>`__ 2025-09-19 ``Decorators (#22)``
+================================================================================================================== ========== ==============================================
+
+
 0.0.2
 ......
 
@@ -35,7 +50,7 @@ Latest change: 2025-09-17
 Commit                                                                                                             Committed  Subject
 ================================================================================================================== ========== ==============================================
 `df815d9 <https://github.com/juditnovak/airflow-provider-nomad/commit/df815d965518e95db5244f7c054c41586fee5640>`__ 2025-09-17 ``[DOCS] Public docs Jenkyll config (#21)``
-`8c39faf <https://github.com/juditnovak/airflow-provider-nomad/commit/8c39faf248f74015b07bd68be0765fbc1adf4cb8>`__ 2025-09-17 ``2 0 0 Final cosmetics (#20)``
+`8c39faf <https://github.com/juditnovak/airflow-provider-nomad/commit/8c39faf248f74015b07bd68be0765fbc1adf4cb8>`__ 2025-09-17 ``2.0.0 Final cosmetics (#20)``
 `d1656eb <https://github.com/juditnovak/airflow-provider-nomad/commit/d1656eb88bdb3a524154ff6bc000c5270316dca9>`__ 2025-09-17 ``Publishing documentation (#19)``
 `ba1b318 <https://github.com/juditnovak/airflow-provider-nomad/commit/ba1b3181db656a37ce3730772ae80dcc3e7b44cc>`__ 2025-09-16 ``0.0.2 CHANGELOG (#18)``
 `20f446e <https://github.com/juditnovak/airflow-provider-nomad/commit/20f446ecbee634d613e6988bc2857a5438685efe>`__ 2025-09-16 ``Pre 0 0 2 (#17)``

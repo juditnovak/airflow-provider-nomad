@@ -32,9 +32,12 @@ Changelog
 ......
 
 * Decorators by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/22
+* Docs in Production structure, versioning enabled by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/23
+* 0 0 34c by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/24
 
 
 **Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.2...0.0.3
+
 
 0.0.2
 ......
