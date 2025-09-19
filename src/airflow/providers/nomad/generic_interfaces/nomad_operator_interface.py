@@ -16,8 +16,8 @@ import time
 from pathlib import Path
 
 from airflow.configuration import conf
-from airflow.sdk import Context
 from airflow.models import BaseOperator
+from airflow.sdk import Context
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 
 from airflow.providers.nomad.constants import CONFIG_SECTION

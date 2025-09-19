@@ -18,14 +18,14 @@ from __future__ import annotations
 import warnings
 from collections.abc import Collection, Mapping, Sequence
 from typing import Any, Callable, ClassVar
+
 from airflow.sdk import Context
-
 from airflow.sdk.bases.decorator import DecoratedOperator, TaskDecorator, task_decorator_factory
-
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 from airflow.sdk.definitions._internal.types import SET_DURING_EXECUTION
 from airflow.utils.context import context_merge
 from airflow.utils.operator_helpers import determine_kwargs
+
+from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
 
 
 class _NomadJobDecoratedOperator(DecoratedOperator, NomadJobOperator):
@@ -39,10 +39,10 @@ class _NomadJobDecoratedOperator(DecoratedOperator, NomadJobOperator):
         calling your callable (templated).
     """
 
-    template_fields: Sequence[str] = (
+    template_fields: Sequence[str] = (  # type: ignore [reportIncompatibleVariableOverride]
         *DecoratedOperator.template_fields,
         *NomadJobOperator.template_fields,
-    )  # type: ignore [reportIncompatibleVariableOverride]
+    )
     template_fields_renderers: ClassVar[dict[str, str]] = {
         **DecoratedOperator.template_fields_renderers,
         **NomadJobOperator.template_fields_renderers,

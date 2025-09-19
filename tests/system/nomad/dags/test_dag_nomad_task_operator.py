@@ -53,11 +53,6 @@ content = """
 job "nomad-test-hcl" {
   type = "batch"
 
-  constraint {
-    attribute = "${attr.kernel.name}"
-    value     = "linux"
-  }
-
   group "example" {
     count = 1
     task "uptime" {

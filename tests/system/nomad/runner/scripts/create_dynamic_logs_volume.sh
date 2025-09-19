@@ -4,8 +4,10 @@
 help () {
     echo "Usage: $0 [-h] [-s] <json-file>"
     echo
-    echo" -h    Display this message"
-    echo" -s    Secure (use test certificates)"
+    echo " -h    Display this message"
+    echo " -s    Secure (use test certificates)"
+    echo " -i    Nomad Agent host (IP or hostname)"
+    echo
 }
 
 

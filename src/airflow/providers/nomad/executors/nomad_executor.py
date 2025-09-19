@@ -45,7 +45,6 @@ from airflow.providers.nomad.utils import (
     job_task_id_from_taskinstance_key,
 )
 
-
 logger = logging.getLogger(__name__)
 
 

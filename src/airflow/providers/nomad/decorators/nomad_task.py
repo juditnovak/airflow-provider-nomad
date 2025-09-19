@@ -19,13 +19,13 @@ import warnings
 from collections.abc import Collection, Mapping, Sequence
 from typing import Any, Callable, ClassVar
 
-from airflow.sdk.bases.decorator import DecoratedOperator, TaskDecorator, task_decorator_factory
-
 from airflow.sdk import Context
-from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
+from airflow.sdk.bases.decorator import DecoratedOperator, TaskDecorator, task_decorator_factory
 from airflow.sdk.definitions._internal.types import SET_DURING_EXECUTION
 from airflow.utils.context import context_merge
 from airflow.utils.operator_helpers import determine_kwargs
+
+from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
 
 
 class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
