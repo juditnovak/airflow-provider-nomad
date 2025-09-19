@@ -1,0 +1,103 @@
+airflow.providers.nomad.generic_interfaces.executor_log_handlers
+================================================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces.executor_log_handlers
+
+.. autoapi-nested-parse::
+
+   Logging module to fetch logs via the Nomad API
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_log_handlers.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: ExecutorLogLinesHandler
+
+   Bases: :py:obj:`logging.Handler`
+
+
+   Log handler retrieve logs directly from Nomad
+
+   Log format: Airflow's StructuredLogMessage stream
+
+
+   .. py:attribute:: name
+      :value: 'executor_log_lines_handler'
+
+
+
+   .. py:attribute:: executor_instances
+      :type:  dict[str, airflow.executors.base_executor.BaseExecutor]
+
+
+   .. py:attribute:: DEFAULT_EXECUTOR_KEY
+      :value: '_default_executor'
+
+
+
+   .. py:attribute:: handler
+      :type:  logging.Handler | None
+      :value: None
+
+
+
+   .. py:method:: emit(record)
+
+      Do whatever it takes to actually log the specified logging record.
+
+      This version is intended to be implemented by subclasses and so
+      raises a NotImplementedError.
+
+
+
+   .. py:method:: flush()
+
+      Ensure all logging output has been flushed.
+
+      This version does nothing and is intended to be implemented by
+      subclasses.
+
+
+
+   .. py:method:: close()
+
+      Tidy up any resources used by the handler.
+
+      This version removes the handler from an internal map of handlers,
+      _handlers, which is used for handler lookup by name. Subclasses
+      should ensure that this gets called from overridden close()
+      methods.
+
+
+
+   .. py:method:: read(task_instance, try_number = None, metadata = None)
+
+      Read logs of given task instance from local machine.
+
+      :param task_instance: task instance object
+      :param try_number: task instance try_number to read logs from. If None
+                          it returns the log of task_instance.try_number
+      :param metadata: log metadata, can be used for steaming log reading and auto-tailing.
+      :return: a list of listed tuples which order log string by host
+
+
+

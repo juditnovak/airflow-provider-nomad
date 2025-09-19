@@ -1,0 +1,29 @@
+airflow.providers.nomad.decorators.nomad_task
+=============================================
+
+.. py:module:: airflow.providers.nomad.decorators.nomad_task
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.decorators.nomad_task.nomad_task
+
+
+Module Contents
+---------------
+
+.. py:function:: nomad_task(python_callable = None, **kwargs)
+
+   Wrap a function into a NomadTaskOperator.
+
+   Accepts kwargs for operator kwargs. Can be reused in a single DAG. This function is only used only used
+   during type checking or auto-completion.
+
+   :param python_callable: Function to decorate.
+
+   :meta private:
+
+

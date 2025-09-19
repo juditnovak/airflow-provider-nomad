@@ -1,0 +1,110 @@
+airflow.providers.nomad.executors.nomad_executor
+================================================
+
+.. py:module:: airflow.providers.nomad.executors.nomad_executor
+
+.. autoapi-nested-parse::
+
+   Nomad Executor.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.executors.nomad_executor.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.executors.nomad_executor.NomadExecutor
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: NomadExecutor
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface`
+
+
+   Executor for Nomad.
+
+
+   .. py:attribute:: RUNNING_POD_LOG_LINES
+      :value: 100
+
+
+
+   .. py:attribute:: supports_ad_hoc_ti_run
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: parallelism
+      :type:  int
+
+
+   .. py:attribute:: nomad_mgr
+
+
+   .. py:method:: start()
+
+      Start the executor.
+
+
+
+   .. py:method:: prepare_job_template(key, command)
+
+      Adjutst template to suit upcoming job execution
+
+      :param key: reference to the task instance in question
+      :return: job template as as dictionary
+
+
+
+   .. py:method:: run_job(job_template)
+
+      Execute the job defined by a potential job template
+
+      :param: Job template corresponding to the job
+      :return: No news is good news, or the error that occured on execution attempt
+
+
+
+   .. py:method:: remove_job_if_hanging(key)
+
+      Whether the job failed outside of the Airflow context
+
+      :param key: reference to the task instance in question
+      :return: either a tuple of: (task status to set (typically: FAILED), additional info)
+               or None if no data could be retrieved for the job
+
+
+
+   .. py:method:: get_task_log(ti, try_number)
+
+      Universal way to retreive logs
+
+      Retrieving logs so that it's compatible both with FileTaskHandler, and
+      leaves space for NomadLogHandler grouping feature.
+
+      :params ti: TaskInstance in question
+      :return: a list of operational messages together with the logs (as a list of entries)
+
+
+
+   .. py:method:: get_task_stderr(ti, try_number)
+
+
+   .. py:method:: retrieve_logs(key, stderr=False)
+
+

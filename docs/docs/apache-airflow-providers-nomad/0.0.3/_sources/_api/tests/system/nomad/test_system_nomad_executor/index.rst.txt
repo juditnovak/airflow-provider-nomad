@@ -1,0 +1,22 @@
+tests.system.nomad.test_system_nomad_executor
+=============================================
+
+.. py:module:: tests.system.nomad.test_system_nomad_executor
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.test_system_nomad_executor.test_connect
+
+
+Module Contents
+---------------
+
+.. py:function:: test_connect()
+
+   Connection to the Nomad cluster
+
+
