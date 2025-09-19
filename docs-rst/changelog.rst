@@ -25,13 +25,12 @@
 
 
 Changelog
----------
+##########
 
 
 0.0.2
 ......
 
-## What's Changed
 * Operators: `NomadJobOperator` and `NomadTaskOperator` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/15
 * [CI] Timeout increase by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/16
 * Enabling support for Airflow templating by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/17
@@ -58,3 +57,9 @@ Changelog
 
 **Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/commits/0.0.1
 **Release Notes**: https://github.com/juditnovak/airflow-provider-nomad/releases/tag/0.0.1
+
+
+Commits
+########
+
+.. include:: commits.rst

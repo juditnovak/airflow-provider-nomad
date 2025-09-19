@@ -1,12 +1,9 @@
- .. Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+ .. This file is part of apache-airflow-providers-nomad which is
+    released under Apache License 2.0. See file LICENSE or go to
 
- ..   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
+
+ .. for full license details.
 
  .. Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
@@ -14,6 +11,7 @@
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
     under the License.
+
 
 ``apache-airflow-providers-nomad``
 ============================================
@@ -25,7 +23,6 @@
     :caption: Basics
 
     Home <self>
-    Changelog <changelog>
 .. Security <security>
 
 .. toctree::
@@ -40,8 +37,16 @@
     :maxdepth: 2
     :caption: Operators
 
-    NomadJobOperator <nomad_job_operator>
     NomadTaskOperator <nomad_task_operator>
+    NomadJobOperator <nomad_job_operator>
+
+.. toctree::
+    :hidden:
+    :maxdepth: 2
+    :caption: Decorators
+
+    NomadTaskDecorator <nomad_task_decorator>
+    NomadJobDecorator <nomad_job_decorator>
 
 .. toctree::
     :hidden:
@@ -67,6 +72,12 @@
     System Tests <system_tests>
 .. System Tests <_api/tests/system/nomad/index>
 
+.. toctree::
+    :hidden:
+    :maxdepth: 1
+    :caption: Development
+
+    Changelog <changelog>
 
 
 .. THE REMAINDER OF THE FILE IS AUTOMATICALLY GENERATED. IT WILL BE OVERWRITTEN AT RELEASE TIME!
