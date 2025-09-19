@@ -65,7 +65,7 @@ with myDAG(
         bash_command="echo 'Testing default_job_template' parameter with JSON",
     )
 
-    run_this >> run_this_last
+    run_this >> run_this_last  # type: ignore [reportUnusedExpression]
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)

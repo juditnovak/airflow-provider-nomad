@@ -11,7 +11,7 @@ from airflow.sdk import Context
 from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.exceptions import NomadOperatorError
-from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
+from airflow.providers.nomad.operators.task import NomadTaskOperator
 
 
 def test_nomad_task_operator_execute(test_datadir):

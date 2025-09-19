@@ -6,7 +6,7 @@ import pendulum
 from airflow.sdk import DAG, chain
 from airflow.sdk.definitions.param import ParamsDict
 
-from airflow.providers.nomad.operators.nomad_job import NomadJobOperator
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 

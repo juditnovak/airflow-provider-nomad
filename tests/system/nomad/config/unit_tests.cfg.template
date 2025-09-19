@@ -49,8 +49,6 @@ default_timezone = utc
 # Variable: AIRFLOW__CORE__EXECUTOR
 #
 # executor = LocalExecutor
-#
-# executor = LocalExecutor
 executor = airflow.providers.nomad.executors.nomad_executor.NomadExecutor
 
 # The auth manager class that airflow should use. Full import path to the auth manager class.
@@ -741,7 +739,7 @@ fab_logging_level = WARNING
 #
 # Variable: AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS
 #
-logging_config_class = airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG
+logging_config_class = airflow.providers.nomad.log.NOMAD_LOG_CONFIG
 
 # Flag to enable/disable Colored logs in Console
 # Colour the logs when the controlling terminal is a TTY.

@@ -112,7 +112,7 @@ with myDAG(
             op_kwargs={"random_base": i / 10},
         )
 
-        run_this >> log_the_sql >> sleeping_task
+        run_this >> log_the_sql >> sleeping_task  # type: ignore [reportUnusedExpression]
     # [END howto_operator_python_kwargs]
 
     run_this >> sleeping_task  # type: ignore[reportPossiblyUnbound]

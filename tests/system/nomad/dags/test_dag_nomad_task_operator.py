@@ -5,7 +5,7 @@ import attrs
 import pendulum
 from airflow.sdk import DAG, chain
 
-from airflow.providers.nomad.operators.nomad_task import NomadTaskOperator
+from airflow.providers.nomad.operators.task import NomadTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
