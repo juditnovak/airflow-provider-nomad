@@ -28,7 +28,8 @@ source-date-epoch: 1756299334
 # In such case adding >= NEW_VERSION and bumping to NEW_VERSION in a provider have
 # to be done in the same PR
 versions:
-  - 1.0.0
+  - 0.0.2
+  - 0.0.1
 
 integrations:
   - integration-name: Nomad

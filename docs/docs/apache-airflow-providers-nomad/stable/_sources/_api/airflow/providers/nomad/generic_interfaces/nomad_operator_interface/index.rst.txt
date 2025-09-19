@@ -1,0 +1,76 @@
+airflow.providers.nomad.generic_interfaces.nomad_operator_interface
+===================================================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces.nomad_operator_interface
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator
+
+
+Module Contents
+---------------
+
+.. py:class:: NomadOperator(observe = True, job_log_file = None, **kwargs)
+
+   Bases: :py:obj:`airflow.models.BaseOperator`
+
+
+   Abstract class to provide shared functionality across Nomad Operators
+
+
+   .. py:attribute:: nomad_mgr
+
+
+   .. py:attribute:: observe
+      :value: True
+
+
+
+   .. py:attribute:: job_log_file
+      :value: None
+
+
+
+   .. py:attribute:: operator_poll_delay
+      :type:  int
+
+
+   .. py:attribute:: template
+      :type:  airflow.providers.nomad.models.NomadJobModel | None
+      :value: None
+
+
+
+   .. py:method:: sanitize_logs(alloc_id, task_name, logs)
+      :staticmethod:
+
+
+
+   .. py:method:: get_children_output(job_id, alloc_info = None)
+
+
+   .. py:method:: figure_path(path_str)
+      :staticmethod:
+
+
+
+   .. py:method:: prepare_job_template(context)
+      :abstractmethod:
+
+
+
+   .. py:method:: execute(context)
+
+      Derive when creating an operator.
+
+      Context is the same dictionary used as when rendering jinja templates.
+
+      Refer to get_template_context for more context.
+
+
+

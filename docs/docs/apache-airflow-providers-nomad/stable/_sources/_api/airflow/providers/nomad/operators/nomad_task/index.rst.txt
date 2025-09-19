@@ -1,0 +1,72 @@
+airflow.providers.nomad.operators.nomad_task
+============================================
+
+.. py:module:: airflow.providers.nomad.operators.nomad_task
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.operators.nomad_task.NomadTaskOperator
+
+
+Module Contents
+---------------
+
+.. py:class:: NomadTaskOperator(template_path = None, template_content = None, env = None, image = None, entrypoint = None, args = None, command = None, **kwargs)
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator`
+
+
+   Nomad Operator allowing for lightweight job submission
+
+
+   .. py:attribute:: template_fields
+      :type:  collections.abc.Collection[str]
+      :value: ['image', 'entrypoint', 'args', 'command', 'env', 'template_content', 'template_path']
+
+
+
+   .. py:attribute:: template_content
+      :value: None
+
+
+
+   .. py:attribute:: template_path
+      :value: None
+
+
+
+   .. py:attribute:: image
+      :value: None
+
+
+
+   .. py:attribute:: entrypoint
+      :value: None
+
+
+
+   .. py:attribute:: args
+      :value: None
+
+
+
+   .. py:attribute:: command
+      :value: None
+
+
+
+   .. py:attribute:: env
+      :value: None
+
+
+
+   .. py:method:: job_id(ti)
+
+
+   .. py:method:: prepare_job_template(context)
+
+

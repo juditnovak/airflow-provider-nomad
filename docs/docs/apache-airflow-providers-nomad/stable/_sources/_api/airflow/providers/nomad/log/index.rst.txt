@@ -1,0 +1,53 @@
+airflow.providers.nomad.log
+===========================
+
+.. py:module:: airflow.providers.nomad.log
+
+.. autoapi-nested-parse::
+
+   Logging module to fetch logs via the Nomad API
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.log.logger
+   airflow.providers.nomad.log.NOMAD_HANDLER_NAME
+   airflow.providers.nomad.log.NOMAD_LOG_CONFIG
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.log.NomadLogHandler
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: NomadLogHandler
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.executor_log_handlers.ExecutorLogLinesHandler`
+
+
+   Extended handler to retrieve logs directly from Nomad
+
+
+   .. py:attribute:: name
+      :value: 'nomad_log_handler'
+
+
+
+.. py:data:: NOMAD_HANDLER_NAME
+   :value: 'nomad_log_handler'
+
+
+.. py:data:: NOMAD_LOG_CONFIG
+
