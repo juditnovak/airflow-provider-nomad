@@ -20,6 +20,7 @@ RUN addgroup -S appgroup && adduser -S runner -G appgroup
 
 # gcc & co. needed for psutils (necessary for Airflow)
 RUN apk add --no-cache gcc python3-dev musl-dev linux-headers
+RUN apk add bash
 
 USER runner
 
