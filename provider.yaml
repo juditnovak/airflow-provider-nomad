@@ -22,12 +22,13 @@ description: |
   `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__
 
 state: ready
-source-date-epoch: 1756299334
+source-date-epoch: 1758284764
 # Note that those versions are maintained by release manager - do not update them manually
 # with the exception of case where other provider in sources has >= new provider version.
 # In such case adding >= NEW_VERSION and bumping to NEW_VERSION in a provider have
 # to be done in the same PR
 versions:
+  - 0.0.3
   - 0.0.2
   - 0.0.1
 
@@ -39,12 +40,13 @@ integrations:
     logo: /docs/integration-logos/Nomad.png
     tags: [software]
 
-# operators:
-#   - integration-name: Nomad
-#     python-modules:
-#       - airflow.providers.nomad.operators.nomad
-#       - airflow.providers.nomad.operators.job
-#
+operators:
+  - integration-name: Nomad
+    python-modules:
+      - airflow.providers.nomad.operators.task
+      - airflow.providers.nomad.operators.job
+
+
 # sensors:
 #   - integration-name: Nomad
 #     python-modules:
