@@ -8,8 +8,10 @@ from airflow.executors.workloads import ExecuteTask
 from airflow.models.taskinstance import TaskInstance
 from airflow.utils.state import State
 from airflow.utils.types import DagRunType
+from airflow.models.taskinstancekey import TaskInstanceKey
 from nomad.api.exceptions import BaseNomadException
 from tests_common.test_utils.config import conf_vars
+from airflow.providers.nomad.templates.job_template import default_task_template
 
 from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
 
@@ -17,20 +19,6 @@ EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
 
 DATE_VAL = (2016, 1, 1)
 DEFAULT_DATE = datetime(*DATE_VAL)
-
-
-@conf_vars({})
-def test_base_defaults():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 128
-
-
-@conf_vars({("nomad_provider", "parallelism"): "2"})
-def test_base_fallback_default_params():
-    nomad_executor = NomadExecutor()
-    assert nomad_executor
-    assert nomad_executor.parallelism == 2
 
 
 @pytest.fixture
@@ -41,6 +29,41 @@ def taskinstance(create_task_instance) -> TaskInstance:
         run_type=DagRunType.SCHEDULED,
         logical_date=DEFAULT_DATE,
     )
+
+
+@conf_vars({})
+def test_base_defaults():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 128
+    assert nomad_executor.nomad_mgr
+
+
+@conf_vars({("nomad_provider", "parallelism"): "2"})
+def test_base_fallback_default_params():
+    nomad_executor = NomadExecutor()
+    assert nomad_executor
+    assert nomad_executor.parallelism == 2
+    assert nomad_executor.nomad_mgr
+
+
+def test_start(mocker):
+    mock_mgr_init = mocker.patch("airflow.providers.nomad.manager.NomadManager.initialize")
+    NomadExecutor().start()
+    mock_mgr_init.assert_called_once()
+
+
+def test_run_task_bad_job(caplog):
+    mgr = NomadExecutor()
+    mgr.start()
+
+    task_key = TaskInstanceKey.from_dict(
+        {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+    )
+    with caplog.at_level(logging.ERROR):
+        assert not mgr.run_task((task_key, {"wrong": "dict"}, None))
+
+    assert "Workload of unsupported type" in caplog.text
 
 
 @pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
@@ -284,6 +307,34 @@ def test_sync_def_template_hcl(test_datadir, mock_nomad_client, taskinstance):
             assert mock_nomad_client.job.register_job.call_count == 1
             assert nomad_executor.task_queue.empty()
             assert nomad_executor.event_buffer[taskinstance.key][0] == State.QUEUED
+        finally:
+            nomad_executor.end()
+            pass
+
+
+@pytest.mark.skipif(NomadExecutor is None, reason="nomad_provider python package is not installed")
+def test_prepare_job_template_wrong_setting_default_used(caplog):
+    """In case of a wrong template setting, the default would be used"""
+    with conf_vars({("nomad_provider", "default_job_template"): str("non-existent-file")}):
+        nomad_executor = NomadExecutor()
+        nomad_executor.start()
+        task_key = TaskInstanceKey.from_dict(
+            {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+        )
+
+        try:
+            with caplog.at_level(logging.ERROR):
+                result_dict = nomad_executor.prepare_job_template(task_key, ["fake_command"])
+
+            assert (
+                result_dict["Job"]["TaskGroups"][0]["Name"]
+                == default_task_template["Job"]["TaskGroups"][0]["Name"]
+            )
+            assert (
+                result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
+                == default_task_template["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
+            )
+            assert "Configured template non-existent-file is not a file" in caplog.text
         finally:
             nomad_executor.end()
             pass
