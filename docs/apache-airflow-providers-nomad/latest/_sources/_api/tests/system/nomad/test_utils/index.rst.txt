@@ -1,0 +1,19 @@
+tests.system.nomad.test_utils
+=============================
+
+.. py:module:: tests.system.nomad.test_utils
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.test_utils.test_parse_hcl
+
+
+Module Contents
+---------------
+
+.. py:function:: test_parse_hcl(filename, test_datadir)
+

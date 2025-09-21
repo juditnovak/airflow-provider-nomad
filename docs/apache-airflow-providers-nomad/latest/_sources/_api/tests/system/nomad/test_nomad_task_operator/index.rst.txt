@@ -1,0 +1,22 @@
+tests.system.nomad.test_nomad_task_operator
+===========================================
+
+.. py:module:: tests.system.nomad.test_nomad_task_operator
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.test_nomad_task_operator.test_nomad_task_operator_execute
+   tests.system.nomad.test_nomad_task_operator.test_nomad_task_operator_execute_fails
+
+
+Module Contents
+---------------
+
+.. py:function:: test_nomad_task_operator_execute(test_datadir)
+
+.. py:function:: test_nomad_task_operator_execute_fails()
+

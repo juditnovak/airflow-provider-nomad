@@ -1,0 +1,44 @@
+tests.system.nomad.utils
+========================
+
+.. py:module:: tests.system.nomad.utils
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.utils.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.utils.update_template
+   tests.system.nomad.utils.check_service_available
+   tests.system.nomad.utils.say_yes_or_no
+   tests.system.nomad.utils.stream_subprocess_output
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:function:: update_template(file_path, replacements)
+
+   Update placeholders in a template file with actual values.
+
+
+.. py:function:: check_service_available(ip, port, protocol = 'http', timeout = 10)
+
+.. py:function:: say_yes_or_no(timeout = 10)
+
+   NOTE: This function by design may raise exceptions such as 'select.error'.
+
+
+.. py:function:: stream_subprocess_output(cmd)
+

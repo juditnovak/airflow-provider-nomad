@@ -1,0 +1,44 @@
+airflow.providers.nomad.operators.nomad_job
+===========================================
+
+.. py:module:: airflow.providers.nomad.operators.nomad_job
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.operators.nomad_job.NomadJobOperator
+
+
+Module Contents
+---------------
+
+.. py:class:: NomadJobOperator(template_path = None, template_content = None, observe = True, job_log_file = None, **kwargs)
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator`
+
+
+   Nomad Operator for direct template submission
+
+
+   .. py:attribute:: template_fields
+      :type:  collections.abc.Collection[str]
+      :value: ['template_content', 'template_path']
+
+
+
+   .. py:attribute:: template_content
+      :value: None
+
+
+
+   .. py:attribute:: template_path
+      :value: None
+
+
+
+   .. py:method:: prepare_job_template(context)
+
+
