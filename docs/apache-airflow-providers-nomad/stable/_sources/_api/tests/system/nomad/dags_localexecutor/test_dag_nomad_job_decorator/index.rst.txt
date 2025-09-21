@@ -1,0 +1,176 @@
+tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator
+==================================================================
+
+.. py:module:: tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.ENV_ID
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.DAG_ID
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.JOB_NAME
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.JOB_NAMESPACE
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.test_run
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.myDAG
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator.nomad_command_date
+
+
+Module Contents
+---------------
+
+.. py:data:: ENV_ID
+
+.. py:data:: DAG_ID
+   :value: 'test_nomad_job_decorator_dag'
+
+
+.. py:data:: JOB_NAME
+   :value: 'task-test-config-default-job-template-hcl'
+
+
+.. py:data:: JOB_NAMESPACE
+   :value: 'default'
+
+
+.. py:class:: myDAG
+
+   Bases: :py:obj:`airflow.sdk.DAG`
+
+
+   A dag (directed acyclic graph) is a collection of tasks with directional dependencies.
+
+   A dag also has a schedule, a start date and an end date (optional).  For each schedule,
+   (say daily or hourly), the DAG needs to run each individual tasks as their dependencies
+   are met. Certain tasks have the property of depending on their own past, meaning that
+   they can't run until their previous schedule (and upstream tasks) are completed.
+
+   DAGs essentially act as namespaces for tasks. A task_id can only be
+   added once to a DAG.
+
+   Note that if you plan to use time zones all the dates provided should be pendulum
+   dates. See :ref:`timezone_aware_dags`.
+
+   .. versionadded:: 2.4
+       The *schedule* argument to specify either time-based scheduling logic
+       (timetable), or dataset-driven triggers.
+
+   .. versionchanged:: 3.0
+       The default value of *schedule* has been changed to *None* (no schedule).
+       The previous default was ``timedelta(days=1)``.
+
+   :param dag_id: The id of the DAG; must consist exclusively of alphanumeric
+       characters, dashes, dots and underscores (all ASCII)
+   :param description: The description for the DAG to e.g. be shown on the webserver
+   :param schedule: If provided, this defines the rules according to which DAG
+       runs are scheduled. Possible values include a cron expression string,
+       timedelta object, Timetable, or list of Asset objects.
+       See also :external:doc:`howto/timetable`.
+   :param start_date: The timestamp from which the scheduler will
+       attempt to backfill. If this is not provided, backfilling must be done
+       manually with an explicit time range.
+   :param end_date: A date beyond which your DAG won't run, leave to None
+       for open-ended scheduling.
+   :param template_searchpath: This list of folders (non-relative)
+       defines where jinja will look for your templates. Order matters.
+       Note that jinja/airflow includes the path of your DAG file by
+       default
+   :param template_undefined: Template undefined type.
+   :param user_defined_macros: a dictionary of macros that will be exposed
+       in your jinja templates. For example, passing ``dict(foo='bar')``
+       to this argument allows you to ``{{ foo }}`` in all jinja
+       templates related to this DAG. Note that you can pass any
+       type of object here.
+   :param user_defined_filters: a dictionary of filters that will be exposed
+       in your jinja templates. For example, passing
+       ``dict(hello=lambda name: 'Hello %s' % name)`` to this argument allows
+       you to ``{{ 'world' | hello }}`` in all jinja templates related to
+       this DAG.
+   :param default_args: A dictionary of default parameters to be used
+       as constructor keyword parameters when initialising operators.
+       Note that operators have the same hook, and precede those defined
+       here, meaning that if your dict contains `'depends_on_past': True`
+       here and `'depends_on_past': False` in the operator's call
+       `default_args`, the actual value will be `False`.
+   :param params: a dictionary of DAG level parameters that are made
+       accessible in templates, namespaced under `params`. These
+       params can be overridden at the task level.
+   :param max_active_tasks: the number of task instances allowed to run
+       concurrently
+   :param max_active_runs: maximum number of active DAG runs, beyond this
+       number of DAG runs in a running state, the scheduler won't create
+       new active DAG runs
+   :param max_consecutive_failed_dag_runs: (experimental) maximum number of consecutive failed DAG runs,
+       beyond this the scheduler will disable the DAG
+   :param dagrun_timeout: Specify the duration a DagRun should be allowed to run before it times out or
+       fails. Task instances that are running when a DagRun is timed out will be marked as skipped.
+   :param sla_miss_callback: DEPRECATED - The SLA feature is removed in Airflow 3.0, to be replaced with a new implementation in 3.1
+   :param catchup: Perform scheduler catchup (or only run latest)? Defaults to False
+   :param on_failure_callback: A function or list of functions to be called when a DagRun of this dag fails.
+       A context dictionary is passed as a single parameter to this function.
+   :param on_success_callback: Much like the ``on_failure_callback`` except
+       that it is executed when the dag succeeds.
+   :param access_control: Specify optional DAG-level actions, e.g.,
+       "{'role1': {'can_read'}, 'role2': {'can_read', 'can_edit', 'can_delete'}}"
+       or it can specify the resource name if there is a DAGs Run resource, e.g.,
+       "{'role1': {'DAG Runs': {'can_create'}}, 'role2': {'DAGs': {'can_read', 'can_edit', 'can_delete'}}"
+   :param is_paused_upon_creation: Specifies if the dag is paused when created for the first time.
+       If the dag exists already, this flag will be ignored. If this optional parameter
+       is not specified, the global config setting will be used.
+   :param jinja_environment_kwargs: additional configuration options to be passed to Jinja
+       ``Environment`` for template rendering
+
+       **Example**: to avoid Jinja from removing a trailing newline from template strings ::
+
+           DAG(
+               dag_id="my-dag",
+               jinja_environment_kwargs={
+                   "keep_trailing_newline": True,
+                   # some other jinja2 Environment options here
+               },
+           )
+
+       **See**: `Jinja Environment documentation
+       <https://jinja.palletsprojects.com/en/2.11.x/api/#jinja2.Environment>`_
+
+   :param render_template_as_native_obj: If True, uses a Jinja ``NativeEnvironment``
+       to render templates as native Python types. If False, a Jinja
+       ``Environment`` is used to render templates as string values.
+   :param tags: List of tags to help filtering DAGs in the UI.
+   :param owner_links: Dict of owners and their links, that will be clickable on the DAGs view UI.
+       Can be used as an HTTP link (for example the link to your Slack channel), or a mailto link.
+       e.g: ``{"dag_owner": "https://airflow.apache.org/"}``
+   :param auto_register: Automatically register this DAG when it is used in a ``with`` block
+   :param fail_fast: Fails currently running tasks when task in DAG fails.
+       **Warning**: A fail stop dag can only have tasks with the default trigger rule ("all_success").
+       An exception will be thrown if any task in a fail stop dag has a non default trigger rule.
+   :param dag_display_name: The display name of the DAG which appears on the UI.
+
+
+   .. py:attribute:: fileloc
+      :type:  str
+
+
+   .. py:method:: __hash__()
+
+
+.. py:function:: nomad_command_date()
+
+.. py:data:: test_run
+

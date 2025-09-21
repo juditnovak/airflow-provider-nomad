@@ -1,46 +1,8 @@
 [
-
     {
         "package-name": "apache-airflow-providers-nomad",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "nomad_provider",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "judit",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "tech",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "workspace",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "vfs_airflow_share",
-        "all-versions": ["0.0.3", "0.0.2"],
-        "stable-version": "0.0.3"
-
-    },
-    {
-        "package-name": "workspace_airflow",
-        "all-versions": ["0.0.3", "0.0.2"],
+        "all-versions": ["latest", "0.0.3", "0.0.2"],
         "stable-version": "0.0.3"
 
     }
-
 ]

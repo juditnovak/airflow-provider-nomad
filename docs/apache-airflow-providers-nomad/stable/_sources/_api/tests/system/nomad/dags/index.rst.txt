@@ -1,0 +1,24 @@
+tests.system.nomad.dags
+=======================
+
+.. py:module:: tests.system.nomad.dags
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /_api/tests/system/nomad/dags/sql/index
+   /_api/tests/system/nomad/dags/test_dag_bash_operator/index
+   /_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index
+   /_api/tests/system/nomad/dags/test_dag_config_default_template_json/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index
+   /_api/tests/system/nomad/dags/test_dag_python_operator/index
+
+
