@@ -125,8 +125,11 @@ class ExecutorInterface(BaseExecutor):
         """Run the next task in the queue."""
         key, instruction, _ = task
         dag_id, task_id, run_id, try_number, _ = key
-        if not isinstance(instruction[0], ExecuteTask):
-            raise ValueError(f"Workload of unsupported type: {type(instruction[0])}")
+        if not (isinstance(instruction, list) and len(instruction) > 0) or not isinstance(
+            instruction[0], ExecuteTask
+        ):
+            self.log.error("Workload of unsupported type: %s", instruction)
+            return
 
         command = self.workload_to_command_args(instruction[0])
 
@@ -134,9 +137,12 @@ class ExecutorInterface(BaseExecutor):
             f"Runing task ({task_id}) from dag ({dag_id}) with run ID ({run_id}) (retries {try_number})"
         )
         job_template = self.prepare_job_template(key, command)
-        if failed_info := self.run_job(job_template):
-            self.log.error("Received info %s, failing job", failed_info)
-            self.fail(key, info=failed_info)
+        try:
+            if failed_info := self.run_job(job_template):
+                self.log.error("Received info %s, failing job", failed_info)
+                self.fail(key, info=failed_info)
+        except Exception as err:
+            self.log.error("Couldn't run job %s: %s", key, str(err))
 
     def workload_to_command_args(self, workload: ExecuteTask) -> list[str]:
         """Convert a workload object to Task SDK command arguments."""
