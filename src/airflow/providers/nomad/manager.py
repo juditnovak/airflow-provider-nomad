@@ -15,6 +15,7 @@
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Callable
+from tenacity import retry, stop_after_attempt, wait_random
 
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
@@ -36,6 +37,10 @@ from airflow.providers.nomad.models import (
     NomadJobSummary,
 )
 from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
+
+RETRY_NUM = conf.getint(CONFIG_SECTION, "job_submission_retry_num", fallback=3)
+RETRY_MIN = conf.getint(CONFIG_SECTION, "job_submission_retry_interval_min", fallback=1)
+RETRY_MAX = conf.getint(CONFIG_SECTION, "job_submission_retry_interval_max", fallback=5)
 
 
 class NomadManager(LoggingMixin):
@@ -175,6 +180,23 @@ class NomadManager(LoggingMixin):
             allocation_id, path=f"alloc/{file_path}"
         )
 
+    @retry(
+        reraise=True,
+        stop=stop_after_attempt(RETRY_NUM),
+        wait=wait_random(min=RETRY_MIN, max=RETRY_MAX),
+    )
+    def _retry_register_job(self, job_id: str, template: dict[str, Any]) -> None:
+        try:
+            self.nomad.job.register_job(job_id, template)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        except BaseNomadException as err:
+            self.log.error("Couldn't run task %s (%s)", job_id, err)
+            # Blind attempt to deregister, in case
+            try:
+                self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+            except Exception:
+                pass
+            raise err
+
     @ensure_nomad_client
     def register_job(self, job_model: NomadJobModel) -> str | None:
         if self.get_nomad_job_summary(job_model.Job.ID):
@@ -184,16 +206,33 @@ class NomadManager(LoggingMixin):
 
         template = job_model.model_dump()
         try:
-            self.nomad.job.register_job(job_model.Job.ID, template)  # type: ignore[reportOptionalMemberAccess, union-attr]
-        except BaseNomadException as err:
-            self.log.error("Couldn't run task %s (%s)", job_model.Job.ID, err)
-            try:
-                self.nomad.job.deregister_job(job_model.Job.ID)  # type: ignore[reportOptionalMemberAccess, union-attr]
-            except BaseNomadException:
-                pass
+            self._retry_register_job(job_model.Job.ID, template)
+        except Exception as err:
             return str(err)
         self.log.info("Nomad job '%s' was submitted)", job_model.Job.ID)
         self.log.debug("Job template for '%s':\n%s)", job_model.Job.ID, str(template))
+        return None
+
+    @retry(
+        reraise=True,
+        stop=stop_after_attempt(RETRY_NUM),
+        wait=wait_random(min=RETRY_MIN, max=RETRY_MAX),
+    )
+    def _retry_deregister_job(self, job_id: str) -> None:
+        try:
+            self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+        except Exception as err:
+            self.log.error("Couldn't deregister job %s (%s)", job_id, err)
+            raise err
+
+    @ensure_nomad_client
+    def deregister_job(self, job_id: str) -> str | None:
+        try:
+            self._retry_deregister_job(job_id)
+        except Exception as err:
+            return str(err)
+
+        self.log.info("Nomad job '%s' was removed)", job_id)
         return None
 
     def timeout_expired(self, job_id: str) -> bool:
@@ -248,7 +287,7 @@ class NomadManager(LoggingMixin):
             taskgroup_name = job_status.TaskGroups[0].Name
             if failed_item and (failed_alloc := failed_item.FailedTGAllocs.get(taskgroup_name)):  # type: ignore[reportOperationalMemberAccess, union-attr]
                 self.log.info("Job %s was pending beyond timeout, stopping it.", job_id)
-                self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+                self.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 error = failed_alloc.errors()
                 return True, str(error)
         else:
@@ -263,7 +302,7 @@ class NomadManager(LoggingMixin):
 
             if job_summary and job_summary.all_failed():
                 self.log.info("Task %s seems dead, stopping it.", job_id)
-                self.nomad.job.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
+                self.deregister_job(job_id)  # type: ignore[reportOptionalMemberAccess, union-attr]
                 if job_alloc:
                     return True, str({str(alloc.errors()) for alloc in job_alloc})
                 return True, ""

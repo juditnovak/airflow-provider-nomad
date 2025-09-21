@@ -131,6 +131,27 @@ def get_provider_info():
                         "example": "600",
                         "default": "600",
                     },
+                    "job_submission_retry_num": {
+                        "description": "Retry number for Nomad job submission and deregister",
+                        "version_added": "0.0.4",
+                        "type": "integer",
+                        "example": "3",
+                        "default": "3",
+                    },
+                    "job_submission_retry_interval_min": {
+                        "description": "Minimum retry delay for Nomad job submission and deregister",
+                        "version_added": "0.0.4",
+                        "type": "integer",
+                        "example": "1",
+                        "default": "1",
+                    },
+                    "job_submission_retry_interval_max": {
+                        "description": "Maximum retry delay for Nomad job submission and deregister",
+                        "version_added": "0.0.4",
+                        "type": "integer",
+                        "example": "5",
+                        "default": "5",
+                    },
                     "operator_poll_delay": {
                         "description": "Time delay for Nomad Opeators supervision cycle, to check on child Nomad job",
                         "version_added": "0.0.2",
