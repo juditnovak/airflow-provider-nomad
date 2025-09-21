@@ -60,6 +60,7 @@ dependencies = [
     "pydantic>=2.11.7",
     "python-nomad>=2.1.0",
     "requests>=2.32.5",
+    "tenacity>=9.1.2",
 ]
 
 [dependency-groups]
