@@ -258,8 +258,8 @@ loading intersphinx inventory 'apache-airflow-providers-databricks' from /home/d
 loading intersphinx inventory 'apache-airflow-providers-datadog' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-datadog/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-dbt-cloud' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-dbt-cloud/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-dingding' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-dingding/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-docker' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-docker/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-discord' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-discord/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-docker' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-docker/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-edge3' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-edge3/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-elasticsearch' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-elasticsearch/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-exasol' from /home/devel/share/workspace_airflow/airflow_doc_gen_360/generated/_inventory_cache/apache-airflow-providers-exasol/objects.inv ...
@@ -635,14 +635,6 @@ Could not found the redirect file: /home/devel/share/workspace_airflow/airflow_d
 [91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1280: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
 [91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1282: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
 [91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1293: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
-[91mproviders/nomad/docs/commits.rst:29: WARNING: Title underline too short.
-
-0.0.dev4
-...... [docutils][39;49;00m
-[91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/commits.rst:29: WARNING: Title underline too short.
-
-0.0.dev4
-...... [docutils][39;49;00m
 [01mlooking for now-outdated files... [39;49;00mnone found
 [01mpickling environment... [39;49;00mdone
 [01mchecking consistency... [39;49;00m[91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
@@ -732,7 +724,7 @@ Writing evaluated template result to /home/devel/share/workspace_airflow/airflow
 [01mwriting output... [39;49;00m[100%] [32msystem_tests[39;49;00m
 
 [91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:47: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure][39;49;00m
-[91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:207: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}\n\n# Require TLS\n\ntls {\n  http = true\n  rpc  = true\n\n  ca_file   = "certs/nomad-agent-ca.pem"\n  cert_file = "certs/global-client-nomad.pem"\n  key_file  = "certs/global-client-nomad-key.pem"\n\n  verify_server_hostname = false\n  verify_https_client    = false\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure][39;49;00m
+[91m/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:222: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}\n\n# Require TLS\n\ntls {\n  http = true\n  rpc  = true\n\n  ca_file   = "certs/nomad-agent-ca.pem"\n  cert_file = "certs/global-client-nomad.pem"\n  key_file  = "certs/global-client-nomad-key.pem"\n\n  verify_server_hostname = false\n  verify_https_client    = false\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure][39;49;00m
 [01mgenerating indices... [39;49;00mgenindex py-modindex done
 [01mhighlighting module code... [39;49;00m[  2%] [94mairflow.providers.nomad[39;49;00m
 [01mhighlighting module code... [39;49;00m[  4%] [94mairflow.providers.nomad.constants[39;49;00m
@@ -789,6 +781,6 @@ Writing evaluated template result to /home/devel/share/workspace_airflow/airflow
 
 [01mdumping search index in English (code: en)... [39;49;00mdone
 [01mdumping object inventory... [39;49;00mdone
-[01mbuild succeeded, 71 warnings.[39;49;00m
+[01mbuild succeeded, 69 warnings.[39;49;00m
 
 The HTML pages are in generated/_build/docs/apache-airflow-providers-nomad/stable.

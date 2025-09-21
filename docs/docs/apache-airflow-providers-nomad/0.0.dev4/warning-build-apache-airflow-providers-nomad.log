@@ -59,14 +59,6 @@ WARNING: Unknown type: placeholder
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1280: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1282: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1293: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-providers/nomad/docs/commits.rst:29: WARNING: Title underline too short.
-
-0.0.dev4
-...... [docutils]
-/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/commits.rst:29: WARNING: Title underline too short.
-
-0.0.dev4
-...... [docutils]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/templates/job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/_api/airflow/providers/nomad/templates/nomad_job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
@@ -74,4 +66,4 @@ providers/nomad/docs/commits.rst:29: WARNING: Title underline too short.
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/configurations-ref.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/security.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:47: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure]
-/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:207: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}\n\n# Require TLS\n\ntls {\n  http = true\n  rpc  = true\n\n  ca_file   = "certs/nomad-agent-ca.pem"\n  cert_file = "certs/global-client-nomad.pem"\n  key_file  = "certs/global-client-nomad-key.pem"\n\n  verify_server_hostname = false\n  verify_https_client    = false\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure]
+/home/devel/share/workspace_airflow/airflow_doc_gen_360/providers/nomad/docs/nomad_executor.rst:222: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}\n\n# Require TLS\n\ntls {\n  http = true\n  rpc  = true\n\n  ca_file   = "certs/nomad-agent-ca.pem"\n  cert_file = "certs/global-client-nomad.pem"\n  key_file  = "certs/global-client-nomad-key.pem"\n\n  verify_server_hostname = false\n  verify_https_client    = false\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure]

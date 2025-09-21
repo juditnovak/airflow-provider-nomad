@@ -757,6 +757,27 @@
                         <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;600&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;600&quot;</span><span class="p">,</span>
                     <span class="p">},</span>
+                    <span class="s2">&quot;job_submission_retry_num&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Retry number for Nomad job submission and deregister&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;version_added&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.4&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;job_submission_retry_interval_min&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Minimum retry delay for Nomad job submission and deregister&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;version_added&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.4&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;job_submission_retry_interval_max&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum retry delay for Nomad job submission and deregister&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;version_added&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.4&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
                     <span class="s2">&quot;operator_poll_delay&quot;</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Time delay for Nomad Opeators supervision cycle, to check on child Nomad job&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;version_added&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.2&quot;</span><span class="p">,</span>

@@ -1,11 +1,12 @@
 import json
+import pytest
 import logging
 from time import sleep
 
-import pytest
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
 
+from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import (
     NomadJobAllocationInfo,
@@ -387,3 +388,69 @@ def test_remove_job_if_hanging_alloc_failure(mock_nomad_client, test_datadir):
     assert res and res[0]
     assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in res[1]
     mock_kill.assert_called_once()
+
+
+@pytest.mark.parametrize("retry_num", ["1", "3"])
+def test_retry_job_submission(retry_num, mock_nomad_client, test_datadir, caplog):
+    """This test requiers full relaod of the 'manager' module, so module constants get re-evaluate"""
+    with conf_vars({(CONFIG_SECTION, "job_submission_retry_num"): retry_num}):
+        from importlib import reload
+        import airflow.providers.nomad.manager
+
+        reload(airflow.providers.nomad.manager)
+
+        from airflow.providers.nomad.manager import NomadManager
+
+        nomad_mgr = NomadManager()
+        nomad_mgr.initialize()
+
+        with open(test_datadir / "simple_batch.json") as tpl_file:
+            template = nomad_mgr.parse_template_content(tpl_file.read())
+
+        assert template
+
+        msg = "Can't submit job"
+        mock_nomad_client.job.register_job.get_job = json.dumps({})
+        mock_nomad_client.job.register_job.side_effect = [
+            BaseNomadException(msg),
+            BaseNomadException(msg),
+            BaseNomadException(msg),
+        ]
+        mock_kill = mock_nomad_client.job.deregister_job
+
+        with caplog.at_level(logging.ERROR):
+            res = nomad_mgr.register_job(template)
+
+        assert res == f"The BaseNomadException was raised due to the following error: {msg}"
+        assert caplog.text.count(msg) == int(retry_num)
+        assert mock_kill.call_count == int(retry_num)
+
+
+@pytest.mark.parametrize("retry_num", ["1", "3"])
+def test_retry_job_deregister(retry_num, mock_nomad_client, caplog):
+    """This test requiers full relaod of the 'manager' module, so module constants get re-evaluate"""
+    with conf_vars({(CONFIG_SECTION, "job_submission_retry_num"): retry_num}):
+        from importlib import reload
+        import airflow.providers.nomad.manager
+
+        reload(airflow.providers.nomad.manager)
+
+        from airflow.providers.nomad.manager import NomadManager
+
+        nomad_mgr = NomadManager()
+        nomad_mgr.initialize()
+
+        msg = "Can't stop job"
+        mock_nomad_client.job.deregister_job.side_effect = [
+            BaseNomadException(msg),
+            BaseNomadException(msg),
+            BaseNomadException(msg),
+        ]
+        mock_kill = mock_nomad_client.job.deregister_job
+
+        with caplog.at_level(logging.ERROR):
+            res = nomad_mgr.deregister_job("somejob")
+
+        assert res == f"The BaseNomadException was raised due to the following error: {msg}"
+        assert caplog.text.count(msg) == int(retry_num)
+        assert mock_kill.call_count == int(retry_num)

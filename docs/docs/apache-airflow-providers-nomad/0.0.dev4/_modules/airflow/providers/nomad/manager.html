@@ -639,6 +639,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tenacity</span><span class="w"> </span><span class="kn">import</span> <span class="n">retry</span><span class="p">,</span> <span class="n">stop_after_attempt</span><span class="p">,</span> <span class="n">wait_random</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">nomad</span>  <span class="c1"># type: ignore[import-untyped]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">conf</span>
@@ -660,6 +661,19 @@
     <span class="n">NomadJobSummary</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_to_lines</span><span class="p">,</span> <span class="n">validate_nomad_job</span><span class="p">,</span> <span class="n">validate_nomad_job_json</span>
+
+<div class="viewcode-block" id="RETRY_NUM">
+<a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_NUM">[docs]</a>
+<span class="n">RETRY_NUM</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="n">CONFIG_SECTION</span><span class="p">,</span> <span class="s2">&quot;job_submission_retry_num&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RETRY_MIN">
+<a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_MIN">[docs]</a>
+<span class="n">RETRY_MIN</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="n">CONFIG_SECTION</span><span class="p">,</span> <span class="s2">&quot;job_submission_retry_interval_min&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RETRY_MAX">
+<a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_MAX">[docs]</a>
+<span class="n">RETRY_MAX</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="n">CONFIG_SECTION</span><span class="p">,</span> <span class="s2">&quot;job_submission_retry_interval_max&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="NomadManager">
@@ -867,6 +881,23 @@
         <span class="p">)</span></div>
 
 
+    <span class="nd">@retry</span><span class="p">(</span>
+        <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="n">RETRY_NUM</span><span class="p">),</span>
+        <span class="n">wait</span><span class="o">=</span><span class="n">wait_random</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="n">RETRY_MIN</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">RETRY_MAX</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_retry_register_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">register_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
+        <span class="k">except</span> <span class="n">BaseNomadException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t run task </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="c1"># Blind attempt to deregister, in case</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">raise</span> <span class="n">err</span>
+
     <span class="nd">@ensure_nomad_client</span>
 <div class="viewcode-block" id="NomadManager.register_job">
 <a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.register_job">[docs]</a>
@@ -878,16 +909,36 @@
 
         <span class="n">template</span> <span class="o">=</span> <span class="n">job_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">register_job</span><span class="p">(</span><span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
-        <span class="k">except</span> <span class="n">BaseNomadException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t run task </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
-            <span class="k">except</span> <span class="n">BaseNomadException</span><span class="p">:</span>
-                <span class="k">pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_retry_register_job</span><span class="p">(</span><span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Nomad job &#39;</span><span class="si">%s</span><span class="s2">&#39; was submitted)&quot;</span><span class="p">,</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Job template for &#39;</span><span class="si">%s</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">template</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@retry</span><span class="p">(</span>
+        <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="n">RETRY_NUM</span><span class="p">),</span>
+        <span class="n">wait</span><span class="o">=</span><span class="n">wait_random</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="n">RETRY_MIN</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">RETRY_MAX</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_retry_deregister_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t deregister job </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">err</span>
+
+    <span class="nd">@ensure_nomad_client</span>
+<div class="viewcode-block" id="NomadManager.deregister_job">
+<a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.deregister_job">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deregister_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_retry_deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Nomad job &#39;</span><span class="si">%s</span><span class="s2">&#39; was removed)&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
@@ -948,7 +999,7 @@
             <span class="n">taskgroup_name</span> <span class="o">=</span> <span class="n">job_status</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span>
             <span class="k">if</span> <span class="n">failed_item</span> <span class="ow">and</span> <span class="p">(</span><span class="n">failed_alloc</span> <span class="o">:=</span> <span class="n">failed_item</span><span class="o">.</span><span class="n">FailedTGAllocs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">taskgroup_name</span><span class="p">)):</span>  <span class="c1"># type: ignore[reportOperationalMemberAccess, union-attr]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Job </span><span class="si">%s</span><span class="s2"> was pending beyond timeout, stopping it.&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="n">failed_alloc</span><span class="o">.</span><span class="n">errors</span><span class="p">()</span>
                 <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -963,7 +1014,7 @@
 
             <span class="k">if</span> <span class="n">job_summary</span> <span class="ow">and</span> <span class="n">job_summary</span><span class="o">.</span><span class="n">all_failed</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> seems dead, stopping it.&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">nomad</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># type: ignore[reportOptionalMemberAccess, union-attr]</span>
                 <span class="k">if</span> <span class="n">job_alloc</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">str</span><span class="p">({</span><span class="nb">str</span><span class="p">(</span><span class="n">alloc</span><span class="o">.</span><span class="n">errors</span><span class="p">())</span> <span class="k">for</span> <span class="n">alloc</span> <span class="ow">in</span> <span class="n">job_alloc</span><span class="p">})</span>
                 <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
