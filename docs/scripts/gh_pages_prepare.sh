@@ -6,6 +6,9 @@
 #
 # The hacks below ensure docs availability from GH pages published sources
 
+mv docs/docs/* docs/
+rmdir docs/docs
+
 grep -r '"/external/' docs | cut -d: -f1 | uniq | xargs sed -i 's!"/external/!"/airflow-provider-nomad/external/!g'
 grep -r '"/_gen/' docs | cut -d: -f1 | uniq | xargs sed -i 's!"/_gen/!"/airflow-provider-nomad/_gen/!g'
 grep -r  '"/docs/"' ./ | cut -d: -f1 | uniq | xargs sed -i 's!"/docs/"!"/airflow-provider-nomad/"!g'
