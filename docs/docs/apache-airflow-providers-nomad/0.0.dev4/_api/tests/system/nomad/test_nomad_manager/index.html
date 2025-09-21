@@ -624,7 +624,13 @@
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl" title="tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_job_operator_parse_template_hcl</span></code></a>(test_datadir)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_parse_template_hcl</span></code></a>(test_datadir)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_register_job</span></code></a>(test_datadir, caplog)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_deregister_job</span></code></a>(caplog)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -633,8 +639,18 @@
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl">
-<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_job_operator_parse_template_hcl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_job_operator_parse_template_hcl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_parse_template_hcl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_parse_template_hcl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_retry_register_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caplog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_retry_register_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_retry_deregister_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">caplog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_retry_deregister_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -712,7 +728,9 @@
 <li><a class="reference internal" href="#">tests.system.nomad.test_nomad_manager</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl"><code class="docutils literal notranslate"><span class="pre">test_nomad_job_operator_parse_template_hcl()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_parse_template_hcl()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_register_job()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_deregister_job()</span></code></a></li>
 </ul>
 </li>
 </ul>

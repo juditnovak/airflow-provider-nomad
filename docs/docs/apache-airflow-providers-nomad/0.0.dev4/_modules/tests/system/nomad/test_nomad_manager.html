@@ -626,14 +626,15 @@
 <span class="c1">###############################################################################</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadJobModel</span>
 
 
-<div class="viewcode-block" id="test_nomad_job_operator_parse_template_hcl">
-<a class="viewcode-back" href="../../../../_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_nomad_job_operator_parse_template_hcl</span><span class="p">(</span><span class="n">test_datadir</span><span class="p">):</span>
+<div class="viewcode-block" id="test_nomad_mgr_parse_template_hcl">
+<a class="viewcode-back" href="../../../../_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_nomad_mgr_parse_template_hcl</span><span class="p">(</span><span class="n">test_datadir</span><span class="p">):</span>
     <span class="n">mgr</span> <span class="o">=</span> <span class="n">NomadManager</span><span class="p">()</span>
     <span class="n">mgr</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
 
@@ -648,6 +649,47 @@
     <span class="k">assert</span> <span class="n">NomadJobModel</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dict_content</span><span class="p">))</span> <span class="o">==</span> <span class="n">mgr</span><span class="o">.</span><span class="n">parse_template_hcl</span><span class="p">(</span>
         <span class="n">hcl_content</span>
     <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_nomad_mgr_retry_register_job">
+<a class="viewcode-back" href="../../../../_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_nomad_mgr_retry_register_job</span><span class="p">(</span><span class="n">test_datadir</span><span class="p">,</span> <span class="n">caplog</span><span class="p">):</span>
+    <span class="n">mgr</span> <span class="o">=</span> <span class="n">NomadManager</span><span class="p">()</span>
+    <span class="n">mgr</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">test_datadir</span> <span class="o">/</span> <span class="s2">&quot;simple_batch.hcl&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tpl_file</span><span class="p">:</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">parse_template_content</span><span class="p">(</span><span class="n">tpl_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="k">assert</span> <span class="n">template</span><span class="p">,</span> <span class="s2">&quot;Error retrieving template&quot;</span>
+    <span class="c1"># Ruining the template</span>
+    <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+
+    <span class="k">with</span> <span class="n">caplog</span><span class="o">.</span><span class="n">at_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">):</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">register_job</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">error</span>
+        <span class="o">==</span> <span class="s2">&quot;The BaseNomadException was raised with following response: 1 error occurred:</span><span class="se">\n\t</span><span class="s2">* Job ID contains a space</span><span class="se">\n\n</span><span class="s2">.&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">caplog</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;Job ID contains a space&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span></div>
+
+
+
+<div class="viewcode-block" id="test_nomad_mgr_retry_deregister_job">
+<a class="viewcode-back" href="../../../../_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_nomad_mgr_retry_deregister_job</span><span class="p">(</span><span class="n">caplog</span><span class="p">):</span>
+    <span class="n">mgr</span> <span class="o">=</span> <span class="n">NomadManager</span><span class="p">()</span>
+    <span class="n">mgr</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">caplog</span><span class="o">.</span><span class="n">at_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">):</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">deregister_job</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">error</span>
+        <span class="o">==</span> <span class="s2">&quot;The BaseNomadException was raised with following response: missing job ID for deregistering.&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">caplog</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;missing job ID for deregistering&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span></div>
 
 </pre></div>
 

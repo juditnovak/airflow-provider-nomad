@@ -1078,6 +1078,8 @@
         <li><a href="_api/airflow/providers/nomad/templates/nomad_job_template/index.html#airflow.providers.nomad.templates.nomad_job_template.default_task_template">(in module airflow.providers.nomad.templates.nomad_job_template)</a>
 </li>
       </ul></li>
+      <li><a href="_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.deregister_job">deregister_job() (airflow.providers.nomad.manager.NomadManager method)</a>
+</li>
       <li><a href="_api/airflow/providers/nomad/models/index.html#airflow.providers.nomad.models.NomadEvent.Details">Details (airflow.providers.nomad.models.NomadEvent attribute)</a>
 </li>
       <li><a href="_api/airflow/providers/nomad/utils/index.html#airflow.providers.nomad.utils.dict_to_lines">dict_to_lines() (in module airflow.providers.nomad.utils)</a>
@@ -2043,12 +2045,20 @@
 </li>
       <li><a href="_api/airflow/providers/nomad/executors/nomad_executor/index.html#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.retrieve_logs">retrieve_logs() (airflow.providers.nomad.executors.nomad_executor.NomadExecutor method)</a>
 </li>
+      <li><a href="_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_MAX">RETRY_MAX (in module airflow.providers.nomad.manager)</a>
+</li>
+      <li><a href="_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_MIN">RETRY_MIN (in module airflow.providers.nomad.manager)</a>
+</li>
+      <li><a href="_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.RETRY_NUM">RETRY_NUM (in module airflow.providers.nomad.manager)</a>
+</li>
       <li><a href="_api/airflow/providers/nomad/executors/nomad_executor/index.html#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.run_job">run_job() (airflow.providers.nomad.executors.nomad_executor.NomadExecutor method)</a>
 
       <ul>
         <li><a href="_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_job">(airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task">run_task() (airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface method)</a>
 </li>
       <li><a href="_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index.html#tests.system.nomad.dags.test_dag_nomad_job_operator.run_this_first">run_this_first (in module tests.system.nomad.dags.test_dag_nomad_job_operator)</a>
@@ -2063,8 +2073,6 @@
         <li><a href="_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_chain/index.html#tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_chain.run_this_first">(in module tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_chain)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_api/tests/system/nomad/dags/test_dag_bash_operator/index.html#tests.system.nomad.dags.test_dag_bash_operator.run_this_last">run_this_last (in module tests.system.nomad.dags.test_dag_bash_operator)</a>
 
       <ul>
@@ -2239,7 +2247,11 @@
 </li>
       <li><a href="_api/tests/system/nomad/test_nomad_job_operator/index.html#tests.system.nomad.test_nomad_job_operator.test_nomad_job_operator_execute_fails">test_nomad_job_operator_execute_fails() (in module tests.system.nomad.test_nomad_job_operator)</a>
 </li>
-      <li><a href="_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl">test_nomad_job_operator_parse_template_hcl() (in module tests.system.nomad.test_nomad_manager)</a>
+      <li><a href="_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl">test_nomad_mgr_parse_template_hcl() (in module tests.system.nomad.test_nomad_manager)</a>
+</li>
+      <li><a href="_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job">test_nomad_mgr_retry_deregister_job() (in module tests.system.nomad.test_nomad_manager)</a>
+</li>
+      <li><a href="_api/tests/system/nomad/test_nomad_manager/index.html#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job">test_nomad_mgr_retry_register_job() (in module tests.system.nomad.test_nomad_manager)</a>
 </li>
       <li><a href="_api/tests/system/nomad/test_nomad_task_operator/index.html#tests.system.nomad.test_nomad_task_operator.test_nomad_task_operator_execute">test_nomad_task_operator_execute() (in module tests.system.nomad.test_nomad_task_operator)</a>
 </li>
@@ -2297,6 +2309,8 @@
         <li><a href="_api/tests/system/nomad/constants/index.html#module-tests.system.nomad.constants">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tests.system.nomad.dags
 
@@ -2304,8 +2318,6 @@
         <li><a href="_api/tests/system/nomad/dags/index.html#module-tests.system.nomad.dags">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tests.system.nomad.dags.sql
 
