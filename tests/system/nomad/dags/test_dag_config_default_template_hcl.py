@@ -83,5 +83,6 @@ try:
         str(TEST_DATA_PATH / "nomad_provider_job_template.hcl"),
     )
     test_run = get_test_run(dag)
+    conf.set(CONFIG_SECTION, "default_job_template", "")
 except ImportError:
     pass
