@@ -34,15 +34,14 @@ from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
 from airflow.utils.state import TaskInstanceState
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
-Job = tuple[TaskInstanceKey, Any, Any]
+# TaskInstanceKey, Workload in a list, ExecutorConfig
+Job = tuple[TaskInstanceKey, list[Any], Any]
 
 
 class ExecutorInterface(BaseExecutor):
     """Executor with run-queues."""
 
-    RUNNING_POD_LOG_LINES = 100
     supports_ad_hoc_ti_run: bool = True
-
     serve_logs = True
 
     def __init__(self, parallelism: int = 1):
@@ -53,6 +52,36 @@ class ExecutorInterface(BaseExecutor):
         self.task_queue: Queue[Job] = self._manager.Queue()
         self.parallelism = parallelism
         super().__init__(parallelism=self.parallelism)
+
+    def is_exec_task(self, cmd: Any) -> bool:
+        """Safety method in case running in a legacy environment"""
+        if isinstance(cmd, ExecuteTask):
+            return True
+        self.log.error("Workload of unsupported type: '%s'", cmd)
+        return False
+
+    def queue_workload(self, workload: All, session: Session) -> None:
+        if not self.is_exec_task(workload):
+            return
+        ti = workload.ti
+        self.queued_tasks[ti.key] = workload  # type: ignore
+
+    def _process_workloads(self, workloads: Sequence[workloads.All]) -> None:
+        for w in workloads:
+            if not self.is_exec_task(w) or not w.ti:
+                return
+
+            # TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.
+            command = [w]
+            key = w.ti.key
+            queue = w.ti.queue
+            executor_config = w.ti.executor_config or {}
+
+            del self.queued_tasks[key]
+            self.execute_async(
+                key=key, command=command, queue=queue, executor_config=executor_config
+            )
+            self.running.add(key)
 
     def execute_async(
         self,
@@ -88,65 +117,73 @@ class ExecutorInterface(BaseExecutor):
 
     def sync(self) -> None:
         """Synchronize task state."""
-        if self.running:
-            self.log.debug("self.running: %s", self.running)
-        if self.queued_tasks:
-            self.log.debug("self.queued: %s", self.queued_tasks)
+        self.log.debug("self.running: %s", self.running)
+        self.log.debug("self.queued: %s", self.queued_tasks)
+
+        for ti_key in list(self.running | set(self.queued_tasks)):
+            if status := self.remove_job_if_hanging(ti_key):
+                state, info = status
+                self.set_state(ti_key, state=state, info=info)
 
         with contextlib.suppress(Empty):
-            for ti_key in list(self.running | set(self.queued_tasks)):
-                if status := self.remove_job_if_hanging(ti_key):
-                    state, info = status
-                    self.set_state(ti_key, state=state, info=info)
+            while (task := self.task_queue.get_nowait()) and self.slots_available > 0:
+                try:
+                    key, command, _ = task
+                except Exception as err:
+                    self.log.exception(
+                        "Failed to run task (task/command could be retrieved: (%s))",
+                        str(err),
+                    )
+                    return
 
-        with contextlib.suppress(Empty):
-            task = self.task_queue.get_nowait()
-
-            try:
-                key, command, _ = task
-            except Exception as err:
-                self.log.exception(
-                    "Failed to run task (neither task nor command could be retrieved (%s))",
-                    str(err),
-                )
-                raise
-
-            try:
-                self.run_task(task)
-            except Exception as err:
-                self.log.exception(
-                    "Failed to run task %s with command %s (%s)", key, command, str(err)
-                )
-            finally:
-                # TODO
-                self.task_queue.task_done()
-
-    def run_task(self, task: Job) -> None:
-        """Run the next task in the queue."""
-        key, instruction, _ = task
-        dag_id, task_id, run_id, try_number, _ = key
-        if not (isinstance(instruction, list) and len(instruction) > 0) or not isinstance(
-            instruction[0], ExecuteTask
-        ):
-            self.log.error("Workload of unsupported type: %s", instruction)
-            return
-
-        command = self.workload_to_command_args(instruction[0])
-
-        self.log.info(
-            f"Runing task ({task_id}) from dag ({dag_id}) with run ID ({run_id}) (retries {try_number})"
-        )
-        job_template = self.prepare_job_template(key, command)
-        try:
-            if failed_info := self.run_job(job_template):
-                self.log.error("Received info %s, failing job", failed_info)
-                self.fail(key, info=failed_info)
-        except Exception as err:
-            self.log.error("Couldn't run job %s: %s", key, str(err))
+                try:
+                    self.run_task(task)
+                except Exception as err:
+                    self.log.exception(
+                        "Failed to run task %s with command %s (%s)", key, command, str(err)
+                    )
+                finally:
+                    self.task_queue.task_done()
 
     def workload_to_command_args(self, workload: ExecuteTask) -> list[str]:
         """Convert a workload object to Task SDK command arguments."""
         return [workload.model_dump_json()]
+
+    def _not_exec_task(self, cmd: Any) -> str | None:
+        """Safety method in case running in a legacy environment"""
+        if (isinstance(cmd, list) and len(cmd) > 0) and isinstance(cmd[0], ExecuteTask):
+            return None
+        msg = f"Workload of unsupported type: {cmd}"
+        self.log.error(msg)
+        return msg
+
+    def run_task(self, task: Job) -> None:
+        """Run the next task in the queue."""
+        key, cmd, _ = task
+        dag_id, task_id, run_id, try_number, _ = key
+        if not (isinstance(cmd, list) and len(cmd) > 0) or not self.is_exec_task(cmd[0]):
+            self.fail(key, info=f"Unsupported workload '{cmd}'")
+            return
+
+        command = self.workload_to_command_args(cmd[0])
+
+        self.log.info(
+            "Runing task (%s) from dag (%s) with run ID (%s) (retries %s)",
+            task_id,
+            dag_id,
+            run_id,
+            try_number,
+        )
+
+        job_template = self.prepare_job_template(key, command)
+        try:
+            failed_info = self.run_job(job_template)
+        except Exception as err:
+            failed_info = f"Couldn't run job {key}: {err}"
+
+        if failed_info:
+            self.log.error(failed_info)
+            self.fail(key, info=failed_info)
 
     def prepare_job_template(self, key: TaskInstanceKey, command: list[str]) -> dict[str, Any]:
         """Adjutst template to suit upcoming job execution
@@ -175,33 +212,6 @@ class ExecutorInterface(BaseExecutor):
         """
         self.log.debug(f"Evaluating status of key {key}")
         raise NotImplementedError
-
-    def queue_workload(self, workload: All, session: Session) -> None:
-        if not isinstance(workload, ExecuteTask):
-            raise ValueError(
-                f"Un-handled workload kind {type(workload).__name__!r} in {type(self).__name__}"
-            )
-        ti = workload.ti
-        self.queued_tasks[ti.key] = workload  # type: ignore
-
-    def _process_workloads(self, workloads: Sequence[workloads.All]) -> None:
-        from airflow.executors.workloads import ExecuteTask
-
-        for w in workloads:
-            if not isinstance(w, ExecuteTask):
-                raise RuntimeError(f"{type(self)} cannot handle workloads of type {type(w)}")
-
-            # TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.
-            command = [w]
-            key = w.ti.key
-            queue = w.ti.queue
-            executor_config = w.ti.executor_config or {}
-
-            del self.queued_tasks[key]
-            self.execute_async(
-                key=key, command=command, queue=queue, executor_config=executor_config
-            )
-            self.running.add(key)
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
         self.log.debug(f"Retrieving logs for {ti.key} with {try_number}")

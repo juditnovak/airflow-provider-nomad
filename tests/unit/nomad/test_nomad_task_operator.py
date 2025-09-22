@@ -304,17 +304,6 @@ def test_args_params_priority():
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
-def test_args_figure_path(filename, test_datadir):
-    file_path = test_datadir / filename
-    assert str(NomadTaskOperator(task_id="task_id").figure_path(str(file_path))) == str(file_path)
-    assert (
-        str(NomadTaskOperator(task_id="task_id").figure_path(filename))
-        == "/abs/path/to/dags/" + filename
-    )
-
-
-@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
 def test_args_template_content(filename, test_datadir):
     file_path = test_datadir / filename
     content = open(file_path).read()
@@ -360,12 +349,63 @@ def test_args_template_path(filename, test_datadir):
     assert op.template.Job.ID != NomadJobModel.model_validate_json(content).Job.ID
 
 
-def test_args_invalid():
+@pytest.mark.parametrize(
+    "param, value",
+    [("args", ["arg1", "arg2"]), ("command", "cmd"), ("entrypoint", ["/bin/sh", "-c"])],
+)
+def test_args_args(param, value):
+    op = NomadTaskOperator(task_id="task_id", **{param: value})
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op.prepare_job_template(context)
+    assert op.template
+    assert getattr(op.template.Job.TaskGroups[0].Tasks[0].Config, param) == value
+
+
+@pytest.mark.parametrize(
+    "paramdict", [{"args": "badarg"}, {"command": ["cmd"]}, {"entrypoint": "bla"}]
+)
+def test_args_args_invalid(paramdict):
+    op = NomadTaskOperator(task_id="task_id", **paramdict)  # type: ignore [reportArgumentType]
+    with pytest.raises(NomadTaskOperatorError):
+        op.prepare_job_template({})
+
+
+def test_args_conflict():
     op = NomadTaskOperator(task_id="task_id", entrypoint=["/bin/sh", "-c"], command="uptime")
 
     with pytest.raises(NomadOperatorError) as err:
         op.prepare_job_template({})
     assert "Both 'entrypoint' and 'command' specified" in str(err.value)
+
+
+def test_args_template_path_invalid(caplog):
+    op = NomadTaskOperator(task_id="task_id", template_path="bla")
+    with caplog.at_level(logging.ERROR):
+        assert not op.prepare_job_template({})
+    assert "No such file or directory:" in caplog.text
+
+    with pytest.raises(NomadOperatorError) as err:
+        op.execute({})
+    assert "Nothing to execute" in str(err.value)
+
+
+def test_args_template_content_invalid(caplog):
+    op = NomadTaskOperator(task_id="task_id", template_content="bla")
+    with caplog.at_level(logging.ERROR):
+        with pytest.raises(NomadOperatorError) as err:
+            op.prepare_job_template({})
+    assert "Couldn't parse template 'bla'" in caplog.text
+    assert "Nothing to execute" in str(err.value)
 
 
 def test_args_invalid_template():
@@ -384,3 +424,14 @@ def test_args_invalid_env():
     with pytest.raises(NomadOperatorError) as err:
         op.prepare_job_template({})
     assert "Input should be a valid dictionary" in str(err.value)
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
+def test_args_figure_path(filename, test_datadir):
+    file_path = test_datadir / filename
+    assert str(NomadTaskOperator(task_id="task_id").figure_path(str(file_path))) == str(file_path)
+    assert (
+        str(NomadTaskOperator(task_id="task_id").figure_path(filename))
+        == "/abs/path/to/dags/" + filename
+    )

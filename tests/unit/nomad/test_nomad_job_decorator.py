@@ -1,6 +1,6 @@
 import pytest
 
-from airflow.providers.nomad.decorators.job import nomad_job, _NomadJobDecoratedOperator
+from airflow.providers.nomad.decorators.job import _NomadJobDecoratedOperator, nomad_job
 
 
 def test_nomad_job_decorator_wrong_body():

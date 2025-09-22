@@ -148,6 +148,34 @@ def test_args_template_path(filename, test_datadir):
     assert op.template == NomadJobModel.model_validate_json(content)
 
 
+def test_args_template_path_invalid(caplog):
+    op = NomadJobOperator(task_id="task_id", template_path="bla")
+    with caplog.at_level(logging.ERROR):
+        assert not op.prepare_job_template({})
+    assert "No such file or directory:" in caplog.text
+
+    with pytest.raises(NomadOperatorError) as err:
+        op.execute({})
+    assert "Nothing to execute" in str(err.value)
+
+
+def test_args_template_content_invalid(caplog):
+    op = NomadJobOperator(task_id="task_id", template_content="bla")
+    with caplog.at_level(logging.ERROR):
+        op.prepare_job_template({})
+    assert "Couldn't parse template 'bla'" in caplog.text
+
+    with pytest.raises(NomadOperatorError) as err:
+        op.execute({})
+    assert "Nothing to execute" in str(err.value)
+
+
+def test_args_invalid_template():
+    with pytest.raises(ValueError) as err:
+        NomadJobOperator(task_id="task_id", template_path="/some/path", template_content="<HCL>")
+    assert "Only one of 'template_content' and 'template_path' can be specified" in str(err.value)
+
+
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
 @conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
 def test_args_figure_path(filename, test_datadir):
@@ -157,12 +185,6 @@ def test_args_figure_path(filename, test_datadir):
         str(NomadJobOperator(task_id="task_id").figure_path(filename))
         == "/abs/path/to/dags/" + filename
     )
-
-
-def test_args_invalid_template():
-    with pytest.raises(ValueError) as err:
-        NomadJobOperator(task_id="task_id", template_path="/some/path", template_content="<HCL>")
-    assert "Only one of 'template_content' and 'template_path' can be specified" in str(err.value)
 
 
 def test_sanitize_logs():

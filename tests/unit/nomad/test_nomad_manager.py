@@ -1,8 +1,8 @@
 import json
-import pytest
 import logging
 from time import sleep
 
+import pytest
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
 
@@ -395,6 +395,7 @@ def test_retry_job_submission(retry_num, mock_nomad_client, test_datadir, caplog
     """This test requiers full relaod of the 'manager' module, so module constants get re-evaluate"""
     with conf_vars({(CONFIG_SECTION, "job_submission_retry_num"): retry_num}):
         from importlib import reload
+
         import airflow.providers.nomad.manager
 
         reload(airflow.providers.nomad.manager)
@@ -431,6 +432,7 @@ def test_retry_job_deregister(retry_num, mock_nomad_client, caplog):
     """This test requiers full relaod of the 'manager' module, so module constants get re-evaluate"""
     with conf_vars({(CONFIG_SECTION, "job_submission_retry_num"): retry_num}):
         from importlib import reload
+
         import airflow.providers.nomad.manager
 
         reload(airflow.providers.nomad.manager)
