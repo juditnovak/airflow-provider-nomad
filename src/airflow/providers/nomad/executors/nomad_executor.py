@@ -101,7 +101,6 @@ class NomadExecutor(ExecutorInterface):
         job_id = job_id_from_taskinstance_key(key)
         job_task_id = job_task_id_from_taskinstance_key(key)
 
-        job_template = None
         if job_model := self._get_job_template():
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = [
                 "python",
@@ -110,7 +109,7 @@ class NomadExecutor(ExecutorInterface):
                 "--json-string",
             ] + command
 
-        if not job_template:
+        if not job_model:
             job_template = copy.deepcopy(default_task_template)
             job_model = NomadJobModel.model_validate(job_template)
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = command

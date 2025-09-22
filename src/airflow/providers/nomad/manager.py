@@ -15,13 +15,13 @@
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Callable
-from tenacity import retry, stop_after_attempt, wait_random
 
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
 from airflow.utils.log.logging_mixin import LoggingMixin
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from pydantic import ValidationError
+from tenacity import retry, stop_after_attempt, wait_random
 
 from airflow.providers.nomad.constants import CONFIG_SECTION
 from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
