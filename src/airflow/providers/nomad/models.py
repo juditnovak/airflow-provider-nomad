@@ -14,9 +14,13 @@
 
 from enum import Enum
 from typing import Any, TypeAlias
+import logging
 
 from pydantic import BaseModel, ConfigDict, TypeAdapter, model_validator
 from typing_extensions import Self
+
+
+logger = logging.getLogger(__name__)
 
 
 class JobType(str, Enum):
@@ -45,8 +49,32 @@ class JobEvalStatus(str, Enum):
 class Resource(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
 
-    CPU: int | None = 500
+    CPU: int | None = None
     MemoryMB: int | None = 256
+    DiskMB: int | None = None
+    Cores: int | None = None
+    MemoryMaxMB: int | None = None
+    Networks: list[Any] | None = None
+    Devices: list[Any] | None = None
+    MBits: int | None = None
+
+    @model_validator(mode="after")
+    def compatible_fields(self) -> Self:
+        if self.CPU and self.Cores:
+            raise ValueError("Both CPU and Cores can't be specified")
+        if self.DiskMB and self.DiskMB > 0:
+            logger.warning(
+                "According to https://github.com/hashicorp/nomad/issues/10009#issuecomment-777445224,"
+                " DiskMB is not supported"
+            )
+            self.DiskMB = None
+        return self
+
+
+class NomadEphemeralDisk(BaseModel):
+    Migrate: bool | None = None
+    SizeMB: int | None = None
+    Sticky: bool | None = None
 
 
 class TaskConfig(BaseModel):
@@ -64,20 +92,60 @@ class TaskConfig(BaseModel):
         return self
 
 
+class Volume(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
+
+    AccessMode: str = ""
+    AttachmentMode: str = ""
+    MountOptions: Any | None = None
+    Name: str
+    PerAlloc: bool
+    ReadOnly: bool
+    Source: str
+    Sticky: bool
+    Type: str
+
+
+NomadVolList: TypeAlias = dict[str, Volume]
+NomadVolumes = TypeAdapter(NomadVolList)
+
+
+class VolumeMount(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
+
+    Destination: str
+    PropagationMode: str
+    ReadOnly: bool
+    SELinuxLabel: str = ""
+    Volume: str
+
+    def from_volumes(self, volumes: NomadVolList) -> bool:
+        return self.Volume in volumes
+
+
+NomadVolMntList: TypeAlias = list[VolumeMount]
+NomadVolumeMounts = TypeAdapter(NomadVolMntList)
+
+
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
+
     Config: TaskConfig
     Name: str
     Resources: Resource | None = None
     Driver: str
     Env: dict[str, str] | None = None
+    VolumeMounts: NomadVolMntList | None = None
 
 
 class TaskGroup(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
+
     Tasks: list[Task]
     Name: str
     Count: int | None = None
+    Volumes: NomadVolList | None = None
+    EphemeralDisk: NomadEphemeralDisk | None = None
 
 
 class Job(BaseModel):
