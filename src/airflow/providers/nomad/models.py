@@ -47,6 +47,12 @@ class Resource(BaseModel):
 
     CPU: int | None = 500
     MemoryMB: int | None = 256
+    DiskMB: int | None = None
+    Cores: int | None = None
+    MemoryMaxMB: int | None = None
+    Networks: list[Any] | None = None
+    Devices: list[Any] | None = None
+    MBits: int | None = None
 
 
 class TaskConfig(BaseModel):
@@ -64,20 +70,56 @@ class TaskConfig(BaseModel):
         return self
 
 
+class VolumeMount(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
+
+    Destination: str
+    PropagationMode: str
+    ReadOnly: bool
+    SELinuxLabel: str = ""
+    Volume: str
+
+
+NomadVolMntList: TypeAlias = list[VolumeMount]
+NomadVolumeMounts = TypeAdapter(NomadVolMntList)
+
+
 class Task(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
+
     Config: TaskConfig
     Name: str
     Resources: Resource | None = None
     Driver: str
     Env: dict[str, str] | None = None
+    VolumeMounts: NomadVolMntList | None = None
+
+
+class Volume(BaseModel):
+    model_config = ConfigDict(extra="allow", validate_assignment=True)
+
+    AccessMode: str = ""
+    AttachmentMode: str = ""
+    MountOptions: Any | None = None
+    Name: str
+    PerAlloc: bool
+    ReadOnly: bool
+    Source: str
+    Sticky: bool
+    Type: str
+
+
+NomadVolList: TypeAlias = dict[str, Volume]
+NomadVolumes = TypeAdapter(NomadVolList)
 
 
 class TaskGroup(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)
+
     Tasks: list[Task]
     Name: str
     Count: int | None = None
+    Volumes: NomadVolList | None = None
 
 
 class Job(BaseModel):
