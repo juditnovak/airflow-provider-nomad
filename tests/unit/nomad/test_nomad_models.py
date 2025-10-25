@@ -1,11 +1,14 @@
 import json
 
 from airflow.providers.nomad.models import (
+    NomadEphemeralDisk,
     NomadJobAllocations,
     NomadJobEvaluation,
     NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
+    NomadVolumeMounts,
+    NomadVolumes,
 )
 
 
@@ -85,3 +88,128 @@ def test_parse_nomad_job_summary():
     summary = NomadJobSummary.model_validate(summary_data)
     assert summary
     assert not summary.all_failed()
+
+
+def test_ephemeral():
+    edisk_data = {"SizeMB": 200, "Migrate": True, "Sticky": True}
+    edisk = NomadEphemeralDisk(**edisk_data)
+    assert edisk.SizeMB == 200
+    assert edisk.Migrate is True
+    assert edisk.Sticky is True
+
+
+def test_ephemeral_defaults():
+    edisk = NomadEphemeralDisk()
+    assert edisk.SizeMB is None
+    assert edisk.Migrate is None
+    assert edisk.Sticky is None
+
+
+def test_volumes():
+    volumes = {
+        "config": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "config",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "config",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "dags": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "dags",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "dags",
+            "Sticky": False,
+            "Type": "host",
+        },
+    }
+
+    nomad_volumes = NomadVolumes.validate_python(volumes)
+    assert list(nomad_volumes) == ["config", "dags"]
+
+
+def test_volume_mounts():
+    volumes_data = {
+        "config": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "config",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "config",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "dags": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "dags",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "dags",
+            "Sticky": False,
+            "Type": "host",
+        },
+    }
+
+    volume_mounts_data = [
+        {
+            "Destination": "/opt/airflow/config",
+            "PropagationMode": "private",
+            "ReadOnly": False,
+            "SELinuxLabel": "",
+            "Volume": "config",
+        },
+        {
+            "Destination": "/opt/airflow/dags",
+            "PropagationMode": "private",
+            "ReadOnly": False,
+            "SELinuxLabel": "",
+            "Volume": "dags",
+        },
+    ]
+
+    volumes = NomadVolumes.validate_python(volumes_data)
+    volume_mounts = NomadVolumeMounts.validate_python(volume_mounts_data)
+    assert len(volume_mounts) == 2
+    assert set([x.Volume for x in volume_mounts]) == set(["config", "dags"])
+    assert all(x.from_volumes(volumes) for x in volume_mounts)
+
+
+def test_volume_mounts_fails():
+    volumes_data = {
+        "config": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "config",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "config",
+            "Sticky": False,
+            "Type": "host",
+        },
+    }
+
+    volume_mounts_data = [
+        {
+            "Destination": "/opt/airflow/config",
+            "PropagationMode": "private",
+            "ReadOnly": False,
+            "SELinuxLabel": "",
+            "Volume": "non-existent",
+        },
+    ]
+
+    volumes = NomadVolumes.validate_python(volumes_data)
+    volume_mounts = NomadVolumeMounts.validate_python(volume_mounts_data)
+    assert not volume_mounts[0].from_volumes(volumes)
