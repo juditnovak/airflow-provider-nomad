@@ -25,7 +25,7 @@ help () {
 }
 
 
-if [ -z $1 ]
+if [ -z $1 ] || [ "$1" = "-h" ] || [[ "$1" =~ "help" ]]
 then
     help
     exit 1
