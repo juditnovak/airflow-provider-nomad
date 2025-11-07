@@ -48,7 +48,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -656,13 +656,8 @@
 <dl class="field-list simple">
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.RUNNING_POD_LOG_LINES">
-<span class="sig-name descname"><span class="pre">RUNNING_POD_LOG_LINES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.RUNNING_POD_LOG_LINES"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.RUNNING_POD_LOG_LINES" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.supports_ad_hoc_ti_run">
-<span class="sig-name descname"><span class="pre">supports_ad_hoc_ti_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.supports_ad_hoc_ti_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.supports_ad_hoc_ti_run" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">supports_ad_hoc_ti_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.supports_ad_hoc_ti_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.supports_ad_hoc_ti_run" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -672,13 +667,28 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.task_queue">
-<span class="sig-name descname"><span class="pre">task_queue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.13)"><span class="pre">queue.Queue</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../models/index.html#airflow.providers.nomad.models.Job" title="airflow.providers.nomad.models.Job"><span class="pre">Job</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.task_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.task_queue" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">task_queue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.14)"><span class="pre">queue.Queue</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../models/index.html#airflow.providers.nomad.models.Job" title="airflow.providers.nomad.models.Job"><span class="pre">Job</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.task_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.task_queue" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.parallelism">
 <span class="sig-name descname"><span class="pre">parallelism</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.parallelism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.parallelism" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.is_exec_task">
+<span class="sig-name descname"><span class="pre">is_exec_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.is_exec_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.is_exec_task" title="Link to this definition">¶</a></dt>
+<dd><p>Safety method in case running in a legacy environment</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload">
+<span class="sig-name descname"><span class="pre">queue_workload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.queue_workload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.execute_async">
@@ -704,17 +714,17 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task">
-<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task" title="Link to this definition">¶</a></dt>
-<dd><p>Run the next task in the queue.</p>
+<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.workload_to_command_args">
+<span class="sig-name descname"><span class="pre">workload_to_command_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.workload_to_command_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.workload_to_command_args" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a workload object to Task SDK command arguments.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.workload_to_command_args">
-<span class="sig-name descname"><span class="pre">workload_to_command_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workload</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.workload_to_command_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.workload_to_command_args" title="Link to this definition">¶</a></dt>
-<dd><p>Convert a workload object to Task SDK command arguments.</p>
+<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task" title="Link to this definition">¶</a></dt>
+<dd><p>Run the next task in the queue.</p>
 <dl class="field-list simple">
 </dl>
 </dd></dl>
@@ -731,7 +741,7 @@
 <dd class="field-even"><p>job template as as dictionary</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -748,7 +758,7 @@
 <dd class="field-even"><p>No news is good news, or the error that occured on execution attempt</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> | None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a> | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -766,15 +776,8 @@
 or None if no data could be retrieved for the job</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a>[<a class="reference external" href="/docs/apache-airflow/stable/_api/airflow/utils/state/index.html#airflow.utils.state.TaskInstanceState" title="(in apache-airflow v3.0.6)">airflow.utils.state.TaskInstanceState</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>] | None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference external" href="/docs/apache-airflow/stable/_api/airflow/utils/state/index.html#airflow.utils.state.TaskInstanceState" title="(in apache-airflow v3.1.0)">airflow.utils.state.TaskInstanceState</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>] | None</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload">
-<span class="sig-name descname"><span class="pre">queue_workload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/generic_interfaces/executor_interface.html#ExecutorInterface.queue_workload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload" title="Link to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
 </dl>
 </dd></dl>
 
@@ -786,14 +789,14 @@ or None if no data could be retrieved for the job</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ti</strong> (<em>airflow.models.taskinstance.TaskInstance</em>) – A TaskInstance object</p></li>
-<li><p><strong>try_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – current try_number to read log from</p></li>
+<li><p><strong>try_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – current try_number to read log from</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>tuple of logs and messages</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -886,20 +889,20 @@ or None if no data could be retrieved for the job</p>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.Job"><code class="docutils literal notranslate"><span class="pre">Job</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface</span></code></a><ul>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.RUNNING_POD_LOG_LINES"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.RUNNING_POD_LOG_LINES</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.supports_ad_hoc_ti_run"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.supports_ad_hoc_ti_run</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.serve_logs"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.serve_logs</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.task_queue"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.task_queue</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.parallelism"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.parallelism</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.is_exec_task"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.is_exec_task()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.queue_workload()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.execute_async"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.execute_async()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.set_state"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.set_state()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.sync"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.sync()</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.run_task()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.workload_to_command_args"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.workload_to_command_args()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.run_task()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.prepare_job_template"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.prepare_job_template()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_job"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.run_job()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.remove_job_if_hanging"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.remove_job_if_hanging()</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.queue_workload()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_log"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.get_task_log()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.end"><code class="docutils literal notranslate"><span class="pre">ExecutorInterface.end()</span></code></a></li>
 </ul>
@@ -1050,7 +1053,7 @@ or None if no data could be retrieved for the job</p>
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

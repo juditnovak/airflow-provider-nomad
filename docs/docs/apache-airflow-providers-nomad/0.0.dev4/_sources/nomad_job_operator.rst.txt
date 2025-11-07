@@ -34,13 +34,12 @@ The Nomad job template is executed with no modification.
 Parameters
 ############
 
-``template_path (str)``: Path to a Nomad job JSON or HCL file. if not specified, then the default nomad executor template is used
-
-``template_content (str)``: A JSON or HCL string, or a Python dictionary.
 
 ``observe (bool)``: Supervise the lifetime of the spawned Nomad execution, or abandon it as a "daemon" task. NOTE: In the latter case the Airflow is loosing track of the job
 
-The same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
+``template_path (str)``: Path to a Nomad job JSON or HCL file. if not specified, then the default nomad executor template is used
+
+``template_content (str)``: A JSON or HCL string, or a Python dictionary.
 
 
 Configuration

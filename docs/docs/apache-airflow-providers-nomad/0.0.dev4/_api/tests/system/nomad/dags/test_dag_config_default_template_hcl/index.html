@@ -48,7 +48,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -680,7 +680,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.system.nomad.dags.test_dag_config_default_template_hcl.myDAG">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.system.nomad.dags.test_dag_config_default_template_hcl.</span></span><span class="sig-name descname"><span class="pre">myDAG</span></span><a class="reference internal" href="../../../../../../_modules/tests/system/nomad/dags/test_dag_config_default_template_hcl.html#myDAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.dags.test_dag_config_default_template_hcl.myDAG" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="/docs/task-sdk/stable/api.html#airflow.sdk.DAG" title="(in Apache Airflow Task SDK v1.2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.sdk.DAG</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="/docs/task-sdk/stable/api.html#airflow.sdk.DAG" title="(in Apache Airflow Task SDK v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.sdk.DAG</span></code></a></p>
 <p>A dag (directed acyclic graph) is a collection of tasks with directional dependencies.</p>
 <p>A dag also has a schedule, a start date and an end date (optional).  For each schedule,
 (say daily or hourly), the DAG needs to run each individual tasks as their dependencies
@@ -689,7 +689,7 @@ they can’t run until their previous schedule (and upstream tasks) are complete
 <p>DAGs essentially act as namespaces for tasks. A task_id can only be
 added once to a DAG.</p>
 <p>Note that if you plan to use time zones all the dates provided should be pendulum
-dates. See <a class="reference external" href="/docs/apache-airflow/stable/authoring-and-scheduling/timezone.html#timezone-aware-dags" title="(in apache-airflow v3.0.6)"><span>Time zone aware dags</span></a>.</p>
+dates. See <a class="reference external" href="/docs/apache-airflow/stable/authoring-and-scheduling/timezone.html#timezone-aware-dags" title="(in apache-airflow v3.1.0)"><span>Time zone aware dags</span></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.4: </span>The <em>schedule</em> argument to specify either time-based scheduling logic
 (timetable), or dataset-driven triggers.</p>
@@ -707,7 +707,7 @@ characters, dashes, dots and underscores (all ASCII)</p></li>
 <li><p><strong>schedule</strong> – If provided, this defines the rules according to which DAG
 runs are scheduled. Possible values include a cron expression string,
 timedelta object, Timetable, or list of Asset objects.
-See also <a class="reference external" href="/docs/apache-airflow/stable/howto/timetable.html" title="(in apache-airflow v3.0.6)"><span>Customizing DAG Scheduling with Timetables</span></a>.</p></li>
+See also <a class="reference external" href="/docs/apache-airflow/stable/howto/timetable.html" title="(in apache-airflow v3.1.0)"><span>Customizing DAG Scheduling with Timetables</span></a>.</p></li>
 <li><p><strong>start_date</strong> – The timestamp from which the scheduler will
 attempt to backfill. If this is not provided, backfilling must be done
 manually with an explicit time range.</p></li>
@@ -790,7 +790,7 @@ An exception will be thrown if any task in a fail stop dag has a non default tri
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="tests.system.nomad.dags.test_dag_config_default_template_hcl.myDAG.fileloc">
-<span class="sig-name descname"><span class="pre">fileloc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../../_modules/tests/system/nomad/dags/test_dag_config_default_template_hcl.html#myDAG.fileloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.dags.test_dag_config_default_template_hcl.myDAG.fileloc" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fileloc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../../_modules/tests/system/nomad/dags/test_dag_config_default_template_hcl.html#myDAG.fileloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.dags.test_dag_config_default_template_hcl.myDAG.fileloc" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1043,7 +1043,7 @@ An exception will be thrown if any task in a fail stop dag has a non default tri
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
