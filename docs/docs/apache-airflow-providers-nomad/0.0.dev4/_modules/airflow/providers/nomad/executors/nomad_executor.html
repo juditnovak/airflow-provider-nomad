@@ -47,7 +47,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -747,7 +747,6 @@
         <span class="n">job_id</span> <span class="o">=</span> <span class="n">job_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="n">job_task_id</span> <span class="o">=</span> <span class="n">job_task_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-        <span class="n">job_template</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">job_model</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_job_template</span><span class="p">():</span>
             <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="s2">&quot;python&quot;</span><span class="p">,</span>
@@ -756,7 +755,7 @@
                 <span class="s2">&quot;--json-string&quot;</span><span class="p">,</span>
             <span class="p">]</span> <span class="o">+</span> <span class="n">command</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">job_template</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">job_model</span><span class="p">:</span>
             <span class="n">job_template</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">default_task_template</span><span class="p">)</span>
             <span class="n">job_model</span> <span class="o">=</span> <span class="n">NomadJobModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">job_template</span><span class="p">)</span>
             <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">command</span>
@@ -1109,7 +1108,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

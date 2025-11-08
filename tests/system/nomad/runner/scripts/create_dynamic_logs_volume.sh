@@ -60,7 +60,7 @@ fi
 
 URL=${PROTOCOL}://${HOST}:${PORT}
 
-printf "Creating dynamic host volume on ${HOST}\n"
+printf "Creating dynamic host volume on ${URL}\n"
 ID=$(curl $CURL_PARAM -s --request PUT --data @${INFILE} ${URL}/v1/volume/host/create \
 	| jq  2> /dev/null \
 	| grep '"ID":' \

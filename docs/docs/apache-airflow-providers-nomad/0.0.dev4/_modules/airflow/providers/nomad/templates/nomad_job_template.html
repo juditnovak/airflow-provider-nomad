@@ -47,7 +47,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -622,12 +622,15 @@
                                     <div class="body" role="main">
                                         
   <h1>Source code for airflow.providers.nomad.templates.nomad_job_template</h1><div class="highlight"><pre>
-<span></span><span class="c1"># This file is part of apache-airflow-providers-nomad which is</span>
-<span class="c1"># released under Apache License 2.0. See file LICENSE or go to</span>
+<span></span><span class="c1"># Licensed to the Apache Software Foundation (ASF) under one</span>
+<span class="c1"># or more contributor license agreements.  See the NOTICE file</span>
+<span class="c1"># distributed with this work for additional information</span>
+<span class="c1"># regarding copyright ownership.  The ASF licenses this file</span>
+<span class="c1"># to you under the Apache License, Version 2.0 (the</span>
+<span class="c1"># &quot;License&quot;); you may not use this file except in compliance</span>
+<span class="c1"># with the License.  You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="c1">#</span>
-<span class="c1"># for full license details.</span>
 <span class="c1">#</span>
 <span class="c1"># Unless required by applicable law or agreed to in writing,</span>
 <span class="c1"># software distributed under the License is distributed on an</span>
@@ -637,17 +640,6 @@
 <span class="c1"># under the License.</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">conf</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONFIG_SECTION</span>
-
-<div class="viewcode-block" id="default_image">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/nomad_job_template/index.html#airflow.providers.nomad.templates.nomad_job_template.default_image">[docs]</a>
-<span class="n">default_image</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">CONFIG_SECTION</span><span class="p">,</span> <span class="s2">&quot;default_docker_image&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s2">&quot;novakjudit/airflow-nomad-runner:latest&quot;</span>
-<span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="default_task_template">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/nomad_job_template/index.html#airflow.providers.nomad.templates.nomad_job_template.default_task_template">[docs]</a>
@@ -682,36 +674,34 @@
                 <span class="s2">&quot;Meta&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;airflow-execution-taskgroup&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;RestartPolicy&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;Attempts&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;Attempts&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
                     <span class="s2">&quot;Delay&quot;</span><span class="p">:</span> <span class="mi">25000000000</span><span class="p">,</span>
                     <span class="s2">&quot;Interval&quot;</span><span class="p">:</span> <span class="mi">300000000000</span><span class="p">,</span>
-                    <span class="s2">&quot;Mode&quot;</span><span class="p">:</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Mode&quot;</span><span class="p">:</span> <span class="s2">&quot;delay&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
                 <span class="s2">&quot;Tasks&quot;</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
                         <span class="s2">&quot;Artifacts&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s2">&quot;Config&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">default_image</span><span class="p">,</span>
+                            <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;novakjudit/af_nomad_test:latest&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;entrypoint&quot;</span><span class="p">:</span> <span class="p">[</span>
                                 <span class="s2">&quot;python&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;airflow.sdk.execution_time.execute_workload&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;--json-string&quot;</span><span class="p">,</span>
                             <span class="p">],</span>
-                            <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">[],</span>
                         <span class="p">},</span>
                         <span class="s2">&quot;Constraints&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s2">&quot;DispatchPayload&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s2">&quot;Driver&quot;</span><span class="p">:</span> <span class="s2">&quot;docker&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Env&quot;</span><span class="p">:</span> <span class="p">{</span>
                             <span class="s2">&quot;AIRFLOW_CONFIG&quot;</span><span class="p">:</span> <span class="s2">&quot;/opt/airflow/config/airflow.cfg&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;AIRFLOW_HOME&quot;</span><span class="p">:</span> <span class="s2">&quot;/opt/airflow/&quot;</span><span class="p">,</span>
                         <span class="p">},</span>
                         <span class="s2">&quot;KillTimeout&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s2">&quot;Leader&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                         <span class="s2">&quot;LogConfig&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s2">&quot;Meta&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;airflow-task&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;placeholder&gt;&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Resources&quot;</span><span class="p">:</span> <span class="p">{</span>
                             <span class="s2">&quot;CPU&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
                             <span class="s2">&quot;DiskMB&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -982,7 +972,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

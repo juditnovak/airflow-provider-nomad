@@ -47,7 +47,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -621,11 +621,10 @@
 <ul><li><a href="airflow/providers/nomad.html">airflow.providers.nomad</a></li>
 <ul><li><a href="airflow/providers/nomad/constants.html">airflow.providers.nomad.constants</a></li>
 <li><a href="airflow/providers/nomad/decorators/job.html">airflow.providers.nomad.decorators.job</a></li>
-<li><a href="airflow/providers/nomad/decorators/nomad_job.html">airflow.providers.nomad.decorators.nomad_job</a></li>
-<li><a href="airflow/providers/nomad/decorators/nomad_task.html">airflow.providers.nomad.decorators.nomad_task</a></li>
 <li><a href="airflow/providers/nomad/decorators/task.html">airflow.providers.nomad.decorators.task</a></li>
 <li><a href="airflow/providers/nomad/exceptions.html">airflow.providers.nomad.exceptions</a></li>
 <li><a href="airflow/providers/nomad/executors/nomad_executor.html">airflow.providers.nomad.executors.nomad_executor</a></li>
+<li><a href="airflow/providers/nomad/executors/nomad_log.html">airflow.providers.nomad.executors.nomad_log</a></li>
 <li><a href="airflow/providers/nomad/generic_interfaces/executor_interface.html">airflow.providers.nomad.generic_interfaces.executor_interface</a></li>
 <li><a href="airflow/providers/nomad/generic_interfaces/executor_log_handlers.html">airflow.providers.nomad.generic_interfaces.executor_log_handlers</a></li>
 <li><a href="airflow/providers/nomad/generic_interfaces/nomad_operator_interface.html">airflow.providers.nomad.generic_interfaces.nomad_operator_interface</a></li>
@@ -633,16 +632,14 @@
 <li><a href="airflow/providers/nomad/log.html">airflow.providers.nomad.log</a></li>
 <li><a href="airflow/providers/nomad/manager.html">airflow.providers.nomad.manager</a></li>
 <li><a href="airflow/providers/nomad/models.html">airflow.providers.nomad.models</a></li>
-<li><a href="airflow/providers/nomad/nomad_log.html">airflow.providers.nomad.nomad_log</a></li>
-<li><a href="airflow/providers/nomad/nomad_manager.html">airflow.providers.nomad.nomad_manager</a></li>
 <li><a href="airflow/providers/nomad/operators/job.html">airflow.providers.nomad.operators.job</a></li>
-<li><a href="airflow/providers/nomad/operators/nomad_job.html">airflow.providers.nomad.operators.nomad_job</a></li>
-<li><a href="airflow/providers/nomad/operators/nomad_task.html">airflow.providers.nomad.operators.nomad_task</a></li>
 <li><a href="airflow/providers/nomad/operators/task.html">airflow.providers.nomad.operators.task</a></li>
 <li><a href="airflow/providers/nomad/templates/job_template.html">airflow.providers.nomad.templates.job_template</a></li>
 <li><a href="airflow/providers/nomad/templates/nomad_job_template.html">airflow.providers.nomad.templates.nomad_job_template</a></li>
 <li><a href="airflow/providers/nomad/utils.html">airflow.providers.nomad.utils</a></li>
 </ul><li><a href="tests/system/nomad/constants.html">tests.system.nomad.constants</a></li>
+<li><a href="tests/system/nomad/dags/example_bash_operator.html">tests.system.nomad.dags.example_bash_operator</a></li>
+<li><a href="tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/nomad/test_dag_trigger.html">tests.system.nomad.dags.home.devel.share.workspace_airflow.nomad_provider.tests.system.nomad.test_dag_trigger</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_bash_operator.html">tests.system.nomad.dags.test_dag_bash_operator</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_config_default_template_hcl.html">tests.system.nomad.dags.test_dag_config_default_template_hcl</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_config_default_template_json.html">tests.system.nomad.dags.test_dag_config_default_template_json</a></li>
@@ -650,20 +647,24 @@
 <li><a href="tests/system/nomad/dags/test_dag_nomad_job_operator.html">tests.system.nomad.dags.test_dag_nomad_job_operator</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_nomad_operator_combined.html">tests.system.nomad.dags.test_dag_nomad_operator_combined</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_nomad_task_decorator.html">tests.system.nomad.dags.test_dag_nomad_task_decorator</a></li>
+<li><a href="tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc.html">tests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_nomad_task_operator.html">tests.system.nomad.dags.test_dag_nomad_task_operator</a></li>
+<li><a href="tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc.html">tests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc</a></li>
 <li><a href="tests/system/nomad/dags/test_dag_python_operator.html">tests.system.nomad.dags.test_dag_python_operator</a></li>
+<li><a href="tests/system/nomad/dags/test_dag_trigger.html">tests.system.nomad.dags.test_dag_trigger</a></li>
 <li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator</a></li>
 <li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator</a></li>
-<li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_chain.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_chain</a></li>
 <li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined</a></li>
 <li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator</a></li>
+<li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc</a></li>
 <li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator</a></li>
-<li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_chain.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_chain</a></li>
+<li><a href="tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.html">tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc</a></li>
+<li><a href="tests/system/nomad/test_dag_bash_operator.html">tests.system.nomad.test_dag_bash_operator</a></li>
+<li><a href="tests/system/nomad/test_dag_trigger.html">tests.system.nomad.test_dag_trigger</a></li>
 <li><a href="tests/system/nomad/test_nomad_job_operator.html">tests.system.nomad.test_nomad_job_operator</a></li>
 <li><a href="tests/system/nomad/test_nomad_manager.html">tests.system.nomad.test_nomad_manager</a></li>
 <li><a href="tests/system/nomad/test_nomad_task_operator.html">tests.system.nomad.test_nomad_task_operator</a></li>
 <li><a href="tests/system/nomad/test_system_nomad_executor.html">tests.system.nomad.test_system_nomad_executor</a></li>
-<li><a href="tests/system/nomad/test_utils.html">tests.system.nomad.test_utils</a></li>
 <li><a href="tests/system/nomad/utils.html">tests.system.nomad.utils</a></li>
 </ul>
 
@@ -857,7 +858,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

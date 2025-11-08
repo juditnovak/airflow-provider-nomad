@@ -50,7 +50,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -645,18 +645,32 @@ The operator is handy to run Nomad jobs with lightweight, minimal configuration.
 <p>All parameters are supporting Airflow’s Jinja-based templating mechanism.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">(str)</span></code>: The docker image to be run</p>
-<p><code class="docutils literal notranslate"><span class="pre">entrypoint</span> <span class="pre">(list[str])</span></code>: Entrypoint to the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">command</span></code>)</p>
-<p><code class="docutils literal notranslate"><span class="pre">args</span> <span class="pre">(dict[str])</span></code>: Arguments to be added to the Docker image entrypoint</p>
-<p><code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">(dict[str])</span></code>: Command to be run by the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">entrypoint</span></code>)</p>
-<p><code class="docutils literal notranslate"><span class="pre">env</span> <span class="pre">(dict[str,</span> <span class="pre">str])</span></code>: Environment variables specified as a Python dictionary</p>
+<p>On top of the above, the same parameters are also recognized if submitted as DAG/task <code class="docutils literal notranslate"><span class="pre">params</span></code>. However in this case templating may not apply.</p>
+<section id="template">
+<h3>Template<a class="headerlink" href="#template" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">template_path</span> <span class="pre">(str)</span></code>: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.</p>
 <p><code class="docutils literal notranslate"><span class="pre">template_content</span> <span class="pre">(str)</span></code>: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.</p>
 <blockquote>
 <div><p>In case a template was specified, it must have a single <code class="docutils literal notranslate"><span class="pre">TaskGroup</span></code> with a single <code class="docutils literal notranslate"><span class="pre">Task</span></code> within,
 and can only have a single execution (<code class="docutils literal notranslate"><span class="pre">Count</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>).</p>
 </div></blockquote>
-<p>The same parameters are also recognized if submitted as DAG/task <code class="docutils literal notranslate"><span class="pre">params</span></code>. However in this case templating may not apply.</p>
+</section>
+<section id="execution">
+<h3>Execution<a class="headerlink" href="#execution" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">(str)</span></code>: The docker image to be run</p>
+<p><code class="docutils literal notranslate"><span class="pre">entrypoint</span> <span class="pre">(list[str])</span></code>: Entrypoint to the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">command</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">args</span> <span class="pre">(dict[str])</span></code>: Arguments to be added to the Docker image entrypoint</p>
+<p><code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">(dict[str])</span></code>: Command to be run by the Docker image (incompatible with <code class="docutils literal notranslate"><span class="pre">entrypoint</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">env</span> <span class="pre">(dict[str,</span> <span class="pre">str])</span></code>: Environment variables specified as a Python dictionary</p>
+</section>
+<section id="resources">
+<h3>Resources<a class="headerlink" href="#resources" title="Link to this heading">¶</a></h3>
+<p>For each of the resources below, the same resource fields can be used as in the referred Nomad Job API.</p>
+<p><code class="docutils literal notranslate"><span class="pre">task_resources</span></code>: Correspondent of the <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/json-jobs#resources-1">Nomad Job API Resources</a> block.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ephemeral_disk</span></code>:  Correspondent of the <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/json-jobs#ephemeral-disk">Nomad Job API EphemeralDisk</a> block.</p>
+<p><code class="docutils literal notranslate"><span class="pre">volumes</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume">Nomad HCL Volumes</a> block. For more information on Nomad’s JSON representation on volumes, see <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/volumes#volumes-1">Nomad Volumes HTTP API</a> . Also: see <a class="reference internal" href="#examples">Examples</a> below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">volume_mounts</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume_mount">Nomad HCL Volume Mounts</a> block. See <a class="reference internal" href="#examples">Examples</a> below.</p>
+</section>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
@@ -670,6 +684,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Execution: using <code class="docutils literal notranslate"><span class="pre">args</span></code> (<a class="reference internal" href="#execution">Execution</a>)</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-example&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
     <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
         <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;nomad_task&quot;</span><span class="p">,</span>
@@ -686,6 +701,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
     <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
 </pre></div>
 </div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">entrypoint</span></code> (<a class="reference internal" href="#execution">Execution</a>) and templating</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-af-template&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
 
     <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
@@ -705,6 +721,57 @@ and can only have a single execution (<code class="docutils literal notranslate"
     <span class="p">)</span>
 
     <span class="n">run_this_first</span> <span class="o">&gt;&gt;</span> <span class="n">run_this_last</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">volumes</span></code> and <code class="docutils literal notranslate"><span class="pre">volume_mounts</span></code> (<a class="reference internal" href="#resources">Resources</a>)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">job &quot;nomad-test-hcl-op-param-volumes-</span><span class="si">%s</span><span class="s2">&quot; {</span>
+<span class="s2">  type = &quot;batch&quot;</span>
+
+<span class="s2">  group &quot;example&quot; {</span>
+<span class="s2">    count = 1</span>
+<span class="s2">    task &quot;uptime&quot; {</span>
+<span class="s2">      driver = &quot;docker&quot;</span>
+<span class="s2">      config {</span>
+<span class="s2">        image = &quot;alpine:latest&quot;</span>
+<span class="s2">      }</span>
+<span class="s2">    }</span>
+<span class="s2">  }</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="n">vol_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;test_dags_folder&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;AccessMode&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AttachmentMode&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MountOptions&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;dags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PerAlloc&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;ReadOnly&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;Source&quot;</span><span class="p">:</span> <span class="s2">&quot;dags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Sticky&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;host&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">vol_mounts_data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Destination&quot;</span><span class="p">:</span> <span class="s2">&quot;/opt/airflow/dags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PropagationMode&quot;</span><span class="p">:</span> <span class="s2">&quot;private&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ReadOnly&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;SELinuxLabel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Volume&quot;</span><span class="p">:</span> <span class="s2">&quot;test_dags_folder&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="n">dag_id</span><span class="o">=</span><span class="s2">&quot;nomad-task-volume-mount&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+    <span class="n">run_this_first</span> <span class="o">=</span> <span class="n">NomadTaskOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s2">&quot;volume_mounts&quot;</span><span class="p">,</span>
+        <span class="n">template_content</span><span class="o">=</span><span class="n">content</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;{{ ti.id }}&quot;</span><span class="p">),</span>
+        <span class="n">volumes</span><span class="o">=</span><span class="n">vol_data</span><span class="p">,</span>
+        <span class="n">volume_mounts</span><span class="o">=</span><span class="n">vol_mounts_data</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">airflow_path</span><span class="si">}</span><span class="s2">/templates/simple_batch.hcl&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -786,7 +853,12 @@ and can only have a single execution (<code class="docutils literal notranslate"
         <div class="wy-menu-vertical">
             <ul>
 <li><a class="reference internal" href="#">Nomad Task Operator</a><ul>
-<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#parameters">Parameters</a><ul>
+<li><a class="reference internal" href="#template">Template</a></li>
+<li><a class="reference internal" href="#execution">Execution</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#job-submission">Job submission</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
@@ -934,7 +1006,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

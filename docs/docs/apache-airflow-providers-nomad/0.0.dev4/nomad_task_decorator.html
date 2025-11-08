@@ -10,7 +10,7 @@
         <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Nomad Job Decorator &mdash; apache-airflow-providers-nomad Documentation</title>
+        <title>Nomad Task Decorator &mdash; apache-airflow-providers-nomad Documentation</title>
     <link rel="stylesheet" href="_static/_gen/css/main.min.css" type="text/css" />
             <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
             <link rel="stylesheet" type="text/css" href="_static/_gen/css/main.min.css?v=016086f5" />
@@ -50,7 +50,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -617,7 +617,7 @@
         
             <li class="breadcrumb-item"><a href="index.html" class="icon icon-home"> Home</a></li>
             
-            <li class="breadcrumb-item"><a href="nomad_task_decorator.html"> Nomad Job Decorator</a></li>
+            <li class="breadcrumb-item"><a href="nomad_task_decorator.html"> Nomad Task Decorator</a></li>
         
     </ul>
 </div>
@@ -630,13 +630,13 @@
                                         
   <blockquote>
 <div></div></blockquote>
-<section id="nomad-job-decorator">
-<h1>Nomad Job Decorator<a class="headerlink" href="#nomad-job-decorator" title="Link to this heading">¶</a></h1>
+<section id="nomad-task-decorator">
+<h1>Nomad Task Decorator<a class="headerlink" href="#nomad-task-decorator" title="Link to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If a Nomad Decorator is used with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>, it introduces the overhead of two task executions each time (as <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code></p>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">nomad_task</span></code> decorator is a wrapper around the <code class="docutils literal notranslate"><span class="pre">NomadTaskOperator</span></code>. For a detailed description please refer to the <a class="reference external" href="nomad_job_operator.html">Nomad Job Operator</a> documentation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">nomad_task</span></code> decorator is a wrapper around the <code class="docutils literal notranslate"><span class="pre">NomadTaskOperator</span></code>. For a detailed description please refer to the <a class="reference external" href="nomad_task_operator.html">Nomad Task Operator</a> documentation.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">nomad_task</span></code> decorator takes the same parameters as the <code class="docutils literal notranslate"><span class="pre">NomadTaskOperator</span></code>, except the <code class="docutils literal notranslate"><span class="pre">args</span></code> parameter.</p>
@@ -663,6 +663,7 @@
     <span class="n">nomad_command_nproc</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">nomad_command_response</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Following the same principle, see more usage patterns at <a class="reference external" href="nomad_task_operator.html#examples">Nomad Task Operator Examples</a></p>
 </section>
 </section>
 
@@ -741,7 +742,7 @@
     <nav class="wy-nav-side-toc">
         <div class="wy-menu-vertical">
             <ul>
-<li><a class="reference internal" href="#">Nomad Job Decorator</a><ul>
+<li><a class="reference internal" href="#">Nomad Task Decorator</a><ul>
 <li><a class="reference internal" href="#parameters">Parameters</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
@@ -888,7 +889,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>

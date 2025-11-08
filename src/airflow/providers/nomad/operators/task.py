@@ -14,6 +14,7 @@
 
 from collections.abc import Collection
 from random import randint
+from typing import Any
 
 from airflow.sdk import Context
 from airflow.sdk.types import RuntimeTaskInstanceProtocol
@@ -21,7 +22,14 @@ from pydantic import ValidationError  # type: ignore[import-untyped]
 
 from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
-from airflow.providers.nomad.models import NomadJobModel, TaskConfig
+from airflow.providers.nomad.models import (
+    NomadEphemeralDisk,
+    NomadJobModel,
+    TaskConfig,
+    Resource,
+    NomadVolumeMounts,
+    NomadVolumes,
+)
 from airflow.providers.nomad.templates.job_template import default_task_template
 from airflow.providers.nomad.utils import job_id_from_taskinstance
 
@@ -30,13 +38,17 @@ class NomadTaskOperator(NomadOperator):
     """Nomad Operator allowing for lightweight job submission"""
 
     template_fields: Collection[str] = [
+        "template_path",
+        "template_content",
+        "env",
         "image",
         "entrypoint",
         "args",
         "command",
-        "env",
-        "template_content",
-        "template_path",
+        "task_resources",
+        "ephemeral_disk",
+        "volumes",
+        "volume_mounts",
     ]
 
     def __init__(
@@ -48,6 +60,10 @@ class NomadTaskOperator(NomadOperator):
         entrypoint: list[str] | None = None,
         args: list[str] | None = None,
         command: str | None = None,
+        task_resources: dict[str, Any] | None = None,
+        ephemeral_disk: dict[str, str] | None = None,
+        volumes: dict[str, dict[str, int | bool | str]] | None = None,
+        volume_mounts: list[dict[str, int | bool | str]] | None = None,
         **kwargs,
     ):
         if template_path and template_content:
@@ -59,6 +75,10 @@ class NomadTaskOperator(NomadOperator):
         self.args = args
         self.command = command
         self.env = env
+        self.task_resources = task_resources
+        self.ephemeral_disk = ephemeral_disk
+        self.volumes = volumes
+        self.volume_mounts = volume_mounts
         super().__init__(observe=True, **kwargs)
 
     def job_id(self, ti: RuntimeTaskInstanceProtocol):
@@ -67,6 +87,11 @@ class NomadTaskOperator(NomadOperator):
         while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}"):
             rnd = randint(0, 10000)
         return f"{id_base}-{rnd}"
+
+    def param_defined(self, param: str, context: Context) -> Any | None:
+        if value := getattr(self, param, None):
+            return value
+        return context.get("params", {}).get(param)
 
     def prepare_job_template(self, context: Context):
         content = None
@@ -109,19 +134,48 @@ class NomadTaskOperator(NomadOperator):
             if (image := self.image) or (image := context.get("params", {}).get("image")):
                 template.Job.TaskGroups[0].Tasks[0].Config.image = image
 
-            if (entrypoint := self.entrypoint) or (
-                entrypoint := context.get("params", {}).get("entrypoint")
-            ):
+            if entrypoint := self.param_defined("entrypoint", context):
                 template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
 
             if (args := self.args) or (args := context.get("params", {}).get("args")):
                 template.Job.TaskGroups[0].Tasks[0].Config.args = args
 
-            if (command := self.command) or (command := context.get("params", {}).get("command")):
+            if command := self.param_defined("command", context):
                 template.Job.TaskGroups[0].Tasks[0].Config.command = command
 
-            if (env := self.env) or (env := context.get("params", {}).get("env")):
+            if env := self.param_defined("env", context):
                 template.Job.TaskGroups[0].Tasks[0].Env = env
+
+            if resources := self.param_defined("task_resources", context):
+                res_model = Resource.model_validate(resources)
+                template.Job.TaskGroups[0].Tasks[0].Resources = res_model
+
+            if volumes := self.param_defined("volumes", context):
+                volumes = NomadVolumes.validate_python(volumes)
+                template.Job.TaskGroups[0].Volumes = volumes
+
+            if volume_mounts := self.param_defined("volume_mounts", context):
+                volume_mounts = NomadVolumeMounts.validate_python(volume_mounts)
+                template.Job.TaskGroups[0].Tasks[0].VolumeMounts = volume_mounts
+
+            if (
+                template.Job.TaskGroups[0].Tasks[0].VolumeMounts
+                and template.Job.TaskGroups[0].Volumes
+                and not all(
+                    vol.from_volumes(template.Job.TaskGroups[0].Volumes)
+                    for vol in template.Job.TaskGroups[0].Tasks[0].VolumeMounts
+                )
+            ):
+                self.log.error(
+                    "Inconsistent volume mounts: \nVolumes{%s}\nVolume Groups: {%s}",
+                    template.Job.TaskGroups[0].Volumes,
+                    template.Job.TaskGroups[0].Tasks[0].VolumeMounts,
+                )
+                return
+
+            if ephemeral_disk := self.param_defined("ephemeral_disk", context):
+                ephemeral_disk = NomadEphemeralDisk.model_validate(ephemeral_disk)
+                template.Job.TaskGroups[0].EphemeralDisk = ephemeral_disk
 
         except ValidationError as err:
             raise NomadTaskOperatorError(f"Template validation failed: {err.errors()}")

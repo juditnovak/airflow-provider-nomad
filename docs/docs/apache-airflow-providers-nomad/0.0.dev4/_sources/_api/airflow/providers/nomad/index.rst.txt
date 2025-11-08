@@ -19,8 +19,6 @@ Submodules
    /_api/airflow/providers/nomad/log/index
    /_api/airflow/providers/nomad/manager/index
    /_api/airflow/providers/nomad/models/index
-   /_api/airflow/providers/nomad/nomad_log/index
-   /_api/airflow/providers/nomad/nomad_manager/index
    /_api/airflow/providers/nomad/operators/index
    /_api/airflow/providers/nomad/utils/index
 

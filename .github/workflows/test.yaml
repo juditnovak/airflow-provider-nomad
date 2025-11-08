@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
           cache-dependency-glob: "pyproject.toml"
@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
           cache-dependency-glob: "pyproject.toml"
@@ -83,9 +83,10 @@ jobs:
         run: "nomad version"
 
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          prune-cache: false
           cache-dependency-glob: "pyproject.toml"
 
       # Target repo is to be checked out first (order matters!)
@@ -112,8 +113,6 @@ jobs:
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
-
-          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
 
@@ -143,7 +142,7 @@ jobs:
   system_tests:
     name: Airflow system tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -159,9 +158,10 @@ jobs:
         run: "nomad version"
 
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          prune-cache: false
           cache-dependency-glob: "pyproject.toml"
 
       # Target repo is to be checked out first (order matters!)
@@ -188,8 +188,6 @@ jobs:
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
-
-          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
 
@@ -234,9 +232,10 @@ jobs:
         run: "nomad version"
 
       - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          prune-cache: false
           cache-dependency-glob: "pyproject.toml"
 
       # Target repo is to be checked out first (order matters!)
@@ -263,8 +262,6 @@ jobs:
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
-
-          export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
 

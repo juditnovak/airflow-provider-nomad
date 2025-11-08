@@ -9,7 +9,12 @@ from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyp
 from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.exceptions import NomadOperatorError, NomadTaskOperatorError
-from airflow.providers.nomad.models import NomadJobModel
+from airflow.providers.nomad.models import (
+    NomadJobModel,
+    NomadVolumeMounts,
+    Resource,
+    NomadEphemeralDisk,
+)
 from airflow.providers.nomad.operators.task import NomadTaskOperator
 from airflow.providers.nomad.templates.job_template import default_image
 
@@ -434,4 +439,190 @@ def test_args_figure_path(filename, test_datadir):
     assert (
         str(NomadTaskOperator(task_id="task_id").figure_path(filename))
         == "/abs/path/to/dags/" + filename
+    )
+
+
+def test_args_task_ephemeral():
+    edisk_data = {
+        "Size": 200,
+        "Migrate": True,
+    }
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op = NomadTaskOperator(task_id="task_id", ephemeral_disk=edisk_data)
+    op.prepare_job_template(context)
+    assert op.template
+    assert op.template.Job.TaskGroups[0].EphemeralDisk
+    assert op.template.Job.TaskGroups[0].EphemeralDisk == NomadEphemeralDisk.model_validate(
+        edisk_data
+    )
+
+
+def test_args_task_resources1():
+    res_data = {
+        "MemoryMB": 600,
+        "DiskMB": 800,
+        "Cores": 8,
+        "MemoryMaxMB": 800,
+    }
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+    op.prepare_job_template(context)
+    assert op.template
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources == Resource.model_validate(res_data)
+
+
+def test_args_task_resources2(caplog):
+    res_data = {
+        "CPU": 3000,  # MHz
+        "MemoryMB": 600,
+        "DiskMB": 800,
+        "MemoryMaxMB": 800,
+        "Networks": ["192.168.1.0"],
+        "Devices": ["GPU", "tape"],
+        "MBits": 2500,
+    }
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+
+    with caplog.at_level(logging.WARNING):
+        op.prepare_job_template(context)
+
+    assert op.template
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources == Resource.model_validate(res_data)
+
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources.DiskMB is None
+    assert "DiskMB is not supported" in caplog.text
+
+
+def test_args_task_resources_defaults():
+    res_data = {
+        "MemoryMB": 600,
+    }
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+    op.prepare_job_template(context)
+
+    assert op.template
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources == Resource.model_validate(res_data)
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources.CPU is None
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources.Cores is None
+    assert op.template.Job.TaskGroups[0].Tasks[0].Resources.MemoryMB == 600
+
+
+def test_args_task_volumes():
+    vol_data = {
+        "test_cfg": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "config",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "config",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "test_dags_folder": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "dags",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "dags",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "test_logs_dest": {
+            "AccessMode": "single-node-writer",
+            "AttachmentMode": "file-system",
+            "MountOptions": None,
+            "Name": "logs",
+            "PerAlloc": False,
+            "ReadOnly": False,
+            "Source": "airflow-logs",
+            "Sticky": False,
+            "Type": "host",
+        },
+    }
+    vol_mounts_data = [
+        {
+            "Destination": "/opt/airflow/config",
+            "PropagationMode": "private",
+            "ReadOnly": True,
+            "SELinuxLabel": "",
+            "Volume": "test_cfg",
+        },
+        {
+            "Destination": "/opt/airflow/dags",
+            "PropagationMode": "private",
+            "ReadOnly": True,
+            "SELinuxLabel": "",
+            "Volume": "test_dags_folder",
+        },
+        {
+            "Destination": "/opt/airflow/logs",
+            "PropagationMode": "private",
+            "ReadOnly": False,
+            "SELinuxLabel": "",
+            "Volume": "test_logs_dest",
+        },
+    ]
+    context = Context(
+        {
+            "ti": MagicMock(
+                task_id="task_op_test",
+                dag_id="task_op_dag",
+                run_id="run_id",
+                try_number=1,
+                map_index=-1,
+            )
+        }
+    )
+    op = NomadTaskOperator(task_id="task_id", volume_mounts=vol_mounts_data, volumes=vol_data)
+    op.prepare_job_template(context)
+    assert op.template
+    assert op.template.Job.TaskGroups[0].Tasks[0].VolumeMounts == NomadVolumeMounts.validate_python(
+        vol_mounts_data
     )

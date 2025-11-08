@@ -14,12 +14,12 @@
 
 
 
-Nomad Job Decorator
+Nomad Task Decorator
 ======================
 
 .. note:: If a Nomad Decorator is used with ``NomadExecutor``, it introduces the overhead of two task executions each time (as ``NomadExecutor`` is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with ``LocalExecutor``
 
-The ``nomad_task`` decorator is a wrapper around the ``NomadTaskOperator``. For a detailed description please refer to the `Nomad Job Operator <nomad_job_operator.html>`_ documentation. 
+The ``nomad_task`` decorator is a wrapper around the ``NomadTaskOperator``. For a detailed description please refer to the `Nomad Task Operator <nomad_task_operator.html>`_ documentation. 
 
 
 Parameters
@@ -53,3 +53,6 @@ Examples
             ]
 
         nomad_command_nproc() >> nomad_command_response()
+
+
+Following the same principle, see more usage patterns at `Nomad Task Operator Examples <nomad_task_operator.html#examples>`_
