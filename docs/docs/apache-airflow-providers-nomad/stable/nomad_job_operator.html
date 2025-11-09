@@ -21,7 +21,7 @@
             <link rel="stylesheet" type="text/css" href="_static/custom.css?v=957f1c83" />
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
-            <link rel="next" title="Nomad Job Decorator" href="nomad_task_decorator.html" />
+            <link rel="next" title="Nomad Task Decorator" href="nomad_task_decorator.html" />
             <link rel="prev" title="Nomad Task Operator" href="nomad_task_operator.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/nomad_job_operator.html" />
@@ -50,7 +50,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -292,7 +292,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -452,7 +452,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -650,10 +650,9 @@ Practically the operator is useful when complete job templates are to be run as 
 </div></blockquote>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">observe</span> <span class="pre">(bool)</span></code>: Supervise the lifetime of the spawned Nomad execution, or abandon it as a “daemon” task. NOTE: In the latter case the Airflow is loosing track of the job</p>
 <p><code class="docutils literal notranslate"><span class="pre">template_path</span> <span class="pre">(str)</span></code>: Path to a Nomad job JSON or HCL file. if not specified, then the default nomad executor template is used</p>
 <p><code class="docutils literal notranslate"><span class="pre">template_content</span> <span class="pre">(str)</span></code>: A JSON or HCL string, or a Python dictionary.</p>
-<p><code class="docutils literal notranslate"><span class="pre">observe</span> <span class="pre">(bool)</span></code>: Supervise the lifetime of the spawned Nomad execution, or abandon it as a “daemon” task. NOTE: In the latter case the Airflow is loosing track of the job</p>
-<p>The same parameters are also recognized if submitted as DAG/task <code class="docutils literal notranslate"><span class="pre">params</span></code>. However in this case templating may not apply.</p>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
@@ -757,7 +756,7 @@ Practically the operator is useful when complete job templates are to be run as 
             <a rel="prev" title="Nomad Task Operator" href="nomad_task_operator.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
             </a>
-            <a rel="next" title="Nomad Job Decorator" href="nomad_task_decorator.html" >
+            <a rel="next" title="Nomad Task Decorator" href="nomad_task_decorator.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="n">Next</button>
             </a>
     </div>
@@ -975,7 +974,7 @@ Practically the operator is useful when complete job templates are to be run as 
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
@@ -985,7 +984,7 @@ Practically the operator is useful when complete job templates are to be run as 
     <script src="/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/external/js/cdnjs.cloudflare.com-1.14.3-popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="/external/js/stackpath.bootstrapcdn.com-4.1.3-bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="_static/documentation_options.js?v=47de8214"></script>
+        <script src="_static/documentation_options.js?v=ada51498"></script>
         <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>

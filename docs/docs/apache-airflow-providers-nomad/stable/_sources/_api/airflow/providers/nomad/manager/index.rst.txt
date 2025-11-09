@@ -4,6 +4,16 @@ airflow.providers.nomad.manager
 .. py:module:: airflow.providers.nomad.manager
 
 
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.manager.RETRY_NUM
+   airflow.providers.nomad.manager.RETRY_MIN
+   airflow.providers.nomad.manager.RETRY_MAX
+
+
 Classes
 -------
 
@@ -14,6 +24,12 @@ Classes
 
 Module Contents
 ---------------
+
+.. py:data:: RETRY_NUM
+
+.. py:data:: RETRY_MIN
+
+.. py:data:: RETRY_MAX
 
 .. py:class:: NomadManager
 
@@ -107,6 +123,9 @@ Module Contents
 
 
    .. py:method:: register_job(job_model)
+
+
+   .. py:method:: deregister_job(job_id)
 
 
    .. py:method:: timeout_expired(job_id)
