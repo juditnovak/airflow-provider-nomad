@@ -48,7 +48,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -290,7 +290,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -445,7 +445,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -634,14 +634,14 @@
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.operators.task.</span></span><span class="sig-name descname"><span class="pre">NomadTaskOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_content</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entrypoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.operators.task.</span></span><span class="sig-name descname"><span class="pre">NomadTaskOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_content</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entrypoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ephemeral_disk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volumes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_mounts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../generic_interfaces/nomad_operator_interface/index.html#airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator" title="airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator</span></code></a></p>
 <p>Nomad Operator allowing for lightweight job submission</p>
 <dl class="field-list simple">
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.template_fields">
-<span class="sig-name descname"><span class="pre">template_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Collection" title="(in Python v3.13)"><span class="pre">collections.abc.Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['image',</span> <span class="pre">'entrypoint',</span> <span class="pre">'args',</span> <span class="pre">'command',</span> <span class="pre">'env',</span> <span class="pre">'template_content',</span> <span class="pre">'template_path']</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.template_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.template_fields" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">template_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Collection" title="(in Python v3.14)"><span class="pre">collections.abc.Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['template_path',</span> <span class="pre">'template_content',</span> <span class="pre">'env',</span> <span class="pre">'image',</span> <span class="pre">'entrypoint',</span> <span class="pre">'args',</span> <span class="pre">'command',...</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.template_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.template_fields" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -679,9 +679,36 @@
 <span class="sig-name descname"><span class="pre">env</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.env" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.task_resources">
+<span class="sig-name descname"><span class="pre">task_resources</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.task_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.task_resources" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.ephemeral_disk">
+<span class="sig-name descname"><span class="pre">ephemeral_disk</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.ephemeral_disk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.ephemeral_disk" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.volumes">
+<span class="sig-name descname"><span class="pre">volumes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.volumes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.volumes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.volume_mounts">
+<span class="sig-name descname"><span class="pre">volume_mounts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.volume_mounts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.volume_mounts" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.job_id">
 <span class="sig-name descname"><span class="pre">job_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.job_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.job_id" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.operators.task.NomadTaskOperator.param_defined">
+<span class="sig-name descname"><span class="pre">param_defined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/operators/task.html#NomadTaskOperator.param_defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.param_defined" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 </dl>
 </dd></dl>
@@ -779,7 +806,12 @@
 <li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.args"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.args</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.command"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.command</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.env"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.env</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.task_resources"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.task_resources</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.ephemeral_disk"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.ephemeral_disk</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.volumes"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.volumes</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.volume_mounts"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.volume_mounts</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.job_id"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.job_id()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.param_defined"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.param_defined()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.operators.task.NomadTaskOperator.prepare_job_template"><code class="docutils literal notranslate"><span class="pre">NomadTaskOperator.prepare_job_template()</span></code></a></li>
 </ul>
 </li>
@@ -929,7 +961,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
@@ -939,7 +971,7 @@
     <script src="/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/external/js/cdnjs.cloudflare.com-1.14.3-popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="/external/js/stackpath.bootstrapcdn.com-4.1.3-bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="../../../../../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../../../../../_static/documentation_options.js?v=ada51498"></script>
         <script src="../../../../../../_static/doctools.js?v=9bcbadda"></script>
         <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>

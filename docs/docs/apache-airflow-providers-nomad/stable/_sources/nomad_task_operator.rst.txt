@@ -27,6 +27,22 @@ All parameters are supporting Airflow's Jinja-based templating mechanism.
 Parameters
 ############
 
+On top of the above, the same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
+
+Template
+************
+
+``template_path (str)``: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.
+
+``template_content (str)``: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.
+
+    In case a template was specified, it must have a single ``TaskGroup`` with a single ``Task`` within,
+    and can only have a single execution (``Count`` is ``1``).
+
+
+Execution
+*************
+
 ``image (str)``: The docker image to be run
 
 ``entrypoint (list[str])``: Entrypoint to the Docker image (incompatible with ``command``)
@@ -37,14 +53,20 @@ Parameters
 
 ``env (dict[str, str])``: Environment variables specified as a Python dictionary
 
-``template_path (str)``: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.
 
-``template_content (str)``: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.
+Resources
+**********
 
-    In case a template was specified, it must have a single ``TaskGroup`` with a single ``Task`` within,
-    and can only have a single execution (``Count`` is ``1``).
+For each of the resources below, the same resource fields can be used as in the referred Nomad Job API.
 
-The same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
+``task_resources``: Correspondent of the `Nomad Job API Resources <https://developer.hashicorp.com/nomad/api-docs/json-jobs#resources-1>`_ block.
+
+``ephemeral_disk``:  Correspondent of the `Nomad Job API EphemeralDisk <https://developer.hashicorp.com/nomad/api-docs/json-jobs#ephemeral-disk>`_ block.
+
+``volumes``: The JSON correspondent of of the `Nomad HCL Volumes <https://developer.hashicorp.com/nomad/docs/job-specification/volume>`_ block. For more information on Nomad's JSON representation on volumes, see `Nomad Volumes HTTP API <https://developer.hashicorp.com/nomad/api-docs/volumes#volumes-1>`_ . Also: see `Examples`_ below.
+
+``volume_mounts``: The JSON correspondent of of the `Nomad HCL Volume Mounts <https://developer.hashicorp.com/nomad/docs/job-specification/volume_mount>`_ block. See `Examples`_ below.
+
 
 
 Configuration
@@ -66,6 +88,9 @@ The operator is refreshing information about the spawned task state every ``noma
 Examples
 ##############
 
+
+Execution: using ``args`` (`Execution`_)
+
 .. code-block:: Python
 
     with DAG(dag_id="nomad-task-example") as dag:
@@ -83,6 +108,7 @@ Examples
 
         run_this_first >> run_this_last
 
+Using ``entrypoint`` (`Execution`_) and templating
 
 .. code-block:: Python
 
@@ -105,3 +131,57 @@ Examples
         )
 
         run_this_first >> run_this_last
+
+
+Using ``volumes`` and ``volume_mounts`` (`Resources`_)
+
+.. code-block:: Python
+
+    content = """
+    job "nomad-test-hcl-op-param-volumes-%s" {
+      type = "batch"
+
+      group "example" {
+        count = 1
+        task "uptime" {
+          driver = "docker"
+          config {
+            image = "alpine:latest"
+          }
+        }
+      }
+    }
+    """.strip()
+
+    vol_data = {
+        "test_dags_folder": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "dags",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "dags",
+            "Sticky": False,
+            "Type": "host",
+        }
+    }
+
+    vol_mounts_data = [
+        {
+            "Destination": "/opt/airflow/dags",
+            "PropagationMode": "private",
+            "ReadOnly": True,
+            "SELinuxLabel": "",
+            "Volume": "test_dags_folder",
+        },
+    ]
+
+    with DAG(dag_id="nomad-task-volume-mount") as dag:
+        run_this_first = NomadTaskOperator(
+            task_id="volume_mounts",
+            template_content=content % ("{{ ti.id }}"),
+            volumes=vol_data,
+            volume_mounts=vol_mounts_data,
+            args=["cat", f"{airflow_path}/templates/simple_batch.hcl"],
+        )

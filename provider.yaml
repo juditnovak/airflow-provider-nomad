@@ -28,7 +28,8 @@ source-date-epoch: 1758284764
 # In such case adding >= NEW_VERSION and bumping to NEW_VERSION in a provider have
 # to be done in the same PR
 versions:
-  - 0.0.dev4
+  - 0.0.dev5
+  - 0.0.4
   - 0.0.3
   - 0.0.2
   - 0.0.1
@@ -47,6 +48,10 @@ operators:
       - airflow.providers.nomad.operators.task
       - airflow.providers.nomad.operators.job
 
+task-decorators:
+  - class-name: airflow.providers.nomad.decorators.task.nomad_task
+    name: nomad_task
+
 
 # sensors:
 #   - integration-name: Nomad
@@ -62,10 +67,6 @@ operators:
 #   - integration-name: Nomad
 #     python-modules:
 #       - airflow.providers.nomad.triggers.job
-#
-# task-decorators:
-#   - class-name: airflow.providers.nomad.decorators.nomad.nomad_task
-#     name: nomad
 
 config:
   nomad:

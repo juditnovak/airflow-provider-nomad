@@ -9,6 +9,11 @@ Attributes
 
 .. autoapisummary::
 
+   airflow.providers.nomad.models.logger
+   airflow.providers.nomad.models.NomadVolList
+   airflow.providers.nomad.models.NomadVolumes
+   airflow.providers.nomad.models.NomadVolMntList
+   airflow.providers.nomad.models.NomadVolumeMounts
    airflow.providers.nomad.models.NomadJobEvalList
    airflow.providers.nomad.models.NomadJobEvaluation
    airflow.providers.nomad.models.NomadJobAllocList
@@ -24,7 +29,10 @@ Classes
    airflow.providers.nomad.models.JobInfoStatus
    airflow.providers.nomad.models.JobEvalStatus
    airflow.providers.nomad.models.Resource
+   airflow.providers.nomad.models.NomadEphemeralDisk
    airflow.providers.nomad.models.TaskConfig
+   airflow.providers.nomad.models.Volume
+   airflow.providers.nomad.models.VolumeMount
    airflow.providers.nomad.models.Task
    airflow.providers.nomad.models.TaskGroup
    airflow.providers.nomad.models.Job
@@ -42,6 +50,8 @@ Classes
 
 Module Contents
 ---------------
+
+.. py:data:: logger
 
 .. py:class:: JobType
 
@@ -194,13 +204,107 @@ Module Contents
 
    .. py:attribute:: CPU
       :type:  int | None
-      :value: 500
+      :value: None
 
 
 
    .. py:attribute:: MemoryMB
       :type:  int | None
       :value: 256
+
+
+
+   .. py:attribute:: DiskMB
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: Cores
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: MemoryMaxMB
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: Networks
+      :type:  list[Any] | None
+      :value: None
+
+
+
+   .. py:attribute:: Devices
+      :type:  list[Any] | None
+      :value: None
+
+
+
+   .. py:attribute:: MBits
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:method:: compatible_fields()
+
+
+.. py:class:: NomadEphemeralDisk(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   !!! abstract "Usage Documentation"
+       [Models](../concepts/models.md)
+
+   A base class for creating Pydantic models.
+
+   Attributes:
+       __class_vars__: The names of the class variables defined on the model.
+       __private_attributes__: Metadata about the private attributes of the model.
+       __signature__: The synthesized `__init__` [`Signature`][inspect.Signature] of the model.
+
+       __pydantic_complete__: Whether model building is completed, or if there are still undefined fields.
+       __pydantic_core_schema__: The core schema of the model.
+       __pydantic_custom_init__: Whether the model has a custom `__init__` function.
+       __pydantic_decorators__: Metadata containing the decorators defined on the model.
+           This replaces `Model.__validators__` and `Model.__root_validators__` from Pydantic V1.
+       __pydantic_generic_metadata__: Metadata for generic models; contains data used for a similar purpose to
+           __args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.
+       __pydantic_parent_namespace__: Parent namespace of the model, used for automatic rebuilding of models.
+       __pydantic_post_init__: The name of the post-init method for the model, if defined.
+       __pydantic_root_model__: Whether the model is a [`RootModel`][pydantic.root_model.RootModel].
+       __pydantic_serializer__: The `pydantic-core` `SchemaSerializer` used to dump instances of the model.
+       __pydantic_validator__: The `pydantic-core` `SchemaValidator` used to validate instances of the model.
+
+       __pydantic_fields__: A dictionary of field names and their corresponding [`FieldInfo`][pydantic.fields.FieldInfo] objects.
+       __pydantic_computed_fields__: A dictionary of computed field names and their corresponding [`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] objects.
+
+       __pydantic_extra__: A dictionary containing extra values, if [`extra`][pydantic.config.ConfigDict.extra]
+           is set to `'allow'`.
+       __pydantic_fields_set__: The names of fields explicitly set during instantiation.
+       __pydantic_private__: Values of private attributes set on the model instance.
+
+
+   .. py:attribute:: Migrate
+      :type:  bool | None
+      :value: None
+
+
+
+   .. py:attribute:: SizeMB
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: Sticky
+      :type:  bool | None
+      :value: None
 
 
 
@@ -274,6 +378,171 @@ Module Contents
    .. py:method:: compatible_fields()
 
 
+.. py:class:: Volume(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   !!! abstract "Usage Documentation"
+       [Models](../concepts/models.md)
+
+   A base class for creating Pydantic models.
+
+   Attributes:
+       __class_vars__: The names of the class variables defined on the model.
+       __private_attributes__: Metadata about the private attributes of the model.
+       __signature__: The synthesized `__init__` [`Signature`][inspect.Signature] of the model.
+
+       __pydantic_complete__: Whether model building is completed, or if there are still undefined fields.
+       __pydantic_core_schema__: The core schema of the model.
+       __pydantic_custom_init__: Whether the model has a custom `__init__` function.
+       __pydantic_decorators__: Metadata containing the decorators defined on the model.
+           This replaces `Model.__validators__` and `Model.__root_validators__` from Pydantic V1.
+       __pydantic_generic_metadata__: Metadata for generic models; contains data used for a similar purpose to
+           __args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.
+       __pydantic_parent_namespace__: Parent namespace of the model, used for automatic rebuilding of models.
+       __pydantic_post_init__: The name of the post-init method for the model, if defined.
+       __pydantic_root_model__: Whether the model is a [`RootModel`][pydantic.root_model.RootModel].
+       __pydantic_serializer__: The `pydantic-core` `SchemaSerializer` used to dump instances of the model.
+       __pydantic_validator__: The `pydantic-core` `SchemaValidator` used to validate instances of the model.
+
+       __pydantic_fields__: A dictionary of field names and their corresponding [`FieldInfo`][pydantic.fields.FieldInfo] objects.
+       __pydantic_computed_fields__: A dictionary of computed field names and their corresponding [`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] objects.
+
+       __pydantic_extra__: A dictionary containing extra values, if [`extra`][pydantic.config.ConfigDict.extra]
+           is set to `'allow'`.
+       __pydantic_fields_set__: The names of fields explicitly set during instantiation.
+       __pydantic_private__: Values of private attributes set on the model instance.
+
+
+   .. py:attribute:: model_config
+
+      Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
+
+
+
+   .. py:attribute:: AccessMode
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: AttachmentMode
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: MountOptions
+      :type:  Any | None
+      :value: None
+
+
+
+   .. py:attribute:: Name
+      :type:  str
+
+
+   .. py:attribute:: PerAlloc
+      :type:  bool
+
+
+   .. py:attribute:: ReadOnly
+      :type:  bool
+
+
+   .. py:attribute:: Source
+      :type:  str
+
+
+   .. py:attribute:: Sticky
+      :type:  bool
+
+
+   .. py:attribute:: Type
+      :type:  str
+
+
+.. py:type:: NomadVolList
+   :canonical: dict[str, Volume]
+
+
+.. py:data:: NomadVolumes
+
+.. py:class:: VolumeMount(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   !!! abstract "Usage Documentation"
+       [Models](../concepts/models.md)
+
+   A base class for creating Pydantic models.
+
+   Attributes:
+       __class_vars__: The names of the class variables defined on the model.
+       __private_attributes__: Metadata about the private attributes of the model.
+       __signature__: The synthesized `__init__` [`Signature`][inspect.Signature] of the model.
+
+       __pydantic_complete__: Whether model building is completed, or if there are still undefined fields.
+       __pydantic_core_schema__: The core schema of the model.
+       __pydantic_custom_init__: Whether the model has a custom `__init__` function.
+       __pydantic_decorators__: Metadata containing the decorators defined on the model.
+           This replaces `Model.__validators__` and `Model.__root_validators__` from Pydantic V1.
+       __pydantic_generic_metadata__: Metadata for generic models; contains data used for a similar purpose to
+           __args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.
+       __pydantic_parent_namespace__: Parent namespace of the model, used for automatic rebuilding of models.
+       __pydantic_post_init__: The name of the post-init method for the model, if defined.
+       __pydantic_root_model__: Whether the model is a [`RootModel`][pydantic.root_model.RootModel].
+       __pydantic_serializer__: The `pydantic-core` `SchemaSerializer` used to dump instances of the model.
+       __pydantic_validator__: The `pydantic-core` `SchemaValidator` used to validate instances of the model.
+
+       __pydantic_fields__: A dictionary of field names and their corresponding [`FieldInfo`][pydantic.fields.FieldInfo] objects.
+       __pydantic_computed_fields__: A dictionary of computed field names and their corresponding [`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] objects.
+
+       __pydantic_extra__: A dictionary containing extra values, if [`extra`][pydantic.config.ConfigDict.extra]
+           is set to `'allow'`.
+       __pydantic_fields_set__: The names of fields explicitly set during instantiation.
+       __pydantic_private__: Values of private attributes set on the model instance.
+
+
+   .. py:attribute:: model_config
+
+      Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
+
+
+
+   .. py:attribute:: Destination
+      :type:  str
+
+
+   .. py:attribute:: PropagationMode
+      :type:  str
+
+
+   .. py:attribute:: ReadOnly
+      :type:  bool
+
+
+   .. py:attribute:: SELinuxLabel
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: Volume
+      :type:  str
+
+
+   .. py:method:: from_volumes(volumes)
+
+
+.. py:type:: NomadVolMntList
+   :canonical: list[VolumeMount]
+
+
+.. py:data:: NomadVolumeMounts
+
 .. py:class:: Task(/, **data)
 
    Bases: :py:obj:`pydantic.BaseModel`
@@ -341,6 +610,12 @@ Module Contents
 
 
 
+   .. py:attribute:: VolumeMounts
+      :type:  NomadVolMntList | None
+      :value: None
+
+
+
 .. py:class:: TaskGroup(/, **data)
 
    Bases: :py:obj:`pydantic.BaseModel`
@@ -394,6 +669,18 @@ Module Contents
 
    .. py:attribute:: Count
       :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: Volumes
+      :type:  NomadVolList | None
+      :value: None
+
+
+
+   .. py:attribute:: EphemeralDisk
+      :type:  NomadEphemeralDisk | None
       :value: None
 
 

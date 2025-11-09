@@ -9,11 +9,17 @@ Functions
 
 .. autoapisummary::
 
-   tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl
+   tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl
+   tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job
+   tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job
 
 
 Module Contents
 ---------------
 
-.. py:function:: test_nomad_job_operator_parse_template_hcl(test_datadir)
+.. py:function:: test_nomad_mgr_parse_template_hcl(test_datadir)
+
+.. py:function:: test_nomad_mgr_retry_register_job(test_datadir, caplog)
+
+.. py:function:: test_nomad_mgr_retry_deregister_job(caplog)
 

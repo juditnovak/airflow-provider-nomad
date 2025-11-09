@@ -1,73 +1,87 @@
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:59: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:86: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:118: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:174: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:180: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:180: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:183: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:191: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:229: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:235: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:235: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:238: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:246: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:299: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:305: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:305: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:308: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:316: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:366: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:372: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:372: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:375: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:383: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:423: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:429: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:429: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:432: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:440: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:488: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:494: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:494: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:497: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:505: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:538: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:544: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:544: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:547: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:661: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:667: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:667: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:670: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:790: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:796: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:796: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:799: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:807: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:873: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:879: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:879: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:882: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1006: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1012: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1012: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1015: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1023: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1061: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1067: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1067: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1070: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1078: (ConfigDict)  ][pydantic.config.ConfigDict].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1168: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1174: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1174: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1177: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1217: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1223: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1223: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1226: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1282: (RootModel)  ][pydantic.root_model.RootModel].
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1288: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1288: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1291: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
-providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1299: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:69: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:96: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:128: (getdefaultencoding)  encoding defaults to sys.getdefaultencoding().
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:184: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:190: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:190: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:193: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:201: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:278: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:284: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:284: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:287: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:333: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:339: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:339: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:342: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:350: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:403: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:409: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:409: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:412: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:420: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:494: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:500: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:500: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:503: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:511: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:568: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:574: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:574: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:577: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:585: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:641: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:647: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:647: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:650: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:658: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:710: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:716: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:716: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:719: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:727: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:775: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:781: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:781: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:784: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:792: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:825: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:831: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:831: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:834: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:948: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:954: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:954: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:957: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1077: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1083: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1083: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1086: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1094: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1160: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1166: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1166: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1169: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1293: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1299: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1299: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1302: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1310: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1348: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1354: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1354: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1357: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1365: (ConfigDict)  ][pydantic.config.ConfigDict].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1455: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1461: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1461: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1464: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1504: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1510: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1510: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1513: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1569: (RootModel)  ][pydantic.root_model.RootModel].
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1575: (FieldInfo)  ][pydantic.fields.FieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1575: (ComputedFieldInfo)  ][pydantic.fields.ComputedFieldInfo] objects.
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1578: (ConfigDict)  ][pydantic.config.ConfigDict.extra]
+providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1586: (ConfigDict)  ][pydantic.config.ConfigDict].

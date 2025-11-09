@@ -48,7 +48,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -290,7 +290,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -445,7 +445,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -624,7 +624,13 @@
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl" title="tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_job_operator_parse_template_hcl</span></code></a>(test_datadir)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_parse_template_hcl</span></code></a>(test_datadir)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_register_job</span></code></a>(test_datadir, caplog)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job" title="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_deregister_job</span></code></a>(caplog)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -633,8 +639,18 @@
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl">
-<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_job_operator_parse_template_hcl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_job_operator_parse_template_hcl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_parse_template_hcl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_parse_template_hcl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_retry_register_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_datadir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caplog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_retry_register_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job">
+<span class="sig-prename descclassname"><span class="pre">tests.system.nomad.test_nomad_manager.</span></span><span class="sig-name descname"><span class="pre">test_nomad_mgr_retry_deregister_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">caplog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/tests/system/nomad/test_nomad_manager.html#test_nomad_mgr_retry_deregister_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -712,7 +728,9 @@
 <li><a class="reference internal" href="#">tests.system.nomad.test_nomad_manager</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_job_operator_parse_template_hcl"><code class="docutils literal notranslate"><span class="pre">test_nomad_job_operator_parse_template_hcl()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_parse_template_hcl"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_parse_template_hcl()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_register_job"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_register_job()</span></code></a></li>
+<li><a class="reference internal" href="#tests.system.nomad.test_nomad_manager.test_nomad_mgr_retry_deregister_job"><code class="docutils literal notranslate"><span class="pre">test_nomad_mgr_retry_deregister_job()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -859,7 +877,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
@@ -869,7 +887,7 @@
     <script src="/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/external/js/cdnjs.cloudflare.com-1.14.3-popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="/external/js/stackpath.bootstrapcdn.com-4.1.3-bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="../../../../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../../../../_static/documentation_options.js?v=ada51498"></script>
         <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>

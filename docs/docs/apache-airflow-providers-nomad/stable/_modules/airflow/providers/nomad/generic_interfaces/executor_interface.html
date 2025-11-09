@@ -47,7 +47,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -289,7 +289,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -444,7 +444,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -658,9 +658,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>  <span class="c1"># type: ignore[import-untyped]</span>
 
+<span class="c1"># TaskInstanceKey, Workload in a list, ExecutorConfig</span>
 <div class="viewcode-block" id="Job">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.Job">[docs]</a>
-<span class="n">Job</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceKey</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></div>
+<span class="n">Job</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceKey</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span></div>
 
 
 
@@ -669,14 +670,9 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ExecutorInterface</span><span class="p">(</span><span class="n">BaseExecutor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Executor with run-queues.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ExecutorInterface.RUNNING_POD_LOG_LINES">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.RUNNING_POD_LOG_LINES">[docs]</a>
-    <span class="n">RUNNING_POD_LOG_LINES</span> <span class="o">=</span> <span class="mi">100</span></div>
-
 <div class="viewcode-block" id="ExecutorInterface.supports_ad_hoc_ti_run">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.supports_ad_hoc_ti_run">[docs]</a>
     <span class="n">supports_ad_hoc_ti_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
-
 
 <div class="viewcode-block" id="ExecutorInterface.serve_logs">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.serve_logs">[docs]</a>
@@ -697,6 +693,42 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parallelism</span> <span class="o">=</span> <span class="n">parallelism</span></div>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parallelism</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parallelism</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExecutorInterface.is_exec_task">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.is_exec_task">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_exec_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Safety method in case running in a legacy environment&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">ExecuteTask</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Workload of unsupported type: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ExecutorInterface.queue_workload">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">queue_workload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workload</span><span class="p">:</span> <span class="n">All</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exec_task</span><span class="p">(</span><span class="n">workload</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="n">ti</span> <span class="o">=</span> <span class="n">workload</span><span class="o">.</span><span class="n">ti</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">workload</span>  <span class="c1"># type: ignore</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_workloads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workloads</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">workloads</span><span class="o">.</span><span class="n">All</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">workloads</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exec_task</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="c1"># TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span>
+            <span class="n">queue</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">queue</span>
+            <span class="n">executor_config</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">executor_config</span> <span class="ow">or</span> <span class="p">{}</span>
+
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span> <span class="n">queue</span><span class="o">=</span><span class="n">queue</span><span class="p">,</span> <span class="n">executor_config</span><span class="o">=</span><span class="n">executor_config</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExecutorInterface.execute_async">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.execute_async">[docs]</a>
@@ -740,58 +772,33 @@
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.sync">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sync</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronize task state.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.queued: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.queued: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ti_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_job_if_hanging</span><span class="p">(</span><span class="n">ti_key</span><span class="p">):</span>
+                <span class="n">state</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">status</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">ti_key</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="n">Empty</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">ti_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="n">status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_job_if_hanging</span><span class="p">(</span><span class="n">ti_key</span><span class="p">):</span>
-                    <span class="n">state</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">status</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">ti_key</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">task</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">())</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots_available</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                        <span class="s2">&quot;Failed to run task (task/command could be retrieved: (</span><span class="si">%s</span><span class="s2">))&quot;</span><span class="p">,</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span>
 
-        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="n">Empty</span><span class="p">):</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
-
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                    <span class="s2">&quot;Failed to run task (neither task nor command could be retrieved (</span><span class="si">%s</span><span class="s2">))&quot;</span><span class="p">,</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">),</span>
-                <span class="p">)</span>
-                <span class="k">raise</span>
-
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                    <span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> with command </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="c1"># TODO</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="ExecutorInterface.run_task">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Job</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the next task in the queue.&quot;&quot;&quot;</span>
-        <span class="n">key</span><span class="p">,</span> <span class="n">instruction</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
-        <span class="n">dag_id</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">try_number</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">key</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instruction</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ExecuteTask</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Workload of unsupported type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">instruction</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workload_to_command_args</span><span class="p">(</span><span class="n">instruction</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Runing task (</span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2">) from dag (</span><span class="si">{</span><span class="n">dag_id</span><span class="si">}</span><span class="s2">) with run ID (</span><span class="si">{</span><span class="n">run_id</span><span class="si">}</span><span class="s2">) (retries </span><span class="si">{</span><span class="n">try_number</span><span class="si">}</span><span class="s2">)&quot;</span>
-        <span class="p">)</span>
-        <span class="n">job_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">failed_info</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_job</span><span class="p">(</span><span class="n">job_template</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Received info </span><span class="si">%s</span><span class="s2">, failing job&quot;</span><span class="p">,</span> <span class="n">failed_info</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">failed_info</span><span class="p">)</span></div>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                        <span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> with command </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutorInterface.workload_to_command_args">
@@ -799,6 +806,45 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">workload_to_command_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workload</span><span class="p">:</span> <span class="n">ExecuteTask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a workload object to Task SDK command arguments.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">workload</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_not_exec_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Safety method in case running in a legacy environment&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ExecuteTask</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Workload of unsupported type: </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">msg</span>
+
+<div class="viewcode-block" id="ExecutorInterface.run_task">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.run_task">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="n">Job</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the next task in the queue.&quot;&quot;&quot;</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
+        <span class="n">dag_id</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">try_number</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exec_task</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Unsupported workload &#39;</span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workload_to_command_args</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Runing task (</span><span class="si">%s</span><span class="s2">) from dag (</span><span class="si">%s</span><span class="s2">) with run ID (</span><span class="si">%s</span><span class="s2">) (retries </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="n">task_id</span><span class="p">,</span>
+            <span class="n">dag_id</span><span class="p">,</span>
+            <span class="n">run_id</span><span class="p">,</span>
+            <span class="n">try_number</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">job_template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">failed_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_job</span><span class="p">(</span><span class="n">job_template</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">failed_info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Couldn&#39;t run job </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">failed_info</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">failed_info</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">failed_info</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ExecutorInterface.prepare_job_template">
@@ -837,36 +883,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluating status of key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-
-<div class="viewcode-block" id="ExecutorInterface.queue_workload">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">queue_workload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workload</span><span class="p">:</span> <span class="n">All</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workload</span><span class="p">,</span> <span class="n">ExecuteTask</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Un-handled workload kind </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">workload</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2"> in </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-        <span class="n">ti</span> <span class="o">=</span> <span class="n">workload</span><span class="o">.</span><span class="n">ti</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">workload</span>  <span class="c1"># type: ignore</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_process_workloads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workloads</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">workloads</span><span class="o">.</span><span class="n">All</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors.workloads</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecuteTask</span>
-
-        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">workloads</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">ExecuteTask</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2"> cannot handle workloads of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-            <span class="c1"># TODO: AIP-72 handle populating tokens once https://github.com/apache/airflow/issues/45107 is handled.</span>
-            <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">]</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span>
-            <span class="n">queue</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">queue</span>
-            <span class="n">executor_config</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="o">.</span><span class="n">executor_config</span> <span class="ow">or</span> <span class="p">{}</span>
-
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span>
-                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span> <span class="n">queue</span><span class="o">=</span><span class="n">queue</span><span class="p">,</span> <span class="n">executor_config</span><span class="o">=</span><span class="n">executor_config</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExecutorInterface.get_task_log">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.get_task_log">[docs]</a>
@@ -1093,7 +1109,7 @@
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
@@ -1103,7 +1119,7 @@
     <script src="/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/external/js/cdnjs.cloudflare.com-1.14.3-popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="/external/js/stackpath.bootstrapcdn.com-4.1.3-bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="../../../../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../../../../_static/documentation_options.js?v=ada51498"></script>
         <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>

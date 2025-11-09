@@ -33,7 +33,7 @@ Module Contents
 .. py:data:: log
 
 .. py:data:: PATH_TO_PYTHON_BINARY
-   :value: '/home/devel/share/workspace_airflow/airflow_doc_gen_360/.venv/bin/python3'
+   :value: '/home/devel/share/workspace_airflow/airflow/.venv/bin/python3'
 
 
 .. py:data:: ENV_ID

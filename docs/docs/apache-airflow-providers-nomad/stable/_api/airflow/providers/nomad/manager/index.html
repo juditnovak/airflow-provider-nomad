@@ -48,7 +48,7 @@
 
 <header>
     <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now to secure your spot!
+        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
     </a>
     <nav class="js-navbar-scroll navbar" style="top: 40px;">
         <div class="navbar__icon-container">
@@ -290,7 +290,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -445,7 +445,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.3</span>
+        <span class="bodytext__medium--greyish-brown">Version: </span><span class="version">0.0.dev4</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -620,6 +620,22 @@
                                         
   <section id="module-airflow.providers.nomad.manager">
 <span id="airflow-providers-nomad-manager"></span><h1>airflow.providers.nomad.manager<a class="headerlink" href="#module-airflow.providers.nomad.manager" title="Link to this heading">¶</a></h1>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_NUM" title="airflow.providers.nomad.manager.RETRY_NUM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RETRY_NUM</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_MIN" title="airflow.providers.nomad.manager.RETRY_MIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RETRY_MIN</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_MAX" title="airflow.providers.nomad.manager.RETRY_MAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RETRY_MAX</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
@@ -632,6 +648,21 @@
 </section>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="airflow.providers.nomad.manager.RETRY_NUM">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.manager.</span></span><span class="sig-name descname"><span class="pre">RETRY_NUM</span></span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#RETRY_NUM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.RETRY_NUM" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="airflow.providers.nomad.manager.RETRY_MIN">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.manager.</span></span><span class="sig-name descname"><span class="pre">RETRY_MIN</span></span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#RETRY_MIN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.RETRY_MIN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="airflow.providers.nomad.manager.RETRY_MAX">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.manager.</span></span><span class="sig-name descname"><span class="pre">RETRY_MAX</span></span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#RETRY_MAX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.RETRY_MAX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.manager.</span></span><span class="sig-name descname"><span class="pre">NomadManager</span></span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager" title="Link to this definition">¶</a></dt>
@@ -640,57 +671,57 @@
 <p>Functionalities provided are equally used on Executor and Operator side.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.nomad_server">
-<span class="sig-name descname"><span class="pre">nomad_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad_server" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nomad_server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad_server" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.nomad_server_port">
-<span class="sig-name descname"><span class="pre">nomad_server_port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad_server_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad_server_port" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nomad_server_port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad_server_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad_server_port" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.secure">
-<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.secure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.secure" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.secure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.secure" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.cert_path">
-<span class="sig-name descname"><span class="pre">cert_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.cert_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.cert_path" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cert_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.cert_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.cert_path" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.key_path">
-<span class="sig-name descname"><span class="pre">key_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.key_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.key_path" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">key_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.key_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.key_path" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.namespace">
-<span class="sig-name descname"><span class="pre">namespace</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.namespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.namespace" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">namespace</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.namespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.namespace" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.token">
-<span class="sig-name descname"><span class="pre">token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.token" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.token" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.alloc_pending_timeout">
-<span class="sig-name descname"><span class="pre">alloc_pending_timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.alloc_pending_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.alloc_pending_timeout" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">alloc_pending_timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.alloc_pending_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.alloc_pending_timeout" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.verify">
-<span class="sig-name descname"><span class="pre">verify</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.verify" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verify</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.verify" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.nomad">
-<span class="sig-name descname"><span class="pre">nomad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">nomad.Nomad</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nomad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">nomad.Nomad</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.nomad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.nomad" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.pending_jobs">
-<span class="sig-name descname"><span class="pre">pending_jobs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.pending_jobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.pending_jobs" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pending_jobs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.pending_jobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.pending_jobs" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -770,6 +801,13 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.deregister_job">
+<span class="sig-name descname"><span class="pre">deregister_job</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.deregister_job"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.deregister_job" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.timeout_expired">
 <span class="sig-name descname"><span class="pre">timeout_expired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.timeout_expired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.timeout_expired" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -795,7 +833,7 @@ task re-tries are applied corectly.</p>
 retrieved for the job</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>] | None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>] | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -903,8 +941,12 @@ retrieved for the job</p>
         <div class="wy-menu-vertical">
             <ul>
 <li><a class="reference internal" href="#">airflow.providers.nomad.manager</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
+<li><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_NUM"><code class="docutils literal notranslate"><span class="pre">RETRY_NUM</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_MIN"><code class="docutils literal notranslate"><span class="pre">RETRY_MIN</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.manager.RETRY_MAX"><code class="docutils literal notranslate"><span class="pre">RETRY_MAX</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager"><code class="docutils literal notranslate"><span class="pre">NomadManager</span></code></a><ul>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.nomad_server"><code class="docutils literal notranslate"><span class="pre">NomadManager.nomad_server</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.nomad_server_port"><code class="docutils literal notranslate"><span class="pre">NomadManager.nomad_server_port</span></code></a></li>
@@ -929,6 +971,7 @@ retrieved for the job</p>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.get_job_stderr"><code class="docutils literal notranslate"><span class="pre">NomadManager.get_job_stderr()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.get_job_file"><code class="docutils literal notranslate"><span class="pre">NomadManager.get_job_file()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.register_job"><code class="docutils literal notranslate"><span class="pre">NomadManager.register_job()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.deregister_job"><code class="docutils literal notranslate"><span class="pre">NomadManager.deregister_job()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.timeout_expired"><code class="docutils literal notranslate"><span class="pre">NomadManager.timeout_expired()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.remove_job_if_hanging"><code class="docutils literal notranslate"><span class="pre">NomadManager.remove_job_if_hanging()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.manager.NomadManager.parse_template_json"><code class="docutils literal notranslate"><span class="pre">NomadManager.parse_template_json()</span></code></a></li>
@@ -1083,7 +1126,7 @@ retrieved for the job</p>
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
@@ -1093,7 +1136,7 @@ retrieved for the job</p>
     <script src="/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/external/js/cdnjs.cloudflare.com-1.14.3-popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="/external/js/stackpath.bootstrapcdn.com-4.1.3-bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="../../../../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../../../../_static/documentation_options.js?v=ada51498"></script>
         <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
         <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>

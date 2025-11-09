@@ -111,7 +111,7 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 
 ``parallelism``: Airflow executor setting: the maximum number of tasks to be run by this executor in parallel.
 
-``agent_host``: The IP address of the Nomad server. (Default: ``0.0.0.0``)
+``agent_host``: The IP address of the Nomad server. (default: ``0.0.0.0``)
 
 ``default_job_template``: A custom HCL or JSON template to be used for job submission instead of the in-built defaults. See the `Job submission template`_ section.
 
@@ -119,7 +119,13 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 
 ``alloc_pending_timeout``: How long to wait (in seconds) before failing a task pending with failed Nomad allocations. See `Job execution`_ for more information.
 
+``job_submission_retry_num``: How many times job submission should be re-tried on failure (default: ``3``)
 
+``job_submission_retry_interval_min``: Potential re-tries are executed in a randomized interval with this minimum value (default: ``1``)
+
+``job_submission_retry_interval_max``: Potential re-tries are executed in a randomized interval with this maximum value (default: ``5``)
+    
+    Submission retry values equally apply on job de-registration.
 
 ``agent_secure``: Whether TLS is enabled. 
 
@@ -130,7 +136,7 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
 ``agent_key_path``: The absolute path of the client key.
 
 
-For TLS-related configuration in detail, see the `Security`_ section.
+    For TLS-related configuration in detail, see the `Security`_ section.
 
 
 Job submission template
@@ -164,7 +170,16 @@ HCL or JSON template. For successful job submission the template has to comply t
 Job execution
 #################
 
-Each job is submitted with a generated Job ID, using the Airflow task instance details.
+Notes
+**********
+
+- Each job is submitted with a generated Job ID, using the Airflow task instance details.
+- Job submission (and de-registration) may have re-tries configured. (Default: 3 retries within random between ``1`` and ``5`` seconds)
+
+
+Execution workflow
+***********************
+
 
 The execution workflow is fairly basic so far. In principal, following the Airflow standards:
 
