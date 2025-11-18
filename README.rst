@@ -12,4 +12,4 @@ Provider for `HashiCorp Nomad <https://developer.hashicorp.com/nomad>`__ cluster
 
 The project is in an early stage, and it's going through active development.
 
-For details see the local `Airflow generated documentation <https://juditnovak.github.io/airflow-provider-nomad/`__
+For details see the local `Airflow generated documentation <https://juditnovak.github.io/airflow-provider-nomad/>`__
