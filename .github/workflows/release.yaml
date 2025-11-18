@@ -9,9 +9,8 @@ on:
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest
-    environment:
-      name: pypi  # Match this with your PyPI trusted publisher
-      url: https://pypi.org/project/airflow-provider-nomad
+    environment: pypi  # Match this with your PyPI trusted publisher
+      # url: https://pypi.org/project/airflow-provider-nomad
     permissions:
       id-token: write  # Required for trusted publishing
 
