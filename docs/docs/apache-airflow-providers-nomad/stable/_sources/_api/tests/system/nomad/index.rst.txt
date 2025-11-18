@@ -13,11 +13,12 @@ Submodules
    /_api/tests/system/nomad/constants/index
    /_api/tests/system/nomad/dags/index
    /_api/tests/system/nomad/dags_localexecutor/index
+   /_api/tests/system/nomad/test_dag_bash_operator/index
+   /_api/tests/system/nomad/test_dag_trigger/index
    /_api/tests/system/nomad/test_nomad_job_operator/index
    /_api/tests/system/nomad/test_nomad_manager/index
    /_api/tests/system/nomad/test_nomad_task_operator/index
    /_api/tests/system/nomad/test_system_nomad_executor/index
-   /_api/tests/system/nomad/test_utils/index
    /_api/tests/system/nomad/utils/index
 
 

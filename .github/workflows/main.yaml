@@ -12,7 +12,7 @@ jobs:
   tests:
     name: Unit and System tests with cumulated coverage
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
       - name: Checkout
         uses: actions/checkout@v4
