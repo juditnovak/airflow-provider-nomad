@@ -1,9 +1,6 @@
 Package apache-airflow-providers-nomad
 
-Release: 0.0.2
-
-Release Date: |PypiReleaseDate|
-
+Release: 0.0.4
 
 # Airflow Nomad Provider
 
