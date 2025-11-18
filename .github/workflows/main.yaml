@@ -31,6 +31,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          prune-cache: false
           cache-dependency-glob: "pyproject.toml"
 
       # Target repo is to be checked out first (order matters!)
