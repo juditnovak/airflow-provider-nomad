@@ -27,6 +27,16 @@
 Changelog
 ##########
 
+0.0.4
+...........
+* [DOCS] Attempt to fix missing js supprt by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/26
+* [DOCS] Enabling both local and remote build by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/28
+* Setting latest changes to refer to 0.0.dev4 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/29
+* Tenacity retries for job submission and deregister by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/30
+* Extending test coverage by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/31
+* Coverage and small fixes for workload management by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/32
+* Resource allocation by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/33
+
 
 0.0.3
 ......

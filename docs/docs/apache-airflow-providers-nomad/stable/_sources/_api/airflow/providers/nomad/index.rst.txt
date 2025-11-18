@@ -35,6 +35,6 @@ Package Contents
 ----------------
 
 .. py:data:: __version__
-   :value: '0.0.dev4'
+   :value: '0.0.4'
 
 

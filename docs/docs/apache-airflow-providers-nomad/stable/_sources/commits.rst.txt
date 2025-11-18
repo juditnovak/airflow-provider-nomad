@@ -25,14 +25,18 @@ For high-level changelog, see :doc:`package information including changelog <ind
 
 .. airflow-providers-commits::
 
-0.0.dev4
+0.0.4
 ...........
 
-Latest change: 2025-09-21
+Latest change: 2025-11-08
 
 ================================================================================================================== ========== ==============================================
 Commit                                                                                                             Committed  Subject
 ================================================================================================================== ========== ==============================================
+`8976615 <https://github.com/juditnovak/airflow-provider-nomad/commit/8976615e14d87a142ff1e6f89fb9714394ed0d82>`__ 2025-11-08 ``Resource allocation (#33)``
+`1cb5114 <https://github.com/juditnovak/airflow-provider-nomad/commit/1cb51149b153237b75c2aa48d2986a278a38c6af>`__ 2025-09-22 ``Coverage and small fixes for workload management (#32)``
+`7a4f926 <https://github.com/juditnovak/airflow-provider-nomad/commit/7a4f926141d433616206809e4ae0334ee9180252>`__ 2025-09-22 ``Extending test coverage (#31)``
+`af1734d <https://github.com/juditnovak/airflow-provider-nomad/commit/af1734dda2d7c533c1d3fd00ceee0bebe51fe4e4>`__ 2025-09-21 ``Tenacity retries for job submission and deregister (#30)``
 `0df196f <https://github.com/juditnovak/airflow-provider-nomad/commit/0df196f881e1041cf55a500bb734236cfe732e7a>`__ 2025-09-21 ``Setting latest changes to refer to 0.0.dev4 (#29)``
 ================================================================================================================== ========== ==============================================
 
@@ -46,7 +50,6 @@ Commit                                                                          
 ================================================================================================================== ========== ==============================================
 `d9c2e20 <https://github.com/juditnovak/airflow-provider-nomad/commit/d9c2e209d3d318d3cb725f90dc6025ec8610f168>`__ 2025-09-19 ``0.0.3rc (#24)``
 `fc08ddc <https://github.com/juditnovak/airflow-provider-nomad/commit/fc08ddc17a784772102845f01f629ce0a63c8478>`__ 2025-09-19 ``Docs in Production structure, versioning enabled (#23)``
-
 `79e5dc4 <https://github.com/juditnovak/airflow-provider-nomad/commit/79e5dc4f5a67252393f36cfd3a5f9ace2fa025a6>`__ 2025-09-19 ``Decorators (#22)``
 ================================================================================================================== ========== ==============================================
 

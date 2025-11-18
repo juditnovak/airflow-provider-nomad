@@ -1,17 +1,25 @@
-providers/nomad/docs/changelog.rst:34: (juditnovak)  Decorators by @juditnovak in 
-providers/nomad/docs/changelog.rst:35: (juditnovak)  Docs in Production structure, versioning enabled by @juditnovak in 
-providers/nomad/docs/changelog.rst:36: (juditnovak)  0 0 34c by @juditnovak in 
-providers/nomad/docs/changelog.rst:45: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:46: (juditnovak)  [CI] Timeout increase by @juditnovak in 
-providers/nomad/docs/changelog.rst:47: (juditnovak)  Enabling support for Airflow templating by @juditnovak in 
-providers/nomad/docs/changelog.rst:57: (juditnovak)  Nomad executor with bash operator by @juditnovak in 
-providers/nomad/docs/changelog.rst:58: (juditnovak)  System tests by @juditnovak in 
-providers/nomad/docs/changelog.rst:59: (juditnovak)  Tests completed and cleaned up by @juditnovak in 
-providers/nomad/docs/changelog.rst:60: (juditnovak)  Cleanup and small executor enhancements by @juditnovak in 
-providers/nomad/docs/changelog.rst:61: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:62: (juditnovak)  Logging finalized by @juditnovak in 
-providers/nomad/docs/changelog.rst:63: (juditnovak)  Base documentation by @juditnovak in 
-providers/nomad/docs/changelog.rst:64: (juditnovak)  Modification on logging by @juditnovak in 
-providers/nomad/docs/changelog.rst:65: (juditnovak)  Enabling secure Nomad connections by @juditnovak in 
-providers/nomad/docs/changelog.rst:66: (juditnovak)   by @juditnovak in 
-providers/nomad/docs/changelog.rst:67: (juditnovak)  Handling Job submission errors by @juditnovak in 
+providers/nomad/docs/changelog.rst:32: (supprt)  [DOCS] Attempt to fix missing js supprt by @juditnovak in 
+providers/nomad/docs/changelog.rst:32: (juditnovak)  [DOCS] Attempt to fix missing js supprt by @juditnovak in 
+providers/nomad/docs/changelog.rst:33: (juditnovak)  [DOCS] Enabling both local and remote build by @juditnovak in 
+providers/nomad/docs/changelog.rst:34: (juditnovak)  Setting latest changes to refer to 0.0.dev4 by @juditnovak in 
+providers/nomad/docs/changelog.rst:35: (juditnovak)  Tenacity retries for job submission and deregister by @juditnovak in 
+providers/nomad/docs/changelog.rst:36: (juditnovak)  Extending test coverage by @juditnovak in 
+providers/nomad/docs/changelog.rst:37: (juditnovak)  Coverage and small fixes for workload management by @juditnovak in 
+providers/nomad/docs/changelog.rst:38: (juditnovak)  Resource allocation by @juditnovak in 
+providers/nomad/docs/changelog.rst:44: (juditnovak)  Decorators by @juditnovak in 
+providers/nomad/docs/changelog.rst:45: (juditnovak)  Docs in Production structure, versioning enabled by @juditnovak in 
+providers/nomad/docs/changelog.rst:46: (juditnovak)  0 0 34c by @juditnovak in 
+providers/nomad/docs/changelog.rst:55: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:56: (juditnovak)  [CI] Timeout increase by @juditnovak in 
+providers/nomad/docs/changelog.rst:57: (juditnovak)  Enabling support for Airflow templating by @juditnovak in 
+providers/nomad/docs/changelog.rst:67: (juditnovak)  Nomad executor with bash operator by @juditnovak in 
+providers/nomad/docs/changelog.rst:68: (juditnovak)  System tests by @juditnovak in 
+providers/nomad/docs/changelog.rst:69: (juditnovak)  Tests completed and cleaned up by @juditnovak in 
+providers/nomad/docs/changelog.rst:70: (juditnovak)  Cleanup and small executor enhancements by @juditnovak in 
+providers/nomad/docs/changelog.rst:71: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:72: (juditnovak)  Logging finalized by @juditnovak in 
+providers/nomad/docs/changelog.rst:73: (juditnovak)  Base documentation by @juditnovak in 
+providers/nomad/docs/changelog.rst:74: (juditnovak)  Modification on logging by @juditnovak in 
+providers/nomad/docs/changelog.rst:75: (juditnovak)  Enabling secure Nomad connections by @juditnovak in 
+providers/nomad/docs/changelog.rst:76: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:77: (juditnovak)  Handling Job submission errors by @juditnovak in 

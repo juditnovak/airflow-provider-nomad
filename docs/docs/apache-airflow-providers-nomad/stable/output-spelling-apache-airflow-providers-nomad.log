@@ -310,8 +310,8 @@ loading intersphinx inventory 'apache-airflow-providers-redis' from /home/devel/
 loading intersphinx inventory 'apache-airflow-providers-salesforce' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-salesforce/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-samba' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-samba/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-segment' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-segment/stable/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-sendgrid' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-sendgrid/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-sftp' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-sftp/stable/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sendgrid' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-sendgrid/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-singularity' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-singularity/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-slack' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-slack/stable/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-smtp' from /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-smtp/stable/objects.inv ...
@@ -530,23 +530,31 @@ Writing /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache
 [01mwriting output... [39;49;00m[ 80%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 81%] [32m_api/tests/system/nomad/utils/index[39;49;00m
 [01mwriting output... [39;49;00m[ 83%] [32mchangelog[39;49;00m
-providers/nomad/docs/changelog.rst:34: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
-providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
-providers/nomad/docs/changelog.rst:45: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:46: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
-providers/nomad/docs/changelog.rst:47: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
-providers/nomad/docs/changelog.rst:57: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
-providers/nomad/docs/changelog.rst:58: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
-providers/nomad/docs/changelog.rst:59: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
-providers/nomad/docs/changelog.rst:60: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
-providers/nomad/docs/changelog.rst:61: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:62: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
-providers/nomad/docs/changelog.rst:63: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
-providers/nomad/docs/changelog.rst:64: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
-providers/nomad/docs/changelog.rst:65: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
-providers/nomad/docs/changelog.rst:66: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:67: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
+providers/nomad/docs/changelog.rst:32: : Spell check: [91msupprt[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:32: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:33: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Enabling both local and remote build by @juditnovak in .
+providers/nomad/docs/changelog.rst:34: : Spell check: [91mjuditnovak[39;49;00m: Setting latest changes to refer to 0.0.dev4 by @juditnovak in .
+providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: Tenacity retries for job submission and deregister by @juditnovak in .
+providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Extending test coverage by @juditnovak in .
+providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: Coverage and small fixes for workload management by @juditnovak in .
+providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m: Resource allocation by @juditnovak in .
+providers/nomad/docs/changelog.rst:44: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
+providers/nomad/docs/changelog.rst:45: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
+providers/nomad/docs/changelog.rst:46: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
+providers/nomad/docs/changelog.rst:55: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:56: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
+providers/nomad/docs/changelog.rst:57: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
+providers/nomad/docs/changelog.rst:67: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:68: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
+providers/nomad/docs/changelog.rst:69: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
+providers/nomad/docs/changelog.rst:70: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
+providers/nomad/docs/changelog.rst:71: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:72: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
+providers/nomad/docs/changelog.rst:73: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
+providers/nomad/docs/changelog.rst:74: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
+providers/nomad/docs/changelog.rst:75: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
+providers/nomad/docs/changelog.rst:76: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:77: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
 Writing /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/changelog.spelling
 [01mwriting output... [39;49;00m[ 84%] [32mcommits[39;49;00m
 [01mwriting output... [39;49;00m[ 86%] [32mconfigurations-ref[39;49;00m
@@ -561,5 +569,5 @@ Writing /home/devel/share/workspace_airflow/airflow/generated/_build/docs/apache
 [01mwriting output... [39;49;00m[ 99%] [32msecurity[39;49;00m
 [01mwriting output... [39;49;00m[100%] [32msystem_tests[39;49;00m
 
-[91mWARNING: Found 125 misspelled words[39;49;00m
+[91mWARNING: Found 133 misspelled words[39;49;00m
 [01mbuild finished with problems, 1 warning (with warnings treated as errors).[39;49;00m
