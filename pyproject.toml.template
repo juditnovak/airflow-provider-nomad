@@ -20,7 +20,8 @@ requires = ["flit_core==3.12.0"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "apache-airflow-providers-nomad"
+# name = "apache-airflow-providers-nomad"
+name = "airflow-provider-nomad"
 version = "0.0.4"
 description = "Provider package for Nomad (executor, operators, etc.) for Apache Airflow"
 readme = "README.rst"
