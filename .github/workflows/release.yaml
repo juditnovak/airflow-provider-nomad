@@ -1,16 +1,32 @@
 name: Publish to Pypi
+# on:
+#   release:
+#     types: [published]
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["main"]
 
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest
-    environment: pypi  # Match this with your PyPI trusted publisher
+    environment:
+      name: pypi  # Match this with your PyPI trusted publisher
+      url: https://pypi.org/project/airflow-provider-nomad
     permissions:
       id-token: write  # Required for trusted publishing
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          prune-cache: false
+          cache-dependency-glob: "pyproject.toml"
+      - name:
+        run: |
+          uv sync
+          uv build
       - name: Build and publish
         uses: pypa/gh-action-pypi-publish@release/v1
