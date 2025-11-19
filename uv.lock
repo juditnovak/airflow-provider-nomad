@@ -407,7 +407,7 @@ wheels = [
 
 [[package]]
 name = "apache-airflow-providers-nomad"
-version = "0.0.5b1"
+version = "0.0.5"
 source = { editable = "." }
 dependencies = [
     { name = "apache-airflow-core" },
@@ -428,6 +428,7 @@ dev = [
     { name = "pre-commit" },
     { name = "pudb" },
     { name = "pytest" },
+    { name = "readme-renderer" },
     { name = "tox" },
     { name = "twine" },
 ]
@@ -457,6 +458,7 @@ dev = [
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "pudb", specifier = ">=2025.1" },
     { name = "pytest", specifier = ">=8.4.1" },
+    { name = "readme-renderer", specifier = ">=44.0" },
     { name = "tox", specifier = ">=4.28.4" },
     { name = "twine", specifier = ">=6.2.0" },
 ]
