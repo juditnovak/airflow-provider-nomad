@@ -13,7 +13,7 @@
         <title>tests.system.nomad.dags.test_dag_nomad_operator_combined &mdash; apache-airflow-providers-nomad Documentation</title>
     <link rel="stylesheet" href="../../../../../../_static/_gen/css/main.min.css" type="text/css" />
             <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=b86133f3" />
-            <link rel="stylesheet" type="text/css" href="../../../../../../_static/_gen/css/main.min.css?v=016086f5" />
+            <link rel="stylesheet" type="text/css" href="../../../../../../_static/_gen/css/main.min.css?v=bad270f9" />
             <link rel="stylesheet" type="text/css" href="../../../../../../_static/copybutton.css?v=76b2166b" />
             <link rel="stylesheet" type="text/css" href="../../../../../../_static/_gen/css/main-custom.min.css?v=ad330701" />
             <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=4ae1632d" />
@@ -47,10 +47,7 @@
     
 
 <header>
-    <a href="https://airflowsummit.org" target="_blank" class="d-block fixed-top px-3 py-2 bg-success text-center text-bold text-white">
-        Airflow Summit 2025 is coming October 07-09. Register now for early bird ticket!
-    </a>
-    <nav class="js-navbar-scroll navbar" style="top: 40px;">
+    <nav class="js-navbar-scroll navbar">
         <div class="navbar__icon-container">
             <a href="/">
                 <svg xmlns="http://www.w3.org/2000/svg" width="155.314" height="60" viewBox="0 0 155.314 60">
@@ -653,7 +650,7 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#tests.system.nomad.dags.test_dag_nomad_operator_combined.myDAG" title="tests.system.nomad.dags.test_dag_nomad_operator_combined.myDAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">myDAG</span></code></a></p></td>
-<td><p>A dag (directed acyclic graph) is a collection of tasks with directional dependencies.</p></td>
+<td><p>A dag is a collection of tasks with directional dependencies.</p></td>
 </tr>
 </tbody>
 </table>
@@ -683,16 +680,16 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="tests.system.nomad.dags.test_dag_nomad_operator_combined.myDAG">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.system.nomad.dags.test_dag_nomad_operator_combined.</span></span><span class="sig-name descname"><span class="pre">myDAG</span></span><a class="reference internal" href="../../../../../../_modules/tests/system/nomad/dags/test_dag_nomad_operator_combined.html#myDAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.system.nomad.dags.test_dag_nomad_operator_combined.myDAG" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="/docs/task-sdk/stable/api.html#airflow.sdk.DAG" title="(in Apache Airflow Task SDK v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.sdk.DAG</span></code></a></p>
-<p>A dag (directed acyclic graph) is a collection of tasks with directional dependencies.</p>
+<dd><p>Bases: <a class="reference external" href="/docs/task-sdk/stable/api.html#airflow.sdk.DAG" title="(in Apache Airflow Task SDK v1.2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airflow.sdk.DAG</span></code></a></p>
+<p>A dag is a collection of tasks with directional dependencies.</p>
 <p>A dag also has a schedule, a start date and an end date (optional).  For each schedule,
 (say daily or hourly), the DAG needs to run each individual tasks as their dependencies
 are met. Certain tasks have the property of depending on their own past, meaning that
 they can’t run until their previous schedule (and upstream tasks) are completed.</p>
-<p>DAGs essentially act as namespaces for tasks. A task_id can only be
-added once to a DAG.</p>
+<p>Dags essentially act as namespaces for tasks. A task_id can only be
+added once to a Dag.</p>
 <p>Note that if you plan to use time zones all the dates provided should be pendulum
-dates. See <a class="reference external" href="/docs/apache-airflow/stable/authoring-and-scheduling/timezone.html#timezone-aware-dags" title="(in apache-airflow v3.1.0)"><span>Time zone aware dags</span></a>.</p>
+dates. See <a class="reference external" href="/docs/apache-airflow/stable/authoring-and-scheduling/timezone.html#timezone-aware-dags" title="(in apache-airflow v3.2.0)"><span>Time zone aware Dags</span></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.4: </span>The <em>schedule</em> argument to specify either time-based scheduling logic
 (timetable), or dataset-driven triggers.</p>
@@ -710,7 +707,7 @@ characters, dashes, dots and underscores (all ASCII)</p></li>
 <li><p><strong>schedule</strong> – If provided, this defines the rules according to which DAG
 runs are scheduled. Possible values include a cron expression string,
 timedelta object, Timetable, or list of Asset objects.
-See also <a class="reference external" href="/docs/apache-airflow/stable/howto/timetable.html" title="(in apache-airflow v3.1.0)"><span>Customizing DAG Scheduling with Timetables</span></a>.</p></li>
+See also <a class="reference external" href="/docs/apache-airflow/stable/howto/timetable.html" title="(in apache-airflow v3.2.0)"><span>Customizing Dag Scheduling with Timetables</span></a>.</p></li>
 <li><p><strong>start_date</strong> – The timestamp from which the scheduler will
 attempt to backfill. If this is not provided, backfilling must be done
 manually with an explicit time range.</p></li>
@@ -749,7 +746,8 @@ new active DAG runs</p></li>
 beyond this the scheduler will disable the DAG</p></li>
 <li><p><strong>dagrun_timeout</strong> – Specify the duration a DagRun should be allowed to run before it times out or
 fails. Task instances that are running when a DagRun is timed out will be marked as skipped.</p></li>
-<li><p><strong>sla_miss_callback</strong> – DEPRECATED - The SLA feature is removed in Airflow 3.0, to be replaced with a new implementation in 3.1</p></li>
+<li><p><strong>sla_miss_callback</strong> – DEPRECATED - The SLA feature is removed in Airflow 3.0, to be replaced with DeadlineAlerts in 3.1</p></li>
+<li><p><strong>deadline</strong> – An optional DeadlineAlert for the Dag.</p></li>
 <li><p><strong>catchup</strong> – Perform scheduler catchup (or only run latest)? Defaults to False</p></li>
 <li><p><strong>on_failure_callback</strong> – A function or list of functions to be called when a DagRun of this dag fails.
 A context dictionary is passed as a single parameter to this function.</p></li>
@@ -779,15 +777,15 @@ is not specified, the global config setting will be used.</p></li>
 <li><p><strong>render_template_as_native_obj</strong> – If True, uses a Jinja <code class="docutils literal notranslate"><span class="pre">NativeEnvironment</span></code>
 to render templates as native Python types. If False, a Jinja
 <code class="docutils literal notranslate"><span class="pre">Environment</span></code> is used to render templates as string values.</p></li>
-<li><p><strong>tags</strong> – List of tags to help filtering DAGs in the UI.</p></li>
-<li><p><strong>owner_links</strong> – Dict of owners and their links, that will be clickable on the DAGs view UI.
+<li><p><strong>tags</strong> – List of tags to help filtering Dags in the UI.</p></li>
+<li><p><strong>owner_links</strong> – Dict of owners and their links, that will be clickable on the Dags view UI.
 Can be used as an HTTP link (for example the link to your Slack channel), or a mailto link.
 e.g: <code class="docutils literal notranslate"><span class="pre">{&quot;dag_owner&quot;:</span> <span class="pre">&quot;https://airflow.apache.org/&quot;}</span></code></p></li>
 <li><p><strong>auto_register</strong> – Automatically register this DAG when it is used in a <code class="docutils literal notranslate"><span class="pre">with</span></code> block</p></li>
-<li><p><strong>fail_fast</strong> – Fails currently running tasks when task in DAG fails.
+<li><p><strong>fail_fast</strong> – Fails currently running tasks when task in Dag fails.
 <strong>Warning</strong>: A fail stop dag can only have tasks with the default trigger rule (“all_success”).
 An exception will be thrown if any task in a fail stop dag has a non default trigger rule.</p></li>
-<li><p><strong>dag_display_name</strong> – The display name of the DAG which appears on the UI.</p></li>
+<li><p><strong>dag_display_name</strong> – The display name of the Dag which appears on the UI.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1040,6 +1038,10 @@ An exception will be thrown if any task in a fail stop dag has a non default tri
                     <span>Donate</span>
                 </a>
 
+                <a href="https://events.apache.org/" class="footer-section__policies-section--policy-item">
+                    <span>Events</span>
+                </a>
+
                 <a href="https://www.apache.org/foundation/thanks.html" class="footer-section__policies-section--policy-item">
                     <span>Thanks</span>
                 </a>
@@ -1047,12 +1049,21 @@ An exception will be thrown if any task in a fail stop dag has a non default tri
                 <a href="https://www.apache.org/security/" class="footer-section__policies-section--policy-item">
                     <span>Security</span>
                 </a>
+
+                <a href="https://privacy.apache.org/policies/privacy-policy-public.html" class="footer-section__policies-section--policy-item">
+                    <span>Privacy</span>
+                </a>
+
+                <a href="https://airflow.apache.org/code-of-conduct/" class="footer-section__policies-section--policy-item">
+                    <span>Code of conduct</span>
+                </a>
+
                 
 
             </div>
         </div>
         <span class="footer-section__policies-section--disclaimer">
-            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache feather logo are either registered trademarks or trademarks of The Apache Software Foundation.
+            Apache Airflow, Apache, Airflow, the Airflow logo, and the Apache logo are either registered trademarks or trademarks of The Apache Software Foundation.
             All other products or name brands are trademarks of their respective holders, including The Apache Software Foundation.
         </span>
     </div>
