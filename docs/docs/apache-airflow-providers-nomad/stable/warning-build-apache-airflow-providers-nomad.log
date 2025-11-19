@@ -72,8 +72,6 @@
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1580: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/airflow/providers/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/airflow/providers/nomad/templates/job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
-/home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/airflow/providers/nomad/templates/nomad_job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
-/home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/nomad/test_dag_trigger/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/_api/tests/system/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/configurations-ref.rst: WARNING: document isn't included in any toctree [toc.not_included]
 /home/devel/share/workspace_airflow/airflow/providers/nomad/docs/known_issues.rst: WARNING: document isn't included in any toctree [toc.not_included]

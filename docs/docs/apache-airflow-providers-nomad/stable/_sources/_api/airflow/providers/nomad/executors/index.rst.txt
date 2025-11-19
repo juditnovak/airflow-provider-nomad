@@ -11,6 +11,5 @@ Submodules
    :maxdepth: 1
 
    /_api/airflow/providers/nomad/executors/nomad_executor/index
-   /_api/airflow/providers/nomad/executors/nomad_log/index
 
 
