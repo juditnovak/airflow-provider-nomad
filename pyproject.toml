@@ -18,7 +18,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "apache-airflow-providers-nomad"
-version = "0.0.4"
+version = "0.0.5b1"
 description = "Provider package for Nomad (executor, operators, etc.) for Apache Airflow"
 readme = "README.rst"
 authors = [
@@ -101,3 +101,6 @@ line-length = 100
 
 # [tool.pytest.ini_options]
 # pythonpath = ["."]
+
+[project.optional-dependencies]
+prelease = ["apache-airflow-providers-nomad"]

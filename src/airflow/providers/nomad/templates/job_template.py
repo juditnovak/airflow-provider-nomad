@@ -19,7 +19,7 @@ from airflow.configuration import conf
 from airflow.providers.nomad.constants import CONFIG_SECTION
 
 default_image = conf.get(
-    CONFIG_SECTION, "default_docker_image", fallback="novakjudit/airflow-nomad-runner:0.0.3"
+    CONFIG_SECTION, "default_docker_image", fallback="novakjudit/airflow-nomad-runner:0.0.5b1"
 )
 
 default_task_template: dict[str, Any] = {
