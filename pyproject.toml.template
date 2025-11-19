@@ -1,12 +1,9 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
+# This file is part of apache-airflow-providers-nomad which is
+# released under Apache License 2.0. See file LICENSE or go to
 #
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+# for full license details.
 #
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
@@ -73,35 +70,15 @@ dev = [
     "isort>=6.0.1",
     "netifaces>=0.11.0",
     "pre-commit>=4.3.0",
+    "twine>=6.2.0",
 ]
 
-# To build docs:
-#
-#    uv run --group docs build-docs
-#
-# To enable auto-refreshing build with server:
-#
-#    uv run --group docs build-docs --autobuild
-#
-# To see more options:
-#
-#    uv run --group docs build-docs --help
-#
 docs = [
     "apache-airflow-devel-common[docs]"
 ]
 
 [tool.uv.sources]
 apache-airflow-devel-common = { git = "https://github.com/apache/airflow.git", subdirectory="devel-common", tag="<AIRFLOW_VERSION>"}
-
-[project.urls]
-# "Documentation" = "https://airflow.apache.org/docs/apache-airflow-providers-nomad/0.0.1"
-# "Changelog" = "https://airflow.apache.org/docs/apache-airflow-providers-nomad/0.0.1/changelog.html"
-# "Bug Tracker" = "https://github.com/apache/airflow/issues"
-# "Source Code" = "https://github.com/apache/airflow"
-# "Slack Chat" = "https://s.apache.org/airflow-slack"
-# "Mastodon" = "https://fosstodon.org/@airflow"
-# "YouTube" = "https://www.youtube.com/channel/UCSXwxpWZQ7XZ1WL3wqevChA/"
 
 [project.entry-points."apache_airflow_provider"]
 provider_info = "airflow.providers.nomad.get_provider_info:get_provider_info"

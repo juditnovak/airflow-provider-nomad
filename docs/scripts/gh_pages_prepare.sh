@@ -12,3 +12,9 @@ rmdir docs/docs
 grep -r '"/external/' docs | cut -d: -f1 | uniq | xargs sed -i 's!"/external/!"/airflow-provider-nomad/external/!g'
 grep -r '"/_gen/' docs | cut -d: -f1 | uniq | xargs sed -i 's!"/_gen/!"/airflow-provider-nomad/_gen/!g'
 grep -r  '"/docs/"' ./ | cut -d: -f1 | uniq | xargs sed -i 's!"/docs/"!"/airflow-provider-nomad/"!g'
+
+
+# In addition: fixing the navbar
+
+grep -r '<a href="https://airflow.apache.org/">' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a href="https://airflow.apache.org/">!<a href="https://airflow.apache.org/">!g'
+grep -r '<a class="navbar__text-link" href="https://airflow.apache.org/' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a class="navbar__text-link" href="https://airflow.apache.org/!<a class="navbar__text-link" href="https://airflow.apache.org/!g'
