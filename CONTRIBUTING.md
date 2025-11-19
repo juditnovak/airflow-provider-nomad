@@ -103,3 +103,5 @@ At the end, copy the freshly generated documentation from `$AIRFLOW_SOURCE` to t
 ```
 cp -r $AIRFLOW_SOURCE/generated/_build/docs/apache-airflow-providers-nomad/stable/* <PATH_TO>/nomad_provider/docs/docs/apache-airflow-providers-nomad/<VERSION>/
 ```
+
+Note: Top-level Navigation bar links (pointing to Apache Airflow site, Community/Meetups/Documentation/Use Cases/Announcements/Blog/Ecosystem) are broken at this point. A simple search-and-replace instruction can be used from the end of [scripts/af_docs_generation.sh](scripts/af_docs_generation.sh) to restore the anomaly. (The same fix is part of the GitHub-pages customization fix, executed on the corresponding pipeline, making sure on-line version of the documentation would be always correct.)
