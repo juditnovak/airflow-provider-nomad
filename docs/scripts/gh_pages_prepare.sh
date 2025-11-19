@@ -18,5 +18,5 @@ grep -r  '"/docs/"' ./ | cut -d: -f1 | uniq | xargs sed -i 's!"/docs/"!"/airflow
 
 # In addition: fixing the Navigation Bar
 
-grep -r '<a href="https://airflow.apache.org/">' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a href="https://airflow.apache.org/">!<a href="https://airflow.apache.org/">!g'
-grep -r '<a class="navbar__text-link" href="https://airflow.apache.org/' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a class="navbar__text-link" href="https://airflow.apache.org/!<a class="navbar__text-link" href="https://airflow.apache.org/!g'
+grep -r '<a href="/">' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a href="/">!<a href="https://airflow.apache.org/">!g'
+grep -r '<a class="navbar__text-link" href="/' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a class="navbar__text-link" href="/!<a class="navbar__text-link" href="https://airflow.apache.org/!g'
