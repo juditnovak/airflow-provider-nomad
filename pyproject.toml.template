@@ -20,7 +20,7 @@ build-backend = "flit_core.buildapi"
 name = "apache-airflow-providers-nomad"
 version = "0.0.5b1"
 description = "Provider package for Nomad (executor, operators, etc.) for Apache Airflow"
-readme = "README.rst"
+readme = "README.md"
 authors = [
     {name="Judit Novak", email="judit.novak@gmail.com"},
 ]
