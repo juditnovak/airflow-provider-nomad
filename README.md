@@ -24,6 +24,7 @@
 </div>
 
 <br>
+<br>
 
 Provider for [HashiCorp Nomad](https://developer.hashicorp.com/nomad) clusters running [Apache Airflow](https://airflow.apache.org/) tasks.
 
