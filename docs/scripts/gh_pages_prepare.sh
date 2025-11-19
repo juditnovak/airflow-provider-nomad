@@ -6,6 +6,8 @@
 #
 # The hacks below ensure docs availability from GH pages published sources
 
+set -x
+
 mv docs/docs/* docs/
 rmdir docs/docs
 
@@ -14,7 +16,7 @@ grep -r '"/_gen/' docs | cut -d: -f1 | uniq | xargs sed -i 's!"/_gen/!"/airflow-
 grep -r  '"/docs/"' ./ | cut -d: -f1 | uniq | xargs sed -i 's!"/docs/"!"/airflow-provider-nomad/"!g'
 
 
-# In addition: fixing the navbar
+# In addition: fixing the Navigation Bar
 
 grep -r '<a href="https://airflow.apache.org/">' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a href="https://airflow.apache.org/">!<a href="https://airflow.apache.org/">!g'
 grep -r '<a class="navbar__text-link" href="https://airflow.apache.org/' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a class="navbar__text-link" href="https://airflow.apache.org/!<a class="navbar__text-link" href="https://airflow.apache.org/!g'
