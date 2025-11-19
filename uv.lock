@@ -407,7 +407,7 @@ wheels = [
 
 [[package]]
 name = "apache-airflow-providers-nomad"
-version = "0.0.4"
+version = "0.0.5"
 source = { editable = "." }
 dependencies = [
     { name = "apache-airflow-core" },
@@ -428,6 +428,7 @@ dev = [
     { name = "pre-commit" },
     { name = "pudb" },
     { name = "pytest" },
+    { name = "readme-renderer" },
     { name = "tox" },
     { name = "twine" },
 ]
@@ -438,6 +439,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "apache-airflow-core", specifier = "==3.0.6" },
+    { name = "apache-airflow-providers-nomad", marker = "extra == 'prelease'" },
     { name = "apache-airflow-task-sdk" },
     { name = "flask", specifier = ">=3.1.2" },
     { name = "jq", specifier = ">=1.10.0" },
@@ -446,6 +448,7 @@ requires-dist = [
     { name = "requests", specifier = ">=2.32.5" },
     { name = "tenacity", specifier = ">=9.1.2" },
 ]
+provides-extras = ["prelease"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -455,6 +458,7 @@ dev = [
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "pudb", specifier = ">=2025.1" },
     { name = "pytest", specifier = ">=8.4.1" },
+    { name = "readme-renderer", specifier = ">=44.0" },
     { name = "tox", specifier = ">=4.28.4" },
     { name = "twine", specifier = ">=6.2.0" },
 ]
@@ -3861,7 +3865,7 @@ dependencies = [
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
 wheels = [
-    { url = "https://github.com/apache/airflow-site/releases/download/0.2.3/sphinx_airflow_theme-0.2.3-py3-none-any.whl", hash = "sha256:3c91285bc4a091c15820508f657b9ba387ee81bce4ae6cd5e57af8bab4758614" },
+    { url = "https://github.com/apache/airflow-site/releases/download/0.2.3/sphinx_airflow_theme-0.2.3-py3-none-any.whl", hash = "sha256:423607c67373248c693780ff0e13d51ce9ff39235a7aa6440990cb94dc499848" },
 ]
 
 [package.metadata]

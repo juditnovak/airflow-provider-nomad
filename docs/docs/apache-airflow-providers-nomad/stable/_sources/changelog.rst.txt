@@ -27,6 +27,20 @@
 Changelog
 ##########
 
+0.0.5
+...........
+* Release 0.0.4 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/34
+* [CI] main pipeline fix by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/35
+* [CI] main pipeline fix (final) by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/36
+* [pypi]: [CI] Pypi release by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/37
+* [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release
+* [DOCS] Fixes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/44
+* [DOCS] Still fixing by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/45
+* [RELEASE] Pre-release 0.0.5b1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/46
+
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.4...0.0.5
+
 0.0.4
 ...........
 * [DOCS] Attempt to fix missing js supprt by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/26
@@ -37,6 +51,7 @@ Changelog
 * Coverage and small fixes for workload management by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/32
 * Resource allocation by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/33
 
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.3...0.0.4
 
 0.0.3
 ......
