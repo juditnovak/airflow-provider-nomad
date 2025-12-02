@@ -9,13 +9,18 @@ import pytest
 from airflow.executors import executor_loader
 from airflow.models.dag import DAG
 from airflow.models.dagrun import DagRun
-from airflow.models.serialized_dag import SerializedDagModel
 from airflow.models.taskinstance import TaskInstance
 from airflow.utils.session import create_session
 from airflow.utils.state import DagRunState, TaskInstanceState
 from airflow.utils.types import DagRunTriggeredByType, DagRunType
 from tests_common.test_utils.compat import PythonOperator
 from tests_common.test_utils.config import conf_vars
+
+# Introduced and mandatory since Airflow 3.1
+try:
+    from tests_common.test_utils.dag import sync_dag_to_db
+except ModuleNotFoundError:
+    pass
 
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
 from airflow.providers.nomad.log import NOMAD_LOG_CONFIG
@@ -73,9 +78,16 @@ def submit_python_task(
         "run_after": DEFAULT_DATE,
         "triggered_by": DagRunTriggeredByType.TEST,
     }
-    dag.sync_to_db()
 
-    SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
+    try:
+        dag = sync_dag_to_db(dag)
+    except NameError:
+        dag.sync_to_db()
+        from airflow.models.serialized_dag import SerializedDagModel
+
+        SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
+
+    # SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
     dagrun = dag.create_dagrun(
         run_id=RUN_ID,
         run_type=DagRunType.MANUAL,
@@ -185,6 +197,7 @@ def test_get_task_log_task_finished(create_task_instance, mocker):
 # Nomad logging (OK)
 
 
+@pytest.mark.usefixtures("testing_dag_bundle")
 @conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG})
 def test_nomad_log_ok(mocker, unittest_root, test_datadir):
     reload(executor_loader)
