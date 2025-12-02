@@ -42,13 +42,13 @@ Configuration
 To enable `NomadLoghandler` the following configuration should be set:
 
 
- * ``logging_conf_class``: This setting defines the logger configuration to be loaded. The ``airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG`` variable holds a full logger configuration, having added ``nomad_log_handler`` to the Airflow defaults.
+ * ``logging_conf_class``: This setting defines the logger configuration to be loaded. The ``airflow.providers.nomad.log.NOMAD_LOG_CONFIG`` variable holds a full logger configuration, having added ``nomad_log_handler`` to the Airflow defaults.
  * ``task_log_reader``: This setting refers to the log handler used by the Airflow web API. Must be set to ``nomad_log_handler``
 
 .. code-block:: ini
 
     [logging]
-    logging_config_class = airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG
+    logging_config_class = airflow.providers.nomad.log.NOMAD_LOG_CONFIG
     task_log_reader = nomad_log_handler
 
 
