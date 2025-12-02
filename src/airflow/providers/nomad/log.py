@@ -37,7 +37,7 @@ NOMAD_LOG_CONFIG = copy.deepcopy(DEFAULT_LOGGING_CONFIG)
 NOMAD_LOG_CONFIG["handlers"][NOMAD_HANDLER_NAME] = {
     "class": "airflow.providers.nomad.log.NomadLogHandler",
     "formatter": "airflow",
-    "filters": ["mask_secrets_core"],
+    "filters": list(DEFAULT_LOGGING_CONFIG["filters"]),
 }
 
 NOMAD_LOG_CONFIG["loggers"]["airflow.task"]["handlers"].append(NOMAD_HANDLER_NAME)
