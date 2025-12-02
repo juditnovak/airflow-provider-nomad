@@ -15,15 +15,24 @@
 # under the License.
 
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+FILE=$SCRIPT_DIR/Dockerfile.runner
+TAG=latest
+
+
 help () {
-    echo "Usage: $0 <docker_image_name> [<tag>]"
+    echo "Usage: $0 [-t <tag>] [-f <dockerfile>] <docker_image_name>"
     echo
     echo "NOTE: You must be authenticated with Docker Services"
     echo "(as we are about to push a Docker image to DockerHub)"
-
+    echo
+    echo "    -t    tag (default: $TAG)"
+    echo "    -f    Dockerfile (default: $FILE)"
+    echo
 
 }
 
+# Processing options
 
 if [ -z $1 ] || [ "$1" = "-h" ] || [[ "$1" =~ "help" ]]
 then
@@ -31,18 +40,41 @@ then
     exit 1
 fi
 
-IMAGE=$1
+while getopts ":t:f:" o; do
+    case "${o}" in
+        t)
+            TAG=${OPTARG}
+            echo "-t"
+            # shift
+            ;;
+        f)
+            FILE=${OPTARG}
+            echo "-f"
+            # shift
+            ;;
+        *)
+            echo "Unknown argument $OPTARG"
+            usage
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND-1))
 
-TAG=latest
-if [ $2 ]
+# Processing arguments
+
+IMAGE=$1
+shift
+
+if [ $# -gt 0 ]
 then
-    TAG=$2
+    help
+    exit 1
 fi
+
 
 echo "Bulding $IMAGE:$TAG"
 
-# Preparing pachage
-# uv build
 
 if ! docker login
 then
@@ -51,9 +83,8 @@ then
     echo "(as we are about to push a Docker image to DockerHub)"
 fi
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-build=$(docker build -f $SCRIPT_DIR/Dockerfile.runner -t $IMAGE:$TAG . )
+build=$(docker build -f $FILE -t $IMAGE:$TAG . )
 if ! $build
 then
     echo "Build failed"
