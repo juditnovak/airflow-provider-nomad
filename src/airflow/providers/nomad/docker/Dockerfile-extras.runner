@@ -22,10 +22,16 @@ RUN addgroup -S appgroup && adduser -S runner -G appgroup
 RUN apk add --no-cache gcc python3-dev musl-dev linux-headers
 RUN apk add bash
 
+# In case a git repository is to be used instead of a dag-folder
+RUN apk add git
+
 USER runner
 
 RUN pip install apache-airflow-core
 RUN pip install apache-airflow-task-sdk
+
+# In case a git repository is to be used instead of a dag-folder
+RUN pip install apache-airflow-providers-git
 
 # To be replaced later with
 # RUN pip install apache-airflow-providers-nomad
