@@ -39,9 +39,13 @@ def job_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
 
 
 def job_id_from_taskinstance(ti: TaskInstance | RuntimeTaskInstanceProtocol) -> str:
-    index = ti.map_index if ti.map_index else -1
-    run_id = ti.run_id if ti.run_id else ""
-    return job_id(ti.dag_id, ti.task_id, run_id, ti.try_number, index)
+    return job_id(
+        str(ti.dag_id) if ti.dag_id else "",
+        str(ti.task_id) if ti.task_id else "",
+        str(ti.run_id) if ti.run_id else "",
+        int(ti.try_number),
+        int(ti.map_index) if ti.map_index else -1,
+    )
 
 
 def job_task_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
