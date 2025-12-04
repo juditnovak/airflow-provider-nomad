@@ -66,7 +66,7 @@ class ExecutorLogLinesHandler(logging.Handler):
     def _get_executor_function(
         self, ti: TaskInstance, function_name: str
     ) -> Callable[[TaskInstance, int], tuple[list[str], list[str]]] | None:
-        executor_name = ti.executor or self.DEFAULT_EXECUTOR_KEY
+        executor_name = str(ti.executor) if ti.executor else self.DEFAULT_EXECUTOR_KEY
         executor = self.executor_instances.get(executor_name)
         if executor is not None and hasattr(executor, function_name):
             function = getattr(executor, function_name, None)
@@ -156,7 +156,7 @@ class ExecutorLogLinesHandler(logging.Handler):
             log_pos = metadata["log_pos"] + log_pos
 
         return out_stream, {
-            "end_of_log": end_of_log,
+            "end_of_log": bool(end_of_log),
             "log_pos": log_pos,
         }
 
@@ -176,7 +176,7 @@ class ExecutorLogLinesHandler(logging.Handler):
         :return: a list of listed tuples which order log string by host
         """
         if try_number is None:
-            try_number = task_instance.try_number
+            try_number = int(task_instance.try_number)
 
         if try_number == 0 and task_instance.state == TaskInstanceState.SKIPPED:
             logs = [
