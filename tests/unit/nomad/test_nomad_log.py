@@ -6,10 +6,12 @@ from importlib import reload
 
 import pendulum
 import pytest
+from airflow.utils.log.log_reader import TaskLogReader
+from airflow.utils.log.file_task_handler import FileTaskHandler
+from airflow.providers.nomad.log import NomadLogHandler
 from airflow.executors import executor_loader
 from airflow.models.dag import DAG
 from airflow.models.dagrun import DagRun
-from airflow.models.serialized_dag import SerializedDagModel
 from airflow.models.taskinstance import TaskInstance
 from airflow.utils.session import create_session
 from airflow.utils.state import DagRunState, TaskInstanceState
@@ -17,8 +19,15 @@ from airflow.utils.types import DagRunTriggeredByType, DagRunType
 from tests_common.test_utils.compat import PythonOperator
 from tests_common.test_utils.config import conf_vars
 
+# Introduced and mandatory since Airflow 3.1
+try:
+    from tests_common.test_utils.dag import sync_dag_to_db
+except ModuleNotFoundError:
+    pass
+
 from airflow.providers.nomad.generic_interfaces.executor_log_handlers import ExecutorLogLinesHandler
-from airflow.providers.nomad.log import NOMAD_LOG_CONFIG
+from airflow.providers.nomad.log import NOMAD_HANDLER_NAME
+
 from airflow.providers.nomad.utils import job_id_from_taskinstance_key
 
 DATE_VAL = (2016, 1, 1)
@@ -32,9 +41,9 @@ NOMAD_LOGGING_CONFIG = {
         "logging_config_class",
     ): "airflow.providers.nomad.log.NOMAD_LOG_CONFIG",
 }
-AiRFLOW_LOGHANDLER = "task"
+AIRFLOW_LOGHANDLER = "task"
 AIRFLOW_LOGGING_CONFIG = {
-    ("logging", "task_log_reader"): AiRFLOW_LOGHANDLER,
+    ("logging", "task_log_reader"): AIRFLOW_LOGHANDLER,
     (
         "logging",
         "logging_config_class",
@@ -73,9 +82,16 @@ def submit_python_task(
         "run_after": DEFAULT_DATE,
         "triggered_by": DagRunTriggeredByType.TEST,
     }
-    dag.sync_to_db()
 
-    SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
+    try:
+        dag = sync_dag_to_db(dag)
+    except NameError:
+        dag.sync_to_db()
+        from airflow.models.serialized_dag import SerializedDagModel
+
+        SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
+
+    # SerializedDagModel.write_dag(dag, bundle_name=BUNDLE_NAME)
     dagrun = dag.create_dagrun(
         run_id=RUN_ID,
         run_type=DagRunType.MANUAL,
@@ -98,11 +114,22 @@ def submit_python_task(
 
 def get_and_wipe_loghandler(
     ti: TaskInstance, handler_name: str = NOMAD_LOGHANDLER
-) -> logging.Handler:
-    logger = ti.log
-    loghandler: logging.Handler = next((h for h in logger.handlers if h.name == handler_name), None)  # type: ignore
-    # clear executor_instances cache
-    loghandler.executor_instances = {}  # type: ignore[attr-defined]
+) -> logging.Handler | None:
+    # Adding nomad_log_handler to handlers in case it was missing
+    # May need revision in the future
+    if NOMAD_HANDLER_NAME not in logging.getLogger("airflow.task").handlers:
+        handler = NomadLogHandler()
+        logging.getLogger("airflow.task").addHandler(handler)
+    if AIRFLOW_LOGHANDLER not in logging.getLogger("airflow.task").handlers:
+        handler = FileTaskHandler("/dev/null")
+        logging.getLogger("airflow.task").addHandler(handler)
+
+    loghandler: logging.Handler | None = TaskLogReader().log_handler
+    if not loghandler:
+        logger = ti.log
+        loghandler = next((h for h in logger.handlers if h.name == handler_name), None)  # type: ignore[union-attr, reportAttributeAccessIssue]
+
+    loghandler.executor_instances = {}  # type: ignore[reportAttributeAccessIssue, union-attr]
     return loghandler
 
 
@@ -120,13 +147,14 @@ def clean_up():
 @pytest.fixture(scope="function", autouse=True)
 def setup_teardown():
     # Normally this was already loaded from the config
-    logging.config.dictConfig(NOMAD_LOG_CONFIG)
+    # logging.config.dictConfig(NOMAD_LOG_CONFIG)
     logging.root.disabled = False
     clean_up()
     # We use file task handler by default.
     yield
 
     clean_up()
+    reload(executor_loader)
 
 
 ##############################################################################
@@ -152,6 +180,7 @@ def test_get_task_log_task_running(create_task_instance, mocker):
     ti.executor = EXECUTOR
     with conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG}):
         reload(executor_loader)
+
         fth = ExecutorLogLinesHandler()
         fth._read(ti=ti, try_number=2)
         mock_nomad_get_task_log.assert_called_once_with(ti, 2)
@@ -177,6 +206,7 @@ def test_get_task_log_task_finished(create_task_instance, mocker):
     ti.executor = executor_name
     with conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG}):
         reload(executor_loader)
+
         fth = ExecutorLogLinesHandler()
         fth._read(ti=ti, try_number=2)
         mock_nomad_get_task_log.assert_not_called()
@@ -188,6 +218,7 @@ def test_get_task_log_task_finished(create_task_instance, mocker):
 @conf_vars({("core", "executor"): EXECUTOR, **NOMAD_LOGGING_CONFIG})
 def test_nomad_log_ok(mocker, unittest_root, test_datadir):
     reload(executor_loader)
+
     fake_logfile = open(unittest_root / "data/task.log", "r").read()
     job_alloc = test_datadir / "nomad_job_allocations.json"
 
@@ -305,7 +336,7 @@ def test_airflow_log_ok(mocker, unittest_root, test_datadir):
     assert ti.task, f"Taskinstance {ti} has no task"
     ti.task.log.disabled = False
 
-    loghandler = get_and_wipe_loghandler(ti, AiRFLOW_LOGHANDLER)
+    loghandler = get_and_wipe_loghandler(ti, AIRFLOW_LOGHANDLER)
     logs = loghandler.read(ti, TRY_NUMBER)  # type: ignore[reportAttributeAccessIssue]
     loglist = list(logs[0])
 
@@ -340,7 +371,7 @@ def test_airflow_log_ok_with_stderr(mocker, unittest_root, test_datadir):
     assert ti.task, f"Taskinstance {ti} has no task"
     ti.task.log.disabled = False
 
-    loghandler = get_and_wipe_loghandler(ti, AiRFLOW_LOGHANDLER)
+    loghandler = get_and_wipe_loghandler(ti, AIRFLOW_LOGHANDLER)
     logs = loghandler.read(ti, TRY_NUMBER)  # type: ignore[reportAttributeAccessIssue]
     loglist = list(logs[0])
 
@@ -360,7 +391,7 @@ def test_airflow_log_ok_with_stderr(mocker, unittest_root, test_datadir):
 
 @pytest.mark.parametrize(
     "handler, config",
-    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AIRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
 def test_nomad_side_error(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
@@ -436,7 +467,7 @@ def test_nomad_side_error(handler, config, mocker, test_datadir):
 
 @pytest.mark.parametrize(
     "handler, config",
-    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AIRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
 def test_nomad_log_multi_alloc(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
@@ -481,7 +512,7 @@ def test_nomad_log_multi_alloc(handler, config, mocker, test_datadir):
 
 @pytest.mark.parametrize(
     "handler, config",
-    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AIRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
 def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
@@ -528,7 +559,7 @@ def test_nomad_log_no_alloc(handler, config, mocker, test_datadir):
 
 @pytest.mark.parametrize(
     "handler, config",
-    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AIRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
 def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
@@ -575,7 +606,7 @@ def test_nomad_log_no_alloc_id(handler, config, mocker, test_datadir):
 
 @pytest.mark.parametrize(
     "handler, config",
-    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AiRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
+    [(NOMAD_LOGHANDLER, NOMAD_LOGGING_CONFIG), (AIRFLOW_LOGHANDLER, AIRFLOW_LOGGING_CONFIG)],
 )
 def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
     """The difference between this test and test_nomad_log_ok
@@ -583,6 +614,7 @@ def test_nomad_log_retrieval_false(handler, config, mocker, test_datadir):
     """
     with conf_vars({("core", "executor"): EXECUTOR, **config}):
         reload(executor_loader)
+
         message = "Something bad happened"
 
         # Getting hold of the (already automatically mocked) Nomad client
