@@ -1,0 +1,2 @@
+providers/nomad/docs/_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst:29: (LogHandlerOutputStream)  airflow.utils.log.file_task_handler.LogHandlerOutputStream
+providers/nomad/docs/_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst:29: (LogMetadata)  airflow.utils.log.file_task_handler.LogMetadata

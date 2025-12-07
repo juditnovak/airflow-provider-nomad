@@ -1,0 +1,4 @@
+providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: (datadir)  (test_datadir)
+providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: (datadir)  (test_datadir, caplog)
+providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: (caplog)  (test_datadir, caplog)
+providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: (caplog)  (caplog)
