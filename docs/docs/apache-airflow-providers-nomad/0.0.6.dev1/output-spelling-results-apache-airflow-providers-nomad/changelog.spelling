@@ -1,0 +1,35 @@
+providers/nomad/docs/changelog.rst:32: (juditnovak)  Release 0.0.4 by @juditnovak in 
+providers/nomad/docs/changelog.rst:33: (juditnovak)  [CI] main pipeline fix by @juditnovak in 
+providers/nomad/docs/changelog.rst:34: (juditnovak)  [CI] main pipeline fix (final) by @juditnovak in 
+providers/nomad/docs/changelog.rst:35: (pypi)  [pypi]: [CI] Pypi release by @juditnovak in 
+providers/nomad/docs/changelog.rst:35: (Pypi)  [pypi]: [CI] Pypi release by @juditnovak in 
+providers/nomad/docs/changelog.rst:35: (juditnovak)  [pypi]: [CI] Pypi release by @juditnovak in 
+providers/nomad/docs/changelog.rst:36: (Pypi)  [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release
+providers/nomad/docs/changelog.rst:37: (juditnovak)  [DOCS] Fixes by @juditnovak in 
+providers/nomad/docs/changelog.rst:38: (juditnovak)  [DOCS] Still fixing by @juditnovak in 
+providers/nomad/docs/changelog.rst:39: (juditnovak)  [RELEASE] Pre-release 0.0.5b1 by @juditnovak in 
+providers/nomad/docs/changelog.rst:46: (supprt)  [DOCS] Attempt to fix missing js supprt by @juditnovak in 
+providers/nomad/docs/changelog.rst:46: (juditnovak)  [DOCS] Attempt to fix missing js supprt by @juditnovak in 
+providers/nomad/docs/changelog.rst:47: (juditnovak)  [DOCS] Enabling both local and remote build by @juditnovak in 
+providers/nomad/docs/changelog.rst:48: (juditnovak)  Setting latest changes to refer to 0.0.dev4 by @juditnovak in 
+providers/nomad/docs/changelog.rst:49: (juditnovak)  Tenacity retries for job submission and deregister by @juditnovak in 
+providers/nomad/docs/changelog.rst:50: (juditnovak)  Extending test coverage by @juditnovak in 
+providers/nomad/docs/changelog.rst:51: (juditnovak)  Coverage and small fixes for workload management by @juditnovak in 
+providers/nomad/docs/changelog.rst:52: (juditnovak)  Resource allocation by @juditnovak in 
+providers/nomad/docs/changelog.rst:59: (juditnovak)  Decorators by @juditnovak in 
+providers/nomad/docs/changelog.rst:60: (juditnovak)  Docs in Production structure, versioning enabled by @juditnovak in 
+providers/nomad/docs/changelog.rst:61: (juditnovak)  0 0 34c by @juditnovak in 
+providers/nomad/docs/changelog.rst:70: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:71: (juditnovak)  [CI] Timeout increase by @juditnovak in 
+providers/nomad/docs/changelog.rst:72: (juditnovak)  Enabling support for Airflow templating by @juditnovak in 
+providers/nomad/docs/changelog.rst:82: (juditnovak)  Nomad executor with bash operator by @juditnovak in 
+providers/nomad/docs/changelog.rst:83: (juditnovak)  System tests by @juditnovak in 
+providers/nomad/docs/changelog.rst:84: (juditnovak)  Tests completed and cleaned up by @juditnovak in 
+providers/nomad/docs/changelog.rst:85: (juditnovak)  Cleanup and small executor enhancements by @juditnovak in 
+providers/nomad/docs/changelog.rst:86: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:87: (juditnovak)  Logging finalized by @juditnovak in 
+providers/nomad/docs/changelog.rst:88: (juditnovak)  Base documentation by @juditnovak in 
+providers/nomad/docs/changelog.rst:89: (juditnovak)  Modification on logging by @juditnovak in 
+providers/nomad/docs/changelog.rst:90: (juditnovak)  Enabling secure Nomad connections by @juditnovak in 
+providers/nomad/docs/changelog.rst:91: (juditnovak)   by @juditnovak in 
+providers/nomad/docs/changelog.rst:92: (juditnovak)  Handling Job submission errors by @juditnovak in 

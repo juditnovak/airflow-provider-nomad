@@ -1,0 +1,95 @@
+airflow.providers.nomad.operators.task
+======================================
+
+.. py:module:: airflow.providers.nomad.operators.task
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.operators.task.NomadTaskOperator
+
+
+Module Contents
+---------------
+
+.. py:class:: NomadTaskOperator(template_path = None, template_content = None, env = None, image = None, entrypoint = None, args = None, command = None, task_resources = None, ephemeral_disk = None, volumes = None, volume_mounts = None, **kwargs)
+
+   Bases: :py:obj:`airflow.providers.nomad.generic_interfaces.nomad_operator_interface.NomadOperator`
+
+
+   Nomad Operator allowing for lightweight job submission
+
+
+   .. py:attribute:: template_fields
+      :type:  collections.abc.Collection[str]
+      :value: ['template_path', 'template_content', 'env', 'image', 'entrypoint', 'args', 'command',...
+
+
+
+   .. py:attribute:: template_content
+      :value: None
+
+
+
+   .. py:attribute:: template_path
+      :value: None
+
+
+
+   .. py:attribute:: image
+      :value: None
+
+
+
+   .. py:attribute:: entrypoint
+      :value: None
+
+
+
+   .. py:attribute:: args
+      :value: None
+
+
+
+   .. py:attribute:: command
+      :value: None
+
+
+
+   .. py:attribute:: env
+      :value: None
+
+
+
+   .. py:attribute:: task_resources
+      :value: None
+
+
+
+   .. py:attribute:: ephemeral_disk
+      :value: None
+
+
+
+   .. py:attribute:: volumes
+      :value: None
+
+
+
+   .. py:attribute:: volume_mounts
+      :value: None
+
+
+
+   .. py:method:: job_id(ti)
+
+
+   .. py:method:: param_defined(param, context)
+
+
+   .. py:method:: prepare_job_template(context)
+
+

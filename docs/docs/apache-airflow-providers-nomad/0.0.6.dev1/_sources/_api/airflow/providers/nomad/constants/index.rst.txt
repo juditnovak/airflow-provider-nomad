@@ -1,0 +1,21 @@
+airflow.providers.nomad.constants
+=================================
+
+.. py:module:: airflow.providers.nomad.constants
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.constants.CONFIG_SECTION
+
+
+Module Contents
+---------------
+
+.. py:data:: CONFIG_SECTION
+   :value: 'nomad_provider'
+
+

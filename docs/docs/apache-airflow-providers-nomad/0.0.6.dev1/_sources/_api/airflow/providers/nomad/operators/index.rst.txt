@@ -1,0 +1,18 @@
+airflow.providers.nomad.operators
+=================================
+
+.. py:module:: airflow.providers.nomad.operators
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /_api/airflow/providers/nomad/operators/job/index
+   /_api/airflow/providers/nomad/operators/nomad_job/index
+   /_api/airflow/providers/nomad/operators/nomad_task/index
+   /_api/airflow/providers/nomad/operators/task/index
+
+

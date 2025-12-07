@@ -1,0 +1,2 @@
+providers/nomad/docs/_api/airflow/providers/nomad/nomad_manager/index.rst:119: (allocaton)  Typically on allocaton errors there is not feedback to Airflow, as the
+providers/nomad/docs/_api/airflow/providers/nomad/nomad_manager/index.rst:125: (corectly)  task re-tries are applied corectly.
