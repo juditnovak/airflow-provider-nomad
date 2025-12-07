@@ -31,12 +31,25 @@ echo "Updating provider.yaml"
 FULL_RELEASE=0
 [ ${OLD#[0-9]*.[0-9]*.[0-9]*} == "" ] || FULL_RELEASE=$?
 
+
+echo "Updating provider.yaml"
+
 if [[ $FULL_RELEASE ]]
 then
     sed -i -r "s!$OLD!$NEW!g" provider.yaml
 else
     sed -i -r "s!$OLD!$NEW"'\n  - '"$OLD!g" provider.yaml
 fi
+
+echo "Updating docs configuration"
+
+if [[ ! $FULL_RELEASE ]]
+then
+    sed -i "s/\"stable-version\": \"$OLD\"/\"stable-version\": \"$NEW\"/"  docs/_gen/packages-metadata.json
+fi
+
+sed -i "s/\"all-versions\": \[\"$OLD\"/\"all-versions\": \[\"$NEW\"/"  docs/_gen/packages-metadata.json
+
 
 echo "Updating src"
 grep -r "$OLD_PAT" src/ | cut -d: -f1 | uniq | xargs sed -i $REPL_PAT
