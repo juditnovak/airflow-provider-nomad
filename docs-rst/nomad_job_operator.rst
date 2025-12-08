@@ -47,6 +47,8 @@ Configuration
 
 ``operator_poll_delay``: Wait time between repeating checks on submitted child job that is observed
 
+``runner_log_dir (str)``: Location where the runner may be writing logs (within the container). Default: ``/tmp``.
+
 Examples
 ##############
 
