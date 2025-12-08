@@ -20,3 +20,7 @@ uv run  --group docs build-docs --package-filter apache-airflow-providers-nomad 
 #
 # grep -r '<a href="/">' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a href="/">!<a href="https://airflow.apache.org/">!g'
 # grep -r '<a class="navbar__text-link" href="/' docs | cut -d: -f1 | uniq | xargs sed -i 's!<a class="navbar__text-link" href="/!<a class="navbar__text-link" href="https://airflow.apache.org/!g'
+#
+#
+# Replace version in case broken throughout doc generation
+# grep -r  '"version">$OLD' docs/docs/apache-airflow-providers-nomad/0.0.6.dev1/ | cut -d: -f1 | sort | uniq | xargs sed -i 's/"version">$OLD/"version">%NEW/'

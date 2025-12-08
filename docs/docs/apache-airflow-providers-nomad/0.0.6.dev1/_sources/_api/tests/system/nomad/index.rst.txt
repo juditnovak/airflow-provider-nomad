@@ -17,7 +17,6 @@ Submodules
    /_api/tests/system/nomad/test_nomad_manager/index
    /_api/tests/system/nomad/test_nomad_task_operator/index
    /_api/tests/system/nomad/test_system_nomad_executor/index
-   /_api/tests/system/nomad/test_utils/index
    /_api/tests/system/nomad/utils/index
 
 
