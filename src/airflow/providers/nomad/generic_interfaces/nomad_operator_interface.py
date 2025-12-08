@@ -42,16 +42,16 @@ class NomadOperator(BaseOperator):
         self.operator_poll_delay: int = conf.getint(
             CONFIG_SECTION, "operator_poll_delay", fallback=10
         )
+        self.runner_log_dir: str = conf.get(CONFIG_SECTION, "runner_log_dir", fallback="/tmp")
         self.template: NomadJobModel | None = None
         super().__init__(**kwargs)
 
-    @staticmethod
-    def sanitize_logs(alloc_id: str, task_name: str, logs: str) -> str:
+    def sanitize_logs(self, alloc_id: str, task_name: str, logs: str) -> str:
         if not logs:
             return logs
 
         sanitized_logs = logs
-        fileloc = Path(f"{alloc_id}-{task_name}.log")
+        fileloc = Path(f"{self.runner_log_dir}/{alloc_id}-{task_name}.log")
         if fileloc.is_file():
             with fileloc.open("r") as file:
                 prefix = file.read()
@@ -59,6 +59,7 @@ class NomadOperator(BaseOperator):
 
         with fileloc.open("w") as file:
             file.write(logs)
+            file.flush()
 
         return sanitized_logs
 

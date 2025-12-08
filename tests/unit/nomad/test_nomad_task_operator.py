@@ -207,22 +207,44 @@ def test_nomad_task_operator_execute_failed(filename, test_datadir, mock_nomad_c
 
 
 def test_sanitize_logs():
-    file_path = Path("alloc_id-task_name.log")
+    file_path = Path("/tmp/alloc_id-task_name.log")
+    op = NomadTaskOperator(task_id="task_id")
     try:
         log_content = "log\nfile\ncontent"
         logs = log_content
-        assert log_content == NomadTaskOperator.sanitize_logs("alloc_id", "task_name", log_content)  # type: ignore [reportAttributeAccessIssue]
+        assert log_content == op.sanitize_logs("alloc_id", "task_name", log_content)  # type: ignore [reportAttributeAccessIssue]
         assert file_path.is_file()
 
         more_log_content = "more\nlog\ncontent"
         logs += more_log_content
-        assert more_log_content == NomadTaskOperator.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
+        assert more_log_content == op.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
 
         even_more_log_content = "even\nmuch\nmore\nlog\ncontent"
         logs += even_more_log_content
-        assert even_more_log_content == NomadTaskOperator.sanitize_logs(
+        assert even_more_log_content == op.sanitize_logs(
             "alloc_id", "task_name", logs
         )  # type: ignore [reportAttributeAccessIssue]
+    finally:
+        file_path.unlink()
+
+
+@conf_vars({("nomad_provider", "runner_log_dir"): "./"})
+def test_sanitize_logs_log_dir_param():
+    file_path = Path("alloc_id-task_name.log")
+    op = NomadTaskOperator(task_id="task_id")
+    try:
+        log_content = "log\nfile\ncontent"
+        logs = log_content
+        assert log_content == op.sanitize_logs("alloc_id", "task_name", log_content)  # type: ignore [reportAttributeAccessIssue]
+        assert file_path.is_file()
+
+        more_log_content = "more\nlog\ncontent"
+        logs += more_log_content
+        assert more_log_content == op.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
+
+        even_more_log_content = "even\nmuch\nmore\nlog\ncontent"
+        logs += even_more_log_content
+        assert even_more_log_content == op.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
     finally:
         file_path.unlink()
 
