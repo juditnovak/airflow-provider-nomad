@@ -27,6 +27,19 @@
 Changelog
 ##########
 
+
+0.0.6.dev.1
+..............
+
+* [VERSION] 0.0.6.dev1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/51
+* Minor administrative fixes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/52
+* Minor docs fixes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/53
+* Minor docs fixes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/54
+* [BUGFIX] Configurable runner logs by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/56
+* [DOCS] Task logs location configurable by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/57
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.5...0.0.6.dev1
+
 0.0.5
 ...........
 * Release 0.0.4 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/34

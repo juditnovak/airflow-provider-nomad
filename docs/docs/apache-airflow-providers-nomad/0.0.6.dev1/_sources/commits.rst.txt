@@ -25,6 +25,21 @@ For high-level changelog, see :doc:`package information including changelog <ind
 
 .. airflow-providers-commits::
 
+
+0.0.6.dev1
+...........
+
+Latest change: 2025-11-19
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+
+`2ce5d47 <https://github.com/juditnovak/airflow-provider-nomad/commit/2ce5d472a8921533af1b3b36369d09db213ffbef>`__ 2025-12-08 ``[BUGFIX] Configurable runner logs (#56)``
+`c65f2bb <https://github.com/juditnovak/airflow-provider-nomad/commit/c65f2bb92cfa57b7035b81885f983ad67531db60>`__ 2025-12-08 ``Minor administrative fixes (#52)``
+`aae08a3 <https://github.com/juditnovak/airflow-provider-nomad/commit/aae08a30dc20d5de05886acdf187b6f5b14176b5>`__ 2025-12-07 ``[VERSION] 0.0.6.dev1 (#51)``   
+================================================================================================================== ========== ==============================================
+
 0.0.5
 ...........
 
