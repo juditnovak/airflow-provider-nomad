@@ -648,12 +648,12 @@ side, it remains available for the Airflow API.</p>
 <p>To enable <cite>NomadLoghandler</cite> the following configuration should be set:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">logging_conf_class</span></code>: This setting defines the logger configuration to be loaded. The <code class="docutils literal notranslate"><span class="pre">airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG</span></code> variable holds a full logger configuration, having added <code class="docutils literal notranslate"><span class="pre">nomad_log_handler</span></code> to the Airflow defaults.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logging_conf_class</span></code>: This setting defines the logger configuration to be loaded. The <code class="docutils literal notranslate"><span class="pre">airflow.providers.nomad.log.NOMAD_LOG_CONFIG</span></code> variable holds a full logger configuration, having added <code class="docutils literal notranslate"><span class="pre">nomad_log_handler</span></code> to the Airflow defaults.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">task_log_reader</span></code>: This setting refers to the log handler used by the Airflow web API. Must be set to <code class="docutils literal notranslate"><span class="pre">nomad_log_handler</span></code></p></li>
 </ul>
 </div></blockquote>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[logging]</span>
-<span class="na">logging_config_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">airflow.providers.nomad.nomad_log.NOMAD_LOG_CONFIG</span>
+<span class="na">logging_config_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">airflow.providers.nomad.log.NOMAD_LOG_CONFIG</span>
 <span class="na">task_log_reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nomad_log_handler</span>
 </pre></div>
 </div>
