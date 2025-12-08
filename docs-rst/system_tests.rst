@@ -134,6 +134,8 @@ or add
 System Test DAGs
 =======================
 
-The full list of `System Test Dags <_api/tests/system/nomad/dags/index.html>`_ 
+The full list of `System Test Dags submitted via NomadExecutor <_api/tests/system/nomad/dags/index.html>`_ 
+
+The full list of `System Test Dags submitted via LocalExecutor <_api/tests/system/nomad/dags_localexecutor/index.html>`_
 
 NOTE: These are not the only System Tests executed against a live environment. See `System Tests <_api/tests/system/nomad/index.html>`_ for the full list.
