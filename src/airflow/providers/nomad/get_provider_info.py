@@ -159,6 +159,13 @@ def get_provider_info():
                         "example": "5",
                         "default": "10",
                     },
+                    "runner_log_dir": {
+                        "description": "The log directory within the remote runner containers",
+                        "version_added": "0.0.6",
+                        "type": "string",
+                        "example": "/tmp",
+                        "default": "/tmp",
+                    },
                 },
             },
         },
