@@ -91,7 +91,7 @@
 ..     Detailed list of commits <commits>
 
 
-Release: 0.0.6.dev1
+Release: 0.0.6.dev2
 
 .. Release Date: ``|PypiReleaseDate|``
 
