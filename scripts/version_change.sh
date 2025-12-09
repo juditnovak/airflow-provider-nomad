@@ -58,4 +58,5 @@ grep -r "$OLD_PAT" tests/ | grep -v $IGNORE_TESTS | cut -d: -f1 | uniq | xargs s
 echo "Updating docs-rst"
 grep -r "$OLD_PAT" docs-rst/ | grep -v $IGNORE_DOCS | cut -d: -f1 | uniq | xargs sed -i $REPL_PAT
 
-echo "!!! Don't forget to update CHANGELOG and the list of commits in docs-rst!!!"
+echo "[RELEASE] Don't forget to update CHANGELOG and the list of commits in docs-rst"
+echo "You probably want to run: ./src/airflow/providers/nomad/docker/build.sh -t $NEW <nomad_runner_docker_img>"
