@@ -1,16 +1,16 @@
 import datetime
 import os
-import time
 
 import attrs
 import pendulum
-from airflow.sdk import DAG
+from airflow.sdk import DAG, chain
+from airflow.sdk.definitions.param import ParamsDict
 
-from airflow.providers.nomad.decorators.job import nomad_job
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test_nomad_job_decorator_dag"
+DAG_ID = "test-nomad-job-operator-localexecutor"
 JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
@@ -49,39 +49,39 @@ class myDAG(DAG):
 
 ##############################################################################
 
+content = """
+job "nomad-test-hcl-localexexutor" {
+  type = "batch"
+
+  constraint {
+    attribute = "${attr.kernel.name}"
+    value     = "linux"
+  }
+
+  group "example" {
+    count = 1
+    task "uptime" {
+      driver = "docker"
+      config {
+        image = "alpine:latest"
+        args = ["uptime"]
+      }
+    }
+  }
+}
+""".strip()
+
+
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=["nomad", "nomadjoboperator", "nomadexecutor"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomadjoboperator", "nomad-provider-test-localexecutor"],
+    params=ParamsDict({"template_content": content}),
+    default_args={"executor": "LocalExecutor"},
 ) as dag:
-    # def test_nomad_task_decorator_dag():
+    run_this_last = NomadJobOperator(task_id="nomad_job_localexecutor", executor="LocalExecutor")
 
-    @nomad_job()
-    def nomad_command_date():
-        now = time.time()
-        content = """
-        job "nomad-test-hcl-%s" {
-          type = "batch"
-
-          group "example" {
-            count = 1
-            task "uptime" {
-              driver = "docker"
-              config {
-                image = "alpine:latest"
-                args = ["uptime"]
-              }
-            }
-          }
-        }
-        """.strip()
-
-        return content % now
-
-    nomad_command_date()
+    chain(run_this_last)
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)

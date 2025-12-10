@@ -3,15 +3,14 @@ import os
 
 import attrs
 import pendulum
-from airflow.sdk import DAG, chain
-from airflow.sdk.definitions.param import ParamsDict
+from airflow.sdk import DAG
 
-from airflow.providers.nomad.operators.job import NomadJobOperator
+from airflow.providers.nomad.decorators.task import nomad_task
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-job-operator-localexecutor"
-JOB_NAME = "task-test-config-default-job-template-hcl"
+DAG_ID = "test-nomad-task-decorator-resource-alloc-localexecutor"
+JOB_NAME = "test-nomad-task-decorator-resource-alloc-localexecutor"
 JOB_NAMESPACE = "default"
 
 
@@ -49,14 +48,10 @@ class myDAG(DAG):
 
 ##############################################################################
 
-content = """
-job "nomad-test-hcl-localexexutor" {
-  type = "batch"
 
-  constraint {
-    attribute = "${attr.kernel.name}"
-    value     = "linux"
-  }
+content = """
+job "nomad-test-hcl-op-param-volumes-%s" {
+  type = "batch"
 
   group "example" {
     count = 1
@@ -71,21 +66,75 @@ job "nomad-test-hcl-localexexutor" {
 }
 """.strip()
 
+resources = {"MemoryMB": 500, "DiskMB": 100, "Cores": 2}
+ephemeral_disk = {"Size": 200, "Sticky": True}
+
+vol_data = {
+    "test_dags_folder": {
+        "AccessMode": "",
+        "AttachmentMode": "",
+        "MountOptions": None,
+        "Name": "dags",
+        "PerAlloc": False,
+        "ReadOnly": True,
+        "Source": "dags",
+        "Sticky": False,
+        "Type": "host",
+    }
+}
+
+vol_mounts_data = [
+    {
+        "Destination": "/opt/airflow/dags",
+        "PropagationMode": "private",
+        "ReadOnly": True,
+        "SELinuxLabel": "",
+        "Volume": "test_dags_folder",
+    },
+]
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=["nomadjoboperator", "localexecutor"],
-    params=ParamsDict({"template_content": content}),
-    disable_bundle_versioning=True,
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomad", "nomadjoboperator", "nomadexecutor"],
     default_args={"executor": "LocalExecutor"},
 ) as dag:
-    run_this_last = NomadJobOperator(task_id="nomad_job_localexecutor", executor="LocalExecutor")
 
-    chain(run_this_last)
+    @nomad_task(
+        template_content=content % ("{{ ti.id }}"),
+        image="alpine:latest",
+        volumes=vol_data,
+        volume_mounts=vol_mounts_data,
+    )
+    def nomad_volumes_only():
+        return ["cat", "/opt/airflow/dags/templates/simple_batch.hcl"]
+
+    @nomad_task(
+        template_content=content % ("{{ ti.id }}"), image="alpine:latest", task_resources=resources
+    )
+    def nomad_resources():
+        return ["cat", "/proc/meminfo"]
+
+    @nomad_task(
+        template_content=content % ("{{ ti.id }}"),
+        image="alpine:latest",
+        ephemeral_disk=ephemeral_disk,
+    )
+    def nomad_ephemeral():
+        return ["ls", "-la", "alloc/data"]
+
+    @nomad_task(
+        template_content=content % ("{{ ti.id }}"),
+        image="alpine:latest",
+        task_resources=resources,
+        ephemeral_disk=ephemeral_disk,
+        volumes=vol_data,
+        volume_mounts=vol_mounts_data,
+    )
+    def nomad_all_in_one():
+        return ["cat", "/opt/airflow/dags/templates/simple_batch.hcl"]
+
+    nomad_volumes_only() >> nomad_resources() >> nomad_ephemeral() >> nomad_all_in_one()  # type: ignore [reportUnusedExpression]
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
@@ -101,5 +150,6 @@ try:
     # Running it only in a pre-configured environment
     if conf.get("core", "executor") == "LocalExecutor":
         test_run = get_test_run(dag)
+
 except ImportError:
     pass
