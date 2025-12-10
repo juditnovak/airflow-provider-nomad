@@ -4,11 +4,10 @@ import logging
 import os
 import sys
 import time
-from datetime import timedelta
 from pprint import pprint
+import datetime
 
 import attrs
-import pendulum
 from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import DAG
@@ -20,9 +19,8 @@ PATH_TO_PYTHON_BINARY = sys.executable
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test_python_operator_base"
-
-JOB_NAME = "test-python-operator-base"
+DAG_ID = "test-python-operator"
+JOB_NAME = "test-python-operator"
 JOB_NAMESPACE = "default"
 
 ##############################################################################
@@ -61,11 +59,8 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=timedelta(minutes=60),
-    tags=["test", "python"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomad", "nomadexecutor", "nomad-provider-test"],
     params=ParamsDict({"example_key": "example_value"}),
 ) as dag:
     run_this_last = EmptyOperator(

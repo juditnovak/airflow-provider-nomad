@@ -2,15 +2,14 @@ import datetime
 import os
 
 import attrs
-import pendulum
 from airflow.sdk import DAG
 
 from airflow.providers.nomad.decorators.task import nomad_task
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-task-decorator-param-volumes"
-JOB_NAME = "task-test-task-decorator-param-volumes"
+DAG_ID = "test-nomad-task-decorator-resource-alloc"
+JOB_NAME = "test-nomad-task-decorator-resource-alloc"
 JOB_NAMESPACE = "default"
 
 
@@ -95,11 +94,8 @@ vol_mounts_data = [
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=["nomad", "nomadjoboperator", "nomadexecutor"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 
     @nomad_task(
