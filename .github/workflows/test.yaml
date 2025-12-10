@@ -273,6 +273,9 @@ jobs:
           patch .venv/lib/python3.10/site-packages/airflow/sdk/definitions/dag.py tests/system/nomad/patches/patch_airflow_${AIRFLOW_VERSION}
 
           uv run tox run -e system_test_localexecutor
+
+          uv run airflow dag-processor
+
         env:
           AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
