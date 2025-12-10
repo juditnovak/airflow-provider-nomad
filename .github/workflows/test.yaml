@@ -263,13 +263,21 @@ jobs:
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
 
-          ./tests/system/nomad/scripts/init_airflow_cfg.sh
+          ./tests/system/nomad/scripts/init_airflow_cfg.sh localexecutor
 
           uv run airflow db reset -y
           uv run airflow api-server &
 
-          sed -i "s/airflow.providers.nomad.executors.nomad_executor.NomadExecutor/LocalExecutor/" tests/system/nomad/config/unit_tests.cfg.template
+          # See https://github.com/juditnovak/airflow/pull/1
+          # Applying at the point when .venv is surely filled up
+          patch .venv/lib/python3.10/site-packages/airflow/sdk/definitions/dag.py tests/system/nomad/patches/patch_airflow_${AIRFLOW_VERSION}
+
           uv run tox run -e system_test_localexecutor
+
+          uv run airflow dag-processor
+
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
 
       - name: Save nomad logs
         if: failure()

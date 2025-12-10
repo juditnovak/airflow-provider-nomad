@@ -1,15 +1,16 @@
+import datetime
 import os
-from datetime import timedelta
 
 import attrs
 import pendulum
-from airflow.providers.standard.operators.bash import BashOperator
-from airflow.providers.standard.operators.empty import EmptyOperator
-from airflow.sdk import DAG
+from airflow.sdk import DAG, chain
+from airflow.sdk.definitions.param import ParamsDict
+
+from airflow.providers.nomad.operators.job import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-config-default-job-template-hcl"
+DAG_ID = "test-nomad-job-operator-localexecutor"
 JOB_NAME = "task-test-config-default-job-template-hcl"
 JOB_NAMESPACE = "default"
 
@@ -48,41 +49,53 @@ class myDAG(DAG):
 
 ##############################################################################
 
+content = """
+job "nomad-test-hcl-localexexutor" {
+  type = "batch"
+
+  constraint {
+    attribute = "${attr.kernel.name}"
+    value     = "linux"
+  }
+
+  group "example" {
+    count = 1
+    task "uptime" {
+      driver = "docker"
+      config {
+        image = "alpine:latest"
+        args = ["uptime"]
+      }
+    }
+  }
+}
+""".strip()
+
+
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=timedelta(minutes=60),
-    tags=["test", "config", "json_template"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomadjoboperator", "nomad-provider-test-localexecutor"],
+    params=ParamsDict({"template_content": content}),
+    default_args={"executor": "LocalExecutor"},
 ) as dag:
-    run_this_last = EmptyOperator(
-        task_id="run_this_last",
-    )
+    run_this_last = NomadJobOperator(task_id="nomad_job_localexecutor", executor="LocalExecutor")
 
-    run_this = BashOperator(
-        task_id="placeholder",
-        bash_command="echo 'Testing default_job_template' parameter with HCL",
-    )
-
-    run_this >> run_this_last  # type: ignore [reportUnusedExpression]
+    chain(run_this_last)
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:
+    from airflow.configuration import conf
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-    from airflow.providers.nomad.constants import CONFIG_SECTION
-    from airflow.providers.nomad.executors.nomad_executor import conf
+    from ..constants import TEST_DAGS_LOCALEXECUTOR_PATH
 
-    from ..constants import TEST_DATA_PATH
+    os.environ["TEST_DAGS_PATH"] = str(TEST_DAGS_LOCALEXECUTOR_PATH)
 
-    conf.set(
-        CONFIG_SECTION,
-        "default_job_template",
-        str(TEST_DATA_PATH / "nomad_provider_job_template.hcl"),
-    )
-    test_run = get_test_run(dag)
-    conf.set(CONFIG_SECTION, "default_job_template", "")
+    # Sadly none of the DAG executor settings are considered in the test environment
+    # Running it only in a pre-configured environment
+    if conf.get("core", "executor") == "LocalExecutor":
+        test_run = get_test_run(dag)
 except ImportError:
     pass

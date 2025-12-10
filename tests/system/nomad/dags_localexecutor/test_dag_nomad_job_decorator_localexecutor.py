@@ -10,8 +10,8 @@ from airflow.providers.nomad.decorators.job import nomad_job
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test_nomad_job_decorator_dag"
-JOB_NAME = "task-test-config-default-job-template-hcl"
+DAG_ID = "test-nomad-job-decorator-localexecutor"
+JOB_NAME = "test-nomad-job-decorator-localexecutor"
 JOB_NAMESPACE = "default"
 
 
@@ -51,14 +51,10 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=["nomad", "nomadjoboperator", "nomadexecutor"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomad", "nomadjobdecorator", "nomad-provier-test-localexecutor"],
+    default_args={"executor": "LocalExecutor"},
 ) as dag:
-    # def test_nomad_task_decorator_dag():
-
     @nomad_job()
     def nomad_command_date():
         now = time.time()

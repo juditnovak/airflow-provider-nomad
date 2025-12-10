@@ -2,7 +2,6 @@ import datetime
 import os
 
 import attrs
-import pendulum
 from airflow.sdk import DAG, chain
 
 from airflow.providers.nomad.operators.task import NomadTaskOperator
@@ -10,7 +9,7 @@ from airflow.providers.nomad.operators.task import NomadTaskOperator
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
 DAG_ID = "test-nomad-task-operator"
-JOB_NAME = "task-test-config-default-job-template-hcl"
+JOB_NAME = "test-nomad-task-operator"
 JOB_NAMESPACE = "default"
 
 
@@ -69,11 +68,8 @@ job "nomad-test-hcl" {
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=datetime.timedelta(minutes=60),
-    tags=["nomad", "nomadTaskoperator", "nomadexecutor"],
+    dagrun_timeout=datetime.timedelta(minutes=10),
+    tags=["nomad", "nomadtaskoperator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
     run_this_last = NomadTaskOperator(
         task_id="nomad_job", template_content=content, image="alpine:3.21", args=["date"]

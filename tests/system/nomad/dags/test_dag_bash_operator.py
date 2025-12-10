@@ -10,7 +10,7 @@ from airflow.sdk.definitions.param import ParamsDict
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "bash_operator_triggered_test"
+DAG_ID = "test-bash-operator"
 JOB_NAME = "test-bash-operator"
 JOB_NAMESPACE = "default"
 
@@ -51,11 +51,8 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
-    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    catchup=False,
-    dagrun_timeout=timedelta(minutes=60),
-    tags=["example", "example2"],
+    dagrun_timeout=timedelta(minutes=10),
+    tags=["nomad", "nomadexecutor", "nomad-provider-test"],
     params=ParamsDict({"example_key": "example_value"}),
 ) as dag:
     run_this_last = EmptyOperator(

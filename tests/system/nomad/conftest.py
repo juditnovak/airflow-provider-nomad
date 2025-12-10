@@ -101,6 +101,15 @@ def pytest_addoption(parser):
         help="Hostname or IP of the Airflow API server. (Alternative: {TEST_ENV_API_HOST}) See also --api-ip-netiface",
     )
 
+    # Test execution type
+    parser.addoption(
+        "--nomad-test-type",
+        action="store",
+        choices=("", "localexecutor"),
+        default="",
+        help="Multiple types of test executions are allowed (standard [default], localexecutor)"
+    )
+
 
 @pytest.fixture(scope="session")
 def option_nomad_agent(request):
@@ -138,7 +147,7 @@ def pytest_configure(config):
                 TEST_ENV_API_IP_NETIFACE,
             )
             exit(1)
-    unit_test_conf = airflow_test_servces_config(addr)
+    unit_test_conf = airflow_test_servces_config(addr, config.getoption("nomad_test_type"))
     airflow_test_servces_setup(unit_test_conf)
 
 
@@ -272,8 +281,13 @@ def nomad_agent(nomad_runner_config, option_nomad_agent, service_ip):
 # Though not fixtures, still rather left here for readability
 
 
-def airflow_test_servces_config(service_ip):
-    airflow_unit_test_config = SYSTEST_ROOT / TEST_CONFIG_PATH / Path("unit_tests.cfg")
+def airflow_test_servces_config(service_ip, nomad_test_type):
+    default_file = "unit_tests.cfg" 
+    airflow_unit_test_config_default = SYSTEST_ROOT / TEST_CONFIG_PATH / Path(default_file)
+
+    filename = f"unit_tests_{nomad_test_type}.cfg" if nomad_test_type else default_file
+    airflow_unit_test_config = SYSTEST_ROOT / TEST_CONFIG_PATH / Path(filename)
+
     update_template(
         airflow_unit_test_config,
         {
@@ -282,13 +296,15 @@ def airflow_test_servces_config(service_ip):
             "<NOMAD_SERVER_IP>": str(service_ip),
         },
     )
+    if filename != default_file:
+        shutil.move(airflow_unit_test_config, airflow_unit_test_config_default)
 
     # Load System Test configuration
-    conf.read_file(open(f"{TEST_CONFIG_PATH}/unit_tests.cfg"))
+    conf.read_file(open(f"{TEST_CONFIG_PATH}/{default_file}"))
     logger.debug("Airflow config loaded for system tests")
     logger.info(f"The executor is: {conf.get('core', 'executor')}")
 
-    return airflow_unit_test_config
+    return airflow_unit_test_config_default
 
 
 def airflow_test_servces_setup(airflow_test_servces_config):
