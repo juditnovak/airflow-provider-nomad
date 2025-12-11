@@ -34,10 +34,11 @@ Latest change: 2025-12-11
 ================================================================================================================== ========== ==============================================
 Commit                                                                                                             Committed  Subject
 ================================================================================================================== ========== ==============================================
-
+`5c6c63a <https://github.com/juditnovak/airflow-provider-nomad/commit/5c6c63a51f609845f3185315852757d8358ac683>`__ 2025-12-11 ``Upgrade to Airflow 3.1.3 (#50)``
+`a14ce54 <https://github.com/juditnovak/airflow-provider-nomad/commit/a14ce5436c76d9c558956004e7ab8f08b2865afc>`__ 2025-12-09 ``[VERSION] Version increase: 0.0.6.dev2 (#59)``
 `2ce5d47 <https://github.com/juditnovak/airflow-provider-nomad/commit/2ce5d472a8921533af1b3b36369d09db213ffbef>`__ 2025-12-08 ``[BUGFIX] Configurable runner logs (#56)``
 `c65f2bb <https://github.com/juditnovak/airflow-provider-nomad/commit/c65f2bb92cfa57b7035b81885f983ad67531db60>`__ 2025-12-08 ``Minor administrative fixes (#52)``
-`aae08a3 <https://github.com/juditnovak/airflow-provider-nomad/commit/aae08a30dc20d5de05886acdf187b6f5b14176b5>`__ 2025-12-07 ``[VERSION] 0.0.6.dev1 (#51)``   
+`aae08a3 <https://github.com/juditnovak/airflow-provider-nomad/commit/aae08a30dc20d5de05886acdf187b6f5b14176b5>`__ 2025-12-07 ``[VERSION] 0.0.6.dev1 (#51)``
 ================================================================================================================== ========== ==============================================
 
 0.0.5
