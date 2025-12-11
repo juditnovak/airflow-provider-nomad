@@ -4,14 +4,14 @@ on:
     branches: ["main"]
 
 env:
-  AIRFLOW_VERSION: 3.0.6
+  AIRFLOW_VERSION: 3.1.3
 
 jobs:
 
   # Running all tests together collecting global coverage
   tests:
     name: Unit and System tests with cumulated coverage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - name: Checkout
@@ -71,7 +71,6 @@ jobs:
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
-
           export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
           ./tests/system/nomad/scripts/init_airflow_cfg.sh
@@ -88,11 +87,16 @@ jobs:
           set -x
           export AIRFLOW_SOURCES=$PWD/airflow
           export AIRFLOW_HOME=$PWD/tests/system/nomad/server/airflow_home
-
           export _AIRFLOW__SYSTEM_TEST_USE_EXECUTOR=1
 
-          sed -i "s/airflow.providers.nomad.executors.nomad_executor.NomadExecutor/LocalExecutor/" tests/system/nomad/config/unit_tests.cfg.template
-          COVERAGE_FILE=.coverage_system3 uv run pytest -s -v --ignore tests/system/nomad/dags --without-db-init --system --cov=src tests/system/nomad/
+          rm $AIRFLOW_HOME/airflow.cfg
+          ./tests/system/nomad/scripts/init_airflow_cfg.sh localexecutor
+
+          patch .venv/lib/python3.12/site-packages/airflow/sdk/definitions/dag.py tests/system/nomad/patches/patch_airflow_${AIRFLOW_VERSION}
+
+          COVERAGE_FILE=.coverage_system3 uv run pytest -s -v --ignore tests/system/nomad/dags --without-db-init --nomad-test-type=localexecutor  --system --cov=src tests/system/nomad/
+        env:
+          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION }}
 
       - name: Overall coverage reports
         run: |

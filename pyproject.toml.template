@@ -29,7 +29,7 @@ maintainers = [
 ]
 keywords = [ "airflow-provider", "nomad", "airflow", "integration" ]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    # "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
@@ -79,7 +79,7 @@ docs = [
 ]
 
 [tool.uv.sources]
-apache-airflow-devel-common = { git = "https://github.com/apache/airflow.git", subdirectory="devel-common", tag="<AIRFLOW_VERSION>"}
+apache-airflow-devel-common = { git = "https://github.com/apache/airflow.git", subdirectory="devel-common", tag="<AIRFLOW_VERSION>" }
 
 [project.entry-points."apache_airflow_provider"]
 provider_info = "airflow.providers.nomad.get_provider_info:get_provider_info"
@@ -100,7 +100,8 @@ line_length = 100
 [tool.ruff]
 line-length = 100
 
-# [tool.pytest.ini_options]
+[tool.pytest.ini_options]
+log_level = "INFO"
 # pythonpath = ["."]
 
 [project.optional-dependencies]

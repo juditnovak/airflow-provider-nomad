@@ -2,14 +2,11 @@ name: ci
 on:
   pull_request:
 
-env:
-  AIRFLOW_VERSION: 3.0.6
-
 jobs:
 
   lint:
     name: Lint and type checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Install the latest version of uv
@@ -28,10 +25,12 @@ jobs:
 
   unit_test:
     name: Unit tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     strategy:
       fail-fast: false
+      matrix:
+        airflow_version: [3.0.6, 3.1.3]
     steps:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v6
@@ -49,14 +48,14 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          ref: ${{ env.AIRFLOW_VERSION }}
+          ref: ${{ matrix.airflow_version }}
 
       - name: Adjust Airflow version for local env
         run: |
           sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
           echo "Airflow Version is $AIRFLOW_VERSION"
         env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
 
       - name: Run tests
         run: |
@@ -66,8 +65,11 @@ jobs:
 
   integration_tests:
     name: Integration tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        airflow_version: [3.0.6, 3.1.3]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -99,14 +101,14 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          ref: ${{ env.AIRFLOW_VERSION }}
+          ref: ${{ matrix.airflow_version }}
 
       - name: Adjust Airflow version for local env
         run: |
           sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
           echo "Airflow Version is $AIRFLOW_VERSION"
         env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
 
       - name: System tests for NomadExecutor and NomadJobOperator
         run: |
@@ -141,8 +143,11 @@ jobs:
 
   system_tests:
     name: Airflow system tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      matrix:
+        airflow_version: [3.0.6, 3.1.3]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -174,14 +179,14 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          ref: ${{ env.AIRFLOW_VERSION }}
+          ref: ${{ matrix.airflow_version }}
 
       - name: Adjust Airflow version for local env
         run: |
           sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
           echo "Airflow Version is $AIRFLOW_VERSION"
         env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
 
       - name: System tests for NomadExecutor and NomadJobOperator
         run: |
@@ -215,8 +220,12 @@ jobs:
 
   system_tests_localexecutor:
     name: Airflow system tests on LocalExecutor for Nomad Operators
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        airflow_version: ["3.0.6", "3.1.3"]
+        python_version: ["3.12"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -248,14 +257,14 @@ jobs:
         with:
           repository: apache/airflow
           path: airflow
-          ref: ${{ env.AIRFLOW_VERSION }}
+          ref: ${{ matrix.airflow_version }}
 
       - name: Adjust Airflow version for local env
         run: |
           sed -e "s/<AIRFLOW_VERSION>/$AIRFLOW_VERSION/" pyproject.toml.template > pyproject.toml
           echo "Airflow Version is $AIRFLOW_VERSION"
         env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
 
       - name: System tests for NomadJobOperator on LocalExecutor
         run: |
@@ -268,22 +277,18 @@ jobs:
           uv run airflow db reset -y
           uv run airflow api-server &
 
-          # See https://github.com/juditnovak/airflow/pull/1
-          # Applying at the point when .venv is surely filled up
-          patch .venv/lib/python3.10/site-packages/airflow/sdk/definitions/dag.py tests/system/nomad/patches/patch_airflow_${AIRFLOW_VERSION}
-
           uv run tox run -e system_test_localexecutor
 
-          uv run airflow dag-processor
-
         env:
-          AIRFLOW_VERSION: ${{ env.AIRFLOW_VERSION}}
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
+          PYTHON_VERSION: ${{ matrix.python_version }}
 
       - name: Save nomad logs
         if: failure()
         run: |
           mkdir nomad_logs
-          sudo cp -r /tmp/Nomad* nomad_logs
+          sudo cp -r /tmp/* nomad_logs
+          sudo cp -r ./*.log nomad_logs
           sudo tar -czvf nomad_logs.tar.gz nomad_logs
           sudo chmod 777 nomad_logs.tar.gz
           mv nomad_logs.tar.gz tests/system/nomad/server/logs
