@@ -77,6 +77,8 @@ job "nomad-test-hcl-%s" {
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjoboperator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
     run_this_first = NomadJobOperator(

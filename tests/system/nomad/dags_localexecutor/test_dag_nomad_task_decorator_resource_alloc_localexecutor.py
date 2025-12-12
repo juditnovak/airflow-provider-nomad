@@ -2,7 +2,6 @@ import datetime
 import os
 
 import attrs
-import pendulum
 from airflow.sdk import DAG
 
 from airflow.providers.nomad.decorators.task import nomad_task
@@ -96,6 +95,8 @@ vol_mounts_data = [
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjoboperator", "nomadexecutor"],
     default_args={"executor": "LocalExecutor"},
 ) as dag:

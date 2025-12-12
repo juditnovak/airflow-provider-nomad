@@ -60,6 +60,8 @@ class myDAG(DAG):
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadexecutor", "nomad-provider-test"],
     params=ParamsDict({"example_key": "example_value"}),
 ) as dag:

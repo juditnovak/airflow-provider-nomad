@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 import attrs
 from airflow.sdk import DAG
@@ -67,6 +68,9 @@ job "nomad-test-hcl" {
 
 with myDAG(
     dag_id=DAG_ID,
+    dagrun_timeout=timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 

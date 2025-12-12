@@ -3,7 +3,6 @@ import os
 import time
 
 import attrs
-import pendulum
 from airflow.sdk import DAG
 
 from airflow.providers.nomad.decorators.job import nomad_job
@@ -52,9 +51,12 @@ class myDAG(DAG):
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjobdecorator", "nomad-provier-test-localexecutor"],
     default_args={"executor": "LocalExecutor"},
 ) as dag:
+
     @nomad_job()
     def nomad_command_date():
         now = time.time()

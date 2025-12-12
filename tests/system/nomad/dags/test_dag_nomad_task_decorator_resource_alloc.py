@@ -95,6 +95,8 @@ vol_mounts_data = [
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 

@@ -3,7 +3,6 @@ import os
 from time import time
 
 import attrs
-import pendulum
 from airflow.sdk import DAG
 
 from airflow.providers.nomad.operators.job import NomadJobOperator
@@ -78,6 +77,8 @@ job "nomad-test-hcl-%s" {
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjoboperator", "nomad-provider-test-localexecutor"],
     default_args={"executor": "LocalExecutor"},
 ) as dag:

@@ -2,7 +2,6 @@ import datetime
 import os
 
 import attrs
-import pendulum
 from airflow.sdk import DAG, chain
 from airflow.sdk.definitions.param import ParamsDict
 
@@ -75,6 +74,8 @@ job "nomad-test-hcl-localexexutor" {
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomadjoboperator", "nomad-provider-test-localexecutor"],
     params=ParamsDict({"template_content": content}),
     default_args={"executor": "LocalExecutor"},

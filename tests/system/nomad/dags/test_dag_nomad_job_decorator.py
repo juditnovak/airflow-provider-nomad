@@ -51,6 +51,8 @@ class myDAG(DAG):
 with myDAG(
     dag_id=DAG_ID,
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjobdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
     # def test_nomad_task_decorator_dag():
