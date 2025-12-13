@@ -1,4 +1,5 @@
 from __future__ import annotations
+import pendulum
 
 import logging
 import os
@@ -59,6 +60,8 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
+    schedule="0 0 * * *",
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=datetime.timedelta(minutes=10),
     disable_bundle_versioning=True,
     catchup=False,
