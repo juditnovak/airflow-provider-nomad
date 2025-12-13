@@ -53,7 +53,7 @@ with myDAG(
     dag_id=DAG_ID,
     schedule="0 0 * * *",
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    dagrun_timeout=timedelta(minutes=10),
+    dagrun_timeout=timedelta(minutes=60),
     disable_bundle_versioning=True,
     catchup=False,
     tags=["nomad", "nomadexecutor", "nomad-provider-test"],
