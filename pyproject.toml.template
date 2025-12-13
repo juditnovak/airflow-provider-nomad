@@ -29,7 +29,7 @@ maintainers = [
 ]
 keywords = [ "airflow-provider", "nomad", "airflow", "integration" ]
 classifiers = [
-    "Development Status :: 5 - Stable",
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
