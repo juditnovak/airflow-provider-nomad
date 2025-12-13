@@ -1,4 +1,5 @@
 import datetime
+import pendulum
 import os
 from time import time
 
@@ -78,7 +79,11 @@ job "nomad-test-hcl-%s" {
 
 with myDAG(
     dag_id=DAG_ID,
+    schedule="0 0 * * *",
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadjoboperator", "nomadexecutor", "nomad-provider-test"],
     params=ParamsDict({"template_content": content}),
 ) as dag:

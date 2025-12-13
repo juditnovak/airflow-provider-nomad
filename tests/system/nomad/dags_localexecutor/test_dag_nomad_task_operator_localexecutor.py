@@ -1,8 +1,8 @@
 import datetime
+import pendulum
 import os
 
 import attrs
-import pendulum
 from airflow.sdk import DAG, chain
 
 from airflow.providers.nomad.operators.task import NomadTaskOperator
@@ -74,7 +74,11 @@ job "nomad-test-hcl" {
 
 with myDAG(
     dag_id=DAG_ID,
+    schedule="0 0 * * *",
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=datetime.timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadtaskoperator", "nomad-provider-test-localexecutor"],
 ) as dag:
     run_this_last = NomadTaskOperator(

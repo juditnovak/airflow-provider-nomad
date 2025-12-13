@@ -1,4 +1,5 @@
 import os
+import pendulum
 from datetime import timedelta
 
 import attrs
@@ -49,7 +50,11 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
+    schedule="0 0 * * *",
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
     run_this_last = EmptyOperator(

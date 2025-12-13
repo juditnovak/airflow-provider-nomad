@@ -1,8 +1,8 @@
 import os
+import pendulum
 from datetime import timedelta
 
 import attrs
-import pendulum
 from airflow.providers.standard.operators.bash import BashOperator
 from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.sdk import DAG
@@ -51,7 +51,11 @@ class myDAG(DAG):
 
 with myDAG(
     dag_id=DAG_ID,
+    schedule="0 0 * * *",
+    start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=timedelta(minutes=10),
+    disable_bundle_versioning=True,
+    catchup=False,
     tags=["nomad", "nomadexecutor", "nomad-provider-test"],
     params=ParamsDict({"example_key": "example_value"}),
 ) as dag:
