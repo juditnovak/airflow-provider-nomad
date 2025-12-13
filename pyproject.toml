@@ -18,7 +18,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "apache-airflow-providers-nomad"
-version = "0.0.6.dev2"
+version = "0.0.6"
 description = "Provider package for Nomad (executor, operators, etc.) for Apache Airflow"
 readme = "README.md"
 authors = [
@@ -29,7 +29,7 @@ maintainers = [
 ]
 keywords = [ "airflow-provider", "nomad", "airflow", "integration" ]
 classifiers = [
-    # "Development Status :: 5 - Production/Stable",
+    "Development Status :: 5 - Stable",
     "Environment :: Console",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",

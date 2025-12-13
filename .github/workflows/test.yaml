@@ -200,6 +200,9 @@ jobs:
           uv run airflow api-server &
 
           uv run tox run -e system_test
+        env:
+          AIRFLOW_VERSION: ${{ matrix.airflow_version }}
+          PYTHON_VERSION: ${{ matrix.python_version }}
 
       - name: Save nomad logs
         if: failure()
