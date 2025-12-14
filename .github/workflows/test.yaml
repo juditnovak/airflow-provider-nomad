@@ -198,7 +198,7 @@ jobs:
 
           uv run airflow db reset -y
           uv run airflow api-server &
-          uv run airflow dag-processor &
+          while true; do uv run airflow dag-processor; done &
 
           uv run tox run -e system_test
         env:
