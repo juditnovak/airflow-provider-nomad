@@ -8,7 +8,11 @@ from airflow.sdk import Context
 from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
 
-from airflow.providers.nomad.exceptions import NomadOperatorError, NomadTaskOperatorError
+from airflow.providers.nomad.exceptions import (
+    NomadOperatorError,
+    NomadProviderException,
+    NomadValidationError,
+)
 from airflow.providers.nomad.models import (
     NomadJobModel,
     NomadVolumeMounts,
@@ -104,7 +108,7 @@ def test_nomad_task_operator_template_multi_task(test_datadir):
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
     op = NomadTaskOperator(task_id="task_id")
-    with pytest.raises(NomadTaskOperatorError) as err:
+    with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
     assert str(err.value) == "NomadTaskOperator only allows for a single task"
@@ -120,7 +124,7 @@ def test_nomad_task_operator_template_multi_tg(test_datadir):
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
     op = NomadTaskOperator(task_id="task_id")
-    with pytest.raises(NomadTaskOperatorError) as err:
+    with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
     assert str(err.value) == "NomadTaskOperator only allows for a single taskgroup"
@@ -136,7 +140,7 @@ def test_nomad_task_operator_template_multi_count(test_datadir):
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
     op = NomadTaskOperator(task_id="task_id")
-    with pytest.raises(NomadTaskOperatorError) as err:
+    with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
     assert str(err.value) == "Only a single execution is allowed (count=1)"
@@ -221,9 +225,7 @@ def test_sanitize_logs():
 
         even_more_log_content = "even\nmuch\nmore\nlog\ncontent"
         logs += even_more_log_content
-        assert even_more_log_content == op.sanitize_logs(
-            "alloc_id", "task_name", logs
-        )  # type: ignore [reportAttributeAccessIssue]
+        assert even_more_log_content == op.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
     finally:
         file_path.unlink()
 
@@ -403,14 +405,14 @@ def test_args_args(param, value):
 )
 def test_args_args_invalid(paramdict):
     op = NomadTaskOperator(task_id="task_id", **paramdict)  # type: ignore [reportArgumentType]
-    with pytest.raises(NomadTaskOperatorError):
+    with pytest.raises(NomadProviderException):
         op.prepare_job_template({})
 
 
 def test_args_conflict():
     op = NomadTaskOperator(task_id="task_id", entrypoint=["/bin/sh", "-c"], command="uptime")
 
-    with pytest.raises(NomadOperatorError) as err:
+    with pytest.raises(NomadValidationError) as err:
         op.prepare_job_template({})
     assert "Both 'entrypoint' and 'command' specified" in str(err.value)
 
@@ -418,10 +420,11 @@ def test_args_conflict():
 def test_args_template_path_invalid(caplog):
     op = NomadTaskOperator(task_id="task_id", template_path="bla")
     with caplog.at_level(logging.ERROR):
-        assert not op.prepare_job_template({})
+        with pytest.raises(NomadProviderException) as err:
+            assert not op.prepare_job_template({})
     assert "No such file or directory:" in caplog.text
 
-    with pytest.raises(NomadOperatorError) as err:
+    with pytest.raises(NomadProviderException) as err:
         op.execute({})
     assert "Nothing to execute" in str(err.value)
 
@@ -429,7 +432,7 @@ def test_args_template_path_invalid(caplog):
 def test_args_template_content_invalid(caplog):
     op = NomadTaskOperator(task_id="task_id", template_content="bla")
     with caplog.at_level(logging.ERROR):
-        with pytest.raises(NomadOperatorError) as err:
+        with pytest.raises(NomadProviderException) as err:
             op.prepare_job_template({})
     assert "Couldn't parse template 'bla'" in caplog.text
     assert "Nothing to execute" in str(err.value)
@@ -448,20 +451,9 @@ def test_args_invalid_env():
         env="TZ: 'Europe/Paris'",  # type: ignore [reportArgumentType]
     )
 
-    with pytest.raises(NomadOperatorError) as err:
+    with pytest.raises(NomadValidationError) as err:
         op.prepare_job_template({})
     assert "Input should be a valid dictionary" in str(err.value)
-
-
-@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
-def test_args_figure_path(filename, test_datadir):
-    file_path = test_datadir / filename
-    assert str(NomadTaskOperator(task_id="task_id").figure_path(str(file_path))) == str(file_path)
-    assert (
-        str(NomadTaskOperator(task_id="task_id").figure_path(filename))
-        == "/abs/path/to/dags/" + filename
-    )
 
 
 def test_args_task_ephemeral():

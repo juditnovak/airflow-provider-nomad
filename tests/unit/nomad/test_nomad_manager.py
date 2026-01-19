@@ -456,3 +456,11 @@ def test_retry_job_deregister(retry_num, mock_nomad_client, caplog):
         assert res == f"The BaseNomadException was raised due to the following error: {msg}"
         assert caplog.text.count(msg) == int(retry_num)
         assert mock_kill.call_count == int(retry_num)
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
+def test_args_figure_path(filename, test_datadir):
+    file_path = test_datadir / filename
+    assert str(NomadManager().figure_path(str(file_path))) == str(file_path)
+    assert str(NomadManager().figure_path(filename)) == "/abs/path/to/dags/" + filename
