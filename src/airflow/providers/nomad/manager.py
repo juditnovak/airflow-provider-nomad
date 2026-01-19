@@ -37,13 +37,15 @@ from airflow.providers.nomad.models import (
     NomadJobSummary,
     NomadEphemeralDisk,
     NomadJobModel,
-    TaskConfig,
     Resource,
     NomadVolumeMounts,
     NomadVolumes,
 )
 from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
-from airflow.providers.nomad.templates.job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import (
+    DEFAULT_TASK_TEMPLATE,
+    DEFAULT_TASK_TEMPLATE_SDK,
+)
 
 RETRY_NUM = conf.getint(CONFIG_SECTION, "job_submission_retry_num", fallback=3)
 RETRY_MIN = conf.getint(CONFIG_SECTION, "job_submission_retry_interval_min", fallback=1)
@@ -385,14 +387,9 @@ class NomadManager(LoggingMixin):
             except (OSError, IOError, ValidationError) as err:
                 self.log.error(f"Can't load or parse default job template ({err})")
 
-        template = NomadJobModel.model_validate(default_task_template)
-
-        if not task_sdk:
-            # Removing (Airflow SDK execution) entrypoint from default template
-            config_dict = template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)
-            config_dict.pop("entrypoint")
-            template.Job.TaskGroups[0].Tasks[0].Config = TaskConfig.model_validate(config_dict)
-        return template
+        if task_sdk:
+            return NomadJobModel.model_validate(DEFAULT_TASK_TEMPLATE_SDK)
+        return NomadJobModel.model_validate(DEFAULT_TASK_TEMPLATE)
 
     def get_job_template(
         self, config: dict | None = None, task_sdk: bool = False
@@ -421,19 +418,22 @@ class NomadManager(LoggingMixin):
         except ValidationError as err:
             raise NomadValidationError(f"Template retrieval or validation failed: {err.errors()}")
 
-    def update_job_template(self, template: NomadJobModel, config: dict) -> NomadJobModel | None:
+    def update_job_template(
+        self, template: NomadJobModel, config: dict, task_sdk: bool = False
+    ) -> NomadJobModel | None:
         try:
+            if not task_sdk:
+                if entrypoint := config.get("entrypoint"):
+                    template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
+
+                if args := config.get("args"):
+                    template.Job.TaskGroups[0].Tasks[0].Config.args = args
+
+                if command := config.get("command"):
+                    template.Job.TaskGroups[0].Tasks[0].Config.command = command
+
             if image := config.get("image"):
                 template.Job.TaskGroups[0].Tasks[0].Config.image = image
-
-            if entrypoint := config.get("entrypoint"):
-                template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
-
-            if args := config.get("args"):
-                template.Job.TaskGroups[0].Tasks[0].Config.args = args
-
-            if command := config.get("command"):
-                template.Job.TaskGroups[0].Tasks[0].Config.command = command
 
             if env := config.get("env"):
                 template.Job.TaskGroups[0].Tasks[0].Env = env
@@ -489,4 +489,4 @@ class NomadManager(LoggingMixin):
         if template.Job.TaskGroups[0].Count and template.Job.TaskGroups[0].Count > 1:
             raise NomadValidationError("Only a single execution is allowed (count=1)")
 
-        return self.update_job_template(template, config) if config else template
+        return self.update_job_template(template, config, task_sdk) if config else template

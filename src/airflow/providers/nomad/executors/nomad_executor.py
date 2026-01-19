@@ -20,9 +20,7 @@ Nomad Executor.
 from __future__ import annotations
 
 import argparse
-import copy
 import logging
-from pathlib import Path
 from typing import Any
 
 from airflow.configuration import conf
@@ -34,12 +32,12 @@ from airflow.utils.state import TaskInstanceState
 from pydantic import ValidationError
 
 from airflow.providers.nomad.constants import CONFIG_SECTION
-from airflow.providers.nomad.exceptions import NomadProviderException, NomadValidationError
+from airflow.providers.nomad.exceptions import NomadProviderException
 from airflow.providers.nomad.generic_interfaces.executor_interface import ExecutorInterface
 from airflow.providers.nomad.log import NomadLogHandler
 from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.templates.job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import DEFAULT_JOB_NAME, SDK_ENTRYPOINT
 from airflow.providers.nomad.utils import (
     job_id_from_taskinstance_key,
     job_task_id_from_taskinstance_key,
@@ -64,39 +62,59 @@ class NomadExecutor(ExecutorInterface):
         self.log.info("Starting Nomad executor")
         self.nomad_mgr.initialize()
 
-    def _get_job_template(self, executor_config: dict) -> NomadJobModel | None:
-        name = self.__class__.__name__
-        if executor_config and name in executor_config and "job_template" in executor_config[name]:
-            job_tpl_loc = executor_config[name].get("job_template")
-        elif not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
-            return None
+    # def _get_job_template(self, executor_config: dict) -> NomadJobModel | None:
+    # name = self.__class__.__name__
+    # if executor_config and name in executor_config and "job_template" in executor_config[name]:
+    #     job_tpl_loc = executor_config[name].get("job_template")
+    # elif not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
+    #     return None
+    #
+    # job_tpl_path = Path(job_tpl_loc)
+    # if not job_tpl_path.is_file():
+    #     self.log.error("Configured template %s is not a file", job_tpl_path)
+    #     return None
+    #
+    # job_template = None
+    #
+    # try:
+    #     with open(job_tpl_path) as file:
+    #         content = file.read()
+    # except (IOError, OSError) as err:
+    #     self.log.error("Couldn't open job template file %s (%s)", job_tpl_path, err)
+    #     return  # type: ignore [return-value]
+    #
+    # try:
+    #     if job_tpl_path.suffix == ".json":
+    #         job_template = self.nomad_mgr.parse_template_json(content)
+    #     elif job_tpl_path.suffix == ".hcl":
+    #         job_template = self.nomad_mgr.parse_template_hcl(content)
+    # except NomadValidationError as err:
+    #     self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
+    #
+    # return job_template
 
-        job_tpl_path = Path(job_tpl_loc)
-        if not job_tpl_path.is_file():
-            self.log.error("Configured template %s is not a file", job_tpl_path)
-            return None
+    def validate_exeucutor_config(self, executor_config: dict | None) -> dict | None:
+        if not executor_config:
+            return executor_config
 
-        job_template = None
+        remove = ["args", "command"]
+        warn = ["entrypoint"]
+        for field in remove:
+            if executor_config.pop(field, None):
+                self.log.error(
+                    f"'{field}' is an invalid parameter for the executor, will be ignored"
+                )
 
-        try:
-            with open(job_tpl_path) as file:
-                content = file.read()
-        except (IOError, OSError) as err:
-            self.log.error("Couldn't open job template file %s (%s)", job_tpl_path, err)
-            return  # type: ignore [return-value]
+        for field in warn:
+            if field in executor_config:
+                self.log.warning(
+                    f"'{field}' should be used in a way that '{SDK_ENTRYPOINT} + <actual command>' will be used as 'args'"
+                )
 
-        try:
-            if job_tpl_path.suffix == ".json":
-                job_template = self.nomad_mgr.parse_template_json(content)
-            elif job_tpl_path.suffix == ".hcl":
-                job_template = self.nomad_mgr.parse_template_hcl(content)
-        except NomadValidationError as err:
-            self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
-
-        return job_template
+        return executor_config
 
     def prepare_job_template(
-        self, key: TaskInstanceKey, command: list[str], executor_config: dict
+        self, key: TaskInstanceKey, command: list[str], executor_config: dict | None = None
     ) -> dict[str, Any]:
         """Adjutst template to suit upcoming job execution
 
@@ -106,22 +124,17 @@ class NomadExecutor(ExecutorInterface):
         job_id = job_id_from_taskinstance_key(key)
         job_task_id = job_task_id_from_taskinstance_key(key)
 
-        if job_model := self._get_job_template(executor_config):
-            job_model.Job.TaskGroups[0].Tasks[0].Config.args = [
-                "python",
-                "-m",
-                "airflow.sdk.execution_time.execute_workload",
-                "--json-string",
-            ] + command
+        valid_config = self.validate_exeucutor_config(executor_config)
+        if not (job_model := self.nomad_mgr.prepare_job_template(valid_config, task_sdk=True)):
+            raise NomadProviderException("Couldn't retrieve job template")
 
-        if not job_model:
-            job_template = copy.deepcopy(default_task_template)
-            job_model = NomadJobModel.model_validate(job_template)
-            job_model.Job.TaskGroups[0].Tasks[0].Config.args = command
+        if job_model.Job.Name == DEFAULT_JOB_NAME:
             job_model.Job.Name = f"airflow-run-{job_task_id}-{key[3]}"
 
-        if not job_model:
-            raise NomadProviderException("Couldn't retrieve job template")
+        if job_model.Job.TaskGroups[0].Tasks[0].Config.entrypoint != SDK_ENTRYPOINT:
+            job_model.Job.TaskGroups[0].Tasks[0].Config.args = SDK_ENTRYPOINT + command
+        else:
+            job_model.Job.TaskGroups[0].Tasks[0].Config.args = command
 
         job_model.Job.TaskGroups[0].Tasks[0].Name = job_task_id
         job_model.Job.ID = job_id

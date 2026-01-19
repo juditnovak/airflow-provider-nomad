@@ -12,17 +12,22 @@
 # specific language governing permissions and limitations
 # under the License.
 
+from copy import deepcopy
 from typing import Any
 
 from airflow.configuration import conf
 
 from airflow.providers.nomad.constants import CONFIG_SECTION
 
-default_image = conf.get(
+DEFAULT_IMAGE = conf.get(
     CONFIG_SECTION, "default_docker_image", fallback="novakjudit/airflow-nomad-runner:0.0.7.dev1"
 )
 
-default_task_template: dict[str, Any] = {
+SDK_ENTRYPOINT = ["python", "-m", "airflow.sdk.execution_time.execute_workload", "--json-string"]
+
+DEFAULT_JOB_NAME = "ariflow_run"
+
+DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
     "Job": {
         "AllAtOnce": None,
         "Constraints": None,
@@ -32,7 +37,7 @@ default_task_template: dict[str, Any] = {
         "JobModifyIndex": None,
         "Meta": None,
         "ModifyIndex": None,
-        "Name": "ariflow_run",
+        "Name": DEFAULT_JOB_NAME,
         "Namespace": None,
         "ParameterizedJob": None,
         "ParentID": None,
@@ -62,13 +67,7 @@ default_task_template: dict[str, Any] = {
                     {
                         "Artifacts": None,
                         "Config": {
-                            "image": default_image,
-                            "entrypoint": [
-                                "python",
-                                "-m",
-                                "airflow.sdk.execution_time.execute_workload",
-                                "--json-string",
-                            ],
+                            "image": DEFAULT_IMAGE,
                             "args": [],
                         },
                         "Constraints": None,
@@ -160,3 +159,8 @@ default_task_template: dict[str, Any] = {
         "Version": None,
     }
 }
+
+DEFAULT_TASK_TEMPLATE_SDK = deepcopy(DEFAULT_TASK_TEMPLATE)
+DEFAULT_TASK_TEMPLATE_SDK["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["entrypoint"] = (
+    SDK_ENTRYPOINT
+)
