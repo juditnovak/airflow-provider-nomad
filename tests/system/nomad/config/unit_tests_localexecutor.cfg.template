@@ -2400,7 +2400,7 @@ default_job_template =
 #
 # Variable: AIRFLOW__NOMAD_PROVIDER__DEFAULT_DOCKER_IMAGE
 #
-default_docker_image = novakjudit/airflow-nomad-runner:0.0.6
+default_docker_image = novakjudit/airflow-nomad-runner:0.0.7.dev1
 
 # Timeout in seconds before failed allocations may be considered as failed jobs
 #
