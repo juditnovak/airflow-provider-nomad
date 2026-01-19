@@ -48,7 +48,7 @@ class NomadJobOperator(NomadOperator):
 
         content = None
         if self.template_path:
-            filepath = self.figure_path(self.template_path)
+            filepath = self.nomad_mgr.figure_path(self.template_path)
             try:
                 with open(filepath) as f:
                     content = f.read()

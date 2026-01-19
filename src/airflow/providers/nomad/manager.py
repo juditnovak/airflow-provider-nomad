@@ -15,6 +15,7 @@
 from datetime import datetime
 from functools import cached_property
 from typing import Any, Callable
+from pathlib import Path
 
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
@@ -32,11 +33,17 @@ from airflow.providers.nomad.models import (
     NomadJobAllocList,
     NomadJobEvalList,
     NomadJobEvaluation,
-    NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
+    NomadEphemeralDisk,
+    NomadJobModel,
+    TaskConfig,
+    Resource,
+    NomadVolumeMounts,
+    NomadVolumes,
 )
 from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
+from airflow.providers.nomad.templates.job_template import default_task_template
 
 RETRY_NUM = conf.getint(CONFIG_SECTION, "job_submission_retry_num", fallback=3)
 RETRY_MIN = conf.getint(CONFIG_SECTION, "job_submission_retry_interval_min", fallback=1)
@@ -361,3 +368,125 @@ class NomadManager(LoggingMixin):
             output.append("Job evaluations:")
             output += dict_to_lines(NomadJobEvaluation.dump_python(job_eval))
         return output
+
+    @staticmethod
+    def figure_path(path_str: str):
+        path = Path(path_str)
+        if not path.is_absolute():
+            path = Path(conf.get_mandatory_value("core", "dags_folder")) / path
+        return path
+
+    def get_default_template(self, task_sdk: bool = False):
+        if default_tplpath := conf.get(CONFIG_SECTION, "default_job_template", fallback=""):
+            tplpath = self.figure_path(default_tplpath)
+            try:
+                with open(tplpath) as f:
+                    return self.parse_template_content(f.read())
+            except (OSError, IOError, ValidationError) as err:
+                self.log.error(f"Can't load or parse default job template ({err})")
+
+        template = NomadJobModel.model_validate(default_task_template)
+
+        if not task_sdk:
+            # Removing (Airflow SDK execution) entrypoint from default template
+            config_dict = template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)
+            config_dict.pop("entrypoint")
+            template.Job.TaskGroups[0].Tasks[0].Config = TaskConfig.model_validate(config_dict)
+        return template
+
+    def get_job_template(
+        self, config: dict | None = None, task_sdk: bool = False
+    ) -> NomadJobModel | None:
+        if config and config.get("template_content") and config.get("template_path"):
+            self.log.error(
+                "template_path and template_content both define, ignoring template_content"
+            )
+
+        content = None
+        if config and (path := config.get("template_path")):
+            try:
+                tplpath = self.figure_path(path)
+                with open(tplpath) as f:
+                    content = f.read()
+            except (OSError, IOError) as err:
+                self.log.error(f"Can't load job template ({err})")
+                return  # type: ignore [return-value]
+
+        try:
+            if content or (config and (content := config.get("template_content", ""))):
+                return self.parse_template_content(content)
+            else:
+                return self.get_default_template(task_sdk)
+
+        except ValidationError as err:
+            raise NomadValidationError(f"Template retrieval or validation failed: {err.errors()}")
+
+    def update_job_template(self, template: NomadJobModel, config: dict) -> NomadJobModel | None:
+        try:
+            if image := config.get("image"):
+                template.Job.TaskGroups[0].Tasks[0].Config.image = image
+
+            if entrypoint := config.get("entrypoint"):
+                template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
+
+            if args := config.get("args"):
+                template.Job.TaskGroups[0].Tasks[0].Config.args = args
+
+            if command := config.get("command"):
+                template.Job.TaskGroups[0].Tasks[0].Config.command = command
+
+            if env := config.get("env"):
+                template.Job.TaskGroups[0].Tasks[0].Env = env
+
+            if resources := config.get("task_resources"):
+                res_model = Resource.model_validate(resources)
+                template.Job.TaskGroups[0].Tasks[0].Resources = res_model
+
+            if volumes := config.get("volumes"):
+                volumes = NomadVolumes.validate_python(volumes)
+                template.Job.TaskGroups[0].Volumes = volumes
+
+            if volume_mounts := config.get("volume_mounts"):
+                volume_mounts = NomadVolumeMounts.validate_python(volume_mounts)
+                template.Job.TaskGroups[0].Tasks[0].VolumeMounts = volume_mounts
+
+            if (
+                template.Job.TaskGroups[0].Tasks[0].VolumeMounts
+                and template.Job.TaskGroups[0].Volumes
+                and not all(
+                    vol.from_volumes(template.Job.TaskGroups[0].Volumes)
+                    for vol in template.Job.TaskGroups[0].Tasks[0].VolumeMounts
+                )
+            ):
+                self.log.error(
+                    "Inconsistent volume mounts: \nVolumes{%s}\nVolume Groups: {%s}",
+                    template.Job.TaskGroups[0].Volumes,
+                    template.Job.TaskGroups[0].Tasks[0].VolumeMounts,
+                )
+                return  # type: ignore [return-value]
+
+            if ephemeral_disk := config.get("ephemeral_disk"):
+                ephemeral_disk = NomadEphemeralDisk.model_validate(ephemeral_disk)
+                template.Job.TaskGroups[0].EphemeralDisk = ephemeral_disk
+
+        except ValidationError as err:
+            raise NomadValidationError(f"Template validation failed: {err.errors()}")
+
+        return template
+
+    def prepare_job_template(
+        self, config: dict | None = None, task_sdk: bool = False
+    ) -> NomadJobModel | None:
+        if not (template := self.get_job_template(config, task_sdk)):
+            raise NomadProviderException("Nothing to execute")
+
+        if len(template.Job.TaskGroups) > 1:
+            raise NomadValidationError("NomadTaskOperator only allows for a single taskgroup")
+
+        if len(template.Job.TaskGroups[0].Tasks) > 1:
+            raise NomadValidationError("NomadTaskOperator only allows for a single task")
+
+        if template.Job.TaskGroups[0].Count and template.Job.TaskGroups[0].Count > 1:
+            raise NomadValidationError("Only a single execution is allowed (count=1)")
+
+        return self.update_job_template(template, config) if config else template

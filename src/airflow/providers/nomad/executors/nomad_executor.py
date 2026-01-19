@@ -64,8 +64,11 @@ class NomadExecutor(ExecutorInterface):
         self.log.info("Starting Nomad executor")
         self.nomad_mgr.initialize()
 
-    def _get_job_template(self) -> NomadJobModel | None:
-        if not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
+    def _get_job_template(self, executor_config: dict) -> NomadJobModel | None:
+        name = self.__class__.__name__
+        if executor_config and name in executor_config and "job_template" in executor_config[name]:
+            job_tpl_loc = executor_config[name].get("job_template")
+        elif not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
             return None
 
         job_tpl_path = Path(job_tpl_loc)
@@ -92,7 +95,9 @@ class NomadExecutor(ExecutorInterface):
 
         return job_template
 
-    def prepare_job_template(self, key: TaskInstanceKey, command: list[str]) -> dict[str, Any]:
+    def prepare_job_template(
+        self, key: TaskInstanceKey, command: list[str], executor_config: dict
+    ) -> dict[str, Any]:
         """Adjutst template to suit upcoming job execution
 
         :param key: reference to the task instance in question
@@ -101,7 +106,7 @@ class NomadExecutor(ExecutorInterface):
         job_id = job_id_from_taskinstance_key(key)
         job_task_id = job_task_id_from_taskinstance_key(key)
 
-        if job_model := self._get_job_template():
+        if job_model := self._get_job_template(executor_config):
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = [
                 "python",
                 "-m",

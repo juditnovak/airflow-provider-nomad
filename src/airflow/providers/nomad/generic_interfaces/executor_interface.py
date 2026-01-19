@@ -159,7 +159,7 @@ class ExecutorInterface(BaseExecutor):
 
     def run_task(self, task: Job) -> None:
         """Run the next task in the queue."""
-        key, cmd, _ = task
+        key, cmd, exec_cfg = task
         dag_id, task_id, run_id, try_number, _ = key
         if not (isinstance(cmd, list) and len(cmd) > 0) or not self.is_exec_task(cmd[0]):
             self.fail(key, info=f"Unsupported workload '{cmd}'")
@@ -175,7 +175,7 @@ class ExecutorInterface(BaseExecutor):
             try_number,
         )
 
-        job_template = self.prepare_job_template(key, command)
+        job_template = self.prepare_job_template(key, command, exec_cfg)
         try:
             failed_info = self.run_job(job_template)
         except Exception as err:
@@ -185,13 +185,17 @@ class ExecutorInterface(BaseExecutor):
             self.log.error(failed_info)
             self.fail(key, info=failed_info)
 
-    def prepare_job_template(self, key: TaskInstanceKey, command: list[str]) -> dict[str, Any]:
+    def prepare_job_template(
+        self, key: TaskInstanceKey, command: list[str], executor_config: dict
+    ) -> dict[str, Any]:
         """Adjutst template to suit upcoming job execution
 
         :param key: reference to the task instance in question
         :return: job template as as dictionary
         """
-        self.log.debug(f"Executing key {key} with command {command}")
+        self.log.debug(
+            f"Executing key {key} with command {command} and dynamic config {executor_config}"
+        )
         raise NotImplementedError
 
     def run_job(self, job_template: dict[str, Any] | None) -> str | None:
