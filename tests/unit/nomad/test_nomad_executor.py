@@ -17,7 +17,12 @@ from tests_common.test_utils.config import conf_vars
 
 from airflow.providers.nomad.executors.nomad_executor import NomadExecutor
 from airflow.providers.nomad.operators.job import NomadJobOperator
-from airflow.providers.nomad.templates.job_template import default_task_template
+from airflow.providers.nomad.templates.job_template import (
+    DEFAULT_IMAGE,
+    DEFAULT_TASK_TEMPLATE,
+    SDK_ENTRYPOINT,
+)
+from airflow.providers.nomad.models import NomadJobModel
 
 EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
 
@@ -475,15 +480,172 @@ def test_prepare_job_template_wrong_setting_default_used(caplog):
             # The default template was used
             assert (
                 result_dict["Job"]["TaskGroups"][0]["Name"]
-                == default_task_template["Job"]["TaskGroups"][0]["Name"]
+                == DEFAULT_TASK_TEMPLATE["Job"]["TaskGroups"][0]["Name"]
             )
             assert (
                 result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
-                == default_task_template["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
+                == DEFAULT_TASK_TEMPLATE["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
             )
-            assert "Configured template non-existent-file is not a file" in caplog.text
+            assert "Can't load or parse default job template" in caplog.text
         finally:
             nomad_executor.end()
+
+
+def test_prepare_job_template_executor_config_defaults_enforced():
+    executor_config = {
+        "image": "python:3.12-alpine",
+        "entrypoint": [],
+        "args": ["date"],
+    }
+    result = {
+        "image": "python:3.12-alpine",
+        "entrypoint": SDK_ENTRYPOINT,
+        "args": ["<command>"],
+    }
+    nomad_executor = NomadExecutor()
+    command = "<command>"
+    try:
+        nomad_executor.start()
+        task_key = TaskInstanceKey.from_dict(
+            {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+        )
+
+        result_dict = nomad_executor.prepare_job_template(task_key, [command], executor_config)
+        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"] == result
+    finally:
+        nomad_executor.end()
+
+
+def test_prepare_job_template_executor_config_wrong_entrypoint(caplog):
+    executor_config = {
+        "entrypoint": ["wrong", "entrypoint"],
+        "args": ["date"],
+    }
+    result = {
+        "image": DEFAULT_IMAGE,
+        "entrypoint": SDK_ENTRYPOINT,
+        "args": ["<command>"],
+    }
+    nomad_executor = NomadExecutor()
+    command = "<command>"
+    try:
+        nomad_executor.start()
+        task_key = TaskInstanceKey.from_dict(
+            {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+        )
+
+        with caplog.at_level(logging.WARNING):
+            result_dict = nomad_executor.prepare_job_template(task_key, [command], executor_config)
+
+        assert (
+            f"'entrypoint' should be used in a way that '{SDK_ENTRYPOINT} + <actual command>' will be used as 'args'"
+            in caplog.text
+        )
+        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"] == result
+    finally:
+        nomad_executor.end()
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+def test_prepare_job_template_executor_config_path(filename, test_datadir):
+    nomad_executor = NomadExecutor()
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+    try:
+        nomad_executor.start()
+        task_key = TaskInstanceKey.from_dict(
+            {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+        )
+
+        result_dict = nomad_executor.prepare_job_template(
+            task_key, ["cmd"], {"template_path": file_path}
+        )
+
+        content_validate = NomadJobModel.model_validate_json(content).Job.TaskGroups
+        content_validate[0].Tasks[0].Config.args = SDK_ENTRYPOINT + ["cmd"]
+        content_validate[0].Tasks[0].Name = "dag_id-task_id"
+        assert result_dict["Job"]["TaskGroups"][0] == content_validate[0].model_dump(
+            exclude_unset=True
+        )
+    finally:
+        nomad_executor.end()
+
+
+def test_prepare_job_template_executor_config_volumes():
+    vol_data = {
+        "test_cfg": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "config",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "config",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "test_dags_folder": {
+            "AccessMode": "",
+            "AttachmentMode": "",
+            "MountOptions": None,
+            "Name": "dags",
+            "PerAlloc": False,
+            "ReadOnly": True,
+            "Source": "dags",
+            "Sticky": False,
+            "Type": "host",
+        },
+        "test_logs_dest": {
+            "AccessMode": "single-node-writer",
+            "AttachmentMode": "file-system",
+            "MountOptions": None,
+            "Name": "logs",
+            "PerAlloc": False,
+            "ReadOnly": False,
+            "Source": "airflow-logs",
+            "Sticky": False,
+            "Type": "host",
+        },
+    }
+    vol_mounts_data = [
+        {
+            "Destination": "/opt/airflow/config",
+            "PropagationMode": "private",
+            "ReadOnly": True,
+            "SELinuxLabel": "",
+            "Volume": "test_cfg",
+        },
+        {
+            "Destination": "/opt/airflow/dags",
+            "PropagationMode": "private",
+            "ReadOnly": True,
+            "SELinuxLabel": "",
+            "Volume": "test_dags_folder",
+        },
+        {
+            "Destination": "/opt/airflow/logs",
+            "PropagationMode": "private",
+            "ReadOnly": False,
+            "SELinuxLabel": "",
+            "Volume": "test_logs_dest",
+        },
+    ]
+    nomad_executor = NomadExecutor()
+
+    try:
+        nomad_executor.start()
+        task_key = TaskInstanceKey.from_dict(
+            {"dag_id": "dag_id", "task_id": "task_id", "run_id": "run_id"}
+        )
+
+        result_dict = nomad_executor.prepare_job_template(
+            task_key, ["cmd"], {"volume_mounts": vol_mounts_data, "volumes": vol_data}
+        )
+
+        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["VolumeMounts"] == vol_mounts_data
+        assert result_dict["Job"]["TaskGroups"][0]["Volumes"] == vol_data
+    finally:
+        nomad_executor.end()
 
 
 @pytest.mark.usefixtures("mock_nomad_client")

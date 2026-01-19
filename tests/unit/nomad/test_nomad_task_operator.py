@@ -20,7 +20,7 @@ from airflow.providers.nomad.models import (
     NomadEphemeralDisk,
 )
 from airflow.providers.nomad.operators.task import NomadTaskOperator
-from airflow.providers.nomad.templates.job_template import default_image
+from airflow.providers.nomad.templates.job_template import DEFAULT_IMAGE
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
@@ -297,7 +297,7 @@ def test_params_defaults():
     )
     op.prepare_job_template(context)
     assert op.template
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == default_image
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == DEFAULT_IMAGE
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["date"]
     assert len(op.template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)) == 2
 
