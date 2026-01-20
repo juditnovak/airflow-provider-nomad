@@ -90,13 +90,6 @@ class NomadOperator(BaseOperator):
 
         return ",".join(all_output), all_logs
 
-    @staticmethod
-    def figure_path(path_str: str):
-        path = Path(path_str)
-        if not path.is_absolute():
-            path = Path(conf.get_mandatory_value("core", "dags_folder")) / path
-        return path
-
     def prepare_job_template(self, context: Context):
         raise NotImplementedError
 

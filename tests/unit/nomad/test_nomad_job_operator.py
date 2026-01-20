@@ -176,17 +176,6 @@ def test_args_invalid_template():
     assert "Only one of 'template_content' and 'template_path' can be specified" in str(err.value)
 
 
-@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-@conf_vars({("core", "dags_folder"): "/abs/path/to/dags"})
-def test_args_figure_path(filename, test_datadir):
-    file_path = test_datadir / filename
-    assert str(NomadJobOperator(task_id="task_id").figure_path(str(file_path))) == str(file_path)
-    assert (
-        str(NomadJobOperator(task_id="task_id").figure_path(filename))
-        == "/abs/path/to/dags/" + filename
-    )
-
-
 def test_sanitize_logs():
     file_path = Path("/tmp/alloc_id-task_name.log")
     op = NomadJobOperator(task_id="task_id")
@@ -205,6 +194,7 @@ def test_sanitize_logs():
         assert even_more_log_content == op.sanitize_logs("alloc_id", "task_name", logs)  # type: ignore [reportAttributeAccessIssue]
     finally:
         file_path.unlink()
+
 
 @conf_vars({("nomad_provider", "runner_log_dir"): "./"})
 def test_sanitize_logs_log_dir_param():

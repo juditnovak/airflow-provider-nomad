@@ -25,6 +25,7 @@ source-date-epoch: 1758284764
 # In such case adding >= NEW_VERSION and bumping to NEW_VERSION in a provider have
 # to be done in the same PR
 versions:
+  - 0.0.7.dev1
   - 0.0.6
   - 0.0.5
   - 0.0.4
@@ -165,7 +166,7 @@ config:
 
       runner_log_dir:
         description: The log directory within the remote runner containers
-        version_added: 0.0.6
+        version_added: 0.0.7.dev1
         type: string
         example: /tmp
         default: /tmp
