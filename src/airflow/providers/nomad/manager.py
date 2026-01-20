@@ -423,20 +423,25 @@ class NomadManager(LoggingMixin):
     ) -> NomadJobModel | None:
         try:
             if not task_sdk:
-                if entrypoint := config.get("entrypoint"):
-                    template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
-
                 if args := config.get("args"):
                     template.Job.TaskGroups[0].Tasks[0].Config.args = args
 
-                if command := config.get("command"):
-                    template.Job.TaskGroups[0].Tasks[0].Config.command = command
+            if command := config.get("command"):
+                template.Job.TaskGroups[0].Tasks[0].Config.command = command
 
             if image := config.get("image"):
                 template.Job.TaskGroups[0].Tasks[0].Config.image = image
 
+            if entrypoint := config.get("entrypoint"):
+                template.Job.TaskGroups[0].Tasks[0].Config.entrypoint = entrypoint
+
             if env := config.get("env"):
-                template.Job.TaskGroups[0].Tasks[0].Env = env
+                if template.Job.TaskGroups[0].Tasks[0].Env:
+                    if not isinstance(env, dict):
+                        raise NomadValidationError("'env': Input should be a valid dictionary")
+                    template.Job.TaskGroups[0].Tasks[0].Env.update(env)
+                else:
+                    template.Job.TaskGroups[0].Tasks[0].Env = env
 
             if resources := config.get("task_resources"):
                 res_model = Resource.model_validate(resources)

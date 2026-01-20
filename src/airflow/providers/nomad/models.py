@@ -85,12 +85,6 @@ class TaskConfig(BaseModel):
     args: list[str] | None = None
     command: str | list[str] | None = None
 
-    @model_validator(mode="after")
-    def compatible_fields(self) -> Self:
-        if self.entrypoint and self.command:
-            raise ValueError("Both 'entrypoint' and 'command' specified")
-        return self
-
 
 class Volume(BaseModel):
     model_config = ConfigDict(extra="allow", validate_assignment=True)

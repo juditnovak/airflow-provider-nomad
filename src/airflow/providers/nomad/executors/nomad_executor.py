@@ -62,43 +62,12 @@ class NomadExecutor(ExecutorInterface):
         self.log.info("Starting Nomad executor")
         self.nomad_mgr.initialize()
 
-    # def _get_job_template(self, executor_config: dict) -> NomadJobModel | None:
-    # name = self.__class__.__name__
-    # if executor_config and name in executor_config and "job_template" in executor_config[name]:
-    #     job_tpl_loc = executor_config[name].get("job_template")
-    # elif not (job_tpl_loc := conf.get(CONFIG_SECTION, "default_job_template", fallback="")):
-    #     return None
-    #
-    # job_tpl_path = Path(job_tpl_loc)
-    # if not job_tpl_path.is_file():
-    #     self.log.error("Configured template %s is not a file", job_tpl_path)
-    #     return None
-    #
-    # job_template = None
-    #
-    # try:
-    #     with open(job_tpl_path) as file:
-    #         content = file.read()
-    # except (IOError, OSError) as err:
-    #     self.log.error("Couldn't open job template file %s (%s)", job_tpl_path, err)
-    #     return  # type: ignore [return-value]
-    #
-    # try:
-    #     if job_tpl_path.suffix == ".json":
-    #         job_template = self.nomad_mgr.parse_template_json(content)
-    #     elif job_tpl_path.suffix == ".hcl":
-    #         job_template = self.nomad_mgr.parse_template_hcl(content)
-    # except NomadValidationError as err:
-    #     self.log.error("Couldn't parse job template %s (%s)", job_tpl_path, err)
-    #
-    # return job_template
-
     def validate_exeucutor_config(self, executor_config: dict | None) -> dict | None:
         if not executor_config:
             return executor_config
 
-        remove = ["args", "command"]
-        warn = ["entrypoint"]
+        remove = ["args"]
+        warn = ["entrypoint", "command"]
         for field in remove:
             if executor_config.pop(field, None):
                 self.log.error(
