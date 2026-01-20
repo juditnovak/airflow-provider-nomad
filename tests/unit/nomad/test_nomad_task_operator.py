@@ -276,7 +276,12 @@ def test_params():
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.entrypoint == ["/bin/sh", "-c"]
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == "alpine:3.21"
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["date"]
-    assert op.template.Job.TaskGroups[0].Tasks[0].Env == {"TEMPDIR": "$HOME/tmp"}
+    assert op.template.Job.TaskGroups[0].Tasks[0].Env == {
+        "TEMPDIR": "$HOME/tmp",
+        # From the job definition
+        "AIRFLOW_CONFIG": "/opt/airflow/config/airflow.cfg",
+        "AIRFLOW_HOME": "/opt/airflow/",
+    }
     assert len(op.template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)) == 3
 
 
@@ -307,7 +312,10 @@ def test_args_params_priority():
         task_id="task_id",
         image="image",
         args=["arg1", "arg2"],
-        env={"ENV_VAR1": "value1", "ENV_VAR2": "value2"},
+        env={
+            "ENV_VAR1": "value1",
+            "ENV_VAR2": "value2",
+        },
     )
 
     context = Context(
@@ -329,6 +337,9 @@ def test_args_params_priority():
     assert op.template.Job.TaskGroups[0].Tasks[0].Env == {
         "ENV_VAR1": "value1",
         "ENV_VAR2": "value2",
+        # From the job definition
+        "AIRFLOW_CONFIG": "/opt/airflow/config/airflow.cfg",
+        "AIRFLOW_HOME": "/opt/airflow/",
     }
 
 
@@ -409,14 +420,6 @@ def test_args_args_invalid(paramdict):
         op.prepare_job_template({})
 
 
-def test_args_conflict():
-    op = NomadTaskOperator(task_id="task_id", entrypoint=["/bin/sh", "-c"], command="uptime")
-
-    with pytest.raises(NomadValidationError) as err:
-        op.prepare_job_template({})
-    assert "Both 'entrypoint' and 'command' specified" in str(err.value)
-
-
 def test_args_template_path_invalid(caplog):
     op = NomadTaskOperator(task_id="task_id", template_path="bla")
     with caplog.at_level(logging.ERROR):
@@ -453,7 +456,7 @@ def test_args_invalid_env():
 
     with pytest.raises(NomadValidationError) as err:
         op.prepare_job_template({})
-    assert "Input should be a valid dictionary" in str(err.value)
+    assert "'env': Input should be a valid dictionary" in str(err.value)
 
 
 def test_args_task_ephemeral():

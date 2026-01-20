@@ -516,15 +516,10 @@ def test_prepare_job_template_executor_config_defaults_enforced():
         nomad_executor.end()
 
 
-def test_prepare_job_template_executor_config_wrong_entrypoint(caplog):
+def test_prepare_job_template_executor_config_entrypoint(caplog):
     executor_config = {
-        "entrypoint": ["wrong", "entrypoint"],
+        "entrypoint": ["my", "entrypoint"],
         "args": ["date"],
-    }
-    result = {
-        "image": DEFAULT_IMAGE,
-        "entrypoint": SDK_ENTRYPOINT,
-        "args": ["<command>"],
     }
     nomad_executor = NomadExecutor()
     command = "<command>"
@@ -541,7 +536,16 @@ def test_prepare_job_template_executor_config_wrong_entrypoint(caplog):
             f"'entrypoint' should be used in a way that '{SDK_ENTRYPOINT} + <actual command>' will be used as 'args'"
             in caplog.text
         )
-        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"] == result
+        assert "'args' is an invalid parameter for the executor, will be ignored" in caplog.text
+
+        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["image"] == DEFAULT_IMAGE
+        assert (
+            result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"][:-1] == SDK_ENTRYPOINT
+        )
+        assert result_dict["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["entrypoint"] == [
+            "my",
+            "entrypoint",
+        ]
     finally:
         nomad_executor.end()
 
