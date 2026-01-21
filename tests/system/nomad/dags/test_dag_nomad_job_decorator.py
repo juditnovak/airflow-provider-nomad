@@ -4,9 +4,8 @@ import os
 import time
 
 import attrs
-from airflow.sdk import DAG
+from airflow.sdk import DAG, task
 
-from airflow.providers.nomad.decorators.job import nomad_job
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -60,7 +59,7 @@ with myDAG(
 ) as dag:
     # def test_nomad_task_decorator_dag():
 
-    @nomad_job()
+    @task.nomad_job()
     def nomad_command_date():
         now = time.time()
         content = """
