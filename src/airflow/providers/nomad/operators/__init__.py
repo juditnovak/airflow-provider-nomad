@@ -11,3 +11,9 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+
+from .job import NomadJobOperator as NomadJobOperator
+from .task import (
+    NomadTaskOperator as NomadTaskOperator,
+    NomadTaskOperatorError as NomadTaskOperatorError,
+)

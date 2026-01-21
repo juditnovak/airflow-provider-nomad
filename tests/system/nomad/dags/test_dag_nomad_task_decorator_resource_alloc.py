@@ -3,9 +3,8 @@ import pendulum
 import os
 
 import attrs
-from airflow.sdk import DAG
+from airflow.sdk import DAG, task
 
-from airflow.providers.nomad.decorators.task import nomad_task
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -103,7 +102,7 @@ with myDAG(
     tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 
-    @nomad_task(
+    @task.nomad_task(
         template_content=content % ("{{ ti.id }}"),
         image="alpine:latest",
         volumes=vol_data,
@@ -112,13 +111,13 @@ with myDAG(
     def nomad_volumes_only():
         return ["cat", "/opt/airflow/dags/templates/simple_batch.hcl"]
 
-    @nomad_task(
+    @task.nomad_task(
         template_content=content % ("{{ ti.id }}"), image="alpine:latest", task_resources=resources
     )
     def nomad_resources():
         return ["cat", "/proc/meminfo"]
 
-    @nomad_task(
+    @task.nomad_task(
         template_content=content % ("{{ ti.id }}"),
         image="alpine:latest",
         ephemeral_disk=ephemeral_disk,
@@ -126,7 +125,7 @@ with myDAG(
     def nomad_ephemeral():
         return ["ls", "-la", "alloc/data"]
 
-    @nomad_task(
+    @task.nomad_task(
         template_content=content % ("{{ ti.id }}"),
         image="alpine:latest",
         task_resources=resources,

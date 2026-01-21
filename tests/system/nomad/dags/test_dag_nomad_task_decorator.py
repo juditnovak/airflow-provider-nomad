@@ -3,7 +3,7 @@ import pendulum
 from datetime import timedelta
 
 import attrs
-from airflow.sdk import DAG
+from airflow.sdk import DAG, task
 
 from airflow.providers.nomad.decorators.task import nomad_task
 
@@ -77,7 +77,7 @@ with myDAG(
     tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 
-    @nomad_task(template_content=content, image="alpine:latest", do_xcom_push=True)
+    @task.nomad_task(template_content=content, image="alpine:latest", do_xcom_push=True)
     def nomad_command_nproc():
         return ["nproc", "--all"]
 

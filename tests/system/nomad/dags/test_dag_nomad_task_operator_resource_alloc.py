@@ -5,7 +5,7 @@ import os
 import attrs
 from airflow.sdk import DAG
 
-from airflow.providers.nomad.operators.task import NomadTaskOperator
+from airflow.providers.nomad.operators import NomadTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 

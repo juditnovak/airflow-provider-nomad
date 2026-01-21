@@ -3,9 +3,8 @@ import pendulum
 import os
 
 import attrs
-from airflow.sdk import DAG
+from airflow.sdk import DAG, task
 
-from airflow.providers.nomad.decorators.task import nomad_task
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -79,11 +78,11 @@ with myDAG(
 ) as dag:
     # def test_nomad_task_decorator_dag():
 
-    @nomad_task(template_content=content, image="alpine:3.21")
+    @task.nomad_task(template_content=content, image="alpine:3.21")
     def nomad_command_date():
         return ["date"]
 
-    @nomad_task()
+    @task.nomad_task()
     def nomad_command_uptime():
         return ["uptime"]
 

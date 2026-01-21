@@ -48,7 +48,7 @@ class _NomadJobDecoratedOperator(DecoratedOperator, NomadJobOperator):
         **NomadJobOperator.template_fields_renderers,
     }
 
-    custom_operator_name: str = "@task.nomad"
+    custom_operator_name: str = "@task.nomad_job"
     overwrite_rtif_after_execution: bool = True
 
     def __init__(

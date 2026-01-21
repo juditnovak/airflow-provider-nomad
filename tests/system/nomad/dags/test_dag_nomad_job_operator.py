@@ -7,7 +7,7 @@ import attrs
 from airflow.sdk import DAG
 from airflow.sdk.definitions.param import ParamsDict
 
-from airflow.providers.nomad.operators.job import NomadJobOperator
+from airflow.providers.nomad.operators import NomadJobOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 

@@ -58,12 +58,16 @@ def get_provider_info():
         #         ],
         #     }
         # ],
-        # "task-decorators": [
-        #     {
-        #         "class-name": "airflow.providers.nomad.decorators.nomad.nomad_task",
-        #         "name": "nomad",
-        #     },
-        # ],
+        "task-decorators": [
+            {
+                "class-name": "airflow.providers.nomad.decorators.task.nomad_task",
+                "name": "nomad_task",
+            },
+            {
+                "class-name": "airflow.providers.nomad.decorators.job.nomad_job",
+                "name": "nomad_job",
+            },
+        ],
         "config": {
             "nomad_provider": {
                 "description": None,
