@@ -1,0 +1,20 @@
+airflow.providers.nomad.templates.nomad_job_template
+====================================================
+
+.. py:module:: airflow.providers.nomad.templates.nomad_job_template
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.templates.nomad_job_template.default_task_template
+
+
+Module Contents
+---------------
+
+.. py:data:: default_task_template
+   :type:  dict[str, Any]
+

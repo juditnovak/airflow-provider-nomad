@@ -1,0 +1,17 @@
+airflow.providers.nomad.generic_interfaces
+==========================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /_api/airflow/providers/nomad/generic_interfaces/executor_interface/index
+   /_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index
+   /_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index
+
+

@@ -1,0 +1,36 @@
+airflow.providers.nomad.templates.job_template
+==============================================
+
+.. py:module:: airflow.providers.nomad.templates.job_template
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.templates.job_template.DEFAULT_IMAGE
+   airflow.providers.nomad.templates.job_template.SDK_ENTRYPOINT
+   airflow.providers.nomad.templates.job_template.DEFAULT_JOB_NAME
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_SDK
+
+
+Module Contents
+---------------
+
+.. py:data:: DEFAULT_IMAGE
+
+.. py:data:: SDK_ENTRYPOINT
+   :value: ['python', '-m', 'airflow.sdk.execution_time.execute_workload', '--json-string']
+
+
+.. py:data:: DEFAULT_JOB_NAME
+   :value: 'ariflow_run'
+
+
+.. py:data:: DEFAULT_TASK_TEMPLATE
+   :type:  dict[str, Any]
+
+.. py:data:: DEFAULT_TASK_TEMPLATE_SDK
+

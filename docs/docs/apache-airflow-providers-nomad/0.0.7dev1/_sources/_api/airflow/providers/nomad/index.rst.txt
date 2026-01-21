@@ -1,0 +1,40 @@
+airflow.providers.nomad
+=======================
+
+.. py:module:: airflow.providers.nomad
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /_api/airflow/providers/nomad/constants/index
+   /_api/airflow/providers/nomad/decorators/index
+   /_api/airflow/providers/nomad/exceptions/index
+   /_api/airflow/providers/nomad/executors/index
+   /_api/airflow/providers/nomad/generic_interfaces/index
+   /_api/airflow/providers/nomad/get_provider_info/index
+   /_api/airflow/providers/nomad/log/index
+   /_api/airflow/providers/nomad/manager/index
+   /_api/airflow/providers/nomad/models/index
+   /_api/airflow/providers/nomad/operators/index
+   /_api/airflow/providers/nomad/utils/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.__version__
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+   :value: '0.0.7.dev1'
+
+
