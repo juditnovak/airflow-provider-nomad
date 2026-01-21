@@ -1,0 +1,34 @@
+tests.system.nomad.constants
+============================
+
+.. py:module:: tests.system.nomad.constants
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.constants.SYSTEST_ROOT
+   tests.system.nomad.constants.TEST_CONFIG_PATH
+   tests.system.nomad.constants.TEST_SCRIPTS_PATH
+   tests.system.nomad.constants.TEST_DATA_PATH
+   tests.system.nomad.constants.TEST_DAGS_PATH
+   tests.system.nomad.constants.TEST_DAGS_LOCALEXECUTOR_PATH
+
+
+Module Contents
+---------------
+
+.. py:data:: SYSTEST_ROOT
+
+.. py:data:: TEST_CONFIG_PATH
+
+.. py:data:: TEST_SCRIPTS_PATH
+
+.. py:data:: TEST_DATA_PATH
+
+.. py:data:: TEST_DAGS_PATH
+
+.. py:data:: TEST_DAGS_LOCALEXECUTOR_PATH
+

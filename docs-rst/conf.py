@@ -20,3 +20,4 @@ import os
 os.environ["AIRFLOW_PACKAGE_NAME"] = "apache-airflow-providers-nomad"
 
 from docs.provider_conf import *  # noqa: F403
+

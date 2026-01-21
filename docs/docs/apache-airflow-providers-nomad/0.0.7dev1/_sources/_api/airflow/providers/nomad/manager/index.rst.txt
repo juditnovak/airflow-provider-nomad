@@ -1,0 +1,180 @@
+airflow.providers.nomad.manager
+===============================
+
+.. py:module:: airflow.providers.nomad.manager
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.manager.RETRY_NUM
+   airflow.providers.nomad.manager.RETRY_MIN
+   airflow.providers.nomad.manager.RETRY_MAX
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.manager.NomadManager
+
+
+Module Contents
+---------------
+
+.. py:data:: RETRY_NUM
+
+.. py:data:: RETRY_MIN
+
+.. py:data:: RETRY_MAX
+
+.. py:class:: NomadManager
+
+   Bases: :py:obj:`airflow.utils.log.logging_mixin.LoggingMixin`
+
+
+   A layer of abstraction and encapsulate direct Nomad interactions and Nomad job management.
+
+   Functionalities provided are equally used on Executor and Operator side.
+
+
+   .. py:attribute:: nomad_server
+      :type:  str
+
+
+   .. py:attribute:: nomad_server_port
+      :type:  int
+
+
+   .. py:attribute:: secure
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: cert_path
+      :type:  str
+
+
+   .. py:attribute:: key_path
+      :type:  str
+
+
+   .. py:attribute:: namespace
+      :type:  str
+
+
+   .. py:attribute:: token
+      :type:  str
+
+
+   .. py:attribute:: alloc_pending_timeout
+      :type:  int
+
+
+   .. py:attribute:: verify
+      :type:  bool | str
+
+
+   .. py:attribute:: nomad
+      :type:  nomad.Nomad | None
+      :value: None
+
+
+
+   .. py:attribute:: pending_jobs
+      :type:  dict[str, int]
+
+
+   .. py:method:: catch_nomad_exception()
+
+
+   .. py:method:: ensure_nomad_client()
+
+
+   .. py:method:: initialize()
+
+
+   .. py:property:: nomad_url
+
+
+   .. py:method:: get_nomad_job_submission(job_id)
+
+
+   .. py:method:: get_nomad_job_evaluations(job_id)
+
+
+   .. py:method:: get_nomad_job_allocation(job_id)
+
+
+   .. py:method:: get_nomad_job_summary(job_id)
+
+
+   .. py:method:: get_job_stdout(allocation_id, job_task_id)
+
+
+   .. py:method:: get_job_stderr(allocation_id, job_task_id)
+
+
+   .. py:method:: get_job_file(allocation_id, file_path)
+
+
+   .. py:method:: register_job(job_model)
+
+
+   .. py:method:: deregister_job(job_id)
+
+
+   .. py:method:: timeout_expired(job_id)
+
+
+   .. py:method:: remove_job_if_hanging(job_id, job_status = None, job_alloc = None, job_eval = None, job_summary = None, ignore_dead = False)
+
+      Whether the job failed on Nomad side
+
+      Typically on allocaton errors there is not feedback to Airflow, as the
+      job remains in 'pending' state on Nomad side. Such issues have to be detected
+      and the job execution is to be reported as failed.
+
+      NOTE: The executor failing a job run is considered as an ERROR by Airflow.
+      Despite the log message, this is the efficient way for this case. Potential Airflow-level
+      task re-tries are applied corectly.
+
+      :param key: reference to the task instance in question
+      :return: either a tuple of: (True/False, additional info) or None if no data could be
+              retrieved for the job
+
+
+
+   .. py:method:: parse_template_json(template_content)
+
+
+   .. py:method:: parse_template_hcl(template_content)
+
+
+   .. py:method:: parse_template_content(template_content)
+
+
+   .. py:method:: job_all_info_str(job_id, job_summary = None, job_alloc = None, job_eval = None)
+
+
+   .. py:method:: figure_path(path_str)
+      :staticmethod:
+
+
+
+   .. py:method:: get_default_template(task_sdk = False)
+
+
+   .. py:method:: get_job_template(config = None, task_sdk = False)
+
+
+   .. py:method:: update_job_template(template, config, task_sdk = False)
+
+
+   .. py:method:: prepare_job_template(config = None, task_sdk = False)
+
+

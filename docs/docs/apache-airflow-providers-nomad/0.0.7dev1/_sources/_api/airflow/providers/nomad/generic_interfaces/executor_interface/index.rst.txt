@@ -1,0 +1,140 @@
+airflow.providers.nomad.generic_interfaces.executor_interface
+=============================================================
+
+.. py:module:: airflow.providers.nomad.generic_interfaces.executor_interface
+
+.. autoapi-nested-parse::
+
+   Executor Interface.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_interface.Job
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface
+
+
+Module Contents
+---------------
+
+.. py:data:: Job
+
+.. py:class:: ExecutorInterface(parallelism = 1)
+
+   Bases: :py:obj:`airflow.executors.base_executor.BaseExecutor`
+
+
+   Executor with run-queues.
+
+
+   .. py:attribute:: supports_ad_hoc_ti_run
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: serve_logs
+      :value: True
+
+
+
+   .. py:attribute:: task_queue
+      :type:  queue.Queue[Job]
+
+
+   .. py:attribute:: parallelism
+      :value: 1
+
+
+
+   .. py:method:: is_exec_task(cmd)
+
+      Safety method in case running in a legacy environment
+
+
+
+   .. py:method:: queue_workload(workload, session)
+
+
+   .. py:method:: execute_async(key, command, queue = None, executor_config = None)
+
+      Execute task asynchronously.
+
+
+
+   .. py:method:: set_state(key, state, info = '')
+
+
+   .. py:method:: sync()
+
+      Synchronize task state.
+
+
+
+   .. py:method:: workload_to_command_args(workload)
+
+      Convert a workload object to Task SDK command arguments.
+
+
+
+   .. py:method:: run_task(task)
+
+      Run the next task in the queue.
+
+
+
+   .. py:method:: prepare_job_template(key, command, executor_config)
+
+      Adjutst template to suit upcoming job execution
+
+      :param key: reference to the task instance in question
+      :return: job template as as dictionary
+
+
+
+   .. py:method:: run_job(job_template)
+
+      Execute the job defined by a potential job template
+
+      :param: Job template corresponding to the job
+      :return: No news is good news, or the error that occured on execution attempt
+
+
+
+   .. py:method:: remove_job_if_hanging(key)
+
+      Whether the job failed (typically outside of Airflow execution)
+
+      :param key: reference to the task instance in question
+      :return: either a tuple of: True/False, potential task status to set (typically: FAILED), additional info
+               or None if no data could be retrieved for the job
+
+
+
+   .. py:method:: get_task_log(ti, try_number)
+
+      Return the task logs.
+
+      :param ti: A TaskInstance object
+      :param try_number: current try_number to read log from
+      :return: tuple of logs and messages
+
+
+
+   .. py:method:: end()
+
+      Shut down the executor.
+
+
+
