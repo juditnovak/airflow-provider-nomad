@@ -77,19 +77,7 @@
     :maxdepth: 1
     :caption: Development
 
-    Changelog <changelog>
-
-
-.. THE REMAINDER OF THE FILE IS AUTOMATICALLY GENERATED. IT WILL BE OVERWRITTEN AT RELEASE TIME!
-
-
-.. .. toctree::
-..     :hidden:
-..     :maxdepth: 1
-..     :caption: Commits
-..
-..     Detailed list of commits <commits>
-
+    Development <development>
 
 Release: 0.0.7.dev1
 

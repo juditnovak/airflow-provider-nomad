@@ -29,8 +29,6 @@ The Nomad job template is executed with no modification.
  .. note:: Only job submission with unique Job IDs is supported
 
 
-
-
 Parameters
 ############
 
@@ -54,6 +52,9 @@ Examples
 
 
 .. code-block:: Python
+
+    from airflow.sdk import DAG
+    from airflow.providers.nomad.operators import NomadJobOperator 
 
     content = """
     job "nomad-test-hcl" {
@@ -94,6 +95,9 @@ Examples
 
 
 .. code-block:: Python
+
+    from airflow.sdk import DAG
+    from airflow.providers.nomad.operators import NomadJobOperator 
 
     content = """
     job "nomad-test-hcl-%s" {

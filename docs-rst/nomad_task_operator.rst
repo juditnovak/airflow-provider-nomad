@@ -21,52 +21,24 @@ Nomad Task Operator
 The ``NomadTaskOperator`` is spawning a new Nomad job to run the wrapped task.
 The operator is handy to run Nomad jobs with lightweight, minimal configuration.
 
-All parameters are supporting Airflow's Jinja-based templating mechanism.
-
+.. include:: shared/task_intro_warning.rst 
 
 Parameters
 ############
 
-On top of the above, the same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
-
-Template
-************
-
-``template_path (str)``: Path to a Nomad job JSON or HCL file. Otherwise the default nomad executor template is used.
-
-``template_content (str)``: A JSON or HCL string, or a Python dictionary. Otherwise, the default Nomad Executor template is used.
-
-    In case a template was specified, it must have a single ``TaskGroup`` with a single ``Task`` within,
-    and can only have a single execution (``Count`` is ``1``).
+All parameters are supporting Airflow's Jinja-based templating mechanism.
 
 
-Execution
-*************
+.. include:: shared/parameters_task_template.rst
 
-``image (str)``: The docker image to be run
+.. include:: shared/parameters_task_exec.rst
 
-``entrypoint (list[str])``: Entrypoint to the Docker image (incompatible with ``command``)
+``args (dict[str])``: Arguments to be added to the Docker image entrypoint/command
 
-``args (dict[str])``: Arguments to be added to the Docker image entrypoint
-
-``command (dict[str])``: Command to be run by the Docker image (incompatible with ``entrypoint``)
-
-``env (dict[str, str])``: Environment variables specified as a Python dictionary
+.. include:: shared/parameters_task_resources.rst
 
 
-Resources
-**********
-
-For each of the resources below, the same resource fields can be used as in the referred Nomad Job API.
-
-``task_resources``: Correspondent of the `Nomad Job API Resources <https://developer.hashicorp.com/nomad/api-docs/json-jobs#resources-1>`_ block.
-
-``ephemeral_disk``:  Correspondent of the `Nomad Job API EphemeralDisk <https://developer.hashicorp.com/nomad/api-docs/json-jobs#ephemeral-disk>`_ block.
-
-``volumes``: The JSON correspondent of of the `Nomad HCL Volumes <https://developer.hashicorp.com/nomad/docs/job-specification/volume>`_ block. For more information on Nomad's JSON representation on volumes, see `Nomad Volumes HTTP API <https://developer.hashicorp.com/nomad/api-docs/volumes#volumes-1>`_ . Also: see `Examples`_ below.
-
-``volume_mounts``: The JSON correspondent of of the `Nomad HCL Volume Mounts <https://developer.hashicorp.com/nomad/docs/job-specification/volume_mount>`_ block. See `Examples`_ below.
-
+The same parameters are also recognized if submitted as DAG/task ``params``. However in this case templating may not apply. 
 
 
 Configuration
@@ -87,13 +59,19 @@ The job is submitted by the Operator using a unique Job ID (overriding the corre
 The operator is refreshing information about the spawned task state every ``nomad_provider/operator_poll_delay`` intervals.
 
 
+ .. _examples-label:
+
 Examples
 ##############
 
+A number of example DAGs are included in the project's `System Tests <system_tests.html#system-test-dags>`_ . See `DAG sources <_modules/index.html>`_ for further examples and basic use cases.
 
 Execution: using ``args`` (`Execution`_)
 
 .. code-block:: Python
+
+   from airflow.sdk import DAG
+   from airflow.providers.nomad.operators import NomadTaskOperator 
 
     with DAG(dag_id="nomad-task-example") as dag:
         run_this_first = NomadTaskOperator(
@@ -113,6 +91,9 @@ Execution: using ``args`` (`Execution`_)
 Using ``entrypoint`` (`Execution`_) and templating
 
 .. code-block:: Python
+
+   from airflow.sdk import DAG
+   from airflow.providers.nomad.operators import NomadTaskOperator 
 
     with DAG(dag_id="nomad-task-af-template") as dag:
 
@@ -138,6 +119,9 @@ Using ``entrypoint`` (`Execution`_) and templating
 Using ``volumes`` and ``volume_mounts`` (`Resources`_)
 
 .. code-block:: Python
+
+   from airflow.sdk import DAG
+   from airflow.providers.nomad.operators import NomadTaskOperator 
 
     content = """
     job "nomad-test-hcl-op-param-volumes-%s" {
@@ -187,3 +171,29 @@ Using ``volumes`` and ``volume_mounts`` (`Resources`_)
             volume_mounts=vol_mounts_data,
             args=["cat", f"{airflow_path}/templates/simple_batch.hcl"],
         )
+
+Executing Python code on a Nomad runner:
+
+.. code-block:: Python
+
+    from airflow.sdk import DAG
+    from airflow.providers.nomad.operators import NomadTaskOperator 
+
+    with DAG(dag_id="nomad-python-task") as dag:
+        nomad_op = NomadTaskOperator(    
+              task_id="nomad_op",     
+              image="python:3.12-alpine",
+              entrypoint=["python", "-c"],    
+              args=["""    
+      import sys    
+          
+      print(f"Informative message", file=sys.stderr)    
+      print(42)
+          """    
+              ],    
+          )    
+          
+          chain(nomad_op)   
+
+
+

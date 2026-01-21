@@ -19,15 +19,15 @@ Nomad Job Decorator
 
 .. note:: If a Nomad Decorator is used with ``NomadExecutor``, it introduces the overhead of two task executions each time (as ``NomadExecutor`` is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with ``LocalExecutor``
 
-The ``nomad_job`` decorator is a wrapper around the ``NomadJobOperator``. For a detailed description please refer to the `Nomad Job Operator <nomad_job_operator.html>`_ documentation. 
+The ``@task.nomad_job`` decorator is a wrapper around the ``NomadJobOperator``. For a detailed description please refer to the `Nomad Job Operator <nomad_job_operator.html>`_ documentation. 
 
 
 Parameters
 ############
 
-The ``nomad_job`` decorator takes the same parameters as the ``NomadJobOperator``, except the ``template_content`` parameter.
+The ``@task.nomad_job`` decorator takes the same parameters as the ``NomadJobOperator``, except the ``template_content`` parameter.
 
-Instead, the content of the template could be added as the Python function body decorated by ``nomad_job``.
+Instead, the content of the template could be added as the Python function body decorated by ``@task.nomad_job``.
 
 
 Examples
@@ -36,10 +36,13 @@ Examples
 
 .. code-block:: Python
 
+
+    from airflow.sdk import DAG, task
+
     @dag()
     def test_nomad_task_decorator_dag():
 
-        @nomad_job()
+        @task.nomad_job()
         def nomad_command_date():
             now = time.time()
             content = """
