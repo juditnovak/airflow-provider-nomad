@@ -91,7 +91,10 @@ class NomadManager(LoggingMixin):
                 try:
                     return f(self, *args, **kwargs)
                 except BaseNomadException as err:
-                    self.log.info("Nomad error occurred: {%s}", err)
+                    self.log.info(
+                        "Nomad error occurred: {%s}\n(NOTE: At an early execution stage false-negatives may occure)",
+                        err,
+                    )
                 return exc_retval
 
             return wrapped
