@@ -23,7 +23,7 @@
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
             <link rel="next" title="Nomad Job Decorator" href="nomad_job_decorator.html" />
-            <link rel="prev" title="Nomad Job Operator" href="nomad_job_operator.html" />
+            <link rel="prev" title="Nomad Python Task Operator" href="nomad_python_task_operator.html" />
 
     <link rel="canonical" href="https://airflow.apache.org/docs/apache-airflow-providers-nomad/stable/nomad_task_decorator.html" />
 
@@ -470,6 +470,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_task_operator.html">NomadTaskOperator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_python_task_operator.html">NomadPythonTaskOperator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Decorators</span></p>
 <ul class="current">
@@ -479,6 +480,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_decorator.html">NomadJobDecorator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_python_task_decorator.html">NomadPythonTaskDecorator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
@@ -616,6 +618,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nomad_task_operator.html">NomadTaskOperator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_python_task_operator.html">NomadPythonTaskOperator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Decorators</span></p>
 <ul class="current">
@@ -625,6 +628,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nomad_job_decorator.html">NomadJobDecorator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nomad_python_task_decorator.html">NomadPythonTaskDecorator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
@@ -823,6 +827,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>An additional list of usage examples is available at <a class="reference external" href="nomad_task_operator.html#examples">Nomad Task Operator Examples</a></p>
+<p>A number of example DAGs are included in the project’s <a class="reference external" href="system_tests.html#system-test-dags">System Tests</a> . See <a class="reference external" href="_modules/index.html">DAG sources</a> for further examples and basic use cases.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">dag</span><span class="p">,</span> <span class="n">task</span>
 
 <span class="nd">@dag</span><span class="p">()</span>
@@ -862,7 +867,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
 
 
     <div class="pager" role="navigation" aria-label="related navigation">
-            <a rel="prev" title="Nomad Job Operator" href="nomad_job_operator.html" >
+            <a rel="prev" title="Nomad Python Task Operator" href="nomad_python_task_operator.html" >
                 <button class="btn-hollow btn-blue bodytext__medium--cerulean-blue" accesskey="p">Previous</button>
             </a>
             <a rel="next" title="Nomad Job Decorator" href="nomad_job_decorator.html" >

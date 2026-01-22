@@ -467,11 +467,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_task_operator.html">NomadTaskOperator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_python_task_operator.html">NomadPythonTaskOperator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Decorators</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_task_decorator.html">NomadTaskDecorator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_job_decorator.html">NomadJobDecorator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_python_task_decorator.html">NomadPythonTaskDecorator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
@@ -609,11 +611,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_task_operator.html">NomadTaskOperator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_job_operator.html">NomadJobOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_python_task_operator.html">NomadPythonTaskOperator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Decorators</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_task_decorator.html">NomadTaskDecorator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_job_decorator.html">NomadJobDecorator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../nomad_python_task_decorator.html">NomadPythonTaskDecorator</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Loggers</span></p>
 <ul>
@@ -788,7 +792,6 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk.bases.decorator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecoratedOperator</span><span class="p">,</span> <span class="n">TaskDecorator</span><span class="p">,</span> <span class="n">task_decorator_factory</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk.definitions._internal.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SET_DURING_EXECUTION</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">context_merge</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.operator_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">determine_kwargs</span>
 
@@ -815,7 +818,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="o">**</span><span class="n">NomadTaskOperator</span><span class="o">.</span><span class="n">template_fields_renderers</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">custom_operator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;@task.nomad&quot;</span>
+    <span class="n">custom_operator_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;@task.nomad_task&quot;</span>
     <span class="n">overwrite_rtif_after_execution</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -833,11 +836,19 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
                 <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">args</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Use &#39;args&#39; for Nomad Decorator with caution. Note that the output of the decorated function &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;is passed concatenated to &#39;args&#39;&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">python_callable</span><span class="o">=</span><span class="n">python_callable</span><span class="p">,</span>
             <span class="n">op_args</span><span class="o">=</span><span class="n">op_args</span><span class="p">,</span>
             <span class="n">op_kwargs</span><span class="o">=</span><span class="n">op_kwargs</span><span class="p">,</span>
-            <span class="n">args</span><span class="o">=</span><span class="n">SET_DURING_EXECUTION</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
             <span class="n">multiple_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
@@ -846,12 +857,16 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="n">context_merge</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op_kwargs</span><span class="p">)</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">determine_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">python_callable</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op_args</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_callable</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">op_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_callable</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">op_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">&quot;The returned value from the TaskFlow callable must be a list of string(s).&quot;</span>
             <span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">if</span> <span class="n">elem</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">+</span> <span class="n">result</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">result</span>
 
         <span class="n">context</span><span class="p">[</span><span class="s2">&quot;ti&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">render_templates</span><span class="p">()</span>  <span class="c1"># type: ignore[attr-defined]</span>
 

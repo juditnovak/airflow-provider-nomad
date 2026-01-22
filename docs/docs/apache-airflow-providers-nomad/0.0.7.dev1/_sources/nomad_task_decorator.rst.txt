@@ -49,6 +49,8 @@ Examples
 An additional list of usage examples is available at `Nomad Task Operator Examples <nomad_task_operator.html#examples>`_
 
 
+A number of example DAGs are included in the project's `System Tests <system_tests.html#system-test-dags>`_ . See `DAG sources <_modules/index.html>`_ for further examples and basic use cases.
+
 .. code-block:: Python
 
     from airflow.sdk import dag, task

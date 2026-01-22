@@ -20,6 +20,8 @@ Submodules
    /_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index
    /_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index
    /_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index
+   /_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index
    /_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index
    /_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index
    /_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index
