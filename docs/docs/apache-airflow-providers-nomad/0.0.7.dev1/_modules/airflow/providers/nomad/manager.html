@@ -908,7 +908,10 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">BaseNomadException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Nomad error occurred: {</span><span class="si">%s</span><span class="s2">}&quot;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Nomad error occurred: {</span><span class="si">%s</span><span class="s2">}</span><span class="se">\n</span><span class="s2">(NOTE: At an early execution stage false-negatives may occure)&quot;</span><span class="p">,</span>
+                        <span class="n">err</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="k">return</span> <span class="n">exc_retval</span>
 
             <span class="k">return</span> <span class="n">wrapped</span>
@@ -1255,7 +1258,7 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
 
 <div class="viewcode-block" id="NomadManager.get_default_template">
 <a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.get_default_template">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_sdk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_template</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">default_tplpath</span> <span class="o">:=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CONFIG_SECTION</span><span class="p">,</span> <span class="s2">&quot;default_job_template&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
             <span class="n">tplpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_path</span><span class="p">(</span><span class="n">default_tplpath</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1264,15 +1267,15 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
             <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t load or parse default job template (</span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">task_sdk</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">NomadJobModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">DEFAULT_TASK_TEMPLATE_SDK</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">default_template</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">NomadJobModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">default_template</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">NomadJobModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">DEFAULT_TASK_TEMPLATE</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NomadManager.get_job_template">
 <a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.get_job_template">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_job_template</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_sdk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_template</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NomadJobModel</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;template_content&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;template_path&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
@@ -1293,7 +1296,7 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
             <span class="k">if</span> <span class="n">content</span> <span class="ow">or</span> <span class="p">(</span><span class="n">config</span> <span class="ow">and</span> <span class="p">(</span><span class="n">content</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;template_content&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_template_content</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_template</span><span class="p">(</span><span class="n">task_sdk</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_template</span><span class="p">(</span><span class="n">default_template</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Template retrieval or validation failed: </span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="n">errors</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
@@ -1366,20 +1369,25 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
 <div class="viewcode-block" id="NomadManager.prepare_job_template">
 <a class="viewcode-back" href="../../../../_api/airflow/providers/nomad/manager/index.html#airflow.providers.nomad.manager.NomadManager.prepare_job_template">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">prepare_job_template</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_sdk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_template</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NomadJobModel</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">template</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_template</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">task_sdk</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">template</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_template</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">default_template</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">NomadProviderException</span><span class="p">(</span><span class="s2">&quot;Nothing to execute&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span><span class="s2">&quot;NomadTaskOperator only allows for a single taskgroup&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Nomad Task Operators/Decorators only allows for a single taskgroup&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span><span class="s2">&quot;NomadTaskOperator only allows for a single task&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span>
+                <span class="s2">&quot;Nomad Task Operators/Decorators only allows for a single task&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Count</span> <span class="ow">and</span> <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NomadValidationError</span><span class="p">(</span><span class="s2">&quot;Only a single execution is allowed (count=1)&quot;</span><span class="p">)</span>
 
+        <span class="n">task_sdk</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">default_template</span> <span class="ow">and</span> <span class="n">default_template</span> <span class="o">==</span> <span class="n">DEFAULT_TASK_TEMPLATE_SDK</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_job_template</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">task_sdk</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="k">else</span> <span class="n">template</span></div>
 </div>
 

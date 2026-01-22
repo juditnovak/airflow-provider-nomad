@@ -218,11 +218,11 @@ AUTOAPI_IGNORE:
 
 [01mloading translations [en]... [39;49;00mdone
 
-(process:708652): libenchant-WARNING **: 20:06:02.790: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
+(process:730678): libenchant-WARNING **: 22:06:21.991: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
 
-(process:708652): libenchant-WARNING **: 20:06:02.790: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
+(process:730678): libenchant-WARNING **: 22:06:21.991: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
 
-(process:708652): libenchant-WARNING **: 20:06:02.791: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
+(process:730678): libenchant-WARNING **: 22:06:21.991: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
 Initializing Spelling Checker 8.0.1
 [01mloading pickled environment... [39;49;00mThe configuration has changed (2 options: 'html_css_files', 'html_static_path')
 done
@@ -235,39 +235,39 @@ loading intersphinx inventory 'boto3' from /home/judit/tech/workspace/vfs_airflo
 loading intersphinx inventory 'celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/celery/objects.inv ...
 loading intersphinx inventory 'docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/docker/objects.inv ...
 loading intersphinx inventory 'hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/hdfs/objects.inv ...
+loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/jinja2/objects.inv ...
 loading intersphinx inventory 'mongodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/mongodb/objects.inv ...
 loading intersphinx inventory 'pandas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/pandas/objects.inv ...
 loading intersphinx inventory 'python' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/python/objects.inv ...
-loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/jinja2/objects.inv ...
-loading intersphinx inventory 'requests' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/requests/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-amazon' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-amazon/objects.inv ...
 loading intersphinx inventory 'sqlalchemy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/sqlalchemy/objects.inv ...
+loading intersphinx inventory 'requests' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/requests/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-alibaba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-alibaba/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-beam' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-beam/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-cassandra' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-cassandra/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-flink' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-flink/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-amazon' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-amazon/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-druid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-druid/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-iceberg' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-iceberg/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hdfs/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-iceberg' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-iceberg/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-hive' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hive/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-flink' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-flink/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-kafka' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kafka/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-impala' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-impala/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-livy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-livy/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-kylin' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kylin/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-pig' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pig/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-spark' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-spark/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-pinot' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pinot/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-tinkerpop' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-tinkerpop/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apprise' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apprise/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-arangodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-arangodb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-asana' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-asana/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-atlassian-jira' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-atlassian-jira/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-celery/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-cloudant' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cloudant/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-asana' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-asana/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-cncf-kubernetes' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cncf-kubernetes/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-pinot' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pinot/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apprise' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apprise/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-tinkerpop' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-tinkerpop/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-cohere' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cohere/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-atlassian-jira' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-atlassian-jira/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-compat' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-compat/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-io' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-io/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-common-messaging' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-messaging/objects.inv ...
@@ -278,9 +278,9 @@ loading intersphinx inventory 'apache-airflow-providers-dbt-cloud' from /home/ju
 loading intersphinx inventory 'apache-airflow-providers-dingding' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-dingding/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-discord' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-discord/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-docker/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-influxdb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-influxdb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-jdbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-jdbc/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-edge3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-edge3/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-elasticsearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-elasticsearch/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-exasol' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-exasol/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-fab' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-fab/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-facebook' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-facebook/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-ftp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-ftp/objects.inv ...
@@ -291,16 +291,16 @@ loading intersphinx inventory 'apache-airflow-providers-grpc' from /home/judit/t
 loading intersphinx inventory 'apache-airflow-providers-hashicorp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-hashicorp/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-http' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-http/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-imap' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-imap/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-influxdb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-influxdb/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-jdbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-jdbc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-mongo' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-mongo/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-exasol' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-exasol/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-jenkins' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-jenkins/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-keycloak' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-keycloak/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-azure' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-azure/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-mssql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-mssql/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-psrp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-psrp/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-microsoft-winrm' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-winrm/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-mongo' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-mongo/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-mysql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-mysql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-elasticsearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-elasticsearch/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-neo4j' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-neo4j/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-odbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-odbc/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-openai' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-openai/objects.inv ...
@@ -367,7 +367,7 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01mwriting output... [39;49;00m[  2%] [32m_api/airflow/providers/nomad/decorators/index[39;49;00m
 [01mwriting output... [39;49;00m[  3%] [32m_api/airflow/providers/nomad/decorators/job/index[39;49;00m
 [01mwriting output... [39;49;00m[  4%] [32m_api/airflow/providers/nomad/decorators/nomad_task/index[39;49;00m
-[01mwriting output... [39;49;00m[  6%] [32m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
+[01mwriting output... [39;49;00m[  5%] [32m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
 [01mwriting output... [39;49;00m[  7%] [32m_api/airflow/providers/nomad/decorators/task/index[39;49;00m
 [01mwriting output... [39;49;00m[  8%] [32m_api/airflow/providers/nomad/exceptions/index[39;49;00m
 [01mwriting output... [39;49;00m[  9%] [32m_api/airflow/providers/nomad/executors/index[39;49;00m
@@ -386,10 +386,10 @@ providers/nomad/docs/_api/airflow/providers/nomad/generic_interfaces/executor_lo
 providers/nomad/docs/_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.rst:29: : Spell check: [91mLogMetadata[39;49;00m: airflow.utils.log.file_task_handler.LogMetadata.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index.spelling
 [01mwriting output... [39;49;00m[ 14%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
-[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
-[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
-[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 19%] [32m_api/airflow/providers/nomad/log/index[39;49;00m
+[01mwriting output... [39;49;00m[ 15%] [32m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/log/index[39;49;00m
 [01mwriting output... [39;49;00m[ 20%] [32m_api/airflow/providers/nomad/manager/index[39;49;00m
 providers/nomad/docs/_api/airflow/providers/nomad/manager/index.rst:138: : Spell check: [91mallocaton[39;49;00m: Typically on allocaton errors there is not feedback to Airflow, as the.
 providers/nomad/docs/_api/airflow/providers/nomad/manager/index.rst:144: : Spell check: [91mcorectly[39;49;00m: task re-tries are applied corectly..
@@ -483,57 +483,59 @@ Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_d
 [01mwriting output... [39;49;00m[ 22%] [32m_api/airflow/providers/nomad/operators/index[39;49;00m
 [01mwriting output... [39;49;00m[ 23%] [32m_api/airflow/providers/nomad/operators/job/index[39;49;00m
 [01mwriting output... [39;49;00m[ 24%] [32m_api/airflow/providers/nomad/operators/python/index[39;49;00m
-[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/operators/task/index[39;49;00m
-[01mwriting output... [39;49;00m[ 27%] [32m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
-[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
-[01mwriting output... [39;49;00m[ 29%] [32m_api/airflow/providers/nomad/utils/index[39;49;00m
+[01mwriting output... [39;49;00m[ 25%] [32m_api/airflow/providers/nomad/operators/task/index[39;49;00m
+[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 27%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/utils/index[39;49;00m
 providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:29:<autosummary>:1: : Spell check: [91mhcl[39;49;00m: try to parse a json or hcl input as a nomad job template.
 providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:49: : Spell check: [91mhcl[39;49;00m: try to parse a json or hcl input as a nomad job template.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/airflow/providers/nomad/utils/index.spelling
-[01mwriting output... [39;49;00m[ 30%] [32m_api/tests/system/nomad/constants/index[39;49;00m
-[01mwriting output... [39;49;00m[ 31%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 29%] [32m_api/tests/system/nomad/constants/index[39;49;00m
+[01mwriting output... [39;49;00m[ 30%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
 [01mwriting output... [39;49;00m[ 32%] [32m_api/tests/system/nomad/dags/index[39;49;00m
 [01mwriting output... [39;49;00m[ 33%] [32m_api/tests/system/nomad/dags/sql/index[39;49;00m
 [01mwriting output... [39;49;00m[ 34%] [32m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 36%] [32m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 35%] [32m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index.rst:2: : Spell check: [91mhcl[39;49;00m: tests.system.nomad.dags.test_dag_config_default_job_template_hcl.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index.spelling
-[01mwriting output... [39;49;00m[ 37%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 36%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index.rst:2: : Spell check: [91mhcl[39;49;00m: tests.system.nomad.dags.test_dag_config_default_template_hcl.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index.spelling
-[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
-[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
-[01mwriting output... [39;49;00m[ 40%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
-[01mwriting output... [39;49;00m[ 43%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 44%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 46%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 47%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 37%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
+[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
+[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 40%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 43%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 45%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 46%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index.spelling
-[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 49%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 47%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index.spelling
-[01mwriting output... [39;49;00m[ 50%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 51%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 53%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 54%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 56%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 57%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
-[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 60%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 49%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 50%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 51%] [32m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 53%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 54%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 55%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 57%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 60%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 63%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index.spelling
-[01mwriting output... [39;49;00m[ 63%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 64%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index.spelling
-[01mwriting output... [39;49;00m[ 64%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 65%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
 [01mwriting output... [39;49;00m[ 66%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 67%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc.
@@ -541,120 +543,136 @@ Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_d
 [01mwriting output... [39;49;00m[ 68%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index.rst:2: : Spell check: [91malloc[39;49;00m: tests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc_localexecutor.
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index.spelling
-[01mwriting output... [39;49;00m[ 69%] [32m_api/tests/system/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 70%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 71%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 72%] [32m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 73%] [32m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
+[01mwriting output... [39;49;00m[ 70%] [32m_api/tests/system/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 71%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 72%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 73%] [32m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 74%] [32m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: : Spell check: [91mdatadir[39;49;00m: (test_datadir).
 providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: : Spell check: [91mdatadir[39;49;00m: (test_datadir, caplog).
 providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: : Spell check: [91mcaplog[39;49;00m: (test_datadir, caplog).
 providers/nomad/docs/_api/tests/system/nomad/test_nomad_manager/index.rst:16:<autosummary>:1: : Spell check: [91mcaplog[39;49;00m: (caplog).
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/test_nomad_manager/index.spelling
-[01mwriting output... [39;49;00m[ 74%] [32m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 75%] [32m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
 providers/nomad/docs/_api/tests/system/nomad/test_nomad_task_operator/index.rst:15:<autosummary>:1: : Spell check: [91mdatadir[39;49;00m: (test_datadir).
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/_api/tests/system/nomad/test_nomad_task_operator/index.spelling
 [01mwriting output... [39;49;00m[ 76%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 77%] [32m_api/tests/system/nomad/utils/index[39;49;00m
 [01mwriting output... [39;49;00m[ 78%] [32mchangelog[39;49;00m
-providers/nomad/docs/changelog.rst:4: : Spell check: [91mjuditnovak[39;49;00m: Minor administrative fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:5: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:6: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:7: : Spell check: [91mjuditnovak[39;49;00m: [BUGFIX] Configurable runner logs by @juditnovak in .
-providers/nomad/docs/changelog.rst:8: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Task logs location configurable by @juditnovak in .
-providers/nomad/docs/changelog.rst:9: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] 0.0.6.dev1 by @juditnovak in .
-providers/nomad/docs/changelog.rst:10: : Spell check: [91mjuditnovak[39;49;00m: [VERSION] Version increase: 0.0.6.dev2 by @juditnovak in .
-providers/nomad/docs/changelog.rst:11: : Spell check: [91mjuditnovak[39;49;00m: [VERSION][DOCS][HTML] Version increase: 0.0.6.dev2 by @juditnovak in .
-providers/nomad/docs/changelog.rst:12: : Spell check: [91mjuditnovak[39;49;00m: [TESTS] System tests cleanup by @juditnovak in .
-providers/nomad/docs/changelog.rst:13: : Spell check: [91mjuditnovak[39;49;00m: Upgrade to Airflow 3.1.3 by @juditnovak in .
-providers/nomad/docs/changelog.rst:21: : Spell check: [91mjuditnovak[39;49;00m: Release 0.0.4 by @juditnovak in .
-providers/nomad/docs/changelog.rst:22: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix by @juditnovak in .
-providers/nomad/docs/changelog.rst:23: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix (final) by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mpypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mPypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mjuditnovak[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:25: : Spell check: [91mPypi[39;49;00m: [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release.
-providers/nomad/docs/changelog.rst:26: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:27: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Still fixing by @juditnovak in .
-providers/nomad/docs/changelog.rst:28: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] Pre-release 0.0.5b1 by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91msupprt[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
-providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Enabling both local and remote build by @juditnovak in .
-providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: Setting latest changes to refer to 0.0.dev4 by @juditnovak in .
-providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m: Tenacity retries for job submission and deregister by @juditnovak in .
-providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: Extending test coverage by @juditnovak in .
-providers/nomad/docs/changelog.rst:40: : Spell check: [91mjuditnovak[39;49;00m: Coverage and small fixes for workload management by @juditnovak in .
-providers/nomad/docs/changelog.rst:41: : Spell check: [91mjuditnovak[39;49;00m: Resource allocation by @juditnovak in .
-providers/nomad/docs/changelog.rst:48: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
-providers/nomad/docs/changelog.rst:49: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
-providers/nomad/docs/changelog.rst:50: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
-providers/nomad/docs/changelog.rst:59: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:60: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
-providers/nomad/docs/changelog.rst:61: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
-providers/nomad/docs/changelog.rst:71: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
-providers/nomad/docs/changelog.rst:72: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
-providers/nomad/docs/changelog.rst:73: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
-providers/nomad/docs/changelog.rst:74: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
-providers/nomad/docs/changelog.rst:75: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:76: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
-providers/nomad/docs/changelog.rst:77: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
-providers/nomad/docs/changelog.rst:78: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
-providers/nomad/docs/changelog.rst:79: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
-providers/nomad/docs/changelog.rst:80: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:81: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
+providers/nomad/docs/changelog.rst:4: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:5: : Spell check: [91mjuditnovak[39;49;00m: [BUFIX] Advertising decorators so that Task SDK could discover by @juditnovak in .
+providers/nomad/docs/changelog.rst:6: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Latest changes by @juditnovak in .
+providers/nomad/docs/changelog.rst:7: : Spell check: [91mallowd[39;49;00m:  allowd for .
+providers/nomad/docs/changelog.rst:7: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:8: : Spell check: [91mjuditnovak[39;49;00m: [docs_0.0.7.dev1_fix]: [HTML] 0.0.7dev1 -> 0.0.7.dev1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:9: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Python operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:10: : Spell check: [91mjuditnovak[39;49;00m: [FEATURE] Python operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:19: : Spell check: [91mjuditnovak[39;49;00m: Minor administrative fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:20: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:21: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:22: : Spell check: [91mjuditnovak[39;49;00m: [BUGFIX] Configurable runner logs by @juditnovak in .
+providers/nomad/docs/changelog.rst:23: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Task logs location configurable by @juditnovak in .
+providers/nomad/docs/changelog.rst:24: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] 0.0.6.dev1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:25: : Spell check: [91mjuditnovak[39;49;00m: [VERSION] Version increase: 0.0.6.dev2 by @juditnovak in .
+providers/nomad/docs/changelog.rst:26: : Spell check: [91mjuditnovak[39;49;00m: [VERSION][DOCS][HTML] Version increase: 0.0.6.dev2 by @juditnovak in .
+providers/nomad/docs/changelog.rst:27: : Spell check: [91mjuditnovak[39;49;00m: [TESTS] System tests cleanup by @juditnovak in .
+providers/nomad/docs/changelog.rst:28: : Spell check: [91mjuditnovak[39;49;00m: Upgrade to Airflow 3.1.3 by @juditnovak in .
+providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Release 0.0.4 by @juditnovak in .
+providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix by @juditnovak in .
+providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix (final) by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mpypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mPypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:40: : Spell check: [91mPypi[39;49;00m: [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release.
+providers/nomad/docs/changelog.rst:41: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:42: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Still fixing by @juditnovak in .
+providers/nomad/docs/changelog.rst:43: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] Pre-release 0.0.5b1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:50: : Spell check: [91msupprt[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:50: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:51: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Enabling both local and remote build by @juditnovak in .
+providers/nomad/docs/changelog.rst:52: : Spell check: [91mjuditnovak[39;49;00m: Setting latest changes to refer to 0.0.dev4 by @juditnovak in .
+providers/nomad/docs/changelog.rst:53: : Spell check: [91mjuditnovak[39;49;00m: Tenacity retries for job submission and deregister by @juditnovak in .
+providers/nomad/docs/changelog.rst:54: : Spell check: [91mjuditnovak[39;49;00m: Extending test coverage by @juditnovak in .
+providers/nomad/docs/changelog.rst:55: : Spell check: [91mjuditnovak[39;49;00m: Coverage and small fixes for workload management by @juditnovak in .
+providers/nomad/docs/changelog.rst:56: : Spell check: [91mjuditnovak[39;49;00m: Resource allocation by @juditnovak in .
+providers/nomad/docs/changelog.rst:63: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
+providers/nomad/docs/changelog.rst:64: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
+providers/nomad/docs/changelog.rst:65: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
+providers/nomad/docs/changelog.rst:74: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:75: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
+providers/nomad/docs/changelog.rst:76: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
+providers/nomad/docs/changelog.rst:86: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:87: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
+providers/nomad/docs/changelog.rst:88: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
+providers/nomad/docs/changelog.rst:89: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
+providers/nomad/docs/changelog.rst:90: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:91: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
+providers/nomad/docs/changelog.rst:92: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
+providers/nomad/docs/changelog.rst:93: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
+providers/nomad/docs/changelog.rst:94: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
+providers/nomad/docs/changelog.rst:95: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:96: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/changelog.spelling
 [01mwriting output... [39;49;00m[ 79%] [32mcommits[39;49;00m
 [01mwriting output... [39;49;00m[ 80%] [32mconfigurations-ref[39;49;00m
-[01mwriting output... [39;49;00m[ 81%] [32mdevelopment[39;49;00m
-providers/nomad/docs/changelog.rst:4: : Spell check: [91mjuditnovak[39;49;00m: Minor administrative fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:5: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:6: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:7: : Spell check: [91mjuditnovak[39;49;00m: [BUGFIX] Configurable runner logs by @juditnovak in .
-providers/nomad/docs/changelog.rst:8: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Task logs location configurable by @juditnovak in .
-providers/nomad/docs/changelog.rst:9: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] 0.0.6.dev1 by @juditnovak in .
-providers/nomad/docs/changelog.rst:10: : Spell check: [91mjuditnovak[39;49;00m: [VERSION] Version increase: 0.0.6.dev2 by @juditnovak in .
-providers/nomad/docs/changelog.rst:11: : Spell check: [91mjuditnovak[39;49;00m: [VERSION][DOCS][HTML] Version increase: 0.0.6.dev2 by @juditnovak in .
-providers/nomad/docs/changelog.rst:12: : Spell check: [91mjuditnovak[39;49;00m: [TESTS] System tests cleanup by @juditnovak in .
-providers/nomad/docs/changelog.rst:13: : Spell check: [91mjuditnovak[39;49;00m: Upgrade to Airflow 3.1.3 by @juditnovak in .
-providers/nomad/docs/changelog.rst:21: : Spell check: [91mjuditnovak[39;49;00m: Release 0.0.4 by @juditnovak in .
-providers/nomad/docs/changelog.rst:22: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix by @juditnovak in .
-providers/nomad/docs/changelog.rst:23: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix (final) by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mpypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mPypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:24: : Spell check: [91mjuditnovak[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
-providers/nomad/docs/changelog.rst:25: : Spell check: [91mPypi[39;49;00m: [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release.
-providers/nomad/docs/changelog.rst:26: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Fixes by @juditnovak in .
-providers/nomad/docs/changelog.rst:27: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Still fixing by @juditnovak in .
-providers/nomad/docs/changelog.rst:28: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] Pre-release 0.0.5b1 by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91msupprt[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
-providers/nomad/docs/changelog.rst:35: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
-providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Enabling both local and remote build by @juditnovak in .
-providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: Setting latest changes to refer to 0.0.dev4 by @juditnovak in .
-providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m: Tenacity retries for job submission and deregister by @juditnovak in .
-providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: Extending test coverage by @juditnovak in .
-providers/nomad/docs/changelog.rst:40: : Spell check: [91mjuditnovak[39;49;00m: Coverage and small fixes for workload management by @juditnovak in .
-providers/nomad/docs/changelog.rst:41: : Spell check: [91mjuditnovak[39;49;00m: Resource allocation by @juditnovak in .
-providers/nomad/docs/changelog.rst:48: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
-providers/nomad/docs/changelog.rst:49: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
-providers/nomad/docs/changelog.rst:50: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
-providers/nomad/docs/changelog.rst:59: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:60: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
-providers/nomad/docs/changelog.rst:61: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
-providers/nomad/docs/changelog.rst:71: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
-providers/nomad/docs/changelog.rst:72: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
-providers/nomad/docs/changelog.rst:73: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
-providers/nomad/docs/changelog.rst:74: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
-providers/nomad/docs/changelog.rst:75: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:76: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
-providers/nomad/docs/changelog.rst:77: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
-providers/nomad/docs/changelog.rst:78: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
-providers/nomad/docs/changelog.rst:79: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
-providers/nomad/docs/changelog.rst:80: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
-providers/nomad/docs/changelog.rst:81: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
+[01mwriting output... [39;49;00m[ 82%] [32mdevelopment[39;49;00m
+providers/nomad/docs/changelog.rst:4: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:5: : Spell check: [91mjuditnovak[39;49;00m: [BUFIX] Advertising decorators so that Task SDK could discover by @juditnovak in .
+providers/nomad/docs/changelog.rst:6: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Latest changes by @juditnovak in .
+providers/nomad/docs/changelog.rst:7: : Spell check: [91mallowd[39;49;00m:  allowd for .
+providers/nomad/docs/changelog.rst:7: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:8: : Spell check: [91mjuditnovak[39;49;00m: [docs_0.0.7.dev1_fix]: [HTML] 0.0.7dev1 -> 0.0.7.dev1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:9: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Python operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:10: : Spell check: [91mjuditnovak[39;49;00m: [FEATURE] Python operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:19: : Spell check: [91mjuditnovak[39;49;00m: Minor administrative fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:20: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:21: : Spell check: [91mjuditnovak[39;49;00m: Minor docs fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:22: : Spell check: [91mjuditnovak[39;49;00m: [BUGFIX] Configurable runner logs by @juditnovak in .
+providers/nomad/docs/changelog.rst:23: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Task logs location configurable by @juditnovak in .
+providers/nomad/docs/changelog.rst:24: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] 0.0.6.dev1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:25: : Spell check: [91mjuditnovak[39;49;00m: [VERSION] Version increase: 0.0.6.dev2 by @juditnovak in .
+providers/nomad/docs/changelog.rst:26: : Spell check: [91mjuditnovak[39;49;00m: [VERSION][DOCS][HTML] Version increase: 0.0.6.dev2 by @juditnovak in .
+providers/nomad/docs/changelog.rst:27: : Spell check: [91mjuditnovak[39;49;00m: [TESTS] System tests cleanup by @juditnovak in .
+providers/nomad/docs/changelog.rst:28: : Spell check: [91mjuditnovak[39;49;00m: Upgrade to Airflow 3.1.3 by @juditnovak in .
+providers/nomad/docs/changelog.rst:36: : Spell check: [91mjuditnovak[39;49;00m: Release 0.0.4 by @juditnovak in .
+providers/nomad/docs/changelog.rst:37: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix by @juditnovak in .
+providers/nomad/docs/changelog.rst:38: : Spell check: [91mjuditnovak[39;49;00m: [CI] main pipeline fix (final) by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mpypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mPypi[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:39: : Spell check: [91mjuditnovak[39;49;00m: [pypi]: [CI] Pypi release by @juditnovak in .
+providers/nomad/docs/changelog.rst:40: : Spell check: [91mPypi[39;49;00m: [..] Squashed entries involving no code changes but CI/README.rst changes for Pypi release.
+providers/nomad/docs/changelog.rst:41: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Fixes by @juditnovak in .
+providers/nomad/docs/changelog.rst:42: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Still fixing by @juditnovak in .
+providers/nomad/docs/changelog.rst:43: : Spell check: [91mjuditnovak[39;49;00m: [RELEASE] Pre-release 0.0.5b1 by @juditnovak in .
+providers/nomad/docs/changelog.rst:50: : Spell check: [91msupprt[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:50: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Attempt to fix missing js supprt by @juditnovak in .
+providers/nomad/docs/changelog.rst:51: : Spell check: [91mjuditnovak[39;49;00m: [DOCS] Enabling both local and remote build by @juditnovak in .
+providers/nomad/docs/changelog.rst:52: : Spell check: [91mjuditnovak[39;49;00m: Setting latest changes to refer to 0.0.dev4 by @juditnovak in .
+providers/nomad/docs/changelog.rst:53: : Spell check: [91mjuditnovak[39;49;00m: Tenacity retries for job submission and deregister by @juditnovak in .
+providers/nomad/docs/changelog.rst:54: : Spell check: [91mjuditnovak[39;49;00m: Extending test coverage by @juditnovak in .
+providers/nomad/docs/changelog.rst:55: : Spell check: [91mjuditnovak[39;49;00m: Coverage and small fixes for workload management by @juditnovak in .
+providers/nomad/docs/changelog.rst:56: : Spell check: [91mjuditnovak[39;49;00m: Resource allocation by @juditnovak in .
+providers/nomad/docs/changelog.rst:63: : Spell check: [91mjuditnovak[39;49;00m: Decorators by @juditnovak in .
+providers/nomad/docs/changelog.rst:64: : Spell check: [91mjuditnovak[39;49;00m: Docs in Production structure, versioning enabled by @juditnovak in .
+providers/nomad/docs/changelog.rst:65: : Spell check: [91mjuditnovak[39;49;00m: 0 0 34c by @juditnovak in .
+providers/nomad/docs/changelog.rst:74: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:75: : Spell check: [91mjuditnovak[39;49;00m: [CI] Timeout increase by @juditnovak in .
+providers/nomad/docs/changelog.rst:76: : Spell check: [91mjuditnovak[39;49;00m: Enabling support for Airflow templating by @juditnovak in .
+providers/nomad/docs/changelog.rst:86: : Spell check: [91mjuditnovak[39;49;00m: Nomad executor with bash operator by @juditnovak in .
+providers/nomad/docs/changelog.rst:87: : Spell check: [91mjuditnovak[39;49;00m: System tests by @juditnovak in .
+providers/nomad/docs/changelog.rst:88: : Spell check: [91mjuditnovak[39;49;00m: Tests completed and cleaned up by @juditnovak in .
+providers/nomad/docs/changelog.rst:89: : Spell check: [91mjuditnovak[39;49;00m: Cleanup and small executor enhancements by @juditnovak in .
+providers/nomad/docs/changelog.rst:90: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:91: : Spell check: [91mjuditnovak[39;49;00m: Logging finalized by @juditnovak in .
+providers/nomad/docs/changelog.rst:92: : Spell check: [91mjuditnovak[39;49;00m: Base documentation by @juditnovak in .
+providers/nomad/docs/changelog.rst:93: : Spell check: [91mjuditnovak[39;49;00m: Modification on logging by @juditnovak in .
+providers/nomad/docs/changelog.rst:94: : Spell check: [91mjuditnovak[39;49;00m: Enabling secure Nomad connections by @juditnovak in .
+providers/nomad/docs/changelog.rst:95: : Spell check: [91mjuditnovak[39;49;00m:  by @juditnovak in .
+providers/nomad/docs/changelog.rst:96: : Spell check: [91mjuditnovak[39;49;00m: Handling Job submission errors by @juditnovak in .
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/development.spelling
-[01mwriting output... [39;49;00m[ 82%] [32mindex[39;49;00m
-[01mwriting output... [39;49;00m[ 83%] [32mknown_issues[39;49;00m
-[01mwriting output... [39;49;00m[ 84%] [32mmodules[39;49;00m
+[01mwriting output... [39;49;00m[ 83%] [32mindex[39;49;00m
+[01mwriting output... [39;49;00m[ 84%] [32mknown_issues[39;49;00m
+[01mwriting output... [39;49;00m[ 85%] [32mmodules[39;49;00m
 [01mwriting output... [39;49;00m[ 86%] [32mnomad_executor[39;49;00m
 [01mwriting output... [39;49;00m[ 87%] [32mnomad_job_decorator[39;49;00m
 [01mwriting output... [39;49;00m[ 88%] [32mnomad_job_operator[39;49;00m
@@ -667,7 +685,7 @@ providers/nomad/docs/nomad_python_task_operator.rst:30: : Spell check: [91mXcom
 Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/output-spelling-results-apache-airflow-providers-nomad/nomad_python_task_operator.spelling
 [01mwriting output... [39;49;00m[ 92%] [32mnomad_task_decorator[39;49;00m
 [01mwriting output... [39;49;00m[ 93%] [32mnomad_task_operator[39;49;00m
-[01mwriting output... [39;49;00m[ 94%] [32msecurity[39;49;00m
+[01mwriting output... [39;49;00m[ 95%] [32msecurity[39;49;00m
 [01mwriting output... [39;49;00m[ 96%] [32mshared/parameters_task_exec[39;49;00m
 [01mwriting output... [39;49;00m[ 97%] [32mshared/parameters_task_resources[39;49;00m
 [01mwriting output... [39;49;00m[ 98%] [32mshared/parameters_task_template[39;49;00m
@@ -677,5 +695,5 @@ Writing /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_d
 [91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
 [91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
 [91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
-[91mWARNING: Found 200 misspelled words[39;49;00m
+[91mWARNING: Found 216 misspelled words[39;49;00m
 [01mbuild finished with problems, 4 warnings (with warnings treated as errors).[39;49;00m

@@ -808,7 +808,11 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadLogHandler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadJobModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.templates.job_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_JOB_NAME</span><span class="p">,</span> <span class="n">SDK_ENTRYPOINT</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.templates.job_template</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_JOB_NAME</span><span class="p">,</span>
+    <span class="n">DEFAULT_TASK_TEMPLATE_SDK</span><span class="p">,</span>
+    <span class="n">SDK_ENTRYPOINT</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">job_id_from_taskinstance_key</span><span class="p">,</span>
     <span class="n">job_task_id_from_taskinstance_key</span><span class="p">,</span>
@@ -890,7 +894,11 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="n">job_task_id</span> <span class="o">=</span> <span class="n">job_task_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
         <span class="n">valid_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_exeucutor_config</span><span class="p">(</span><span class="n">executor_config</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">job_model</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span><span class="n">valid_config</span><span class="p">,</span> <span class="n">task_sdk</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">job_model</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span>
+                <span class="n">valid_config</span><span class="p">,</span> <span class="n">default_template</span><span class="o">=</span><span class="n">DEFAULT_TASK_TEMPLATE_SDK</span>
+            <span class="p">)</span>
+        <span class="p">):</span>
             <span class="k">raise</span> <span class="n">NomadProviderException</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t retrieve job template&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="n">DEFAULT_JOB_NAME</span><span class="p">:</span>
