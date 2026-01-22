@@ -81,7 +81,7 @@ with myDAG(
     def nomad_command_nproc():
         return ["nproc", "--all"]
 
-    @nomad_task(entrypoint=["/bin/bash", "-c"])
+    @nomad_task()
     def nomad_command_response():
         return [
             "echo",
