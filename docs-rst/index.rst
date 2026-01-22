@@ -39,6 +39,7 @@
 
     NomadTaskOperator <nomad_task_operator>
     NomadJobOperator <nomad_job_operator>
+    NomadPythonTaskOperator <nomad_python_task_operator>
 
 .. toctree::
     :hidden:
@@ -47,6 +48,7 @@
 
     NomadTaskDecorator <nomad_task_decorator>
     NomadJobDecorator <nomad_job_decorator>
+    NomadPythonTaskDecorator <nomad_python_task_decorator>
 
 .. toctree::
     :hidden:

@@ -64,6 +64,9 @@ The operator is refreshing information about the spawned task state every ``noma
 Examples
 ##############
 
+
+An additional list of usage examples is available at `Nomad Task Decorator Examples <nomad_task_decorator.html#examples>`_
+
 A number of example DAGs are included in the project's `System Tests <system_tests.html#system-test-dags>`_ . See `DAG sources <_modules/index.html>`_ for further examples and basic use cases.
 
 Execution: using ``args`` (`Execution`_)
