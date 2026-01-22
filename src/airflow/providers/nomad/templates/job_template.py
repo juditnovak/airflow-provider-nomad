@@ -25,6 +25,8 @@ DEFAULT_IMAGE = conf.get(
 
 SDK_ENTRYPOINT = ["python", "-m", "airflow.sdk.execution_time.execute_workload", "--json-string"]
 
+DEFAULT_ENTRYPOINT = ["python", "-c"]
+
 DEFAULT_JOB_NAME = "ariflow_run"
 
 DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
@@ -68,6 +70,7 @@ DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
                         "Artifacts": None,
                         "Config": {
                             "image": DEFAULT_IMAGE,
+                            "entrypoint": DEFAULT_ENTRYPOINT,
                             "args": [],
                         },
                         "Constraints": None,

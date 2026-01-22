@@ -17,3 +17,5 @@ from .task import (
     NomadTaskOperator as NomadTaskOperator,
     NomadTaskOperatorError as NomadTaskOperatorError,
 )
+
+from .python import NomadPythonTaskOperator as NomadPythonTaskOperator

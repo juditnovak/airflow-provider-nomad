@@ -486,10 +486,14 @@ class NomadManager(LoggingMixin):
             raise NomadProviderException("Nothing to execute")
 
         if len(template.Job.TaskGroups) > 1:
-            raise NomadValidationError("NomadTaskOperator only allows for a single taskgroup")
+            raise NomadValidationError(
+                "Nomad Task Operators/Decorators only allows for a single taskgroup"
+            )
 
         if len(template.Job.TaskGroups[0].Tasks) > 1:
-            raise NomadValidationError("NomadTaskOperator only allows for a single task")
+            raise NomadValidationError(
+                "Nomad Task Operators/Decorators only allows for a single task"
+            )
 
         if template.Job.TaskGroups[0].Count and template.Job.TaskGroups[0].Count > 1:
             raise NomadValidationError("Only a single execution is allowed (count=1)")
