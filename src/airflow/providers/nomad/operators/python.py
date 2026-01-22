@@ -22,6 +22,7 @@ from airflow.sdk.types import RuntimeTaskInstanceProtocol
 
 from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
+from airflow.providers.nomad.templates.job_template import DEFAULT_TASK_TEMPLATE_PYTHON
 from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
@@ -113,7 +114,11 @@ class NomadPythonTaskOperator(NomadOperator):
         }
         updated_context.update(self_attrs)
 
-        if not (template := self.nomad_mgr.prepare_job_template(updated_context)):
+        if not (
+            template := self.nomad_mgr.prepare_job_template(
+                updated_context, DEFAULT_TASK_TEMPLATE_PYTHON
+            )
+        ):
             raise NomadTaskOperatorError(f"No template for task with context {context}")
 
         if not (ti := context.get("ti")):
