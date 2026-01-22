@@ -21,7 +21,6 @@ from typing import Any, Callable, ClassVar
 
 from airflow.sdk import Context
 from airflow.sdk.bases.decorator import DecoratedOperator, TaskDecorator, task_decorator_factory
-from airflow.sdk.definitions._internal.types import SET_DURING_EXECUTION
 from airflow.utils.context import context_merge
 from airflow.utils.operator_helpers import determine_kwargs
 
@@ -48,7 +47,7 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
         **NomadTaskOperator.template_fields_renderers,
     }
 
-    custom_operator_name: str = "@task.nomad"
+    custom_operator_name: str = "@task.nomad_task"
     overwrite_rtif_after_execution: bool = True
 
     def __init__(
@@ -66,11 +65,19 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
                 stacklevel=3,
             )
 
+        if args := kwargs.pop("args", []):
+            warnings.warn(
+                "Use 'args' for Nomad Decorator with caution. Note that the output of the decorated function "
+                + "is passed concatenated to 'args'",
+                UserWarning,
+                stacklevel=3,
+            )
+
         super().__init__(
             python_callable=python_callable,
             op_args=op_args,
             op_kwargs=op_kwargs,
-            args=SET_DURING_EXECUTION,
+            args=args,
             multiple_outputs=False,
             **kwargs,
         )
@@ -79,12 +86,16 @@ class _NomadTaskDecoratedOperator(DecoratedOperator, NomadTaskOperator):
         context_merge(context, self.op_kwargs)
         kwargs = determine_kwargs(self.python_callable, self.op_args, context)
 
-        self.args = self.python_callable(*self.op_args, **kwargs)
+        result = self.python_callable(*self.op_args, **kwargs)
 
-        if not self.args or not isinstance(self.args, list):
+        if not isinstance(result, list):
             raise TypeError(
                 "The returned value from the TaskFlow callable must be a list of string(s)."
             )
+
+        result = [str(elem) if elem else "" for elem in result]
+
+        self.args = self.args + result if isinstance(self.args, list) else result
 
         context["ti"].render_templates()  # type: ignore[attr-defined]
 
