@@ -40,7 +40,7 @@ def test_nomad_task_decorator_args_warning(caplog):
     logging.captureWarnings(False)
 
 
-def test_nomad_task_decorator_wrong_body2():
+def test_nomad_task_decorator_task_id():
     def my_task():
         return "bla"
 

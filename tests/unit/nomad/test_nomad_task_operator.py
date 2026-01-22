@@ -111,7 +111,7 @@ def test_nomad_task_operator_template_multi_task(test_datadir):
     with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
-    assert str(err.value) == "NomadTaskOperator only allows for a single task"
+    assert str(err.value) == "Nomad Task Operators/Decorators only allows for a single task"
 
 
 def test_nomad_task_operator_template_multi_tg(test_datadir):
@@ -127,7 +127,7 @@ def test_nomad_task_operator_template_multi_tg(test_datadir):
     with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
-    assert str(err.value) == "NomadTaskOperator only allows for a single taskgroup"
+    assert str(err.value) == "Nomad Task Operators/Decorators only allows for a single taskgroup"
 
 
 def test_nomad_task_operator_template_multi_count(test_datadir):
@@ -304,7 +304,7 @@ def test_params_defaults():
     assert op.template
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == DEFAULT_IMAGE
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["date"]
-    assert len(op.template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)) == 2
+    assert len(op.template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)) == 3
 
 
 def test_args_params_priority():
