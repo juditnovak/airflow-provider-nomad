@@ -25,6 +25,10 @@ DEFAULT_IMAGE = conf.get(
 
 SDK_ENTRYPOINT = ["python", "-m", "airflow.sdk.execution_time.execute_workload", "--json-string"]
 
+PYTHON_ENTRYPOINT = ["python", "-c"]
+
+BASH_ENTRYPOINT = ["/bin/bash", "-c"]
+
 DEFAULT_JOB_NAME = "ariflow_run"
 
 DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
@@ -163,4 +167,14 @@ DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
 DEFAULT_TASK_TEMPLATE_SDK = deepcopy(DEFAULT_TASK_TEMPLATE)
 DEFAULT_TASK_TEMPLATE_SDK["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["entrypoint"] = (
     SDK_ENTRYPOINT
+)
+
+DEFAULT_TASK_TEMPLATE_BASH = deepcopy(DEFAULT_TASK_TEMPLATE)
+DEFAULT_TASK_TEMPLATE_BASH["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["entrypoint"] = (
+    BASH_ENTRYPOINT
+)
+
+DEFAULT_TASK_TEMPLATE_PYTHON = deepcopy(DEFAULT_TASK_TEMPLATE)
+DEFAULT_TASK_TEMPLATE_PYTHON["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["entrypoint"] = (
+    PYTHON_ENTRYPOINT
 )

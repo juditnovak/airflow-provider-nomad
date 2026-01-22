@@ -1,16 +1,16 @@
-import os
+import datetime
 import pendulum
-from datetime import timedelta
+import os
 
 import attrs
-from airflow.sdk import DAG, task
+from airflow.sdk import DAG
 
-from airflow.providers.nomad.decorators.task import nomad_task
+from airflow.providers.nomad.operators import NomadPythonTaskOperator
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
-DAG_ID = "test-nomad-task-decorator"
-JOB_NAME = "test-nomad-task-decorator"
+DAG_ID = "test-nomad-task-operator-localexecutor"
+JOB_NAME = "test-nomad-task-operator-localexecutor"
 JOB_NAMESPACE = "default"
 
 
@@ -58,8 +58,8 @@ job "nomad-test-hcl" {
     task "uptime" {
       driver = "docker"
       config {
-        image = "alpine:latest"
-        args = ["uptime"]
+        image = "python:3.12-alpine"
+        entrypoint = ["python", "-c"]
       }
     }
   }
@@ -71,33 +71,42 @@ with myDAG(
     dag_id=DAG_ID,
     schedule="0 0 * * *",
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
-    dagrun_timeout=timedelta(minutes=10),
+    dagrun_timeout=datetime.timedelta(minutes=10),
     disable_bundle_versioning=True,
     catchup=False,
-    tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
+    tags=["nomad", "nomadtaskoperator", "nomad-provider-test-localexecutor"],
 ) as dag:
+    first = NomadPythonTaskOperator(
+        task_id="nomad-hello",
+        template_content=content,
+        image="python:3.13-alpine",
+        do_xcom_push=True,
+        python_command="print (42)\n",
+    )
 
-    @task.nomad_task(template_content=content, image="alpine:latest", do_xcom_push=True)
-    def nomad_command_nproc():
-        return ["nproc", "--all"]
+    last = NomadPythonTaskOperator(
+        task_id="nomad-pipe",
+        python_command='print("Result from the previous process is ", '
+        + "{{ task_instance.xcom_pull(task_ids='nomad-hello') }}"
+        + ")",
+    )
 
-    @nomad_task(entrypoint=["/bin/bash", "-c"])
-    def nomad_command_response():
-        return [
-            "echo",
-            "Runner node has ",
-            "{{ task_instance.xcom_pull(task_ids='nomad_command_nproc') }}",
-            " CPUs",
-        ]
-
-    nomad_command_nproc() >> nomad_command_response()  # type: ignore [reportUnusedExpression]
+    first >> last
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 try:
+    from airflow.configuration import conf
     from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
 
-    test_run = get_test_run(dag)
+    from ..constants import TEST_DAGS_LOCALEXECUTOR_PATH
+
+    os.environ["TEST_DAGS_PATH"] = str(TEST_DAGS_LOCALEXECUTOR_PATH)
+
+    # Sadly none of the DAG executor settings are considered in the test environment
+    # Running it only in a pre-configured environment
+    if conf.get("core", "executor") == "LocalExecutor":
+        test_run = get_test_run(dag)
 
 except ImportError:
     pass

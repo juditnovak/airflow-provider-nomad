@@ -22,11 +22,11 @@ from airflow.sdk.types import RuntimeTaskInstanceProtocol
 
 from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
-from airflow.providers.nomad.templates.job_template import DEFAULT_TASK_TEMPLATE_BASH
+from airflow.providers.nomad.templates.job_template import DEFAULT_TASK_TEMPLATE_PYTHON
 from airflow.providers.nomad.utils import job_id_from_taskinstance
 
 
-class NomadTaskOperator(NomadOperator):
+class NomadPythonTaskOperator(NomadOperator):
     """Nomad Operator allowing for lightweight job submission"""
 
     template_fields: Collection[str] = [
@@ -41,10 +41,12 @@ class NomadTaskOperator(NomadOperator):
         "ephemeral_disk",
         "volumes",
         "volume_mounts",
+        "python_command",
     ]
 
     def __init__(
         self,
+        python_command: str,
         template_path: str | None = None,
         template_content: str | None = None,
         env: dict[str, str] | None = None,
@@ -71,6 +73,7 @@ class NomadTaskOperator(NomadOperator):
         self.ephemeral_disk = ephemeral_disk
         self.volumes = volumes
         self.volume_mounts = volume_mounts
+        self.python_command = python_command
         super().__init__(observe=True, **kwargs)
 
     def job_id(self, ti: RuntimeTaskInstanceProtocol):
@@ -113,13 +116,18 @@ class NomadTaskOperator(NomadOperator):
 
         if not (
             template := self.nomad_mgr.prepare_job_template(
-                updated_context, DEFAULT_TASK_TEMPLATE_BASH
+                updated_context, DEFAULT_TASK_TEMPLATE_PYTHON
             )
         ):
             raise NomadTaskOperatorError(f"No template for task with context {context}")
 
         if not (ti := context.get("ti")):
             raise NomadTaskOperatorError(f"No task instance found in context {context}")
+
+        if template.Job.TaskGroups[0].Tasks[0].Config.args:
+            template.Job.TaskGroups[0].Tasks[0].Config.args.append(self.python_command)
+        else:
+            template.Job.TaskGroups[0].Tasks[0].Config.args = [self.python_command]
 
         template.Job.ID = self.job_id(ti)
         self.template = template

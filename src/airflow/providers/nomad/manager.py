@@ -378,7 +378,7 @@ class NomadManager(LoggingMixin):
             path = Path(conf.get_mandatory_value("core", "dags_folder")) / path
         return path
 
-    def get_default_template(self, task_sdk: bool = False):
+    def get_default_template(self, default_template: dict | None = None):
         if default_tplpath := conf.get(CONFIG_SECTION, "default_job_template", fallback=""):
             tplpath = self.figure_path(default_tplpath)
             try:
@@ -387,12 +387,12 @@ class NomadManager(LoggingMixin):
             except (OSError, IOError, ValidationError) as err:
                 self.log.error(f"Can't load or parse default job template ({err})")
 
-        if task_sdk:
-            return NomadJobModel.model_validate(DEFAULT_TASK_TEMPLATE_SDK)
+        if default_template:
+            return NomadJobModel.model_validate(default_template)
         return NomadJobModel.model_validate(DEFAULT_TASK_TEMPLATE)
 
     def get_job_template(
-        self, config: dict | None = None, task_sdk: bool = False
+        self, config: dict | None = None, default_template: dict | None = None
     ) -> NomadJobModel | None:
         if config and config.get("template_content") and config.get("template_path"):
             self.log.error(
@@ -413,7 +413,7 @@ class NomadManager(LoggingMixin):
             if content or (config and (content := config.get("template_content", ""))):
                 return self.parse_template_content(content)
             else:
-                return self.get_default_template(task_sdk)
+                return self.get_default_template(default_template)
 
         except ValidationError as err:
             raise NomadValidationError(f"Template retrieval or validation failed: {err.errors()}")
@@ -480,18 +480,23 @@ class NomadManager(LoggingMixin):
         return template
 
     def prepare_job_template(
-        self, config: dict | None = None, task_sdk: bool = False
+        self, config: dict | None = None, default_template: dict | None = None
     ) -> NomadJobModel | None:
-        if not (template := self.get_job_template(config, task_sdk)):
+        if not (template := self.get_job_template(config, default_template)):
             raise NomadProviderException("Nothing to execute")
 
         if len(template.Job.TaskGroups) > 1:
-            raise NomadValidationError("NomadTaskOperator only allows for a single taskgroup")
+            raise NomadValidationError(
+                "Nomad Task Operators/Decorators only allows for a single taskgroup"
+            )
 
         if len(template.Job.TaskGroups[0].Tasks) > 1:
-            raise NomadValidationError("NomadTaskOperator only allows for a single task")
+            raise NomadValidationError(
+                "Nomad Task Operators/Decorators only allows for a single task"
+            )
 
         if template.Job.TaskGroups[0].Count and template.Job.TaskGroups[0].Count > 1:
             raise NomadValidationError("Only a single execution is allowed (count=1)")
 
+        task_sdk = bool(default_template and default_template == DEFAULT_TASK_TEMPLATE_SDK)
         return self.update_job_template(template, config, task_sdk) if config else template

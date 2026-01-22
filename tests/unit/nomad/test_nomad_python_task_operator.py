@@ -1,33 +1,37 @@
 import json
-import logging
 from pathlib import Path
+import logging
 from unittest.mock import MagicMock
 
 import pytest
-from airflow.sdk import Context
-from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
-from tests_common.test_utils.config import conf_vars
 
+from nomad.api.exceptions import BaseNomadException  # type: ignore[import-untyped]
+
+from airflow.sdk import Context
+from airflow.providers.nomad.models import (
+    NomadJobModel,
+    NomadEphemeralDisk,
+    Resource,
+    NomadVolumeMounts,
+)
 from airflow.providers.nomad.exceptions import (
     NomadOperatorError,
     NomadProviderException,
     NomadValidationError,
 )
-from airflow.providers.nomad.models import (
-    NomadJobModel,
-    NomadVolumeMounts,
-    Resource,
-    NomadEphemeralDisk,
-)
-from airflow.providers.nomad.operators.task import NomadTaskOperator
+from airflow.providers.nomad.operators.python import NomadPythonTaskOperator
 from airflow.providers.nomad.templates.job_template import DEFAULT_IMAGE
+
+from tests_common.test_utils.config import conf_vars
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-def test_nomad_task_operator_execute_ok(filename, test_datadir, mock_nomad_client):
+def test_nomad_python_task_operator_execute_ok(filename, test_datadir, mock_nomad_client):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
+    ########## preparation
     # The outer job will be running happily, the inner one fails
     file_path2 = test_datadir / "nomad_job_info_dead.json"
     mock_nomad_client.job.get_job.side_effect = [None, json.loads(open(file_path2).read())]
@@ -40,6 +44,7 @@ def test_nomad_task_operator_execute_ok(filename, test_datadir, mock_nomad_clien
     mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path5).read())
     # The first read is on stderr, second is on stdout
     mock_nomad_client.client.cat.read_file.side_effect = [str({"Summary": 30}), ""]
+    ########## \preparation
 
     mock_job_register = mock_nomad_client.job.register_job
     runtime_ti = MagicMock(
@@ -47,22 +52,24 @@ def test_nomad_task_operator_execute_ok(filename, test_datadir, mock_nomad_clien
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     retval = op.execute(context)
 
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [python_command]
     mock_job_register.assert_called_once_with(job_id, template)
     assert retval == str({"Summary": 30})
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-def test_nomad_task_operator_execute_ok_with_task_logs(
+def test_nomad_python_task_operator_execute_ok_with_task_logs(
     filename, test_datadir, mock_nomad_client, caplog
 ):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     # The outer job will be running happily, the inner one fails
     file_path2 = test_datadir / "nomad_job_info_dead.json"
@@ -85,61 +92,67 @@ def test_nomad_task_operator_execute_ok_with_task_logs(
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id", job_log_file="locallog.out")
+    op = NomadPythonTaskOperator(
+        task_id="task_id", job_log_file="locallog.out", python_command=python_command
+    )
     with caplog.at_level(logging.INFO):
         retval = op.execute(context)
 
         job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
         template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
         template["Job"]["ID"] = job_id
+        template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [python_command]
         mock_job_register.assert_called_once_with(job_id, template)
         assert retval == str({"Summary": 30})
         assert any([job_log in record.message for record in caplog.records])
         assert any([job_err in record.message for record in caplog.records])
 
 
-def test_nomad_task_operator_template_multi_task(test_datadir):
+def test_nomad_python_task_operator_template_multi_task(test_datadir):
     file_path = test_datadir / "batch_multi_task.json"
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     runtime_ti = MagicMock(
         task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
     assert str(err.value) == "Nomad Task Operators/Decorators only allows for a single task"
 
 
-def test_nomad_task_operator_template_multi_tg(test_datadir):
+def test_nomad_python_task_operator_template_multi_tg(test_datadir):
     file_path = test_datadir / "batch_multi_tg.json"
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     runtime_ti = MagicMock(
         task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
     assert str(err.value) == "Nomad Task Operators/Decorators only allows for a single taskgroup"
 
 
-def test_nomad_task_operator_template_multi_count(test_datadir):
+def test_nomad_python_task_operator_template_multi_count(test_datadir):
     file_path = test_datadir / "batch_multi_count.json"
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     runtime_ti = MagicMock(
         task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     with pytest.raises(NomadValidationError) as err:
         op.execute(context)
 
@@ -148,11 +161,12 @@ def test_nomad_task_operator_template_multi_count(test_datadir):
 
 @conf_vars({("nomad_provider", "alloc_pending_timeout"): "0"})
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-def test_nomad_task_operator_execute_job_submission_fails(
+def test_nomad_python_task_operator_execute_job_submission_fails(
     filename, test_datadir, mock_nomad_client
 ):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     mock_job_register = mock_nomad_client.job.register_job
     mock_job_register.side_effect = BaseNomadException("Job submission error")
@@ -164,21 +178,23 @@ def test_nomad_task_operator_execute_job_submission_fails(
     # Job output
     mock_nomad_client.client.cat.read_file.side_effect = ["", ""]
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     with pytest.raises(NomadOperatorError) as err:
         op.execute(context)
 
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [python_command]
     mock_job_register.assert_called_once_with(job_id, template)
     assert str(err.value).startswith("Job submission failed")
 
 
 @pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
-def test_nomad_task_operator_execute_failed(filename, test_datadir, mock_nomad_client):
+def test_nomad_python_task_operator_execute_failed(filename, test_datadir, mock_nomad_client):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
     # The outer job will be running happily, the inner one fails
     file_path2 = test_datadir / "nomad_job_info_dead.json"
@@ -196,13 +212,14 @@ def test_nomad_task_operator_execute_failed(filename, test_datadir, mock_nomad_c
     )
     context = Context({"params": {"template_content": content}, "ti": runtime_ti})
 
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     with pytest.raises(NomadOperatorError) as err:
         op.execute(context)
 
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["TaskGroups"][0]["Tasks"][0]["Config"]["args"] = [python_command]
     mock_job_register.assert_called_once_with(job_id, template)
     # assert str(err.value).startswith(f"Job summary:Job {job_id} got killed due to error")
     assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in str(
@@ -211,8 +228,9 @@ def test_nomad_task_operator_execute_failed(filename, test_datadir, mock_nomad_c
 
 
 def test_sanitize_logs():
+    python_command = "print('Python job here!'"
     file_path = Path("/tmp/alloc_id-task_name.log")
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     try:
         log_content = "log\nfile\ncontent"
         logs = log_content
@@ -232,8 +250,9 @@ def test_sanitize_logs():
 
 @conf_vars({("nomad_provider", "runner_log_dir"): "./"})
 def test_sanitize_logs_log_dir_param():
+    python_command = "print('Python job here!'"
     file_path = Path("alloc_id-task_name.log")
-    op = NomadTaskOperator(task_id="task_id")
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
     try:
         log_content = "log\nfile\ncontent"
         logs = log_content
@@ -252,14 +271,15 @@ def test_sanitize_logs_log_dir_param():
 
 
 def test_params():
-    op = NomadTaskOperator(task_id="task_id")
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
 
     context = Context(
         {
             "params": {
-                "image": "alpine:3.21",
-                "entrypoint": ["/bin/sh", "-c"],
-                "args": ["date"],
+                "image": "python:3.12-alpine",
+                "entrypoint": ["python", "-c"],
+                "args": ["print('hello')\n"],
                 "env": {"TEMPDIR": "$HOME/tmp"},
             },
             "ti": MagicMock(
@@ -273,9 +293,12 @@ def test_params():
     )
     op.prepare_job_template(context)
     assert op.template
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.entrypoint == ["/bin/sh", "-c"]
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == "alpine:3.21"
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["date"]
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.entrypoint == ["python", "-c"]
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == "python:3.12-alpine"
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == [
+        "print('hello')\n",
+        python_command,
+    ]
     assert op.template.Job.TaskGroups[0].Tasks[0].Env == {
         "TEMPDIR": "$HOME/tmp",
         # From the job definition
@@ -286,11 +309,12 @@ def test_params():
 
 
 def test_params_defaults():
-    op = NomadTaskOperator(task_id="task_id")
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
 
     context = Context(
         {
-            "params": {"args": ["date"]},
+            "params": {"args": ["print('hello')\n"]},
             "ti": MagicMock(
                 task_id="task_op_test",
                 dag_id="task_op_dag",
@@ -303,19 +327,24 @@ def test_params_defaults():
     op.prepare_job_template(context)
     assert op.template
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == DEFAULT_IMAGE
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["date"]
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == [
+        "print('hello')\n",
+        python_command,
+    ]
     assert len(op.template.Job.TaskGroups[0].Tasks[0].Config.model_dump(exclude_unset=True)) == 3
 
 
 def test_args_params_priority():
-    op = NomadTaskOperator(
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
         task_id="task_id",
         image="image",
-        args=["arg1", "arg2"],
+        args=["print('Hello')\n", "print('World')'\n"],
         env={
             "ENV_VAR1": "value1",
             "ENV_VAR2": "value2",
         },
+        python_command=python_command,
     )
 
     context = Context(
@@ -333,7 +362,11 @@ def test_args_params_priority():
     op.prepare_job_template(context)
     assert op.template
     assert op.template.Job.TaskGroups[0].Tasks[0].Config.image == "image"
-    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == ["arg1", "arg2"]
+    assert op.template.Job.TaskGroups[0].Tasks[0].Config.args == [
+        "print('Hello')\n",
+        "print('World')'\n",
+        python_command,
+    ]
     assert op.template.Job.TaskGroups[0].Tasks[0].Env == {
         "ENV_VAR1": "value1",
         "ENV_VAR2": "value2",
@@ -347,8 +380,11 @@ def test_args_params_priority():
 def test_args_template_content(filename, test_datadir):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
-    op = NomadTaskOperator(task_id="task_id", template_content=content)
+    op = NomadPythonTaskOperator(
+        task_id="task_id", template_content=content, python_command=python_command
+    )
     context = Context(
         {
             "ti": MagicMock(
@@ -360,9 +396,13 @@ def test_args_template_content(filename, test_datadir):
             )
         }
     )
+
+    file_taskgroups = NomadJobModel.model_validate_json(content).Job.TaskGroups
+    file_taskgroups[0].Tasks[0].Config.args = [python_command]
+
     op.prepare_job_template(context)
     assert op.template
-    assert op.template.Job.TaskGroups == NomadJobModel.model_validate_json(content).Job.TaskGroups
+    assert op.template.Job.TaskGroups == file_taskgroups
     assert op.template.Job.ID != NomadJobModel.model_validate_json(content).Job.ID
 
 
@@ -370,8 +410,11 @@ def test_args_template_content(filename, test_datadir):
 def test_args_template_path(filename, test_datadir):
     file_path = test_datadir / filename
     content = open(file_path).read()
+    python_command = "print('Python job here!'"
 
-    op = NomadTaskOperator(task_id="task_id", template_path=file_path)
+    op = NomadPythonTaskOperator(
+        task_id="task_id", template_path=file_path, python_command=python_command
+    )
     context = Context(
         {
             "ti": MagicMock(
@@ -383,18 +426,23 @@ def test_args_template_path(filename, test_datadir):
             )
         }
     )
+
+    file_taskgroups = NomadJobModel.model_validate_json(content).Job.TaskGroups
+    file_taskgroups[0].Tasks[0].Config.args = [python_command]
+
     op.prepare_job_template(context)
     assert op.template
-    assert op.template.Job.TaskGroups == NomadJobModel.model_validate_json(content).Job.TaskGroups
+    assert op.template.Job.TaskGroups == file_taskgroups
     assert op.template.Job.ID != NomadJobModel.model_validate_json(content).Job.ID
 
 
 @pytest.mark.parametrize(
     "param, value",
-    [("args", ["arg1", "arg2"]), ("command", "cmd"), ("entrypoint", ["/bin/sh", "-c"])],
+    [("command", "cmd"), ("entrypoint", ["python", "-c"])],
 )
 def test_args_args(param, value):
-    op = NomadTaskOperator(task_id="task_id", **{param: value})
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(task_id="task_id", **{param: value}, python_command=python_command)
     context = Context(
         {
             "ti": MagicMock(
@@ -415,13 +463,17 @@ def test_args_args(param, value):
     "paramdict", [{"args": "badarg"}, {"command": ["cmd"]}, {"entrypoint": "bla"}]
 )
 def test_args_args_invalid(paramdict):
-    op = NomadTaskOperator(task_id="task_id", **paramdict)  # type: ignore [reportArgumentType]
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(task_id="task_id", **paramdict, python_command=python_command)  # type: ignore [reportArgumentType]
     with pytest.raises(NomadProviderException):
         op.prepare_job_template({})
 
 
 def test_args_template_path_invalid(caplog):
-    op = NomadTaskOperator(task_id="task_id", template_path="bla")
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", template_path="bla", python_command=python_command
+    )
     with caplog.at_level(logging.ERROR):
         with pytest.raises(NomadProviderException) as err:
             assert not op.prepare_job_template({})
@@ -433,7 +485,10 @@ def test_args_template_path_invalid(caplog):
 
 
 def test_args_template_content_invalid(caplog):
-    op = NomadTaskOperator(task_id="task_id", template_content="bla")
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", template_content="bla", python_command=python_command
+    )
     with caplog.at_level(logging.ERROR):
         with pytest.raises(NomadProviderException) as err:
             op.prepare_job_template({})
@@ -442,16 +497,24 @@ def test_args_template_content_invalid(caplog):
 
 
 def test_args_invalid_template():
+    python_command = "print('Python job here!'"
     with pytest.raises(ValueError) as err:
-        NomadTaskOperator(task_id="task_id", template_path="/some/path", template_content="<HCL>")
+        NomadPythonTaskOperator(
+            task_id="task_id",
+            template_path="/some/path",
+            template_content="<HCL>",
+            python_command=python_command,
+        )
     assert "Only one of 'template_content' and 'template_path' can be specified" in str(err.value)
 
 
 def test_args_invalid_env():
-    op = NomadTaskOperator(
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
         task_id="task_id",
         command="date",
         env="TZ: 'Europe/Paris'",  # type: ignore [reportArgumentType]
+        python_command=python_command,
     )
 
     with pytest.raises(NomadValidationError) as err:
@@ -475,7 +538,10 @@ def test_args_task_ephemeral():
             )
         }
     )
-    op = NomadTaskOperator(task_id="task_id", ephemeral_disk=edisk_data)
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", ephemeral_disk=edisk_data, python_command=python_command
+    )
     op.prepare_job_template(context)
     assert op.template
     assert op.template.Job.TaskGroups[0].EphemeralDisk
@@ -502,7 +568,10 @@ def test_args_task_resources1():
             )
         }
     )
-    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", task_resources=res_data, python_command=python_command
+    )
     op.prepare_job_template(context)
     assert op.template
     assert op.template.Job.TaskGroups[0].Tasks[0].Resources == Resource.model_validate(res_data)
@@ -529,7 +598,10 @@ def test_args_task_resources2(caplog):
             )
         }
     )
-    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", task_resources=res_data, python_command=python_command
+    )
 
     with caplog.at_level(logging.WARNING):
         op.prepare_job_template(context)
@@ -556,7 +628,10 @@ def test_args_task_resources_defaults():
             )
         }
     )
-    op = NomadTaskOperator(task_id="task_id", task_resources=res_data)
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id", task_resources=res_data, python_command=python_command
+    )
     op.prepare_job_template(context)
 
     assert op.template
@@ -637,7 +712,13 @@ def test_args_task_volumes():
             )
         }
     )
-    op = NomadTaskOperator(task_id="task_id", volume_mounts=vol_mounts_data, volumes=vol_data)
+    python_command = "print('Python job here!'"
+    op = NomadPythonTaskOperator(
+        task_id="task_id",
+        volume_mounts=vol_mounts_data,
+        volumes=vol_data,
+        python_command=python_command,
+    )
     op.prepare_job_template(context)
     assert op.template
     assert op.template.Job.TaskGroups[0].Tasks[0].VolumeMounts == NomadVolumeMounts.validate_python(

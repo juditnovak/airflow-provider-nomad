@@ -37,7 +37,11 @@ from airflow.providers.nomad.generic_interfaces.executor_interface import Execut
 from airflow.providers.nomad.log import NomadLogHandler
 from airflow.providers.nomad.manager import NomadManager
 from airflow.providers.nomad.models import NomadJobModel
-from airflow.providers.nomad.templates.job_template import DEFAULT_JOB_NAME, SDK_ENTRYPOINT
+from airflow.providers.nomad.templates.job_template import (
+    DEFAULT_JOB_NAME,
+    DEFAULT_TASK_TEMPLATE_SDK,
+    SDK_ENTRYPOINT,
+)
 from airflow.providers.nomad.utils import (
     job_id_from_taskinstance_key,
     job_task_id_from_taskinstance_key,
@@ -94,7 +98,11 @@ class NomadExecutor(ExecutorInterface):
         job_task_id = job_task_id_from_taskinstance_key(key)
 
         valid_config = self.validate_exeucutor_config(executor_config)
-        if not (job_model := self.nomad_mgr.prepare_job_template(valid_config, task_sdk=True)):
+        if not (
+            job_model := self.nomad_mgr.prepare_job_template(
+                valid_config, default_template=DEFAULT_TASK_TEMPLATE_SDK
+            )
+        ):
             raise NomadProviderException("Couldn't retrieve job template")
 
         if job_model.Job.Name == DEFAULT_JOB_NAME:

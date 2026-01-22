@@ -5,7 +5,6 @@ from datetime import timedelta
 import attrs
 from airflow.sdk import DAG, task
 
-from airflow.providers.nomad.decorators.task import nomad_task
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
@@ -55,11 +54,11 @@ job "nomad-test-hcl" {
 
   group "example" {
     count = 1
-    task "uptime" {
+    task "python" {
       driver = "docker"
       config {
-        image = "alpine:latest"
-        args = ["uptime"]
+        image = "python:3.12-alpine"
+        entrypoint = ["python", "-c"]
       }
     }
   }
@@ -69,7 +68,7 @@ job "nomad-test-hcl" {
 
 with myDAG(
     dag_id=DAG_ID,
-    schedule="0 0 * * *",
+    schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     dagrun_timeout=timedelta(minutes=10),
     disable_bundle_versioning=True,
@@ -77,20 +76,21 @@ with myDAG(
     tags=["nomad", "nomadtaskdecorator", "nomadexecutor", "nomad-provider-test"],
 ) as dag:
 
-    @task.nomad_task(template_content=content, image="alpine:latest", do_xcom_push=True)
-    def nomad_command_nproc():
-        return ["nproc", "--all"]
+    @task.nomad(template_content=content, image="python:3.13-alpine", do_xcom_push=True)
+    def nomad_hello():
+        import sys
 
-    @nomad_task(entrypoint=["/bin/bash", "-c"])
-    def nomad_command_response():
-        return [
-            "echo",
-            "Runner node has ",
-            "{{ task_instance.xcom_pull(task_ids='nomad_command_nproc') }}",
-            " CPUs",
-        ]
+        print("Hello stderr", file=sys.stderr)
+        print(42)
 
-    nomad_command_nproc() >> nomad_command_response()  # type: ignore [reportUnusedExpression]
+    @task.nomad()
+    def nomad_pipe():
+        print(
+            "Result from the previous process is",
+            "{{ task_instance.xcom_pull(task_ids='nomad_hello') }}",
+        )
+
+    nomad_hello() >> nomad_pipe()  # type: ignore [reportUnusedExpression]
 
 
 # # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
