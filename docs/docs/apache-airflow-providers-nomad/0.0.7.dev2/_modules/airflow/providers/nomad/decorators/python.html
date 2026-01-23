@@ -870,6 +870,12 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
             <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[&#39;|</span><span class="se">\&quot;</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">firstline</span><span class="p">):</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="k">while</span> <span class="n">lines</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot; *def &quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_untab_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body_lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">spaces</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="n">m</span> <span class="o">:=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;spaces&gt;\s*)&quot;</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
@@ -895,13 +901,11 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
                 <span class="p">)</span>
                 <span class="k">return</span>  <span class="c1"># type: ignore[return-value]</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">head</span> <span class="o">:=</span> <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">head</span> <span class="o">:=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Function definition seems wrong, header is empty&quot;</span><span class="p">)</span>
             <span class="k">return</span>  <span class="c1"># type: ignore[return-value]</span>
 
-        <span class="k">while</span> <span class="n">lines</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot; *(@|def)&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_header</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_docstring_from_source</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_untab_lines</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
 

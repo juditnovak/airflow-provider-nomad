@@ -26,6 +26,20 @@ For high-level changelog, see :doc:`package information including changelog <ind
 .. airflow-providers-commits::
 
 
+
+0.0.7.dev2
+...........
+
+Latest change: 2026-1-23
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+`1513ddb <https://github.com/juditnovak/airflow-provider-nomad/commit/1513ddb834a2642b7ecd8e3ebe70aab2ff563fd2>`__ 2026-01-23 ``[BUGFIX] Python task multiline header processing is broken (#83)``
+`f65a40b <https://github.com/juditnovak/airflow-provider-nomad/commit/f65a40be03c04ce4a3930738971de319d82d4ba3>`__ 2026-01-23 ``[VERSION] 0.0.7.dev2 (#82)``
+================================================================================================================== ========== ==============================================
+
+
 0.0.7.dev1
 ...........
 
@@ -34,6 +48,8 @@ Latest change: 2026-1-22
 ================================================================================================================== ========== ==============================================
 Commit                                                                                                             Committed  Subject
 ================================================================================================================== ========== ==============================================
+`9f1537f <https://github.com/juditnovak/airflow-provider-nomad/commit/9f1537fb8de33ce5a36507c75c12c2f91db75034>`__ 2026-01-23 ``0.0.7.dev1 (#80)``
+`bece3f3 <https://github.com/juditnovak/airflow-provider-nomad/commit/bece3f3438e114cced8706528b90d3070cb29115>`__ 2026-01-22 ``[FEATURE] Python operator (#77)``
 `2bf2f30 <https://github.com/juditnovak/airflow-provider-nomad/commit/2bf2f3096f6113a6296108f77d9616940d2b9c5d>`__ 2026-01-22 ``[bugfix_job_not_found_silent_67]: [SRC] Add warning the least``
 `bece3f3 <https://github.com/juditnovak/airflow-provider-nomad/commit/bece3f3438e114cced8706528b90d3070cb29115>`__ 2026-01-22 ``[FEATURE] Python operator (#77)``
 `e94bcc7 <https://github.com/juditnovak/airflow-provider-nomad/commit/e94bcc7b5483e597e7e1faab79258f92a1875ff3>`__ 2026-01-22 ``[FEATURE] `args` allowd for `@task.nomad_task` (#75)``
