@@ -23,6 +23,8 @@ The operator is handy to run Nomad jobs with lightweight, minimal configuration.
 
 Airflow Jinja templating is supported also within the python code submitted.
 
+.. caution:: Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See Examples also for `Nomad Python Task Decorator <nomad_python_task_decorator.html#examples>`_)
+
 Known issues
 *********************
 
