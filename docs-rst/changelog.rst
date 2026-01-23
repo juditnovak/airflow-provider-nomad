@@ -1,3 +1,12 @@
+0.0.7.dev2
+.................
+* [VERSION ] 0.0.7.dev2 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/82
+* [BUGFIX] Python task multiline header processing is broken by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/83
+
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.7.dev1...0.0.7.dev2
+
+
 0.0.7.dev1
 ..............
 
@@ -8,6 +17,8 @@
 * [docs_0.0.7.dev1_fix]: [HTML] 0.0.7dev1 -> 0.0.7.dev1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/76
 * [DOCS] Python operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/78
 * [FEATURE] Python operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/77
+* 0 0 7 dev1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/80
+* [DOCS] Tiny doc change by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/81
 
 
 **Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.6...0.0.7.dev1
