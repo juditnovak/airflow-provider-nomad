@@ -1,1 +1,3 @@
-providers/nomad/docs/nomad_python_task_decorator.rst:30: (Xcoms)  Only the return value Xcoms are possible to set
+providers/nomad/docs/nomad_python_task_decorator.rst:26: (engironment)  Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See 
+providers/nomad/docs/nomad_python_task_decorator.rst:26: (libraires)  Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See 
+providers/nomad/docs/nomad_python_task_decorator.rst:32: (Xcoms)  Only the return value Xcoms are possible to set

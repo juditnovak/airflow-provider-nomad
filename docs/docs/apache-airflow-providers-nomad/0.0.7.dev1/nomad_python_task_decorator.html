@@ -789,6 +789,10 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">&#64;task.nomad</span></code> decorator is a wrapper around the <code class="docutils literal notranslate"><span class="pre">NomadPythonTaskOperator</span></code>. For a detailed description please refer to the <a class="reference external" href="nomad_python_task_operator.html">Nomad Python Task Operator</a> documentation.</p>
 <p>Airflow Jinja templating is supported also within the decorated function body.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See <a class="reference external" href="#examples">Examples</a> below.)</p>
+</div>
 <section id="known-issues">
 <h2>Known issues<a class="headerlink" href="#known-issues" title="Link to this heading">¶</a></h2>
 <ul class="simple">
@@ -827,10 +831,10 @@ and can only have a single execution (<code class="docutils literal notranslate"
 <p>For each of the resources below, the same resource fields can be used as in the referred Nomad Job API.</p>
 <p><code class="docutils literal notranslate"><span class="pre">task_resources</span></code>: Correspondent of the <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/json-jobs#resources-1">Nomad Job API Resources</a> block.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ephemeral_disk</span></code>:  Correspondent of the <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/json-jobs#ephemeral-disk">Nomad Job API EphemeralDisk</a> block.</p>
-<p><code class="docutils literal notranslate"><span class="pre">volumes</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume">Nomad HCL Volumes</a> block. For more information on Nomad’s JSON representation on volumes, see <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/volumes#volumes-1">Nomad Volumes HTTP API</a> . Also: see <a class="reference internal" href="#examples">Examples</a> below.</p>
-<p><code class="docutils literal notranslate"><span class="pre">volume_mounts</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume_mount">Nomad HCL Volume Mounts</a> block. See <a class="reference internal" href="#examples">Examples</a> below.</p>
-<section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">volumes</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume">Nomad HCL Volumes</a> block. For more information on Nomad’s JSON representation on volumes, see <a class="reference external" href="https://developer.hashicorp.com/nomad/api-docs/volumes#volumes-1">Nomad Volumes HTTP API</a> . Also: see <a class="reference external" href="#examples">Examples</a> below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">volume_mounts</span></code>: The JSON correspondent of of the <a class="reference external" href="https://developer.hashicorp.com/nomad/docs/job-specification/volume_mount">Nomad HCL Volume Mounts</a> block. See <a class="reference external" href="#examples">Examples</a> below.</p>
+<section id="id1">
+<h3>Examples<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>Additional examples are available at <a class="reference external" href="nomad_python_task_operator.html#examples">Nomad Python Task Operator Examples</a></p>
 <p>Also, number of example DAGs are included in the project’s <a class="reference external" href="system_tests.html#system-test-dags">System Tests</a> . See <a class="reference external" href="_modules/index.html">DAG sources</a> for further examples and basic use cases.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">DAG</span><span class="p">,</span> <span class="n">task</span>
@@ -967,7 +971,7 @@ and can only have a single execution (<code class="docutils literal notranslate"
 <li><a class="reference internal" href="#template">Template</a></li>
 <li><a class="reference internal" href="#execution">Execution</a></li>
 <li><a class="reference internal" href="#resources">Resources</a><ul>
-<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#id1">Examples</a></li>
 </ul>
 </li>
 </ul>

@@ -790,6 +790,10 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
 <p>The <code class="docutils literal notranslate"><span class="pre">NomadPythonTaskOperator</span></code> is spawning a new Nomad job to run the wrapped task.
 The operator is handy to run Nomad jobs with lightweight, minimal configuration.</p>
 <p>Airflow Jinja templating is supported also within the python code submitted.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See Examples also for <a class="reference external" href="nomad_python_task_decorator.html#examples">Nomad Python Task Decorator</a>)</p>
+</div>
 <section id="known-issues">
 <h2>Known issues<a class="headerlink" href="#known-issues" title="Link to this heading">¶</a></h2>
 <ul class="simple">
