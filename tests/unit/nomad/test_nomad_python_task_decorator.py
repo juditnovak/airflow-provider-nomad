@@ -107,8 +107,22 @@ def test_nomad_python_task_decorator_docstring3(mocker):
     assert dec.python_command == 'return "bla"\n'
 
 
-def test_nomad_python_task_decorator_docstring4(mocker):
-    @nomad_python_task
+def test_nomad_python_task_decorator_header_remove(mocker):
+    @nomad_python_task()
+    def my_task():
+        return "bla"
+
+    mocker.patch("airflow.providers.nomad.decorators.python.DecoratedOperator.execute")
+    dec = _NomadPythonTaskDecoratedOperator(task_id="bla", args="baaaaad", python_callable=my_task)
+    runtime_ti = MagicMock(
+        task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
+    )
+    dec.execute(Context({"ti": runtime_ti}))
+    assert dec.python_command == 'return "bla"\n'
+
+
+def test_nomad_python_task_decorator_header_remove2(mocker):
+    @nomad_python_task(param1="string", param2={"multi": "line", "python": "dict"})
     def my_task():
         return "bla"
 
