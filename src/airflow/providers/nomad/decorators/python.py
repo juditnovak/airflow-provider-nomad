@@ -99,6 +99,12 @@ class _NomadPythonTaskDecoratedOperator(DecoratedOperator, NomadPythonTaskOperat
             elif re.match(r"^['|\"]", firstline):
                 lines.pop(0)
 
+    def _remove_header(self, lines):
+        while lines and not re.match(" *def ", lines[0]):
+            lines.pop(0)
+        if lines:
+            lines.pop(0)
+
     def _untab_lines(self, header: str, body_lines: list[str]) -> list[str]:
         spaces = ""
         if m := re.match(r"(?P<spaces>\s*)", header):
@@ -124,13 +130,11 @@ class _NomadPythonTaskDecoratedOperator(DecoratedOperator, NomadPythonTaskOperat
                 )
                 return  # type: ignore[return-value]
 
-        if not (head := lines.pop(0)):
+        if not (head := lines[0]):
             self.log.error("Function definition seems wrong, header is empty")
             return  # type: ignore[return-value]
 
-        while lines and re.match(" *(@|def)", lines[0]):
-            lines.pop(0)
-
+        self._remove_header(lines)
         self._remove_docstring_from_source(lines)
         lines = self._untab_lines(head, lines)
 
