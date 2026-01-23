@@ -802,6 +802,16 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="n">SDK_ENTRYPOINT</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;airflow.sdk.execution_time.execute_workload&quot;</span><span class="p">,</span> <span class="s2">&quot;--json-string&quot;</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="PYTHON_ENTRYPOINT">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/job_template/index.html#airflow.providers.nomad.templates.job_template.PYTHON_ENTRYPOINT">[docs]</a>
+<span class="n">PYTHON_ENTRYPOINT</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="BASH_ENTRYPOINT">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/job_template/index.html#airflow.providers.nomad.templates.job_template.BASH_ENTRYPOINT">[docs]</a>
+<span class="n">BASH_ENTRYPOINT</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/bin/bash&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">]</span></div>
+
+
 <div class="viewcode-block" id="DEFAULT_JOB_NAME">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/job_template/index.html#airflow.providers.nomad.templates.job_template.DEFAULT_JOB_NAME">[docs]</a>
 <span class="n">DEFAULT_JOB_NAME</span> <span class="o">=</span> <span class="s2">&quot;ariflow_run&quot;</span></div>
@@ -949,6 +959,22 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 
 <span class="n">DEFAULT_TASK_TEMPLATE_SDK</span><span class="p">[</span><span class="s2">&quot;Job&quot;</span><span class="p">][</span><span class="s2">&quot;TaskGroups&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Tasks&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Config&quot;</span><span class="p">][</span><span class="s2">&quot;entrypoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">SDK_ENTRYPOINT</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="DEFAULT_TASK_TEMPLATE_BASH">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/job_template/index.html#airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_BASH">[docs]</a>
+<span class="n">DEFAULT_TASK_TEMPLATE_BASH</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DEFAULT_TASK_TEMPLATE</span><span class="p">)</span></div>
+
+<span class="n">DEFAULT_TASK_TEMPLATE_BASH</span><span class="p">[</span><span class="s2">&quot;Job&quot;</span><span class="p">][</span><span class="s2">&quot;TaskGroups&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Tasks&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Config&quot;</span><span class="p">][</span><span class="s2">&quot;entrypoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">BASH_ENTRYPOINT</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="DEFAULT_TASK_TEMPLATE_PYTHON">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/templates/job_template/index.html#airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_PYTHON">[docs]</a>
+<span class="n">DEFAULT_TASK_TEMPLATE_PYTHON</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">DEFAULT_TASK_TEMPLATE</span><span class="p">)</span></div>
+
+<span class="n">DEFAULT_TASK_TEMPLATE_PYTHON</span><span class="p">[</span><span class="s2">&quot;Job&quot;</span><span class="p">][</span><span class="s2">&quot;TaskGroups&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Tasks&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Config&quot;</span><span class="p">][</span><span class="s2">&quot;entrypoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PYTHON_ENTRYPOINT</span>
 <span class="p">)</span>
 </pre></div>
 

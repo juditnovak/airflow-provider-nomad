@@ -166,15 +166,15 @@ Module Contents
 
 
 
-   .. py:method:: get_default_template(task_sdk = False)
+   .. py:method:: get_default_template(default_template = None)
 
 
-   .. py:method:: get_job_template(config = None, task_sdk = False)
+   .. py:method:: get_job_template(config = None, default_template = None)
 
 
    .. py:method:: update_job_template(template, config, task_sdk = False)
 
 
-   .. py:method:: prepare_job_template(config = None, task_sdk = False)
+   .. py:method:: prepare_job_template(config = None, default_template = None)
 
 

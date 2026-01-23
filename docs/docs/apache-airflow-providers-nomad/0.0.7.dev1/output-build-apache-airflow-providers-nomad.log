@@ -218,40 +218,40 @@ AUTOAPI_IGNORE:
 
 [01mloading translations [en]... [39;49;00mdone
 
-(process:708471): libenchant-WARNING **: 20:05:36.473: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
+(process:730469): libenchant-WARNING **: 22:05:46.083: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
 
-(process:708471): libenchant-WARNING **: 20:05:36.473: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
+(process:730469): libenchant-WARNING **: 22:05:46.084: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
 
-(process:708471): libenchant-WARNING **: 20:05:36.473: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
+(process:730469): libenchant-WARNING **: 22:05:46.084: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
 Initializing Spelling Checker 8.0.1
 loading intersphinx inventory 'boto3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/boto3/objects.inv ...
 loading intersphinx inventory 'celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/celery/objects.inv ...
 loading intersphinx inventory 'docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/docker/objects.inv ...
 loading intersphinx inventory 'hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/hdfs/objects.inv ...
-loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/jinja2/objects.inv ...
 loading intersphinx inventory 'mongodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/mongodb/objects.inv ...
+loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/jinja2/objects.inv ...
 loading intersphinx inventory 'python' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/python/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
 loading intersphinx inventory 'pandas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/pandas/objects.inv ...
 loading intersphinx inventory 'requests' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/requests/objects.inv ...
 loading intersphinx inventory 'sqlalchemy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/sqlalchemy/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-alibaba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-alibaba/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-beam' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-beam/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-amazon' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-amazon/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-cassandra' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-cassandra/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-beam' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-beam/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-druid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-druid/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-flink' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-flink/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-druid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-druid/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hdfs/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-iceberg' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-iceberg/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-impala' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-impala/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-hive' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hive/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-kafka' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kafka/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-kylin' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kylin/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-livy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-livy/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-spark' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-spark/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-pinot' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pinot/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-pig' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pig/objects.inv ...
-loading intersphinx inventory 'apache-airflow-providers-apache-spark' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-spark/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apache-tinkerpop' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-tinkerpop/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-apprise' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apprise/objects.inv ...
 loading intersphinx inventory 'apache-airflow-providers-arangodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-arangodb/objects.inv ...
@@ -351,64 +351,66 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  4%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/log.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  6%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/exceptions.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  7%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/utils.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  9%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  8%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 10%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/manager.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 12%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 11%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 13%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_log.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 14%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_executor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 16%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 15%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 17%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_log_handlers.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 19%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 18%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 20%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_interface.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 22%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 21%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 23%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/nomad_task.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 26%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 29%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 24%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 27%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 30%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/job.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 33%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 36%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 43%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 57%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 31%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 34%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 37%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 44%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 56%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 61%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 62%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 64%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 63%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 65%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 67%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 66%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 69%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 70%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/__init__.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 71%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 74%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 73%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 76%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 77%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 78%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 79%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 80%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_trigger.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 81%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 82%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 83%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_decorator.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 84%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 85%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 86%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_decorator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 87%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_executor_config.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 88%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 89%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 90%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_job_template_hcl.py[39;49;00m
-[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 91%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 92%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 93%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/__init__.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 94%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_operator_combined.py[39;49;00m
 [01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 96%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
@@ -421,64 +423,66 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  4%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/log.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  6%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/exceptions.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  7%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/utils.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  9%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  8%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 10%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/manager.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 12%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 11%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 13%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_log.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 14%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_executor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 16%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 15%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 17%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_log_handlers.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 19%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 18%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 20%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_interface.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 22%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 21%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 23%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/nomad_task.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 26%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 29%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 24%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 27%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 30%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/job.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 33%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 36%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 43%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 57%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 31%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 34%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 37%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 44%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 56%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 61%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 62%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 64%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 63%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 65%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 67%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 66%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 69%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 70%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/__init__.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 71%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 74%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 73%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 76%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 77%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 78%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 79%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 80%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_trigger.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 81%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 82%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 83%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_decorator.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 84%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 85%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 86%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_decorator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 87%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_executor_config.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 88%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 89%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 90%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_job_template_hcl.py[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 91%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 92%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 93%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/__init__.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 94%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_operator_combined.py[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 96%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
@@ -491,68 +495,70 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  4%] [32mtests.system.nomad.dags[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  6%] [32mtests.system.nomad.utils[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  7%] [32mairflow.providers.nomad.log[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  9%] [32mtests.system.nomad.dags.sql[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  8%] [32mtests.system.nomad.dags.sql[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 10%] [32mtests.system.nomad.constants[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 12%] [32mairflow.providers.nomad.utils[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 11%] [32mairflow.providers.nomad.utils[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 13%] [32mairflow.providers.nomad.models[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 14%] [32mairflow.providers.nomad.manager[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 16%] [32mairflow.providers.nomad.constants[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 15%] [32mairflow.providers.nomad.constants[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 17%] [32mairflow.providers.nomad.executors[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 19%] [32mairflow.providers.nomad.operators[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 18%] [32mairflow.providers.nomad.operators[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 20%] [32mairflow.providers.nomad.exceptions[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 22%] [32mairflow.providers.nomad.decorators[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 21%] [32mairflow.providers.nomad.decorators[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 23%] [32mtests.system.nomad.test_dag_trigger[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 25%] [32mairflow.providers.nomad.operators.job[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 26%] [32mtests.system.nomad.test_nomad_manager[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 28%] [32mtests.system.nomad.dags_localexecutor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 29%] [32mairflow.providers.nomad.decorators.job[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 24%] [32mairflow.providers.nomad.operators.job[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 25%] [32mtests.system.nomad.test_nomad_manager[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 27%] [32mtests.system.nomad.dags_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 28%] [32mairflow.providers.nomad.decorators.job[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 30%] [32mairflow.providers.nomad.operators.task[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 32%] [32mairflow.providers.nomad.decorators.task[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 33%] [32mairflow.providers.nomad.operators.python[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 35%] [32mtests.system.nomad.dags.test_dag_trigger[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 36%] [32mairflow.providers.nomad.get_provider_info[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 38%] [32mairflow.providers.nomad.decorators.python[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 39%] [32mtests.system.nomad.test_dag_bash_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 41%] [32mairflow.providers.nomad.generic_interfaces[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 42%] [32mtests.system.nomad.test_nomad_job_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 43%] [32mairflow.providers.nomad.executors.nomad_log[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 45%] [32mtests.system.nomad.test_nomad_task_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 46%] [32mairflow.providers.nomad.decorators.nomad_task[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 48%] [32mtests.system.nomad.test_system_nomad_executor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 49%] [32mtests.system.nomad.dags.example_bash_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 51%] [32mairflow.providers.nomad.templates.job_template[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 52%] [32mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 54%] [32mairflow.providers.nomad.executors.nomad_executor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 55%] [32mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 57%] [32mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 58%] [32mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 59%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 61%] [32mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 62%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 64%] [32mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 65%] [32mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 67%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 68%] [32mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 70%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 71%] [32mairflow.providers.nomad.generic_interfaces.executor_interface[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 72%] [32mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 74%] [32mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 75%] [32mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 77%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 78%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 80%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 81%] [32mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 83%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 84%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 86%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 87%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 88%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 90%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 91%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 93%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_localexecutor[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 94%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 96%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
-[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 97%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 31%] [32mairflow.providers.nomad.decorators.task[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 32%] [32mairflow.providers.nomad.operators.python[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 34%] [32mtests.system.nomad.dags.test_dag_trigger[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 35%] [32mairflow.providers.nomad.get_provider_info[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 37%] [32mairflow.providers.nomad.decorators.python[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 38%] [32mtests.system.nomad.test_dag_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 39%] [32mairflow.providers.nomad.generic_interfaces[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 41%] [32mtests.system.nomad.test_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 42%] [32mairflow.providers.nomad.executors.nomad_log[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 44%] [32mtests.system.nomad.test_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 45%] [32mairflow.providers.nomad.decorators.nomad_task[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 46%] [32mtests.system.nomad.test_system_nomad_executor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 48%] [32mtests.system.nomad.dags.example_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 49%] [32mairflow.providers.nomad.templates.job_template[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 51%] [32mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 52%] [32mairflow.providers.nomad.executors.nomad_executor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 54%] [32mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 55%] [32mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 56%] [32mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 58%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 59%] [32mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 61%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 62%] [32mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 63%] [32mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 65%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 66%] [32mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 68%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 69%] [32mairflow.providers.nomad.generic_interfaces.executor_interface[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 70%] [32mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 72%] [32mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 73%] [32mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 75%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 76%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 77%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 79%] [32mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 80%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 82%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 83%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 85%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 86%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 87%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 89%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 90%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 92%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 93%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 94%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 96%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 97%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_decorator_localexecutor[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 99%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc_localexecutor[39;49;00m
 [01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[100%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor[39;49;00m
 
@@ -560,12 +566,12 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date
 [01mwriting output... [39;49;00m
 [01mbuilding [html]: [39;49;00mtargets for 21 source files that are out of date
-[01mupdating environment: [39;49;00m[new config] 90 added, 0 changed, 0 removed
+[01mupdating environment: [39;49;00m[new config] 92 added, 0 changed, 0 removed
 [01mreading sources... [39;49;00m[  1%] [35m_api/airflow/providers/nomad/constants/index[39;49;00m
 [01mreading sources... [39;49;00m[  2%] [35m_api/airflow/providers/nomad/decorators/index[39;49;00m
 [01mreading sources... [39;49;00m[  3%] [35m_api/airflow/providers/nomad/decorators/job/index[39;49;00m
 [01mreading sources... [39;49;00m[  4%] [35m_api/airflow/providers/nomad/decorators/nomad_task/index[39;49;00m
-[01mreading sources... [39;49;00m[  6%] [35m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
+[01mreading sources... [39;49;00m[  5%] [35m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
 [01mreading sources... [39;49;00m[  7%] [35m_api/airflow/providers/nomad/decorators/task/index[39;49;00m
 [01mreading sources... [39;49;00m[  8%] [35m_api/airflow/providers/nomad/exceptions/index[39;49;00m
 [01mreading sources... [39;49;00m[  9%] [35m_api/airflow/providers/nomad/executors/index[39;49;00m
@@ -574,69 +580,71 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01mreading sources... [39;49;00m[ 12%] [35m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
 [01mreading sources... [39;49;00m[ 13%] [35m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
 [01mreading sources... [39;49;00m[ 14%] [35m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
-[01mreading sources... [39;49;00m[ 16%] [35m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
-[01mreading sources... [39;49;00m[ 17%] [35m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
-[01mreading sources... [39;49;00m[ 18%] [35m_api/airflow/providers/nomad/index[39;49;00m
-[01mreading sources... [39;49;00m[ 19%] [35m_api/airflow/providers/nomad/log/index[39;49;00m
+[01mreading sources... [39;49;00m[ 15%] [35m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
+[01mreading sources... [39;49;00m[ 16%] [35m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mreading sources... [39;49;00m[ 17%] [35m_api/airflow/providers/nomad/index[39;49;00m
+[01mreading sources... [39;49;00m[ 18%] [35m_api/airflow/providers/nomad/log/index[39;49;00m
 [01mreading sources... [39;49;00m[ 20%] [35m_api/airflow/providers/nomad/manager/index[39;49;00m
 [01mreading sources... [39;49;00m[ 21%] [35m_api/airflow/providers/nomad/models/index[39;49;00m
 [01mreading sources... [39;49;00m[ 22%] [35m_api/airflow/providers/nomad/operators/index[39;49;00m
 [01mreading sources... [39;49;00m[ 23%] [35m_api/airflow/providers/nomad/operators/job/index[39;49;00m
 [01mreading sources... [39;49;00m[ 24%] [35m_api/airflow/providers/nomad/operators/python/index[39;49;00m
-[01mreading sources... [39;49;00m[ 26%] [35m_api/airflow/providers/nomad/operators/task/index[39;49;00m
-[01mreading sources... [39;49;00m[ 27%] [35m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
-[01mreading sources... [39;49;00m[ 28%] [35m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
-[01mreading sources... [39;49;00m[ 29%] [35m_api/airflow/providers/nomad/utils/index[39;49;00m
-[01mreading sources... [39;49;00m[ 30%] [35m_api/tests/system/nomad/constants/index[39;49;00m
-[01mreading sources... [39;49;00m[ 31%] [35m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 25%] [35m_api/airflow/providers/nomad/operators/task/index[39;49;00m
+[01mreading sources... [39;49;00m[ 26%] [35m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
+[01mreading sources... [39;49;00m[ 27%] [35m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mreading sources... [39;49;00m[ 28%] [35m_api/airflow/providers/nomad/utils/index[39;49;00m
+[01mreading sources... [39;49;00m[ 29%] [35m_api/tests/system/nomad/constants/index[39;49;00m
+[01mreading sources... [39;49;00m[ 30%] [35m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
 [01mreading sources... [39;49;00m[ 32%] [35m_api/tests/system/nomad/dags/index[39;49;00m
 [01mreading sources... [39;49;00m[ 33%] [35m_api/tests/system/nomad/dags/sql/index[39;49;00m
 [01mreading sources... [39;49;00m[ 34%] [35m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 36%] [35m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
-[01mreading sources... [39;49;00m[ 37%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
-[01mreading sources... [39;49;00m[ 38%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
-[01mreading sources... [39;49;00m[ 39%] [35m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
-[01mreading sources... [39;49;00m[ 40%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 41%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 42%] [35m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
-[01mreading sources... [39;49;00m[ 43%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 44%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 46%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 47%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
-[01mreading sources... [39;49;00m[ 48%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 49%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
-[01mreading sources... [39;49;00m[ 50%] [35m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 51%] [35m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
-[01mreading sources... [39;49;00m[ 52%] [35m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 53%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 54%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 56%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 57%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 58%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
-[01mreading sources... [39;49;00m[ 59%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 60%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 61%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 62%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
-[01mreading sources... [39;49;00m[ 63%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 64%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 35%] [35m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
+[01mreading sources... [39;49;00m[ 36%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
+[01mreading sources... [39;49;00m[ 37%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
+[01mreading sources... [39;49;00m[ 38%] [35m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
+[01mreading sources... [39;49;00m[ 39%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 40%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 41%] [35m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
+[01mreading sources... [39;49;00m[ 42%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 43%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 45%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 46%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 47%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 48%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 49%] [35m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 50%] [35m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mreading sources... [39;49;00m[ 51%] [35m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 52%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 53%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 54%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 55%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 57%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
+[01mreading sources... [39;49;00m[ 58%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 59%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 60%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 61%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 62%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 63%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 64%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 65%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
 [01mreading sources... [39;49;00m[ 66%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor/index[39;49;00m
 [01mreading sources... [39;49;00m[ 67%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
 [01mreading sources... [39;49;00m[ 68%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index[39;49;00m
-[01mreading sources... [39;49;00m[ 69%] [35m_api/tests/system/nomad/index[39;49;00m
-[01mreading sources... [39;49;00m[ 70%] [35m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 71%] [35m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
-[01mreading sources... [39;49;00m[ 72%] [35m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
-[01mreading sources... [39;49;00m[ 73%] [35m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
-[01mreading sources... [39;49;00m[ 74%] [35m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 70%] [35m_api/tests/system/nomad/index[39;49;00m
+[01mreading sources... [39;49;00m[ 71%] [35m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 72%] [35m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mreading sources... [39;49;00m[ 73%] [35m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 74%] [35m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
+[01mreading sources... [39;49;00m[ 75%] [35m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
 [01mreading sources... [39;49;00m[ 76%] [35m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
 [01mreading sources... [39;49;00m[ 77%] [35m_api/tests/system/nomad/utils/index[39;49;00m
 [01mreading sources... [39;49;00m[ 78%] [35mchangelog[39;49;00m
 [01mreading sources... [39;49;00m[ 79%] [35mcommits[39;49;00m
 [01mreading sources... [39;49;00m[ 80%] [35mconfigurations-ref[39;49;00m
-[01mreading sources... [39;49;00m[ 81%] [35mdevelopment[39;49;00m
-[01mreading sources... [39;49;00m[ 82%] [35mindex[39;49;00m
-[01mreading sources... [39;49;00m[ 83%] [35mknown_issues[39;49;00m
-[01mreading sources... [39;49;00m[ 84%] [35mmodules[39;49;00m
+[01mreading sources... [39;49;00m[ 82%] [35mdevelopment[39;49;00m
+[01mreading sources... [39;49;00m[ 83%] [35mindex[39;49;00m
+[01mreading sources... [39;49;00m[ 84%] [35mknown_issues[39;49;00m
+[01mreading sources... [39;49;00m[ 85%] [35mmodules[39;49;00m
 [01mreading sources... [39;49;00m[ 86%] [35mnomad_executor[39;49;00m
 [01mreading sources... [39;49;00m[ 87%] [35mnomad_job_decorator[39;49;00m
 [01mreading sources... [39;49;00m[ 88%] [35mnomad_job_operator[39;49;00m
@@ -645,7 +653,7 @@ Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/
 [01mreading sources... [39;49;00m[ 91%] [35mnomad_python_task_operator[39;49;00m
 [01mreading sources... [39;49;00m[ 92%] [35mnomad_task_decorator[39;49;00m
 [01mreading sources... [39;49;00m[ 93%] [35mnomad_task_operator[39;49;00m
-[01mreading sources... [39;49;00m[ 94%] [35msecurity[39;49;00m
+[01mreading sources... [39;49;00m[ 95%] [35msecurity[39;49;00m
 [01mreading sources... [39;49;00m[ 96%] [35mshared/parameters_task_exec[39;49;00m
 [01mreading sources... [39;49;00m[ 97%] [35mshared/parameters_task_resources[39;49;00m
 [01mreading sources... [39;49;00m[ 98%] [35mshared/parameters_task_template[39;49;00m
@@ -753,7 +761,7 @@ Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_shar
 [01mwriting output... [39;49;00m[  2%] [32m_api/airflow/providers/nomad/decorators/index[39;49;00m
 [01mwriting output... [39;49;00m[  3%] [32m_api/airflow/providers/nomad/decorators/job/index[39;49;00m
 [01mwriting output... [39;49;00m[  4%] [32m_api/airflow/providers/nomad/decorators/nomad_task/index[39;49;00m
-[01mwriting output... [39;49;00m[  6%] [32m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
+[01mwriting output... [39;49;00m[  5%] [32m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
 [01mwriting output... [39;49;00m[  7%] [32m_api/airflow/providers/nomad/decorators/task/index[39;49;00m
 [01mwriting output... [39;49;00m[  8%] [32m_api/airflow/providers/nomad/exceptions/index[39;49;00m
 [01mwriting output... [39;49;00m[  9%] [32m_api/airflow/providers/nomad/executors/index[39;49;00m
@@ -762,69 +770,71 @@ Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_shar
 [01mwriting output... [39;49;00m[ 12%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
 [01mwriting output... [39;49;00m[ 13%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
 [01mwriting output... [39;49;00m[ 14%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
-[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
-[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
-[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 19%] [32m_api/airflow/providers/nomad/log/index[39;49;00m
+[01mwriting output... [39;49;00m[ 15%] [32m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/log/index[39;49;00m
 [01mwriting output... [39;49;00m[ 20%] [32m_api/airflow/providers/nomad/manager/index[39;49;00m
 [01mwriting output... [39;49;00m[ 21%] [32m_api/airflow/providers/nomad/models/index[39;49;00m
 [01mwriting output... [39;49;00m[ 22%] [32m_api/airflow/providers/nomad/operators/index[39;49;00m
 [01mwriting output... [39;49;00m[ 23%] [32m_api/airflow/providers/nomad/operators/job/index[39;49;00m
 [01mwriting output... [39;49;00m[ 24%] [32m_api/airflow/providers/nomad/operators/python/index[39;49;00m
-[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/operators/task/index[39;49;00m
-[01mwriting output... [39;49;00m[ 27%] [32m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
-[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
-[01mwriting output... [39;49;00m[ 29%] [32m_api/airflow/providers/nomad/utils/index[39;49;00m
-[01mwriting output... [39;49;00m[ 30%] [32m_api/tests/system/nomad/constants/index[39;49;00m
-[01mwriting output... [39;49;00m[ 31%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 25%] [32m_api/airflow/providers/nomad/operators/task/index[39;49;00m
+[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 27%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/utils/index[39;49;00m
+[01mwriting output... [39;49;00m[ 29%] [32m_api/tests/system/nomad/constants/index[39;49;00m
+[01mwriting output... [39;49;00m[ 30%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
 [01mwriting output... [39;49;00m[ 32%] [32m_api/tests/system/nomad/dags/index[39;49;00m
 [01mwriting output... [39;49;00m[ 33%] [32m_api/tests/system/nomad/dags/sql/index[39;49;00m
 [01mwriting output... [39;49;00m[ 34%] [32m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 36%] [32m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
-[01mwriting output... [39;49;00m[ 37%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
-[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
-[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
-[01mwriting output... [39;49;00m[ 40%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
-[01mwriting output... [39;49;00m[ 43%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 44%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 46%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 47%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
-[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 49%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
-[01mwriting output... [39;49;00m[ 50%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 51%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 53%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 54%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 56%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 57%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
-[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 60%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
-[01mwriting output... [39;49;00m[ 63%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 64%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 35%] [32m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 36%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 37%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
+[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
+[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 40%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 43%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 45%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 46%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 47%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 49%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 50%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 51%] [32m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 53%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 54%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 55%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 57%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 60%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 63%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 64%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 65%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
 [01mwriting output... [39;49;00m[ 66%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 67%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
 [01mwriting output... [39;49;00m[ 68%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index[39;49;00m
-[01mwriting output... [39;49;00m[ 69%] [32m_api/tests/system/nomad/index[39;49;00m
-[01mwriting output... [39;49;00m[ 70%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 71%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
-[01mwriting output... [39;49;00m[ 72%] [32m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
-[01mwriting output... [39;49;00m[ 73%] [32m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
-[01mwriting output... [39;49;00m[ 74%] [32m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 70%] [32m_api/tests/system/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 71%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 72%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 73%] [32m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 74%] [32m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
+[01mwriting output... [39;49;00m[ 75%] [32m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
 [01mwriting output... [39;49;00m[ 76%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
 [01mwriting output... [39;49;00m[ 77%] [32m_api/tests/system/nomad/utils/index[39;49;00m
 [01mwriting output... [39;49;00m[ 78%] [32mchangelog[39;49;00m
 [01mwriting output... [39;49;00m[ 79%] [32mcommits[39;49;00m
 [01mwriting output... [39;49;00m[ 80%] [32mconfigurations-ref[39;49;00m
-[01mwriting output... [39;49;00m[ 81%] [32mdevelopment[39;49;00m
-[01mwriting output... [39;49;00m[ 82%] [32mindex[39;49;00m
-[01mwriting output... [39;49;00m[ 83%] [32mknown_issues[39;49;00m
-[01mwriting output... [39;49;00m[ 84%] [32mmodules[39;49;00m
+[01mwriting output... [39;49;00m[ 82%] [32mdevelopment[39;49;00m
+[01mwriting output... [39;49;00m[ 83%] [32mindex[39;49;00m
+[01mwriting output... [39;49;00m[ 84%] [32mknown_issues[39;49;00m
+[01mwriting output... [39;49;00m[ 85%] [32mmodules[39;49;00m
 [01mwriting output... [39;49;00m[ 86%] [32mnomad_executor[39;49;00m
 [01mwriting output... [39;49;00m[ 87%] [32mnomad_job_decorator[39;49;00m
 [01mwriting output... [39;49;00m[ 88%] [32mnomad_job_operator[39;49;00m
@@ -833,7 +843,7 @@ Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_shar
 [01mwriting output... [39;49;00m[ 91%] [32mnomad_python_task_operator[39;49;00m
 [01mwriting output... [39;49;00m[ 92%] [32mnomad_task_decorator[39;49;00m
 [01mwriting output... [39;49;00m[ 93%] [32mnomad_task_operator[39;49;00m
-[01mwriting output... [39;49;00m[ 94%] [32msecurity[39;49;00m
+[01mwriting output... [39;49;00m[ 95%] [32msecurity[39;49;00m
 [01mwriting output... [39;49;00m[ 96%] [32mshared/parameters_task_exec[39;49;00m
 [01mwriting output... [39;49;00m[ 97%] [32mshared/parameters_task_resources[39;49;00m
 [01mwriting output... [39;49;00m[ 98%] [32mshared/parameters_task_template[39;49;00m
@@ -849,60 +859,62 @@ Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_shar
 [01mhighlighting module code... [39;49;00m[  2%] [94mairflow.providers.nomad[39;49;00m
 [01mhighlighting module code... [39;49;00m[  3%] [94mairflow.providers.nomad.constants[39;49;00m
 [01mhighlighting module code... [39;49;00m[  5%] [94mairflow.providers.nomad.decorators.job[39;49;00m
-[01mhighlighting module code... [39;49;00m[  7%] [94mairflow.providers.nomad.decorators.nomad_task[39;49;00m
+[01mhighlighting module code... [39;49;00m[  6%] [94mairflow.providers.nomad.decorators.nomad_task[39;49;00m
 [01mhighlighting module code... [39;49;00m[  8%] [94mairflow.providers.nomad.decorators.python[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 10%] [94mairflow.providers.nomad.decorators.task[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 11%] [94mairflow.providers.nomad.exceptions[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 13%] [94mairflow.providers.nomad.executors.nomad_executor[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 15%] [94mairflow.providers.nomad.executors.nomad_log[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 14%] [94mairflow.providers.nomad.executors.nomad_log[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 16%] [94mairflow.providers.nomad.generic_interfaces.executor_interface[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 18%] [94mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 20%] [94mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 17%] [94mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 19%] [94mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 21%] [94mairflow.providers.nomad.get_provider_info[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 23%] [94mairflow.providers.nomad.log[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 25%] [94mairflow.providers.nomad.manager[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 26%] [94mairflow.providers.nomad.models[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 28%] [94mairflow.providers.nomad.operators.job[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 30%] [94mairflow.providers.nomad.operators.python[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 31%] [94mairflow.providers.nomad.operators.task[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 33%] [94mairflow.providers.nomad.templates.job_template[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 34%] [94mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 36%] [94mairflow.providers.nomad.utils[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 38%] [94mtests.system.nomad.constants[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 39%] [94mtests.system.nomad.dags.example_bash_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 41%] [94mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 43%] [94mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 44%] [94mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 46%] [94mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 48%] [94mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 49%] [94mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 51%] [94mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 52%] [94mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 54%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 56%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 57%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 59%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 61%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 62%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 64%] [94mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 66%] [94mtests.system.nomad.dags.test_dag_trigger[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 67%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 69%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 70%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 72%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 74%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 75%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 77%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 22%] [94mairflow.providers.nomad.log[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 24%] [94mairflow.providers.nomad.manager[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 25%] [94mairflow.providers.nomad.models[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 27%] [94mairflow.providers.nomad.operators.job[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 29%] [94mairflow.providers.nomad.operators.python[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 30%] [94mairflow.providers.nomad.operators.task[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 32%] [94mairflow.providers.nomad.templates.job_template[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 33%] [94mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 35%] [94mairflow.providers.nomad.utils[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 37%] [94mtests.system.nomad.constants[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 38%] [94mtests.system.nomad.dags.example_bash_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 40%] [94mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 41%] [94mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 43%] [94mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 44%] [94mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 46%] [94mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 48%] [94mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 49%] [94mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 51%] [94mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 52%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 54%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 56%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 57%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 59%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 60%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 62%] [94mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 63%] [94mtests.system.nomad.dags.test_dag_trigger[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 65%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 67%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 68%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 70%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 71%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 73%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 75%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_decorator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 76%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 78%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 79%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_localexecutor[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 80%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 82%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 81%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 83%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 84%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 85%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 86%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 87%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 89%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc_localexecutor[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 90%] [94mtests.system.nomad.test_dag_bash_operator[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 92%] [94mtests.system.nomad.test_dag_trigger[39;49;00m
-[01mhighlighting module code... [39;49;00m[ 93%] [94mtests.system.nomad.test_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 94%] [94mtests.system.nomad.test_nomad_job_operator[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 95%] [94mtests.system.nomad.test_nomad_manager[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 97%] [94mtests.system.nomad.test_nomad_task_operator[39;49;00m
 [01mhighlighting module code... [39;49;00m[ 98%] [94mtests.system.nomad.test_system_nomad_executor[39;49;00m
@@ -915,11 +927,11 @@ Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_shar
 
 [01mdumping search index in English (code: en)... [39;49;00mdone
 [01mdumping object inventory... [39;49;00mdone
-2026-01-22T19:05:54.002886Z [info     ] Adding content weights to HTML files... [sphinx_exts.pagefind_search.builder] loc=builder.py:93
-2026-01-22T19:05:54.078546Z [info     ] Added content weights to 155 files [sphinx_exts.pagefind_search.builder] loc=builder.py:98
-2026-01-22T19:05:54.078729Z [info     ] Building Pagefind search index... [sphinx_exts.pagefind_search.builder] loc=builder.py:110
-2026-01-22T19:05:55.596653Z [info     ] Pagefind indexed 155 pages     [sphinx_exts.pagefind_search.builder] loc=builder.py:159
-2026-01-22T19:05:56.114975Z [info     ] ✓ Pagefind index created with 155 pages [sphinx_exts.pagefind_search.builder] loc=builder.py:191
+2026-01-22T21:06:09.362967Z [info     ] Adding content weights to HTML files... [sphinx_exts.pagefind_search.builder] loc=builder.py:93
+2026-01-22T21:06:09.494547Z [info     ] Added content weights to 159 files [sphinx_exts.pagefind_search.builder] loc=builder.py:98
+2026-01-22T21:06:09.494774Z [info     ] Building Pagefind search index... [sphinx_exts.pagefind_search.builder] loc=builder.py:110
+2026-01-22T21:06:10.959638Z [info     ] Pagefind indexed 159 pages     [sphinx_exts.pagefind_search.builder] loc=builder.py:159
+2026-01-22T21:06:11.392492Z [info     ] ✓ Pagefind index created with 159 pages [sphinx_exts.pagefind_search.builder] loc=builder.py:191
 [01mbuild succeeded, 88 warnings.[39;49;00m
 
 The HTML pages are in generated/_build/docs/apache-airflow-providers-nomad/stable.

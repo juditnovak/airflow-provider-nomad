@@ -1,3 +1,18 @@
+0.0.7.dev1
+..............
+
+* [FEATURE] `executor_config` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/71
+* [BUFIX] Advertising decorators so that Task SDK could discover by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/73
+* [DOCS] Latest changes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/74
+* [FEATURE] `args` allowd for `@task.nomad_task` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/75
+* [docs_0.0.7.dev1_fix]: [HTML] 0.0.7dev1 -> 0.0.7.dev1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/76
+* [DOCS] Python operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/78
+* [FEATURE] Python operator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/77
+
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.6...0.0.7.dev1
+
+
 0.0.6
 ..............
 

@@ -793,6 +793,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadTaskOperatorError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.generic_interfaces.nomad_operator_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadOperator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.templates.job_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_TASK_TEMPLATE_BASH</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">job_id_from_taskinstance</span>
 
 
@@ -930,7 +931,11 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="p">}</span>
         <span class="n">updated_context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">self_attrs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">template</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span><span class="n">updated_context</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">template</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">prepare_job_template</span><span class="p">(</span>
+                <span class="n">updated_context</span><span class="p">,</span> <span class="n">DEFAULT_TASK_TEMPLATE_BASH</span>
+            <span class="p">)</span>
+        <span class="p">):</span>
             <span class="k">raise</span> <span class="n">NomadTaskOperatorError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No template for task with context </span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ti</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ti&quot;</span><span class="p">)):</span>
