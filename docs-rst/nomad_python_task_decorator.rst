@@ -23,6 +23,8 @@ The ``@task.nomad`` decorator is a wrapper around the ``NomadPythonTaskOperator`
 
 Airflow Jinja templating is supported also within the decorated function body.
 
+.. caution:: Keep in mind that the Python code will be run a remote execution engironment on a Nomad host. The Python code has to be self-contained, and the remote image has to include all libraires that may be needed (See `Examples <#examples>`_ below.)
+
 Known issues
 *********************
 
