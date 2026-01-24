@@ -29,8 +29,6 @@ The Nomad job template is executed with no modification.
  .. note:: Only job submission with unique Job IDs is supported
 
 
-
-
 Parameters
 ############
 
@@ -47,11 +45,16 @@ Configuration
 
 ``operator_poll_delay``: Wait time between repeating checks on submitted child job that is observed
 
+``runner_log_dir (str)``: Location where the runner may be writing logs (within the container). Default: ``/tmp``.
+
 Examples
 ##############
 
 
 .. code-block:: Python
+
+    from airflow.sdk import DAG
+    from airflow.providers.nomad.operators import NomadJobOperator 
 
     content = """
     job "nomad-test-hcl" {
@@ -92,6 +95,9 @@ Examples
 
 
 .. code-block:: Python
+
+    from airflow.sdk import DAG
+    from airflow.providers.nomad.operators import NomadJobOperator 
 
     content = """
     job "nomad-test-hcl-%s" {

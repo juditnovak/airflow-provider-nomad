@@ -31,7 +31,7 @@ Module Contents
 .. py:data:: ENV_ID
 
 .. py:data:: DAG_ID
-   :value: 'bash_operator_triggered_test'
+   :value: 'test-bash-operator'
 
 
 .. py:data:: JOB_NAME

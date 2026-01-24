@@ -25,6 +25,59 @@ For high-level changelog, see :doc:`package information including changelog <ind
 
 .. airflow-providers-commits::
 
+
+
+0.0.7.dev2
+...........
+
+Latest change: 2026-1-23
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+`1513ddb <https://github.com/juditnovak/airflow-provider-nomad/commit/1513ddb834a2642b7ecd8e3ebe70aab2ff563fd2>`__ 2026-01-23 ``[BUGFIX] Python task multiline header processing is broken (#83)``
+`f65a40b <https://github.com/juditnovak/airflow-provider-nomad/commit/f65a40be03c04ce4a3930738971de319d82d4ba3>`__ 2026-01-23 ``[VERSION] 0.0.7.dev2 (#82)``
+================================================================================================================== ========== ==============================================
+
+
+0.0.7.dev1
+...........
+
+Latest change: 2026-1-22
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+`9f1537f <https://github.com/juditnovak/airflow-provider-nomad/commit/9f1537fb8de33ce5a36507c75c12c2f91db75034>`__ 2026-01-23 ``0.0.7.dev1 (#80)``
+`bece3f3 <https://github.com/juditnovak/airflow-provider-nomad/commit/bece3f3438e114cced8706528b90d3070cb29115>`__ 2026-01-22 ``[FEATURE] Python operator (#77)``
+`2bf2f30 <https://github.com/juditnovak/airflow-provider-nomad/commit/2bf2f3096f6113a6296108f77d9616940d2b9c5d>`__ 2026-01-22 ``[bugfix_job_not_found_silent_67]: [SRC] Add warning the least``
+`bece3f3 <https://github.com/juditnovak/airflow-provider-nomad/commit/bece3f3438e114cced8706528b90d3070cb29115>`__ 2026-01-22 ``[FEATURE] Python operator (#77)``
+`e94bcc7 <https://github.com/juditnovak/airflow-provider-nomad/commit/e94bcc7b5483e597e7e1faab79258f92a1875ff3>`__ 2026-01-22 ``[FEATURE] `args` allowd for `@task.nomad_task` (#75)``
+`b9097ae <https://github.com/juditnovak/airflow-provider-nomad/commit/b9097ae3b29bb1c6d30d1da9ce887cb8a939924f>`__ 2026-01-21 ``[BUFIX] Advertising decorators so that Task SDK could discover (#73)``
+`356717b <https://github.com/juditnovak/airflow-provider-nomad/commit/356717bc373fed0a13e8245d8087910d95ef47f8>`__ 2026-01-20 ``[FEATURE] `executor_config` (#71)``
+`2c73fde <https://github.com/juditnovak/airflow-provider-nomad/commit/2c73fdedacbf48b6d689bff86a11c3ef7e72e664>`__ 2025-12-13 ``[VERSION] v0.0.6 (#63)``
+`5c6c63a <https://github.com/juditnovak/airflow-provider-nomad/commit/5c6c63a51f609845f3185315852757d8358ac683>`__ 2025-12-11 ``Upgrade to Airflow 3.1.3 (#50)``
+`a14ce54 <https://github.com/juditnovak/airflow-provider-nomad/commit/a14ce5436c76d9c558956004e7ab8f08b2865afc>`__ 2025-12-09 ``[VERSION] Version increase: 0.0.6.dev2 (#59)``
+`2ce5d47 <https://github.com/juditnovak/airflow-provider-nomad/commit/2ce5d472a8921533af1b3b36369d09db213ffbef>`__ 2025-12-08 ``[BUGFIX] Configurable runner logs (#56)``
+`c65f2bb <https://github.com/juditnovak/airflow-provider-nomad/commit/c65f2bb92cfa57b7035b81885f983ad67531db60>`__ 2025-12-08 ``Minor administrative fixes (#52)``
+================================================================================================================== ========== ==============================================
+
+
+0.0.6
+...........
+
+Latest change: 2025-12-11
+
+================================================================================================================== ========== ==============================================
+Commit                                                                                                             Committed  Subject
+================================================================================================================== ========== ==============================================
+`5c6c63a <https://github.com/juditnovak/airflow-provider-nomad/commit/5c6c63a51f609845f3185315852757d8358ac683>`__ 2025-12-11 ``Upgrade to Airflow 3.1.3 (#50)``
+`a14ce54 <https://github.com/juditnovak/airflow-provider-nomad/commit/a14ce5436c76d9c558956004e7ab8f08b2865afc>`__ 2025-12-09 ``[VERSION] Version increase: 0.0.6.dev2 (#59)``
+`2ce5d47 <https://github.com/juditnovak/airflow-provider-nomad/commit/2ce5d472a8921533af1b3b36369d09db213ffbef>`__ 2025-12-08 ``[BUGFIX] Configurable runner logs (#56)``
+`c65f2bb <https://github.com/juditnovak/airflow-provider-nomad/commit/c65f2bb92cfa57b7035b81885f983ad67531db60>`__ 2025-12-08 ``Minor administrative fixes (#52)``
+`aae08a3 <https://github.com/juditnovak/airflow-provider-nomad/commit/aae08a30dc20d5de05886acdf187b6f5b14176b5>`__ 2025-12-07 ``[VERSION] 0.0.6.dev1 (#51)``
+================================================================================================================== ========== ==============================================
+
 0.0.5
 ...........
 

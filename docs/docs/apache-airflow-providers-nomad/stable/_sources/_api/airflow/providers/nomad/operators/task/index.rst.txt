@@ -90,6 +90,9 @@ Module Contents
    .. py:method:: param_defined(param, context)
 
 
+   .. py:property:: tpl_attrs_dict
+
+
    .. py:method:: prepare_job_template(context)
 
 

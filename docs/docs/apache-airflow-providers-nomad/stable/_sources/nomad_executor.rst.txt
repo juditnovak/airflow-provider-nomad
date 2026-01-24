@@ -139,6 +139,8 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
     For TLS-related configuration in detail, see the `Security`_ section.
 
 
+ .. _job-submission-label:
+
 Job submission template
 *******************************
 
@@ -167,8 +169,25 @@ The default job submission template can be overridden by the `nomad_provider/def
 HCL or JSON template. For successful job submission the template has to comply to the above.
 
 
+Dynamic configuration
+#################################
+
+In addition, `NomadExecutor` is supporting ``executor_config`` dynamic, per-task configuration as well.
+Supported parameters are basically the same as for the `NomadTaskOperator` (decorator):
+
+.. include:: shared/parameters_task_template.rst
+
+.. include:: shared/parameters_task_exec.rst
+
+``args (dict[str])``: Arguments to be added to the Docker image entrypoint/command
+
+.. include:: shared/parameters_task_resources.rst
+
+
 Job execution
 #################
+
+.. seealso:: :ref:`job-submission-label`
 
 Notes
 **********
@@ -288,3 +307,27 @@ In case none of the above, ``NomadLoghandler`` may be enabled (see `NomadLoghand
 .. figure:: images/logs_nomad_job_info.png
 
     The above image is showing the Nomad context once task execution did not perform.
+
+
+
+Examples
+#############
+
+Using `NomadExecutor` for a specific task, with a dedicate job template:
+
+
+.. code-block:: Python
+
+    with DAG(dag_id="nomad-executor-example") as dag:
+
+        @task.bash(
+            executor="NomadExecutor",
+            executor_config={
+                "template_path": "/opt/airflow/templates/spec-job-execution.json",
+                "env": {"TEST_VAR": "blablabla"}
+            }
+        )
+        def bash_task() -> str:
+            return "echo $TEST_VAR"
+
+        run_this = bash_task()
