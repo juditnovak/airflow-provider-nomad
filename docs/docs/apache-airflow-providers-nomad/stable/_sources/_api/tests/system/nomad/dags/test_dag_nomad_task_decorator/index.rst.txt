@@ -39,11 +39,11 @@ Module Contents
 .. py:data:: ENV_ID
 
 .. py:data:: DAG_ID
-   :value: 'test_nomad_task_decorator_dag'
+   :value: 'test-nomad-task-decorator'
 
 
 .. py:data:: JOB_NAME
-   :value: 'task-test-config-default-job-template-hcl'
+   :value: 'test-nomad-task-decorator'
 
 
 .. py:data:: JOB_NAMESPACE

@@ -40,6 +40,10 @@ Module Contents
       :type:  int
 
 
+   .. py:attribute:: runner_log_dir
+      :type:  str
+
+
    .. py:attribute:: template
       :type:  airflow.providers.nomad.models.NomadJobModel | None
       :value: None
@@ -47,16 +51,9 @@ Module Contents
 
 
    .. py:method:: sanitize_logs(alloc_id, task_name, logs)
-      :staticmethod:
-
 
 
    .. py:method:: get_children_output(job_id, alloc_info = None)
-
-
-   .. py:method:: figure_path(path_str)
-      :staticmethod:
-
 
 
    .. py:method:: prepare_job_template(context)

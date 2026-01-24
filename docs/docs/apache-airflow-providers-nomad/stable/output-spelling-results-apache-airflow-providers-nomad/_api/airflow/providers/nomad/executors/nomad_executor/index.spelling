@@ -1,3 +1,3 @@
-providers/nomad/docs/_api/airflow/providers/nomad/executors/nomad_executor/index.rst:67: (Adjutst)  Adjutst template to suit upcoming job execution
+providers/nomad/docs/_api/airflow/providers/nomad/executors/nomad_executor/index.rst:70: (Adjutst)  Adjutst template to suit upcoming job execution
 providers/nomad/docs/_api/airflow/providers/nomad/executors/nomad_executor/index.rst:29: (occured)  No news is good news, or the error that occured on execution attempt
-providers/nomad/docs/_api/airflow/providers/nomad/executors/nomad_executor/index.rst:95: (retreive)  Universal way to retreive logs
+providers/nomad/docs/_api/airflow/providers/nomad/executors/nomad_executor/index.rst:98: (retreive)  Universal way to retreive logs

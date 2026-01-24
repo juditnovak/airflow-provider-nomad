@@ -36,7 +36,7 @@ Module Contents
 
 
 .. py:data:: JOB_NAME
-   :value: 'task-test-config-default-job-template-hcl'
+   :value: 'test-nomad-task-operator-combined'
 
 
 .. py:data:: JOB_NAMESPACE

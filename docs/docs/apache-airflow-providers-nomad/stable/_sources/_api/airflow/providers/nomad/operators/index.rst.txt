@@ -11,6 +11,7 @@ Submodules
    :maxdepth: 1
 
    /_api/airflow/providers/nomad/operators/job/index
+   /_api/airflow/providers/nomad/operators/python/index
    /_api/airflow/providers/nomad/operators/task/index
 
 

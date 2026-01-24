@@ -161,3 +161,20 @@ Module Contents
    .. py:method:: job_all_info_str(job_id, job_summary = None, job_alloc = None, job_eval = None)
 
 
+   .. py:method:: figure_path(path_str)
+      :staticmethod:
+
+
+
+   .. py:method:: get_default_template(default_template = None)
+
+
+   .. py:method:: get_job_template(config = None, default_template = None)
+
+
+   .. py:method:: update_job_template(template, config, task_sdk = False)
+
+
+   .. py:method:: prepare_job_template(config = None, default_template = None)
+
+

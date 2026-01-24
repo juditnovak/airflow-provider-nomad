@@ -9,15 +9,44 @@ Attributes
 
 .. autoapisummary::
 
-   airflow.providers.nomad.templates.job_template.default_image
-   airflow.providers.nomad.templates.job_template.default_task_template
+   airflow.providers.nomad.templates.job_template.DEFAULT_IMAGE
+   airflow.providers.nomad.templates.job_template.SDK_ENTRYPOINT
+   airflow.providers.nomad.templates.job_template.PYTHON_ENTRYPOINT
+   airflow.providers.nomad.templates.job_template.BASH_ENTRYPOINT
+   airflow.providers.nomad.templates.job_template.DEFAULT_JOB_NAME
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_SDK
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_BASH
+   airflow.providers.nomad.templates.job_template.DEFAULT_TASK_TEMPLATE_PYTHON
 
 
 Module Contents
 ---------------
 
-.. py:data:: default_image
+.. py:data:: DEFAULT_IMAGE
 
-.. py:data:: default_task_template
+.. py:data:: SDK_ENTRYPOINT
+   :value: ['python', '-m', 'airflow.sdk.execution_time.execute_workload', '--json-string']
+
+
+.. py:data:: PYTHON_ENTRYPOINT
+   :value: ['python', '-c']
+
+
+.. py:data:: BASH_ENTRYPOINT
+   :value: ['/bin/bash', '-c']
+
+
+.. py:data:: DEFAULT_JOB_NAME
+   :value: 'ariflow_run'
+
+
+.. py:data:: DEFAULT_TASK_TEMPLATE
    :type:  dict[str, Any]
+
+.. py:data:: DEFAULT_TASK_TEMPLATE_SDK
+
+.. py:data:: DEFAULT_TASK_TEMPLATE_BASH
+
+.. py:data:: DEFAULT_TASK_TEMPLATE_PYTHON
 

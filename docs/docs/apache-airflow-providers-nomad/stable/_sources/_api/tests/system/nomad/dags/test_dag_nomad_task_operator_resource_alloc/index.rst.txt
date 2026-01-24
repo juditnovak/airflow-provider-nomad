@@ -37,11 +37,11 @@ Module Contents
 .. py:data:: ENV_ID
 
 .. py:data:: DAG_ID
-   :value: 'test-nomad-task-operator-param-volumes'
+   :value: 'test-nomad-task-operator-resource-alloc'
 
 
 .. py:data:: JOB_NAME
-   :value: 'task-test-task-operator-param-volumes'
+   :value: 'test-nomad-task-operator-resource-alloc'
 
 
 .. py:data:: JOB_NAMESPACE

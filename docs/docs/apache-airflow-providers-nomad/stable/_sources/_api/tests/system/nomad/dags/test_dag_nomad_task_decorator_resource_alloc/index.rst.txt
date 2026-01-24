@@ -43,11 +43,11 @@ Module Contents
 .. py:data:: ENV_ID
 
 .. py:data:: DAG_ID
-   :value: 'test-nomad-task-decorator-param-volumes'
+   :value: 'test-nomad-task-decorator-resource-alloc'
 
 
 .. py:data:: JOB_NAME
-   :value: 'task-test-task-decorator-param-volumes'
+   :value: 'test-nomad-task-decorator-resource-alloc'
 
 
 .. py:data:: JOB_NAMESPACE

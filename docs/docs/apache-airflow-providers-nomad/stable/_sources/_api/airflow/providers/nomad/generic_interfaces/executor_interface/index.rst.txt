@@ -94,7 +94,7 @@ Module Contents
 
 
 
-   .. py:method:: prepare_job_template(key, command)
+   .. py:method:: prepare_job_template(key, command, executor_config)
 
       Adjutst template to suit upcoming job execution
 
