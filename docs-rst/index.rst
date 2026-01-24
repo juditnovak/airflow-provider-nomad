@@ -81,7 +81,7 @@
 
     Development <development>
 
-Release: 0.0.7.dev2
+Release: 0.0.7
 
 .. Release Date: ``|PypiReleaseDate|``
 

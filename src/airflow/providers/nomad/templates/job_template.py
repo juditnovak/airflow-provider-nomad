@@ -20,7 +20,7 @@ from airflow.configuration import conf
 from airflow.providers.nomad.constants import CONFIG_SECTION
 
 DEFAULT_IMAGE = conf.get(
-    CONFIG_SECTION, "default_docker_image", fallback="novakjudit/airflow-nomad-runner:0.0.7.dev2"
+    CONFIG_SECTION, "default_docker_image", fallback="novakjudit/airflow-nomad-runner:0.0.7"
 )
 
 SDK_ENTRYPOINT = ["python", "-m", "airflow.sdk.execution_time.execute_workload", "--json-string"]
