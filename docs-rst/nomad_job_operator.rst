@@ -17,10 +17,30 @@
 Nomad Job Operator
 ======================
 
-.. note:: If a Nomad Operator is used with ``NomadExecutor``, it introduces the overhead of two task executions each time (as ``NomadExecutor`` is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with ``LocalExecutor``
+.. note:: If a Nomad Operator is used with ``NomadExecutor``, it introduces the overhead of two task executions each time (as ``NomadExecutor`` is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with ``LocalExecutor``. See `NomadExecutor <nomad_executor.html>`_ for more details.
 
 The ``NomadJobOperator`` is spawning a new Nomad job to run the wrapped task.
 Practically the operator is useful when complete job templates are to be run as separate Nomad executions.
+
+Submission scheme with ``LocalExecutor`` (recommended):
+
+.. |local_exec_nomad_job_op| image:: images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+Submission scheme with ``NomadExecutor``:
+
+.. |nomad_exec_nomad_job_op| image:: images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+    </div>
 
 There is no restriction on the template (number of ``Tasks``, or ``TaskGroups``, ``Count``, etc.)
 
