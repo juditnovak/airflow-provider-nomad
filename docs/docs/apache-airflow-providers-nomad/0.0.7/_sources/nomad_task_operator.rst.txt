@@ -21,6 +21,26 @@ Nomad Task Operator
 The ``NomadTaskOperator`` is spawning a new Nomad job to run the wrapped task.
 The operator is handy to run Nomad jobs with lightweight, minimal configuration.
 
+Submission scheme with ``LocalExecutor`` (recommended):
+
+.. |local_exec_nomad_task_op| image:: images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+Submission scheme with ``NomadExecutor``:
+
+.. |nomad_exec_nomad_task_op| image:: images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
 .. include:: shared/task_intro_warning.rst 
 
 Parameters

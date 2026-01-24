@@ -22,6 +22,29 @@ Nomad Job Decorator
 The ``@task.nomad_job`` decorator is a wrapper around the ``NomadJobOperator``. For a detailed description please refer to the `Nomad Job Operator <nomad_job_operator.html>`_ documentation. 
 
 
+Submission scheme with ``LocalExecutor`` (recommended):
+
+.. |local_exec_nomad_job_dec| image:: images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+Submission scheme with ``NomadExecutor``:
+
+.. |nomad_exec_nomad_job_dec| image:: images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+        <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+.. include:: shared/task_intro_warning.rst 
+
+
 Parameters
 ############
 

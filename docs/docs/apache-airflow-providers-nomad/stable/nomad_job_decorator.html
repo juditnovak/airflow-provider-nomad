@@ -431,7 +431,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -579,7 +579,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -784,6 +784,18 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
 <p>If a Nomad Decorator is used with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>, it introduces the overhead of two task executions each time (as <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code></p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">&#64;task.nomad_job</span></code> decorator is a wrapper around the <code class="docutils literal notranslate"><span class="pre">NomadJobOperator</span></code>. For a detailed description please refer to the <a class="reference external" href="nomad_job_operator.html">Nomad Job Operator</a> documentation.</p>
+<p>Submission scheme with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code> (recommended):</p>
+<div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+    <object data="_images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg" type="image/svg+xml"> </object>
+</div><p>Submission scheme with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>:</p>
+<div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+    <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+</div><div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The Nomad Task Operator (Decorator) works alongside the same concept as other Airflow operators, yet, the behavior may seem misleading first. Airflow users may be much used to the <code class="docutils literal notranslate"><span class="pre">&#64;task</span></code> notation invoking the <a class="reference external" href="https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/python.html">PythonOperator</a>, which complies to the “intuitive” expectation to execute the Operator function Python code block.</p>
+<p>However Airflow Operators in general (for example: <a class="reference external" href="https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/bash.html">BashOperator</a>) <em>only execute the return value of the Operator function within the expected context</em> (in this case: in <code class="docutils literal notranslate"><span class="pre">bash</span></code>).</p>
+<p>The same is true for <code class="docutils literal notranslate"><span class="pre">NomadTaksOperator</span></code>, <code class="docutils literal notranslate"><span class="pre">NomadJobOpratro</span></code> (and corresponding decorators <code class="docutils literal notranslate"><span class="pre">&#64;task.nomad_task</span></code> and <code class="docutils literal notranslate"><span class="pre">&#64;task.nomad_job</span></code>). (See <span class="xref std std-ref">examples</span>, also highlighting on Python code submission to Nomad.)</p>
+</div>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">&#64;task.nomad_job</span></code> decorator takes the same parameters as the <code class="docutils literal notranslate"><span class="pre">NomadJobOperator</span></code>, except the <code class="docutils literal notranslate"><span class="pre">template_content</span></code> parameter.</p>
@@ -1117,7 +1129,7 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
     <script src="_static/_gen/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="_static/_gen/external/js/popper-2.11.8.min.js"></script>
     <script src="_static/_gen/external/js/bootstrap-5.3.3.min.js"></script>
-        <script src="_static/documentation_options.js?v=bbaf98b3"></script>
+        <script src="_static/documentation_options.js?v=133ceb88"></script>
         <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>

@@ -29,11 +29,49 @@ not at all need to be running on Nomad, but does need API access to a Nomad clus
 
 When a DAG submits a task, the NomadExecutor requests a job execution via the Nomad API.
 
+Behavior
+#################
+
+When using supported Airflow Operators/Decorators (such as PythonOperator_, or
+BashOperator_) the ``NomadExecutor`` submits the task to the Nomad cluster. The
+operator's actions will be performed in the remote environment.
+
+.. |nomad_exec_classic| image:: images/nomad-airflow-NomadExecutor_with_AF_ops.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left:auto;margin-right:auto;text-align:center">
+        <object data="_images/nomad-airflow-NomadExecutor_with_AF_ops.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+In order to have the Nomad Worker equipped with all that it takes to run Airflow tasks,
+a basic Docker file is also available as a part of the package.
+(The compiled Docker image can be also accessed.) 
+
+.. seealso:: :ref:`job-submission-label`
+
+
+It is also possible to execute Nomad Operators/Decorators using the ``NomadExecutor``. In this
+case the job submission will have an additional level of redirection. Given the overhead, this may
+be less convenient to use.
+
+
+.. |nomad_exec| image:: images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left:auto;margin-right:auto;text-align:center">
+        <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
 
 Usage
 #################
 
-Pre-requisites
+Given the level of complexity, a starightforward setup requires a base level of understanding of the big picture.
+
+
+Nomad volumes
 **********************
 
  .. note:: The configuration presented below is one of multiple alternative solutions, not a strict requirement of the ``NomadExecutor``
@@ -43,6 +81,9 @@ Assuming that a Nomad cluster is already available, there must be a few configur
 to be adjusted on the cluster's side.
 
 Airflow executions will require two shared folders on each runner:
+
+ * ``dags``: Airflow runners need access to the dags that are to be executed
+ * ``config``: Airflow runners need access to a local ``airflow.cfg``.
 
 .. code-block:: hcl
 
@@ -59,12 +100,22 @@ Airflow executions will require two shared folders on each runner:
     }
 
 
-(Currently only host volumes are supported. Extending soon.)
 
- * ``dags``: Airflow runners need access to the dags that are to be executed
- * ``config``: Airflow runners need access to a local ``airflow.cfg``.
+Nomad-side Airflow configuratoin
+*****************************************
 
-NOTE: This configuration is different from the Airflow server's configuration in terms of the following:
+.. |nomad_exec_vol_conf| image:: images/nomad-airflow-volumes_airflowcfg.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left:auto;margin-right:auto;text-align:center">
+        <object width=900px data="_images//nomad-airflow-volumes_airflowcfg.drawio.svg" type="image/svg+xml"> </object>
+    </div>
+
+
+.. caution:: As demonstrated on the image, both the Airflow Server and Nomad Worker A needs access to the DAG code. Airflow uses absolute path notation for dag folders. So the absolute path **must** be the same both from the Airflow Server and the Nomad host's perspective.
+
+``airflow.cfg`` for the Nomad host (expected on the shared volume, at ``/opt/airflow/config/airflow.cfg``) must contain the following:
    
 .. code-block:: ini
 
@@ -74,6 +125,11 @@ NOTE: This configuration is different from the Airflow server's configuration in
 
     [logging]
     base_log_folder = /opt/airflow/logs
+
+
+.. caution:: ``base_url`` must be a hostname/IP accessible from the container on the Nomad worker. **Don't use** ``localhost``, as it refers to the executor Nomad worker node, not the Airflow Server.
+
+.. note:: If used together with ``LocalExecutor``, make sure that the Airflow Serer's log folder is pointing to the same location as the Nomad worker's configuration.
 
 
 Enabling ``NomadExecutor``
@@ -102,6 +158,7 @@ From this point on Airflow pipeline tasks will be submitted to the target Nomad 
 
 Each task is executed as a separate Nomad task, in an individual taskgroup. This maps
 each of them to different docker containers.
+
 
 
 Configuration
@@ -139,10 +196,12 @@ Configuration options that are available for ``NomadExecutor`` are to be found i
     For TLS-related configuration in detail, see the `Security`_ section.
 
 
- .. _job-submission-label:
+.. _job-submission-label:
 
 Job submission template
 *******************************
+
+.. seealso:: :ref:`job-execution-label`
 
 There is a single job template taken as the base for all job submissions. This is adjusted to individual job submissions correspondingly.
 Core assumptions regarding the job submission template:
@@ -184,8 +243,21 @@ Supported parameters are basically the same as for the `NomadTaskOperator` (deco
 .. include:: shared/parameters_task_resources.rst
 
 
+.. _job-execution-label:
+
 Job execution
 #################
+
+The base concept of the job execution is alongside the following worfklow:
+
+
+.. |nomad_exec_job_submission| image:: images/nomad-airflow-all_configs.drawio.svg
+
+.. raw:: html
+
+    <div style="margin-left:auto;margin-right:auto;text-align:left">
+        <object width=900px data="_images/nomad-airflow-all_configs.drawio.svg " type="image/svg+xml"> </object>
+    </div>
 
 .. seealso:: :ref:`job-submission-label`
 
@@ -309,6 +381,37 @@ In case none of the above, ``NomadLoghandler`` may be enabled (see `NomadLoghand
     The above image is showing the Nomad context once task execution did not perform.
 
 
+Limitations
+#############
+
+Currently the ``NomadExecutor`` can be only used as the primary executor. So the following configuration
+works:
+
+In ``airflow.cfg``
+
+.. code-block:: airflow.cfg
+
+    # The executor class that airflow should use. Choices include
+    # ``LocalExecutor``, ``CeleryExecutor``,
+    # ``KubernetesExecutor`` or the full import path to the class when using a custom executor.
+    #
+    # Variable: AIRFLOW__CORE__EXECUTOR
+    #
+    executor = NomadExecutor:airflow.providers.nomad.executors.nomad_executor.NomadExecutor,LocalExecutor
+
+and in DAG code:
+
+.. code-block:: airflow.cfg
+
+    with DAG("test_dag") as dag:
+        @task.nomad(executor="LocalExecutor")
+        def test():
+            [..]
+
+the reverse is not possible.
+
+(This has the following reason: when )
+
 
 Examples
 #############
@@ -331,3 +434,11 @@ Using `NomadExecutor` for a specific task, with a dedicate job template:
             return "echo $TEST_VAR"
 
         run_this = bash_task()
+
+
+
+
+.. _PythonOperator: https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/python.html
+
+.. _BashOperator: https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/bash.html
+

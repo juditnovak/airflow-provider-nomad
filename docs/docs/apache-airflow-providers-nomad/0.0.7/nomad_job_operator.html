@@ -431,7 +431,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -580,7 +580,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -783,11 +783,17 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
 <h1 data-pagefind-weight="9.0">Nomad Job Operator<a class="headerlink" href="#nomad-job-operator" title="Link to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If a Nomad Operator is used with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>, it introduces the overhead of two task executions each time (as <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code></p>
+<p>If a Nomad Operator is used with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>, it introduces the overhead of two task executions each time (as <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> is running every task as a Nomad job). In case this is undesirable, Airflow can be configured with multiple executors, and Nomad Operators can be used with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code>. See <a class="reference external" href="nomad_executor.html">NomadExecutor</a> for more details.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">NomadJobOperator</span></code> is spawning a new Nomad job to run the wrapped task.
 Practically the operator is useful when complete job templates are to be run as separate Nomad executions.</p>
-<p>There is no restriction on the template (number of <code class="docutils literal notranslate"><span class="pre">Tasks</span></code>, or <code class="docutils literal notranslate"><span class="pre">TaskGroups</span></code>, <code class="docutils literal notranslate"><span class="pre">Count</span></code>, etc.)</p>
+<p>Submission scheme with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code> (recommended):</p>
+<div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+    <object data="_images/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg" type="image/svg+xml"> </object>
+</div><p>Submission scheme with <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>:</p>
+<div style="margin-left;auto;margin-right:auto;text-align:center:max-width:200px">
+    <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+</div><p>There is no restriction on the template (number of <code class="docutils literal notranslate"><span class="pre">Tasks</span></code>, or <code class="docutils literal notranslate"><span class="pre">TaskGroups</span></code>, <code class="docutils literal notranslate"><span class="pre">Count</span></code>, etc.)</p>
 <p>The Nomad job template is executed with no modification.</p>
 <blockquote>
 <div><div class="admonition note">
@@ -1199,7 +1205,7 @@ Practically the operator is useful when complete job templates are to be run as 
     <script src="_static/_gen/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="_static/_gen/external/js/popper-2.11.8.min.js"></script>
     <script src="_static/_gen/external/js/bootstrap-5.3.3.min.js"></script>
-        <script src="_static/documentation_options.js?v=bbaf98b3"></script>
+        <script src="_static/documentation_options.js?v=133ceb88"></script>
         <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>

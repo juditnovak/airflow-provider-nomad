@@ -81,11 +81,29 @@
 
     Development <development>
 
-Release: 0.0.7
+Release: 0.0.7.dev2
 
 .. Release Date: ``|PypiReleaseDate|``
 
 Airflow provider for the `Hasicorp Nomad <https://developer.hashicorp.com/nomad/>`__ workload orchestrator. 
+
+
+Package contents
+------------------
+
+The Noamd Provier package is shipping multiple Airflow components with a different purpose.
+They can be used integrated with each other, or with other Airflow components
+
+Executor
+*************
+
+The package provides an Airflow executor for Nomad. This component allows to submit all Airflow
+tasks to a Nomad cluster.
+
+Operators/Decorators
+*************************
+
+Multiple operators are provided to allow for individual Airflow tasks to be submitted to Nomad.
 
 
 Installation
@@ -98,6 +116,8 @@ Requirements
 ------------
 
 The minimum Apache Airflow version supported by this provider distribution is ``3.0.4``.
+
+
 
 ============================  ====================
 PIP package                   Version required

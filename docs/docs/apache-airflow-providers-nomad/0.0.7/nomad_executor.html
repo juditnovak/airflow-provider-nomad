@@ -431,7 +431,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -465,12 +465,14 @@
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#behavior">Behavior</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-configuration">Dynamic configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -584,7 +586,7 @@
 <div id="docs-version-selector" class="docs-version-selector sidebar__version-selector">
     <a class="dropdown-toggle" href="#" id="versionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
        aria-expanded="false">
-        <span class="version-label">Version: </span><span class="version">0.0.7</span>
+        <span class="version-label">Version: </span><span class="version">0.0.7.dev2</span>
     </a>
     <div class="dropdown-menu" aria-labelledby="versionDropdown">
 
@@ -618,12 +620,14 @@
 <p class="caption" role="heading"><span class="caption-text">Executors</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">NomadExecutor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#behavior">Behavior</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-configuration">Dynamic configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#job-execution">Job execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -797,10 +801,31 @@ window.PAGEFIND_PATH = './_pagefind/pagefind.js';
 <p>NomadExecutor runs as a process in the Airflow Scheduler. The scheduler itself does
 not at all need to be running on Nomad, but does need API access to a Nomad cluster.</p>
 <p>When a DAG submits a task, the NomadExecutor requests a job execution via the Nomad API.</p>
+<section id="behavior">
+<h2>Behavior<a class="headerlink" href="#behavior" title="Link to this heading">¶</a></h2>
+<p>When using supported Airflow Operators/Decorators (such as <a class="reference external" href="https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/python.html">PythonOperator</a>, or
+<a class="reference external" href="https://airflow.apache.org/docs/apache-airflow-providers-standard/stable/operators/bash.html">BashOperator</a>) the <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> submits the task to the Nomad cluster. The
+operator’s actions will be performed in the remote environment.</p>
+<div style="margin-left:auto;margin-right:auto;text-align:center">
+    <object data="_images/nomad-airflow-NomadExecutor_with_AF_ops.drawio.svg" type="image/svg+xml"> </object>
+</div><p>In order to have the Nomad Worker equipped with all that it takes to run Airflow tasks,
+a basic Docker file is also available as a part of the package.
+(The compiled Docker image can be also accessed.)</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#job-submission-label"><span class="std std-ref">Job submission template</span></a></p>
+</div>
+<p>It is also possible to execute Nomad Operators/Decorators using the <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code>. In this
+case the job submission will have an additional level of redirection. Given the overhead, this may
+be less convenient to use.</p>
+<div style="margin-left:auto;margin-right:auto;text-align:center">
+    <object data="_images/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg" type="image/svg+xml"> </object>
+</div></section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
-<section id="pre-requisites">
-<h3>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Link to this heading">¶</a></h3>
+<p>Given the level of complexity, a starightforward setup requires a base level of understanding of the big picture.</p>
+<section id="nomad-volumes">
+<h3>Nomad volumes<a class="headerlink" href="#nomad-volumes" title="Link to this heading">¶</a></h3>
 <blockquote>
 <div><div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -810,6 +835,12 @@ not at all need to be running on Nomad, but does need API access to a Nomad clus
 <p>Assuming that a Nomad cluster is already available, there must be a few configuration details
 to be adjusted on the cluster’s side.</p>
 <p>Airflow executions will require two shared folders on each runner:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dags</span></code>: Airflow runners need access to the dags that are to be executed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code>: Airflow runners need access to a local <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code>.</p></li>
+</ul>
+</div></blockquote>
 <div class="highlight-hcl notranslate"><div class="highlight"><pre><span></span><span class="nb">client</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="err">host_volume</span><span class="w"> </span><span class="s2">&quot;config&quot;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="na">path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;server_path&gt;/&lt;runner_space&gt;/config&quot;</span>
@@ -823,14 +854,16 @@ to be adjusted on the cluster’s side.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>(Currently only host volumes are supported. Extending soon.)</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dags</span></code>: Airflow runners need access to the dags that are to be executed</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">config</span></code>: Airflow runners need access to a local <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code>.</p></li>
-</ul>
-</div></blockquote>
-<p>NOTE: This configuration is different from the Airflow server’s configuration in terms of the following:</p>
+</section>
+<section id="nomad-side-airflow-configuratoin">
+<h3>Nomad-side Airflow configuratoin<a class="headerlink" href="#nomad-side-airflow-configuratoin" title="Link to this heading">¶</a></h3>
+<div style="margin-left:auto;margin-right:auto;text-align:center">
+    <object width=900px data="_images//nomad-airflow-volumes_airflowcfg.drawio.svg" type="image/svg+xml"> </object>
+</div><div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>As demonstrated on the image, both the Airflow Server and Nomad Worker A needs access to the DAG code. Airflow uses absolute path notation for dag folders. So the absolute path <strong>must</strong> be the same both from the Airflow Server and the Nomad host’s perspective.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code> for the Nomad host (expected on the shared volume, at <code class="docutils literal notranslate"><span class="pre">/opt/airflow/config/airflow.cfg</span></code>) must contain the following:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[core]</span>
 <span class="na">dags_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/dags</span>
 <span class="na">base_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;airflow_api_server_url&gt;</span>
@@ -838,6 +871,14 @@ to be adjusted on the cluster’s side.</p>
 <span class="k">[logging]</span>
 <span class="na">base_log_folder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/opt/airflow/logs</span>
 </pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><code class="docutils literal notranslate"><span class="pre">base_url</span></code> must be a hostname/IP accessible from the container on the Nomad worker. <strong>Don’t use</strong> <code class="docutils literal notranslate"><span class="pre">localhost</span></code>, as it refers to the executor Nomad worker node, not the Airflow Server.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If used together with <code class="docutils literal notranslate"><span class="pre">LocalExecutor</span></code>, make sure that the Airflow Serer’s log folder is pointing to the same location as the Nomad worker’s configuration.</p>
 </div>
 </section>
 <section id="enabling-nomadexecutor">
@@ -879,12 +920,14 @@ each of them to different docker containers.</p>
 <p><code class="docutils literal notranslate"><span class="pre">agent_cert_path</span></code>: The absolute path of the client certificate.</p>
 <p><code class="docutils literal notranslate"><span class="pre">agent_key_path</span></code>: The absolute path of the client key.</p>
 <blockquote>
-<div><blockquote>
 <div><p>For TLS-related configuration in detail, see the <a class="reference internal" href="#security">Security</a> section.</p>
-</div></blockquote>
 </div></blockquote>
 <section id="job-submission-template">
 <span id="job-submission-label"></span><h3>Job submission template<a class="headerlink" href="#job-submission-template" title="Link to this heading">¶</a></h3>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#job-execution-label"><span class="std std-ref">Job execution</span></a></p>
+</div>
 <p>There is a single job template taken as the base for all job submissions. This is adjusted to individual job submissions correspondingly.
 Core assumptions regarding the job submission template:</p>
 <ul class="simple">
@@ -940,8 +983,11 @@ and can only have a single execution (<code class="docutils literal notranslate"
 </section>
 </section>
 <section id="job-execution">
-<h2>Job execution<a class="headerlink" href="#job-execution" title="Link to this heading">¶</a></h2>
-<div class="admonition seealso">
+<span id="job-execution-label"></span><h2>Job execution<a class="headerlink" href="#job-execution" title="Link to this heading">¶</a></h2>
+<p>The base concept of the job execution is alongside the following worfklow:</p>
+<div style="margin-left:auto;margin-right:auto;text-align:left">
+    <object width=900px data="_images/nomad-airflow-all_configs.drawio.svg " type="image/svg+xml"> </object>
+</div><div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#job-submission-label"><span class="std std-ref">Job submission template</span></a></p>
 </div>
@@ -1043,6 +1089,30 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 </figcaption>
 </figure>
 </section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">¶</a></h2>
+<p>Currently the <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code> can be only used as the primary executor. So the following configuration
+works:</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">airflow.cfg</span></code></p>
+<div class="highlight-airflow.cfg notranslate"><div class="highlight"><pre><span></span># The executor class that airflow should use. Choices include
+# ``LocalExecutor``, ``CeleryExecutor``,
+# ``KubernetesExecutor`` or the full import path to the class when using a custom executor.
+#
+# Variable: AIRFLOW__CORE__EXECUTOR
+#
+executor = NomadExecutor:airflow.providers.nomad.executors.nomad_executor.NomadExecutor,LocalExecutor
+</pre></div>
+</div>
+<p>and in DAG code:</p>
+<div class="highlight-airflow.cfg notranslate"><div class="highlight"><pre><span></span>with DAG(&quot;test_dag&quot;) as dag:
+    @task.nomad(executor=&quot;LocalExecutor&quot;)
+    def test():
+        [..]
+</pre></div>
+</div>
+<p>the reverse is not possible.</p>
+<p>(This has the following reason: when )</p>
+</section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>Using <cite>NomadExecutor</cite> for a specific task, with a dedicate job template:</p>
@@ -1140,8 +1210,10 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
         <div class="wy-menu-vertical">
             <ul>
 <li><a class="reference internal" href="#">Nomad Executor</a><ul>
+<li><a class="reference internal" href="#behavior">Behavior</a></li>
 <li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
+<li><a class="reference internal" href="#nomad-volumes">Nomad volumes</a></li>
+<li><a class="reference internal" href="#nomad-side-airflow-configuratoin">Nomad-side Airflow configuratoin</a></li>
 <li><a class="reference internal" href="#enabling-nomadexecutor">Enabling <code class="docutils literal notranslate"><span class="pre">NomadExecutor</span></code></a></li>
 </ul>
 </li>
@@ -1162,6 +1234,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
 </li>
 <li><a class="reference internal" href="#security">Security</a></li>
 <li><a class="reference internal" href="#logging">Logging</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -1378,7 +1451,7 @@ method to be used for remote logging (or in case Nomad logs may be locally mount
     <script src="_static/_gen/external/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="_static/_gen/external/js/popper-2.11.8.min.js"></script>
     <script src="_static/_gen/external/js/bootstrap-5.3.3.min.js"></script>
-        <script src="_static/documentation_options.js?v=bbaf98b3"></script>
+        <script src="_static/documentation_options.js?v=133ceb88"></script>
         <script src="_static/doctools.js?v=9bcbadda"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
