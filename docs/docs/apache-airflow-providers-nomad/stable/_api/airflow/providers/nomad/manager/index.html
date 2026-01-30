@@ -965,12 +965,12 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <dt class="sig sig-object py" id="airflow.providers.nomad.manager.NomadManager.remove_job_if_hanging">
 <span class="sig-name descname"><span class="pre">remove_job_if_hanging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_alloc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_dead</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/manager.html#NomadManager.remove_job_if_hanging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.manager.NomadManager.remove_job_if_hanging" title="Link to this definition">¶</a></dt>
 <dd><p>Whether the job failed on Nomad side</p>
-<p>Typically on allocaton errors there is not feedback to Airflow, as the
+<p>Typically on allocation errors there is not feedback to Airflow, as the
 job remains in ‘pending’ state on Nomad side. Such issues have to be detected
 and the job execution is to be reported as failed.</p>
 <p>NOTE: The executor failing a job run is considered as an ERROR by Airflow.
 Despite the log message, this is the efficient way for this case. Potential Airflow-level
-task re-tries are applied corectly.</p>
+task re-tries are applied correctly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> – reference to the task instance in question</p>

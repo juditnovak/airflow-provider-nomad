@@ -885,7 +885,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
     <span class="k">def</span><span class="w"> </span><span class="nf">prepare_job_template</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">executor_config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjutst template to suit upcoming job execution</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust template to suit upcoming job execution</span>
 
 <span class="sd">        :param key: reference to the task instance in question</span>
 <span class="sd">        :return: job template as as dictionary</span>
@@ -924,7 +924,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the job defined by a potential job template</span>
 
 <span class="sd">        :param: Job template corresponding to the job</span>
-<span class="sd">        :return: No news is good news, or the error that occured on execution attempt</span>
+<span class="sd">        :return: No news is good news, or the error that occurred on execution attempt</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">job_template</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NomadProviderException</span><span class="p">(</span><span class="s2">&quot;Job template missing&quot;</span><span class="p">)</span>
@@ -991,7 +991,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <div class="viewcode-block" id="NomadExecutor.get_task_log">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/executors/nomad_executor/index.html#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.get_task_log">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_task_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">TaskInstance</span><span class="p">,</span> <span class="n">try_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Universal way to retreive logs</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Universal way to retrieve logs</span>
 
 <span class="sd">        Retrieving logs so that it&#39;s compatible both with FileTaskHandler, and</span>
 <span class="sd">        leaves space for NomadLogHandler grouping feature.</span>

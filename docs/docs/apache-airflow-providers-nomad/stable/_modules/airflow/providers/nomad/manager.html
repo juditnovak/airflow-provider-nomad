@@ -1126,13 +1126,13 @@ window.PAGEFIND_PATH = '../../../../_pagefind/pagefind.js';
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the job failed on Nomad side</span>
 
-<span class="sd">        Typically on allocaton errors there is not feedback to Airflow, as the</span>
+<span class="sd">        Typically on allocation errors there is not feedback to Airflow, as the</span>
 <span class="sd">        job remains in &#39;pending&#39; state on Nomad side. Such issues have to be detected</span>
 <span class="sd">        and the job execution is to be reported as failed.</span>
 
 <span class="sd">        NOTE: The executor failing a job run is considered as an ERROR by Airflow.</span>
 <span class="sd">        Despite the log message, this is the efficient way for this case. Potential Airflow-level</span>
-<span class="sd">        task re-tries are applied corectly.</span>
+<span class="sd">        task re-tries are applied correctly.</span>
 
 <span class="sd">        :param key: reference to the task instance in question</span>
 <span class="sd">        :return: either a tuple of: (True/False, additional info) or None if no data could be</span>

@@ -67,7 +67,7 @@ Module Contents
 
    .. py:method:: prepare_job_template(key, command, executor_config = None)
 
-      Adjutst template to suit upcoming job execution
+      Adjust template to suit upcoming job execution
 
       :param key: reference to the task instance in question
       :return: job template as as dictionary
@@ -79,7 +79,7 @@ Module Contents
       Execute the job defined by a potential job template
 
       :param: Job template corresponding to the job
-      :return: No news is good news, or the error that occured on execution attempt
+      :return: No news is good news, or the error that occurred on execution attempt
 
 
 
@@ -95,7 +95,7 @@ Module Contents
 
    .. py:method:: get_task_log(ti, try_number)
 
-      Universal way to retreive logs
+      Universal way to retrieve logs
 
       Retrieving logs so that it's compatible both with FileTaskHandler, and
       leaves space for NomadLogHandler grouping feature.
