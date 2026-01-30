@@ -91,7 +91,7 @@ Airflow provider for the `Hasicorp Nomad <https://developer.hashicorp.com/nomad/
 Package contents
 ------------------
 
-The Noamd Provier package is shipping multiple Airflow components with a different purpose.
+The Nomad Provider package is shipping multiple Airflow components with a different purpose.
 They can be used integrated with each other, or with other Airflow components
 
 Executor

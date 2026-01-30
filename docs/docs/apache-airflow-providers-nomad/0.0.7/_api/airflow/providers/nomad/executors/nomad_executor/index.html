@@ -838,7 +838,7 @@ window.PAGEFIND_PATH = '../../../../../../_pagefind/pagefind.js';
 <dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_executor.NomadExecutor.prepare_job_template">
 <span class="sig-name descname"><span class="pre">prepare_job_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">executor_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_executor.html#NomadExecutor.prepare_job_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.prepare_job_template" title="Link to this definition">¶</a></dt>
-<dd><p>Adjutst template to suit upcoming job execution</p>
+<dd><p>Adjust template to suit upcoming job execution</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> (<em>airflow.models.taskinstancekey.TaskInstanceKey</em>) – reference to the task instance in question</p>
@@ -861,7 +861,7 @@ window.PAGEFIND_PATH = '../../../../../../_pagefind/pagefind.js';
 <dd class="field-odd"><p>Job template corresponding to the job</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>No news is good news, or the error that occured on execution attempt</p>
+<dd class="field-even"><p>No news is good news, or the error that occurred on execution attempt</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a> | None</p>
@@ -890,7 +890,7 @@ or None if no data could be retrieved for the job</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_executor.NomadExecutor.get_task_log">
 <span class="sig-name descname"><span class="pre">get_task_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">try_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_executor.html#NomadExecutor.get_task_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.get_task_log" title="Link to this definition">¶</a></dt>
-<dd><p>Universal way to retreive logs</p>
+<dd><p>Universal way to retrieve logs</p>
 <p>Retrieving logs so that it’s compatible both with FileTaskHandler, and
 leaves space for NomadLogHandler grouping feature.</p>
 <dl class="field-list simple">

@@ -89,7 +89,7 @@ class NomadExecutor(ExecutorInterface):
     def prepare_job_template(
         self, key: TaskInstanceKey, command: list[str], executor_config: dict | None = None
     ) -> dict[str, Any]:
-        """Adjutst template to suit upcoming job execution
+        """Adjust template to suit upcoming job execution
 
         :param key: reference to the task instance in question
         :return: job template as as dictionary
@@ -125,7 +125,7 @@ class NomadExecutor(ExecutorInterface):
         """Execute the job defined by a potential job template
 
         :param: Job template corresponding to the job
-        :return: No news is good news, or the error that occured on execution attempt
+        :return: No news is good news, or the error that occurred on execution attempt
         """
         if not job_template:
             raise NomadProviderException("Job template missing")
@@ -186,7 +186,7 @@ class NomadExecutor(ExecutorInterface):
         return messages, log
 
     def get_task_log(self, ti: TaskInstance, try_number: int) -> tuple[list[str], list[str]]:
-        """Universal way to retreive logs
+        """Universal way to retrieve logs
 
         Retrieving logs so that it's compatible both with FileTaskHandler, and
         leaves space for NomadLogHandler grouping feature.
