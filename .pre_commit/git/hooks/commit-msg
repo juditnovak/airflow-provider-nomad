@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Automatically adds branch name and branch description to every commit message.
+#
+NAME=$(git branch | grep '*' | sed 's/* //')
+DESCRIPTION=$(git config branch."$NAME".description)
+
+MSG=$(cat "$1")
+
+if [[ "$MSG" == "fixup"* ]]
+then
+    echo "fixup!" ${MSG#fixup!} > "$1"
+elif [[ ! "$NAME" =~ "no branch" ]]
+then
+    echo "[$NAME]"': '$(cat "$1") > "$1"
+fi
