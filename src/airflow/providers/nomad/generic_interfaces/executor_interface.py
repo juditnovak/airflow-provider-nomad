@@ -188,7 +188,7 @@ class ExecutorInterface(BaseExecutor):
     def prepare_job_template(
         self, key: TaskInstanceKey, command: list[str], executor_config: dict
     ) -> dict[str, Any]:
-        """Adjutst template to suit upcoming job execution
+        """Adjust template to suit upcoming job execution
 
         :param key: reference to the task instance in question
         :return: job template as as dictionary
@@ -202,7 +202,7 @@ class ExecutorInterface(BaseExecutor):
         """Execute the job defined by a potential job template
 
         :param: Job template corresponding to the job
-        :return: No news is good news, or the error that occured on execution attempt
+        :return: No news is good news, or the error that occurred on execution attempt
         """
         self.log.debug(f"Executing template {job_template}")
         raise NotImplementedError
