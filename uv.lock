@@ -430,7 +430,7 @@ wheels = [
 
 [[package]]
 name = "apache-airflow-providers-nomad"
-version = "0.0.7"
+version = "0.0.8.dev1"
 source = { editable = "." }
 dependencies = [
     { name = "apache-airflow-core" },
@@ -3948,7 +3948,7 @@ dependencies = [
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
 wheels = [
-    { url = "https://github.com/apache/airflow-site/releases/download/0.3.0/sphinx_airflow_theme-0.3.0-py3-none-any.whl", hash = "sha256:f2a0f70dc038d69a7f4eb3bbfae0024758d9937827dc797a5edc34163c0e8347" },
+    { url = "https://github.com/apache/airflow-site/releases/download/0.3.0/sphinx_airflow_theme-0.3.0-py3-none-any.whl", hash = "sha256:b3a679473abce95fb7fac46af64bb53741f063f2771b3cfbeb99949bb2d2ec6b" },
 ]
 
 [package.metadata]
