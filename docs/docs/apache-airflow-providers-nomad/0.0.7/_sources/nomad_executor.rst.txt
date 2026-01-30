@@ -68,7 +68,7 @@ be less convenient to use.
 Usage
 #################
 
-Given the level of complexity, a starightforward setup requires a base level of understanding of the big picture.
+Given the level of complexity, a straightforward setup requires a base level of understanding of the big picture.
 
 
 Nomad volumes
@@ -101,7 +101,7 @@ Airflow executions will require two shared folders on each runner:
 
 
 
-Nomad-side Airflow configuratoin
+Nomad-side Airflow configuration
 *****************************************
 
 .. |nomad_exec_vol_conf| image:: images/nomad-airflow-volumes_airflowcfg.drawio.svg
@@ -248,7 +248,7 @@ Supported parameters are basically the same as for the `NomadTaskOperator` (deco
 Job execution
 #################
 
-The base concept of the job execution is alongside the following worfklow:
+The base concept of the job execution is alongside the following workflow:
 
 
 .. |nomad_exec_job_submission| image:: images/nomad-airflow-all_configs.drawio.svg
