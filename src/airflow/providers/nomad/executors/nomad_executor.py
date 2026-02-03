@@ -44,6 +44,7 @@ from airflow.providers.nomad.templates.job_template import (
 )
 from airflow.providers.nomad.utils import (
     job_id_from_taskinstance_key,
+    job_short_id_from_taskinstance_key,
     job_task_id_from_taskinstance_key,
 )
 
@@ -96,6 +97,7 @@ class NomadExecutor(ExecutorInterface):
         """
         job_id = job_id_from_taskinstance_key(key)
         job_task_id = job_task_id_from_taskinstance_key(key)
+        job_short_id = job_short_id_from_taskinstance_key(key)
 
         valid_config = self.validate_exeucutor_config(executor_config)
         if not (
@@ -114,6 +116,7 @@ class NomadExecutor(ExecutorInterface):
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = command
 
         job_model.Job.TaskGroups[0].Tasks[0].Name = job_task_id
+        job_model.Job.Name += job_short_id
         job_model.Job.ID = job_id
 
         self.log.debug(
@@ -137,6 +140,33 @@ class NomadExecutor(ExecutorInterface):
 
         return self.nomad_mgr.register_job(job_model)
 
+    def is_job_done(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:  # type: ignore[return]
+        """Return job status if the jobs is not running anymore
+
+        :param key: reference to the task instance in question
+        :return: either a tuple of: (task status to set (typically: FAILED), additional info)
+                 or None if no data could be retrieved for the job
+        """
+        from airflow.providers.nomad.models import JobEvalStatus, JobInfoStatus, NomadJobSummary
+
+        job_id = job_id_from_taskinstance_key(key)
+
+        if not (job_status := self.nomad_mgr.get_nomad_job_submission(job_id)):
+            self.log.warning("Couldn't get job status %s", key)
+            return  # type: ignore[return-value]
+
+        if job_status.Status != JobInfoStatus.dead:
+            return  # type: ignore[return-value]
+
+        if (job_eval := self.nomad_mgr.get_nomad_job_evaluations(job_id)) and any(
+            evalu.Status == JobEvalStatus.complete for evalu in job_eval
+        ):
+            return TaskInstanceState.SUCCESS, ""
+        elif job_summary := self.nomad_mgr.get_nomad_job_summary(job_id):
+            if job_summary.all_failed():
+                msg = str(NomadJobSummary.model_dump(job_summary))
+                return TaskInstanceState.FAILED, msg
+
     def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
         """Whether the job failed outside of the Airflow context
 
@@ -144,11 +174,14 @@ class NomadExecutor(ExecutorInterface):
         :return: either a tuple of: (task status to set (typically: FAILED), additional info)
                  or None if no data could be retrieved for the job
         """
+        self.log.info("Removing job if hanging: %s", key)
         job_id = job_id_from_taskinstance_key(key)
+
         if not (outcome := self.nomad_mgr.remove_job_if_hanging(job_id)):
             return None
 
         killed, error_msg = outcome
+        self.log.info("Received: %s, %s", killed, error_msg)
         if killed:
             return TaskInstanceState.FAILED, error_msg
         return None

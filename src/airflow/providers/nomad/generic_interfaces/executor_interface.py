@@ -61,13 +61,16 @@ class ExecutorInterface(BaseExecutor):
         return False
 
     def queue_workload(self, workload: All, session: Session) -> None:
+        self.log.info("Queueing task: '%s'", workload)
         if not self.is_exec_task(workload):
             return
         ti = workload.ti
         self.queued_tasks[ti.key] = workload  # type: ignore
+        self.log.info("Queued task: '%s'", workload)
 
     def _process_workloads(self, workloads: Sequence[workloads.All]) -> None:
         for w in workloads:
+            self.log.info("Processing workload task: '%s'", w)
             if not self.is_exec_task(w) or not w.ti:
                 return
 
@@ -118,30 +121,27 @@ class ExecutorInterface(BaseExecutor):
     def sync(self) -> None:
         """Synchronize task state."""
         self.log.debug("self.running: %s", self.running)
-        self.log.debug("self.queued: %s", self.queued_tasks)
+        self.log.debug("self.queued: %s", list(self.queued_tasks))
 
         for ti_key in list(self.running | set(self.queued_tasks)):
-            if status := self.remove_job_if_hanging(ti_key):
+            if (status := self.is_job_done(ti_key)) or (
+                status := self.remove_job_if_hanging(ti_key)
+            ):
                 state, info = status
                 self.set_state(ti_key, state=state, info=info)
 
         with contextlib.suppress(Empty):
-            while (task := self.task_queue.get_nowait()) and self.slots_available > 0:
+            while self.slots_available > 0 and (task := self.task_queue.get_nowait()):
+                key = None
                 try:
-                    key, command, _ = task
-                except Exception as err:
-                    self.log.exception(
-                        "Failed to run task (task/command could be retrieved: (%s))",
-                        str(err),
-                    )
-                    return
-
-                try:
+                    key, _, _ = task
                     self.run_task(task)
                 except Exception as err:
-                    self.log.exception(
-                        "Failed to run task %s with command %s (%s)", key, command, str(err)
-                    )
+                    self.log.exception("Failed to run task %s (%s)", task, str(err))
+                    if key:
+                        self.set_state(
+                            key, state=TaskInstanceState.FAILED, info="Couldn't run task"
+                        )
                 finally:
                     self.task_queue.task_done()
 
@@ -205,6 +205,16 @@ class ExecutorInterface(BaseExecutor):
         :return: No news is good news, or the error that occurred on execution attempt
         """
         self.log.debug(f"Executing template {job_template}")
+        raise NotImplementedError
+
+    def is_job_done(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
+        """Return job status if the jobs is not running anymore
+
+        :param key: reference to the task instance in question
+        :return: either a tuple of: (task status to set (typically: FAILED), additional info)
+                 or None if no data could be retrieved for the job
+        """
+        self.log.debug(f"Checking if task is done {key}")
         raise NotImplementedError
 
     def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:

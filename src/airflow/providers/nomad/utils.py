@@ -53,6 +53,11 @@ def job_task_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
     return f"{dag_id}-{task_id}"
 
 
+def job_short_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
+    _, _, run_id, try_number, _ = key
+    return f"{run_id}-{try_number}"
+
+
 def validate_nomad_job(data: dict[str, Any]) -> NomadJobModel:
     try:
         return NomadJobModel.model_validate(data)
