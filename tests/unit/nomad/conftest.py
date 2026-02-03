@@ -1,10 +1,13 @@
 import logging
+from datetime import datetime
 import os
 import sys
 from pathlib import Path
 
 import pytest
 from airflow.configuration import conf
+from airflow.models.taskinstance import TaskInstance
+from airflow.utils.types import DagRunType
 
 UNITTEST_ROOT = Path(__file__).resolve().parent
 TEST_CONFIG_PATH = UNITTEST_ROOT / "config"
@@ -16,6 +19,9 @@ sys.path.append(
     os.environ.get("AIRFLOW_SOURCES", os.environ.get("PWD", ".") + "airflow")
     + "/airflow-core/tests"
 )
+
+DATE_VAL = (2016, 1, 1)
+DEFAULT_DATE = datetime(*DATE_VAL)
 
 
 def pytest_configure(config):
@@ -46,3 +52,13 @@ def unittest_root():
 @pytest.fixture
 def test_datadir():
     return TEST_DATA_PATH
+
+
+@pytest.fixture
+def taskinstance(create_task_instance) -> TaskInstance:
+    return create_task_instance(
+        dag_id="dag",
+        task_id="task",
+        run_type=DagRunType.SCHEDULED,
+        logical_date=DEFAULT_DATE,
+    )

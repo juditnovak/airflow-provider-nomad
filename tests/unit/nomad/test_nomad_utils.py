@@ -9,6 +9,9 @@ from airflow.providers.nomad.utils import (
     parse_json_job_template,
     validate_nomad_job,
     validate_nomad_job_json,
+    job_id_from_taskinstance_key,
+    job_task_id_from_taskinstance_key,
+    job_short_id_from_taskinstance_key,
 )
 
 
@@ -66,3 +69,21 @@ def test_dict_to_lines():
         '    "f": 3',
         "}",
     ]
+
+
+def tests_job_short_id_from_taskinstance_key(taskinstance):
+    _, _, run_id, try_number, _ = taskinstance.key
+    assert job_short_id_from_taskinstance_key(taskinstance.key) == f"{run_id}-{try_number}"
+
+
+def tests_job_id_from_taskinstance_key(taskinstance):
+    dag_id, task_id, run_id, try_number, map_index = taskinstance.key
+    assert (
+        job_id_from_taskinstance_key(taskinstance.key)
+        == f"{dag_id}-{task_id}-{run_id}-{try_number}-{map_index}"
+    )
+
+
+def tests_job_task_id_from_taskinstance_key(taskinstance):
+    dag_id, task_id, _, _, _ = taskinstance.key
+    assert job_task_id_from_taskinstance_key(taskinstance.key) == f"{dag_id}-{task_id}"

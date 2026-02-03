@@ -1,16 +1,13 @@
 import copy
 import json
 import logging
-from datetime import datetime
 from queue import Empty
 from time import sleep
 
 import pytest
 from airflow.executors.workloads import ExecuteTask, RunTrigger
-from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.utils.state import State
-from airflow.utils.types import DagRunType
 from nomad.api.exceptions import BaseNomadException
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 from tests_common.test_utils.config import conf_vars
@@ -25,19 +22,6 @@ from airflow.providers.nomad.templates.job_template import (
 from airflow.providers.nomad.models import NomadJobModel
 
 EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
-
-DATE_VAL = (2016, 1, 1)
-DEFAULT_DATE = datetime(*DATE_VAL)
-
-
-@pytest.fixture
-def taskinstance(create_task_instance) -> TaskInstance:
-    return create_task_instance(
-        dag_id="dag",
-        task_id="task",
-        run_type=DagRunType.SCHEDULED,
-        logical_date=DEFAULT_DATE,
-    )
 
 
 @conf_vars({})
