@@ -14,8 +14,8 @@
 
 from datetime import datetime
 from functools import cached_property
-from typing import Any, Callable
 from pathlib import Path
+from typing import Any, Callable
 
 import nomad  # type: ignore[import-untyped]
 from airflow.configuration import conf
@@ -29,23 +29,23 @@ from airflow.providers.nomad.exceptions import NomadProviderException, NomadVali
 from airflow.providers.nomad.models import (
     JobEvalStatus,
     JobInfoStatus,
+    NomadEphemeralDisk,
     NomadJobAllocations,
     NomadJobAllocList,
     NomadJobEvalList,
     NomadJobEvaluation,
+    NomadJobModel,
     NomadJobSubmission,
     NomadJobSummary,
-    NomadEphemeralDisk,
-    NomadJobModel,
-    Resource,
     NomadVolumeMounts,
     NomadVolumes,
+    Resource,
 )
-from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
 from airflow.providers.nomad.templates.job_template import (
     DEFAULT_TASK_TEMPLATE,
     DEFAULT_TASK_TEMPLATE_SDK,
 )
+from airflow.providers.nomad.utils import dict_to_lines, validate_nomad_job, validate_nomad_job_json
 
 RETRY_NUM = conf.getint(CONFIG_SECTION, "job_submission_retry_num", fallback=3)
 RETRY_MIN = conf.getint(CONFIG_SECTION, "job_submission_retry_interval_min", fallback=1)

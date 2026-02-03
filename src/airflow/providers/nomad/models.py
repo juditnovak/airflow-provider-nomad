@@ -12,13 +12,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import logging
 from enum import Enum
 from typing import Any, TypeAlias
-import logging
 
 from pydantic import BaseModel, ConfigDict, TypeAdapter, model_validator
 from typing_extensions import Self
-
 
 logger = logging.getLogger(__name__)
 

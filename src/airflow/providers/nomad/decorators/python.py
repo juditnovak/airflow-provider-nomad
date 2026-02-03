@@ -15,9 +15,9 @@
 
 from __future__ import annotations
 
+import inspect
 import re
 import warnings
-import inspect
 from collections.abc import Collection, Mapping, Sequence
 from typing import Any, Callable, ClassVar
 
@@ -25,9 +25,10 @@ from airflow.sdk import Context
 from airflow.sdk.bases.decorator import DecoratedOperator, TaskDecorator, task_decorator_factory
 from airflow.sdk.definitions._internal.types import SET_DURING_EXECUTION
 from airflow.utils.context import context_merge
-# from airflow.utils.operator_helpers import determine_kwargs
 
 from airflow.providers.nomad.operators.python import NomadPythonTaskOperator
+
+# from airflow.utils.operator_helpers import determine_kwargs
 
 
 class _NomadPythonTaskDecoratedOperator(DecoratedOperator, NomadPythonTaskOperator):

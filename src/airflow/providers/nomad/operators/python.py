@@ -13,9 +13,9 @@
 # under the License.
 
 from collections.abc import Collection
+from copy import deepcopy
 from random import randint
 from typing import Any
-from copy import deepcopy
 
 from airflow.sdk import Context
 from airflow.sdk.types import RuntimeTaskInstanceProtocol
