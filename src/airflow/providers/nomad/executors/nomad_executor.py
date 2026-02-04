@@ -45,7 +45,7 @@ from airflow.providers.nomad.templates.job_template import (
 from airflow.providers.nomad.utils import (
     job_id_from_taskinstance_key,
     job_short_id_from_taskinstance_key,
-    job_task_id_from_taskinstance_key,
+    task_name_from_taskinstance_key,
 )
 
 logger = logging.getLogger(__name__)
@@ -96,8 +96,8 @@ class NomadExecutor(ExecutorInterface):
         :return: job template as as dictionary
         """
         job_id = job_id_from_taskinstance_key(key)
-        job_task_id = job_task_id_from_taskinstance_key(key)
         job_short_id = job_short_id_from_taskinstance_key(key)
+        task_name = task_name_from_taskinstance_key(key)
 
         valid_config = self.validate_exeucutor_config(executor_config)
         if not (
@@ -108,15 +108,14 @@ class NomadExecutor(ExecutorInterface):
             raise NomadProviderException("Couldn't retrieve job template")
 
         if job_model.Job.Name == DEFAULT_JOB_NAME:
-            job_model.Job.Name = f"airflow-run-{job_task_id}-{key[3]}"
+            job_model.Job.Name += f"-{job_short_id}"
 
         if job_model.Job.TaskGroups[0].Tasks[0].Config.entrypoint != SDK_ENTRYPOINT:
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = SDK_ENTRYPOINT + command
         else:
             job_model.Job.TaskGroups[0].Tasks[0].Config.args = command
 
-        job_model.Job.TaskGroups[0].Tasks[0].Name = job_task_id
-        job_model.Job.Name += job_short_id
+        job_model.Job.TaskGroups[0].Tasks[0].Name = task_name
         job_model.Job.ID = job_id
 
         self.log.debug(
@@ -158,14 +157,15 @@ class NomadExecutor(ExecutorInterface):
         if job_status.Status != JobInfoStatus.dead:
             return  # type: ignore[return-value]
 
+        if job_summary := self.nomad_mgr.get_nomad_job_summary(job_id):
+            if job_summary.all_failed():
+                msg = str(NomadJobSummary.model_dump(job_summary))
+                return TaskInstanceState.FAILED, msg
+
         if (job_eval := self.nomad_mgr.get_nomad_job_evaluations(job_id)) and any(
             evalu.Status == JobEvalStatus.complete for evalu in job_eval
         ):
             return TaskInstanceState.SUCCESS, ""
-        elif job_summary := self.nomad_mgr.get_nomad_job_summary(job_id):
-            if job_summary.all_failed():
-                msg = str(NomadJobSummary.model_dump(job_summary))
-                return TaskInstanceState.FAILED, msg
 
     def remove_job_if_hanging(self, key: TaskInstanceKey) -> tuple[TaskInstanceState, str] | None:
         """Whether the job failed outside of the Airflow context

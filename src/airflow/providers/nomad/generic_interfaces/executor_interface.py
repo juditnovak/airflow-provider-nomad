@@ -22,20 +22,25 @@ import argparse
 import contextlib
 import multiprocessing
 from collections.abc import Sequence
+from datetime import datetime, timedelta
 from queue import Empty, Queue
 from typing import Any
 
+import pytz  # type: ignore[import-untyped]
+from airflow.configuration import conf
 from airflow.executors import workloads
 from airflow.executors.base_executor import BaseExecutor
 from airflow.executors.workloads import All, ExecuteTask
 from airflow.models.taskinstance import TaskInstance
 from airflow.models.taskinstancekey import TaskInstanceKey
 from airflow.providers.standard.version_compat import AIRFLOW_V_3_0_PLUS
-from airflow.utils.state import TaskInstanceState
+from airflow.utils.state import TaskInstanceState, TerminalTIState
 from sqlalchemy.orm import Session  # type: ignore[import-untyped]
 
 # TaskInstanceKey, Workload in a list, ExecutorConfig
 Job = tuple[TaskInstanceKey, list[Any], Any]
+
+RESPONSE_DELAY = 60
 
 
 class ExecutorInterface(BaseExecutor):
@@ -51,6 +56,9 @@ class ExecutorInterface(BaseExecutor):
         self._manager = multiprocessing.Manager()
         self.task_queue: Queue[Job] = self._manager.Queue()
         self.parallelism = parallelism
+        self.task_hb_timeout = conf.getint(
+            "scheduler", "task_instance_heartbeat_timeout", fallback=60
+        )
         super().__init__(parallelism=self.parallelism)
 
     def is_exec_task(self, cmd: Any) -> bool:
@@ -119,17 +127,55 @@ class ExecutorInterface(BaseExecutor):
             self.change_state(key, state, remove_running=True, info=info)  # type: ignore[reportArgumentType]
 
     def sync(self) -> None:
-        """Synchronize task state."""
-        self.log.debug("self.running: %s", self.running)
-        self.log.debug("self.queued: %s", list(self.queued_tasks))
+        """Synchronize task state.
+
+        IMPORTANT: We must avoid at all cost that an exception may be raised, as
+        it results in the complete termination of the Executor
+        """
+        self.log.info("self.running: %s", self.running)
+        self.log.info("self.queued: %s", list(self.queued_tasks))
 
         for ti_key in list(self.running | set(self.queued_tasks)):
-            if (status := self.is_job_done(ti_key)) or (
-                status := self.remove_job_if_hanging(ti_key)
-            ):
-                state, info = status
-                self.set_state(ti_key, state=state, info=info)
+            # Remove finished tasks from the run queue
+            # NOTE: Since tasks are changing state based on reporting results to the API,
+            # the executor is not aware
+            dag_id, task_id, run_id, _, map_index = ti_key
 
+            if ti := TaskInstance.get_task_instance(dag_id, run_id, task_id, map_index):
+                if ti.state in TerminalTIState:
+                    try:
+                        self.running.remove(ti_key)
+                    except KeyError:
+                        pass
+                    self.queued_tasks.pop(ti_key, None)
+            else:
+                self.log.error("Task instance %s can't be found", ti_key)
+
+            # Security measure: If the job is stale, we check if it may be finished/hanging
+            # Options:
+            # 1) The job may have finished, but couldn't report to the API for some reason
+            # 2) The job got hanging
+            now = datetime.now(pytz.timezone("UTC"))
+            if not ti or ti_key in self.running:
+                try:
+                    # Skip jobs that may still report a valid status with delay
+                    if (
+                        ti
+                        and ti.last_heartbeat_at
+                        and ti.last_heartbeat_at
+                        > now - timedelta(seconds=(3 * self.task_hb_timeout))
+                    ):
+                        continue
+                except Exception:
+                    pass
+
+                if (status := self.is_job_done(ti_key)) or (
+                    status := self.remove_job_if_hanging(ti_key)
+                ):
+                    state, info = status
+                    self.set_state(ti_key, state=state, info=info)
+
+        # Run jobs from the task_queue
         with contextlib.suppress(Empty):
             while self.slots_available > 0 and (task := self.task_queue.get_nowait()):
                 key = None
