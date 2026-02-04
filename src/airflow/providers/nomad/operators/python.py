@@ -13,9 +13,9 @@
 # under the License.
 
 from collections.abc import Collection
+from copy import deepcopy
 from random import randint
 from typing import Any
-from copy import deepcopy
 
 from airflow.sdk import Context
 from airflow.sdk.types import RuntimeTaskInstanceProtocol
@@ -23,7 +23,7 @@ from airflow.sdk.types import RuntimeTaskInstanceProtocol
 from airflow.providers.nomad.exceptions import NomadTaskOperatorError
 from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
 from airflow.providers.nomad.templates.job_template import DEFAULT_TASK_TEMPLATE_PYTHON
-from airflow.providers.nomad.utils import job_id_from_taskinstance
+from airflow.providers.nomad.utils import job_id_from_taskinstance, job_short_id_from_taskinstance
 
 
 class NomadPythonTaskOperator(NomadOperator):
@@ -76,12 +76,12 @@ class NomadPythonTaskOperator(NomadOperator):
         self.python_command = python_command
         super().__init__(observe=True, **kwargs)
 
-    def job_id(self, ti: RuntimeTaskInstanceProtocol):
+    def generate_job_id(self, ti: RuntimeTaskInstanceProtocol):
         id_base = job_id_from_taskinstance(ti)
         rnd = randint(0, 10000)
         while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}"):
             rnd = randint(0, 10000)
-        return f"{id_base}-{rnd}"
+        return f"{id_base}-{rnd}", rnd
 
     def param_defined(self, param: str, context: Context) -> Any | None:
         if value := getattr(self, param, None):
@@ -129,5 +129,7 @@ class NomadPythonTaskOperator(NomadOperator):
         else:
             template.Job.TaskGroups[0].Tasks[0].Config.args = [self.python_command]
 
-        template.Job.ID = self.job_id(ti)
+        job_id, rnd = self.generate_job_id(ti)
+        template.Job.ID = job_id
+        template.Job.Name += f"-{job_short_id_from_taskinstance(ti)}-{rnd}"
         self.template = template

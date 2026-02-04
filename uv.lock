@@ -439,6 +439,7 @@ dependencies = [
     { name = "jq" },
     { name = "pydantic" },
     { name = "python-nomad" },
+    { name = "pytz" },
     { name = "requests" },
     { name = "tenacity" },
 ]
@@ -446,6 +447,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "apache-airflow-devel-common" },
+    { name = "freezegun" },
     { name = "isort" },
     { name = "netifaces" },
     { name = "pre-commit" },
@@ -468,6 +470,7 @@ requires-dist = [
     { name = "jq", specifier = ">=1.10.0" },
     { name = "pydantic", specifier = ">=2.12" },
     { name = "python-nomad", specifier = ">=2.1.0" },
+    { name = "pytz", specifier = ">=2025.2" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "tenacity", specifier = ">=9.1.2" },
 ]
@@ -476,6 +479,7 @@ provides-extras = ["prelease"]
 [package.metadata.requires-dev]
 dev = [
     { name = "apache-airflow-devel-common", git = "https://github.com/apache/airflow.git?subdirectory=devel-common&tag=3.1.6" },
+    { name = "freezegun", specifier = ">=1.5.5" },
     { name = "isort", specifier = ">=6.0.1" },
     { name = "netifaces", specifier = ">=0.11.0" },
     { name = "pre-commit", specifier = ">=4.3.0" },
@@ -1228,6 +1232,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/dc/6d/cfe3c0fcc5e477df242b98bfe186a4c34357b4847e87ecaef04507332dab/flask-3.1.2.tar.gz", hash = "sha256:bf656c15c80190ed628ad08cdfd3aaa35beb087855e2f494910aa3774cc4fd87", size = 720160, upload-time = "2025-08-19T21:03:21.205Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/f9/7f9263c5695f4bd0023734af91bedb2ff8209e8de6ead162f35d8dc762fd/flask-3.1.2-py3-none-any.whl", hash = "sha256:ca1d8112ec8a6158cc29ea4858963350011b5c846a414cdb7a954aa9e967d03c", size = 103308, upload-time = "2025-08-19T21:03:19.499Z" },
+]
+
+[[package]]
+name = "freezegun"
+version = "1.5.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/95/dd/23e2f4e357f8fd3bdff613c1fe4466d21bfb00a6177f238079b17f7b1c84/freezegun-1.5.5.tar.gz", hash = "sha256:ac7742a6cc6c25a2c35e9292dfd554b897b517d2dec26891a2e8debf205cb94a", size = 35914, upload-time = "2025-08-09T10:39:08.338Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/2e/b41d8a1a917d6581fc27a35d05561037b048e47df50f27f8ac9c7e27a710/freezegun-1.5.5-py3-none-any.whl", hash = "sha256:cd557f4a75cf074e84bc374249b9dd491eaeacd61376b9eb3c423282211619d2", size = 19266, upload-time = "2025-08-09T10:39:06.636Z" },
 ]
 
 [[package]]
@@ -3948,7 +3964,7 @@ dependencies = [
     { name = "sphinx", version = "8.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
 wheels = [
-    { url = "https://github.com/apache/airflow-site/releases/download/0.3.0/sphinx_airflow_theme-0.3.0-py3-none-any.whl", hash = "sha256:b3a679473abce95fb7fac46af64bb53741f063f2771b3cfbeb99949bb2d2ec6b" },
+    { url = "https://github.com/apache/airflow-site/releases/download/0.3.0/sphinx_airflow_theme-0.3.0-py3-none-any.whl", hash = "sha256:e72ed3752433489acc52a81ea419e51814148fb62be0e4525941339903411f9f" },
 ]
 
 [package.metadata]

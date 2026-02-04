@@ -29,7 +29,7 @@ PYTHON_ENTRYPOINT = ["python", "-c"]
 
 BASH_ENTRYPOINT = ["/bin/bash", "-c"]
 
-DEFAULT_JOB_NAME = "ariflow_run"
+DEFAULT_JOB_NAME = "airflow_run"
 
 DEFAULT_TASK_TEMPLATE: dict[str, Any] = {
     "Job": {

@@ -13,9 +13,6 @@
 # under the License.
 
 from .job import NomadJobOperator as NomadJobOperator
-from .task import (
-    NomadTaskOperator as NomadTaskOperator,
-    NomadTaskOperatorError as NomadTaskOperatorError,
-)
-
 from .python import NomadPythonTaskOperator as NomadPythonTaskOperator
+from .task import NomadTaskOperator as NomadTaskOperator
+from .task import NomadTaskOperatorError as NomadTaskOperatorError
