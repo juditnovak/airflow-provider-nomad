@@ -29,6 +29,10 @@ from airflow.providers.nomad.models import NomadJobModel
 logger = logging.getLogger(__name__)
 
 
+def run_id_short(run_id: str) -> str:
+    return run_id.split(".")[0]
+
+
 def job_id(dag_id: str, task_id: str, run_id: str, try_number: int, map_index: int):
     return f"{dag_id}-{task_id}-{run_id}-{try_number}-{map_index}"
 
@@ -48,14 +52,23 @@ def job_id_from_taskinstance(ti: TaskInstance | RuntimeTaskInstanceProtocol) -> 
     )
 
 
-def job_task_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
-    dag_id, task_id, _, _, _ = key
-    return f"{dag_id}-{task_id}"
+def job_short_id_from_taskinstance(ti: TaskInstance | RuntimeTaskInstanceProtocol) -> str:
+    return "{}-{}-{}-{}".format(
+        str(ti.dag_id) if ti.dag_id else "",
+        str(ti.task_id) if ti.task_id else "",
+        str(run_id_short(str(ti.run_id))) if ti.run_id else "",
+        str(ti.try_number),
+    )
 
 
 def job_short_id_from_taskinstance_key(key: TaskInstanceKey) -> str:
-    _, _, run_id, try_number, _ = key
-    return f"{run_id}-{try_number}"
+    dag_id, task_id, run_id, try_number, _ = key
+    return f"{dag_id}-{task_id}-{run_id_short(run_id)}-{try_number}"
+
+
+def task_name_from_taskinstance_key(key: TaskInstanceKey) -> str:
+    dag_id, task_id, _, _, _ = key
+    return f"{dag_id}-{task_id}"
 
 
 def validate_nomad_job(data: dict[str, Any]) -> NomadJobModel:
