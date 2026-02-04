@@ -53,6 +53,7 @@ def test_nomad_task_operator_execute_ok(filename, test_datadir, mock_nomad_clien
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["Name"] = op.template.Job.Name  # type: ignore [reportOptionalMemberAccess]
     mock_job_register.assert_called_once_with(job_id, template)
     assert retval == str({"Summary": 30})
 
@@ -92,6 +93,7 @@ def test_nomad_task_operator_execute_ok_with_task_logs(
         job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
         template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
         template["Job"]["ID"] = job_id
+        template["Job"]["Name"] = op.template.Job.Name  # type: ignore [reportOptionalMemberAccess]
         mock_job_register.assert_called_once_with(job_id, template)
         assert retval == str({"Summary": 30})
         assert any([job_log in record.message for record in caplog.records])
@@ -171,6 +173,7 @@ def test_nomad_task_operator_execute_job_submission_fails(
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["Name"] = op.template.Job.Name  # type: ignore [reportOptionalMemberAccess]
     mock_job_register.assert_called_once_with(job_id, template)
     assert str(err.value).startswith("Job submission failed")
 
@@ -203,6 +206,7 @@ def test_nomad_task_operator_execute_failed(filename, test_datadir, mock_nomad_c
     job_id = op.template.Job.ID  # type: ignore [reportOptionalMemberAccess]
     template = NomadJobModel.model_validate_json(content).model_dump(exclude_unset=True)
     template["Job"]["ID"] = job_id
+    template["Job"]["Name"] = op.template.Job.Name  # type: ignore [reportOptionalMemberAccess]
     mock_job_register.assert_called_once_with(job_id, template)
     # assert str(err.value).startswith(f"Job summary:Job {job_id} got killed due to error")
     assert "Error response from daemon: pull access denied for novakjudi/af_nomad_test" in str(

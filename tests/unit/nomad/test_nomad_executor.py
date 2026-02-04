@@ -1,7 +1,10 @@
 import copy
+import pytz  # type: ignore[import-untyped]
 import json
 import logging
+from datetime import datetime, timedelta
 from queue import Empty
+from freezegun import freeze_time
 from time import sleep
 
 import pytest
@@ -20,6 +23,10 @@ from airflow.providers.nomad.templates.job_template import (
     SDK_ENTRYPOINT,
 )
 from airflow.providers.nomad.models import NomadJobModel
+from airflow.providers.nomad.utils import (
+    job_id_from_taskinstance_key,
+    job_short_id_from_taskinstance_key,
+)
 
 EXECUTOR = "airflow.providers.nomad.executors.nomad_executor.NomadExecutor"
 
@@ -176,8 +183,6 @@ def test_run_task_bad_job(caplog):
 
 
 def test_sync_ok(mock_nomad_client, taskinstance):
-    """ """
-
     nomad_executor = NomadExecutor()
     nomad_executor.start()
     task = ExecuteTask.make(taskinstance)
@@ -223,15 +228,12 @@ def test_sync_exception1(mock_nomad_client, caplog):
         with caplog.at_level(logging.ERROR):
             # Ugly hack to simulate a bad task in the task queue
             nomad_executor.task_queue.put(("bad", "tuple"))  # type: ignore [reportArgumentType]
-            nomad_executor.task_queue.task_done()
 
             nomad_executor.sync()
 
         # No job was registered
         assert mock_nomad_client.job.register_job.call_count == 0
-        assert (
-            "Failed to run task (task/command could be retrieved: (not enough values to unpack (expected 3, got 2)))"
-        ) in caplog.text
+        assert "Failed to run task ('bad', 'tuple')" in caplog.text
     finally:
         nomad_executor.end()
 
@@ -251,6 +253,168 @@ def test_sync_exception2(mock_nomad_client, taskinstance, caplog):
         assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
     finally:
         nomad_executor.end()
+
+
+def test_sync_remove_finished(taskinstance):
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    try:
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.SUCCESS
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.FAILED
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.SKIPPED
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.UPSTREAM_FAILED
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.REMOVED
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+    finally:
+        nomad_executor.end()
+
+
+def test_sync_remove_stale_success1(taskinstance, test_datadir, mock_nomad_client):
+    # Initial execution failed...
+    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    # ...yet now there is a retry/re-allocation runnint
+    file_path2 = test_datadir / "nomad_job_summary_success.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_summary.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file3.read())
+
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    try:
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.RUNNING
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.SUCCESS
+
+    finally:
+        nomad_executor.end()
+
+
+def test_sync_remove_stale_success2(taskinstance, test_datadir, mock_nomad_client):
+    # Initial execution failed...
+    file_path1 = test_datadir / "nomad_job_evaluation.json"
+    # ...yet now there is a retry/re-allocation runnint
+    file_path2 = test_datadir / "nomad_job_summary_success.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_summary.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file3.read())
+
+    start = datetime.now(pytz.timezone("UTC"))
+    with conf_vars({("scheduler", "task_instance_heartbeat_timeout"): "1"}):
+        with freeze_time(start) as frozen_time:
+            nomad_executor = NomadExecutor()
+            nomad_executor.start()
+            try:
+                nomad_executor.running.add(taskinstance.key)
+                taskinstance.last_heartbeat_at = start
+                taskinstance.state = State.RUNNING
+
+                frozen_time.move_to(start + timedelta(seconds=5))
+
+                nomad_executor.sync()
+                assert len(nomad_executor.running) == 0
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.SUCCESS
+
+            finally:
+                nomad_executor.end()
+
+
+def test_sync_remove_stale_fail1(taskinstance, test_datadir, mock_nomad_client):
+    # Initial execution failed...
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
+    # ...yet now there is a retry/re-allocation runnint
+    file_path2 = test_datadir / "nomad_job_summary_failed.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_summary.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file3.read())
+
+    nomad_executor = NomadExecutor()
+    nomad_executor.start()
+    try:
+        nomad_executor.running.add(taskinstance.key)
+        taskinstance.state = State.RUNNING
+        nomad_executor.sync()
+        assert len(nomad_executor.running) == 0
+        assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
+
+    finally:
+        nomad_executor.end()
+
+
+def test_sync_remove_stale_fail2(taskinstance, test_datadir, mock_nomad_client):
+    # Initial execution failed...
+    file_path1 = test_datadir / "nomad_job_evaluation_failed.json"
+    # ...yet now there is a retry/re-allocation runnint
+    file_path2 = test_datadir / "nomad_job_summary_failed.json"
+    file_path3 = test_datadir / "nomad_job_info_dead.json"
+    with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
+        mock_nomad_client.job.get_evaluations.return_value = json.loads(file1.read())
+        mock_nomad_client.job.get_summary.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_job.return_value = json.loads(file3.read())
+
+    start = datetime.now(pytz.timezone("UTC"))
+    with conf_vars({("scheduler", "task_instance_heartbeat_timeout"): "1"}):
+        with freeze_time(start) as frozen_time:
+            nomad_executor = NomadExecutor()
+            nomad_executor.start()
+            try:
+                nomad_executor.running.add(taskinstance.key)
+                taskinstance.last_heartbeat_at = start
+                taskinstance.state = State.RUNNING
+
+                frozen_time.move_to(start + timedelta(seconds=5))
+
+                nomad_executor.sync()
+                assert len(nomad_executor.running) == 0
+                assert nomad_executor.event_buffer[taskinstance.key][0] == State.FAILED
+
+            finally:
+                nomad_executor.end()
+
+
+def test_sync_stale_shortly_nothing_happens(taskinstance):
+    start = datetime.now(pytz.timezone("UTC"))
+    with conf_vars({("scheduler", "task_instance_heartbeat_timeout"): "1"}):
+        with freeze_time(start) as frozen_time:
+            nomad_executor = NomadExecutor()
+            nomad_executor.start()
+            try:
+                nomad_executor.running.add(taskinstance.key)
+                taskinstance.last_heartbeat_at = start
+
+                frozen_time.move_to(start + timedelta(seconds=1))
+
+                nomad_executor.sync()
+                assert len(nomad_executor.running) == 1
+                assert taskinstance.key not in nomad_executor.event_buffer
+
+            finally:
+                nomad_executor.end()
 
 
 def test_sync_nomad_allocation_ok(mock_nomad_client, taskinstance, test_datadir):
@@ -350,7 +514,7 @@ def test_sync_nomad_job_submission_fails(mock_nomad_client, caplog, taskinstance
     file_path3 = test_datadir / "nomad_job_info_dead.json"
     with open(file_path1) as file1, open(file_path2) as file2, open(file_path3) as file3:
         mock_nomad_client.job.get_allocations.return_value = json.loads(file1.read())
-        mock_nomad_client.job.get_summary.return_value = json.loads(file2.read())
+        mock_nomad_client.job.get_summary.side_effect = [None, json.loads(file2.read())]
         mock_nomad_client.job.get_job.return_value = json.loads(file3.read())
 
     with caplog.at_level(logging.INFO):
@@ -471,6 +635,14 @@ def test_prepare_job_template_wrong_setting_default_used(caplog):
                 == DEFAULT_TASK_TEMPLATE["Job"]["TaskGroups"][0]["Tasks"][0]["Env"]
             )
             assert "Can't load or parse default job template" in caplog.text
+
+            assert result_dict["Job"]["ID"] == job_id_from_taskinstance_key(task_key)
+
+            job_short_id = job_short_id_from_taskinstance_key(task_key)
+            assert (
+                result_dict["Job"]["Name"]
+                == DEFAULT_TASK_TEMPLATE["Job"]["Name"] + f"-{job_short_id}"
+            )
         finally:
             nomad_executor.end()
 
