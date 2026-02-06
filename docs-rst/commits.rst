@@ -26,6 +26,21 @@ For high-level changelog, see :doc:`package information including changelog <ind
 .. airflow-providers-commits::
 
 
+0.0.8.dev1
+...........
+
+Latest change: 2026-6-24
+
+=================================================================================================================== ========== ==============================================
+Commit                                                                                                              Committed  Subject
+=================================================================================================================== ========== ==============================================
+`c182073f <https://github.com/juditnovak/airflow-provider-nomad/commit/c182073f0a3faf05fb9229a0eed1ddc17ca4b00f>`__ 2026-02-06 ``[REFACTOR] NomadPythonTaskOperator operator is inheriting from NomadTaskOperator (#93)``
+`8b2ac30d <https://github.com/juditnovak/airflow-provider-nomad/commit/8b2ac30d5cb84dcb035c1d9c78e3e598cb8e3b68>`__ 2026-02-04 ``[BUGFIX] #87 Runqueue not cleaned up (#92)``
+`b33643ee <https://github.com/juditnovak/airflow-provider-nomad/commit/b33643ee2b232eecd7b7a333fb979d41313b2a09>`__ 2026-01-30 ``[VERSION] 0.0.8.dev1 (#90)``
+`e533bdc7 <https://github.com/juditnovak/airflow-provider-nomad/commit/e533bdc7b2638aa1ded3ea640c866fd44181abeb>`__ 2026-01-30 ``[DOCS ]Docs fixes 0.0.7 (attempt 2) (#89)``
+`92d297b9 <https://github.com/juditnovak/airflow-provider-nomad/commit/92d297b9997f5a591d0e39e7c869c9a0230ad55c>`__ 2026-01-24 ``VERSION] 0.0.7.dev2 -> 0.0.7 (#85)``
+=================================================================================================================== ========== ==============================================
+
 
 0.0.7
 ...........

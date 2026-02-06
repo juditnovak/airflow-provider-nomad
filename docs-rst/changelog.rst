@@ -1,3 +1,17 @@
+0.0.8.dev1
+.................
+## What's Changed
+* [DOCS] Docs fixes 0.0.7 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/88
+* [DOCS ]Docs fixes 0.0.7 (attempt 2) by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/89
+* [VERSION] 0.0.8.dev1 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/90
+* [CI] Timeout increase on 'main' as new  Integration Tests were added by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/91
+* [BUGFIX] #87 Runqueue not cleaned up by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/92
+* [REFACTOR] NomadPythonTaskOperator operator is inheriting from NomadTaskOperator by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/93
+
+
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.7...0.0.8.dev1
+
+
 0.0.7
 .................
 * [VERSION ] 0.0.7.dev2 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/82
