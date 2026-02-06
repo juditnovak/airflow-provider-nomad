@@ -42,6 +42,7 @@ class NomadTaskOperator(NomadOperator):
         "volumes",
         "volume_mounts",
     ]
+    default_template = DEFAULT_TASK_TEMPLATE_BASH
 
     def __init__(
         self,
@@ -112,9 +113,7 @@ class NomadTaskOperator(NomadOperator):
         updated_context.update(self_attrs)
 
         if not (
-            template := self.nomad_mgr.prepare_job_template(
-                updated_context, DEFAULT_TASK_TEMPLATE_BASH
-            )
+            template := self.nomad_mgr.prepare_job_template(updated_context, self.default_template)
         ):
             raise NomadTaskOperatorError(f"No template for task with context {context}")
 

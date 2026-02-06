@@ -13,123 +13,33 @@
 # under the License.
 
 from collections.abc import Collection
-from copy import deepcopy
-from random import randint
-from typing import Any
 
 from airflow.sdk import Context
-from airflow.sdk.types import RuntimeTaskInstanceProtocol
 
-from airflow.providers.nomad.exceptions import NomadTaskOperatorError
-from airflow.providers.nomad.generic_interfaces.nomad_operator_interface import NomadOperator
+from airflow.providers.nomad.operators.task import NomadTaskOperator
 from airflow.providers.nomad.templates.job_template import DEFAULT_TASK_TEMPLATE_PYTHON
-from airflow.providers.nomad.utils import job_id_from_taskinstance, job_short_id_from_taskinstance
 
 
-class NomadPythonTaskOperator(NomadOperator):
+class NomadPythonTaskOperator(NomadTaskOperator):
     """Nomad Operator allowing for lightweight job submission"""
 
-    template_fields: Collection[str] = [
-        "template_path",
-        "template_content",
-        "env",
-        "image",
-        "entrypoint",
-        "args",
-        "command",
-        "task_resources",
-        "ephemeral_disk",
-        "volumes",
-        "volume_mounts",
-        "python_command",
-    ]
+    template_fields: Collection[str] = list(NomadTaskOperator.template_fields) + ["python_command"]
+    default_template = DEFAULT_TASK_TEMPLATE_PYTHON
 
     def __init__(
         self,
         python_command: str,
-        template_path: str | None = None,
-        template_content: str | None = None,
-        env: dict[str, str] | None = None,
-        image: str | None = None,
-        entrypoint: list[str] | None = None,
-        args: list[str] | None = None,
-        command: str | None = None,
-        task_resources: dict[str, Any] | None = None,
-        ephemeral_disk: dict[str, str] | None = None,
-        volumes: dict[str, dict[str, int | bool | str]] | None = None,
-        volume_mounts: list[dict[str, int | bool | str]] | None = None,
         **kwargs,
     ):
-        if template_path and template_content:
-            raise ValueError("Only one of 'template_content' and 'template_path' can be specified")
-        self.template_content = template_content
-        self.template_path = template_path
-        self.image = image
-        self.entrypoint = entrypoint
-        self.args = args
-        self.command = command
-        self.env = env
-        self.task_resources = task_resources
-        self.ephemeral_disk = ephemeral_disk
-        self.volumes = volumes
-        self.volume_mounts = volume_mounts
+        super().__init__(**kwargs)
         self.python_command = python_command
-        super().__init__(observe=True, **kwargs)
-
-    def generate_job_id(self, ti: RuntimeTaskInstanceProtocol):
-        id_base = job_id_from_taskinstance(ti)
-        rnd = randint(0, 10000)
-        while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}"):
-            rnd = randint(0, 10000)
-        return f"{id_base}-{rnd}", rnd
-
-    def param_defined(self, param: str, context: Context) -> Any | None:
-        if value := getattr(self, param, None):
-            return value
-        return context.get("params", {}).get(param)
-
-    @property
-    def tpl_attrs_dict(self):
-        attrs = [
-            "template_path",
-            "template_content",
-            "image",
-            "entrypoint",
-            "args",
-            "command",
-            "env",
-            "task_resources",
-            "volumes",
-            "volume_mounts",
-            "ephemeral_disk",
-        ]
-        return {attr: getattr(self, attr) for attr in attrs}
 
     def prepare_job_template(self, context: Context):
-        updated_context = deepcopy(context.get("params", {}))
-        self_attrs = {
-            attr: self.tpl_attrs_dict[attr]
-            for attr in self.tpl_attrs_dict
-            if self.tpl_attrs_dict[attr] is not None
-        }
-        updated_context.update(self_attrs)
+        super().prepare_job_template(context)
+        if not self.template:
+            return
 
-        if not (
-            template := self.nomad_mgr.prepare_job_template(
-                updated_context, DEFAULT_TASK_TEMPLATE_PYTHON
-            )
-        ):
-            raise NomadTaskOperatorError(f"No template for task with context {context}")
-
-        if not (ti := context.get("ti")):
-            raise NomadTaskOperatorError(f"No task instance found in context {context}")
-
-        if template.Job.TaskGroups[0].Tasks[0].Config.args:
-            template.Job.TaskGroups[0].Tasks[0].Config.args.append(self.python_command)
+        if self.template.Job.TaskGroups[0].Tasks[0].Config.args:
+            self.template.Job.TaskGroups[0].Tasks[0].Config.args.append(self.python_command)
         else:
-            template.Job.TaskGroups[0].Tasks[0].Config.args = [self.python_command]
-
-        job_id, rnd = self.generate_job_id(ti)
-        template.Job.ID = job_id
-        template.Job.Name += f"-{job_short_id_from_taskinstance(ti)}-{rnd}"
-        self.template = template
+            self.template.Job.TaskGroups[0].Tasks[0].Config.args = [self.python_command]
