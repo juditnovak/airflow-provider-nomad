@@ -1,0 +1,22 @@
+tests.system.nomad.test_nomad_job_operator
+==========================================
+
+.. py:module:: tests.system.nomad.test_nomad_job_operator
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   tests.system.nomad.test_nomad_job_operator.test_nomad_job_operator_execute
+   tests.system.nomad.test_nomad_job_operator.test_nomad_job_operator_execute_fails
+
+
+Module Contents
+---------------
+
+.. py:function:: test_nomad_job_operator_execute()
+
+.. py:function:: test_nomad_job_operator_execute_fails()
+

@@ -781,28 +781,37 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id" title="airflow.providers.nomad.utils.job_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id</span></code></a>(dag_id, task_id, run_id, try_number, map_index)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.run_id_short" title="airflow.providers.nomad.utils.run_id_short"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_id_short</span></code></a>(run_id)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance_key" title="airflow.providers.nomad.utils.job_id_from_taskinstance_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id_from_taskinstance_key</span></code></a>(key)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id" title="airflow.providers.nomad.utils.job_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id</span></code></a>(dag_id, task_id, run_id, try_number, map_index)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance" title="airflow.providers.nomad.utils.job_id_from_taskinstance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id_from_taskinstance</span></code></a>(ti)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance_key" title="airflow.providers.nomad.utils.job_id_from_taskinstance_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id_from_taskinstance_key</span></code></a>(key)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_task_id_from_taskinstance_key" title="airflow.providers.nomad.utils.job_task_id_from_taskinstance_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_task_id_from_taskinstance_key</span></code></a>(key)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance" title="airflow.providers.nomad.utils.job_id_from_taskinstance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id_from_taskinstance</span></code></a>(ti)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job" title="airflow.providers.nomad.utils.validate_nomad_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_nomad_job</span></code></a>(data)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance" title="airflow.providers.nomad.utils.job_short_id_from_taskinstance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_short_id_from_taskinstance</span></code></a>(ti)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job_json" title="airflow.providers.nomad.utils.validate_nomad_job_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_nomad_job_json</span></code></a>(json_str)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance_key" title="airflow.providers.nomad.utils.job_short_id_from_taskinstance_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_short_id_from_taskinstance_key</span></code></a>(key)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.parse_json_job_template" title="airflow.providers.nomad.utils.parse_json_job_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_json_job_template</span></code></a>(path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.task_name_from_taskinstance_key" title="airflow.providers.nomad.utils.task_name_from_taskinstance_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">task_name_from_taskinstance_key</span></code></a>(key)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job" title="airflow.providers.nomad.utils.validate_nomad_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_nomad_job</span></code></a>(data)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job_json" title="airflow.providers.nomad.utils.validate_nomad_job_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_nomad_job_json</span></code></a>(json_str)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.parse_json_job_template" title="airflow.providers.nomad.utils.parse_json_job_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_json_job_template</span></code></a>(path)</p></td>
 <td><p>try to parse a json or hcl input as a nomad job template</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.dict_to_lines" title="airflow.providers.nomad.utils.dict_to_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict_to_lines</span></code></a>(d)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#airflow.providers.nomad.utils.dict_to_lines" title="airflow.providers.nomad.utils.dict_to_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict_to_lines</span></code></a>(d)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -814,6 +823,13 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <dt class="sig sig-object py" id="airflow.providers.nomad.utils.logger">
 <span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.logger" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="airflow.providers.nomad.utils.run_id_short">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">run_id_short</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#run_id_short"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.run_id_short" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="airflow.providers.nomad.utils.job_id">
@@ -837,8 +853,22 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="airflow.providers.nomad.utils.job_task_id_from_taskinstance_key">
-<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">job_task_id_from_taskinstance_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#job_task_id_from_taskinstance_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.job_task_id_from_taskinstance_key" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="airflow.providers.nomad.utils.job_short_id_from_taskinstance">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">job_short_id_from_taskinstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ti</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#job_short_id_from_taskinstance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="airflow.providers.nomad.utils.job_short_id_from_taskinstance_key">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">job_short_id_from_taskinstance_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#job_short_id_from_taskinstance_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance_key" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="airflow.providers.nomad.utils.task_name_from_taskinstance_key">
+<span class="sig-prename descclassname"><span class="pre">airflow.providers.nomad.utils.</span></span><span class="sig-name descname"><span class="pre">task_name_from_taskinstance_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/airflow/providers/nomad/utils.html#task_name_from_taskinstance_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.utils.task_name_from_taskinstance_key" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 </dl>
 </dd></dl>
@@ -949,10 +979,13 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.utils.run_id_short"><code class="docutils literal notranslate"><span class="pre">run_id_short()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.job_id"><code class="docutils literal notranslate"><span class="pre">job_id()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance_key"><code class="docutils literal notranslate"><span class="pre">job_id_from_taskinstance_key()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.job_id_from_taskinstance"><code class="docutils literal notranslate"><span class="pre">job_id_from_taskinstance()</span></code></a></li>
-<li><a class="reference internal" href="#airflow.providers.nomad.utils.job_task_id_from_taskinstance_key"><code class="docutils literal notranslate"><span class="pre">job_task_id_from_taskinstance_key()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance"><code class="docutils literal notranslate"><span class="pre">job_short_id_from_taskinstance()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.utils.job_short_id_from_taskinstance_key"><code class="docutils literal notranslate"><span class="pre">job_short_id_from_taskinstance_key()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.utils.task_name_from_taskinstance_key"><code class="docutils literal notranslate"><span class="pre">task_name_from_taskinstance_key()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job"><code class="docutils literal notranslate"><span class="pre">validate_nomad_job()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.validate_nomad_job_json"><code class="docutils literal notranslate"><span class="pre">validate_nomad_job_json()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.utils.parse_json_job_template"><code class="docutils literal notranslate"><span class="pre">parse_json_job_template()</span></code></a></li>

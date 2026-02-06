@@ -815,7 +815,8 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">job_id_from_taskinstance_key</span><span class="p">,</span>
-    <span class="n">job_task_id_from_taskinstance_key</span><span class="p">,</span>
+    <span class="n">job_short_id_from_taskinstance_key</span><span class="p">,</span>
+    <span class="n">task_name_from_taskinstance_key</span><span class="p">,</span>
 <span class="p">)</span>
 
 <div class="viewcode-block" id="logger">
@@ -891,7 +892,8 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="sd">        :return: job template as as dictionary</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="n">job_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="n">job_task_id</span> <span class="o">=</span> <span class="n">job_task_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">job_short_id</span> <span class="o">=</span> <span class="n">job_short_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">task_name</span> <span class="o">=</span> <span class="n">task_name_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
         <span class="n">valid_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_exeucutor_config</span><span class="p">(</span><span class="n">executor_config</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
@@ -902,14 +904,14 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
             <span class="k">raise</span> <span class="n">NomadProviderException</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t retrieve job template&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="n">DEFAULT_JOB_NAME</span><span class="p">:</span>
-            <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;airflow-run-</span><span class="si">{</span><span class="n">job_task_id</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">Name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">job_short_id</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">if</span> <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">entrypoint</span> <span class="o">!=</span> <span class="n">SDK_ENTRYPOINT</span><span class="p">:</span>
             <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">SDK_ENTRYPOINT</span> <span class="o">+</span> <span class="n">command</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">command</span>
 
-        <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">job_task_id</span>
+        <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">TaskGroups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">task_name</span>
         <span class="n">job_model</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">job_id</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -937,6 +939,37 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">register_job</span><span class="p">(</span><span class="n">job_model</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="NomadExecutor.is_job_done">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/executors/nomad_executor/index.html#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.is_job_done">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_job_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceState</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore[return]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return job status if the jobs is not running anymore</span>
+
+<span class="sd">        :param key: reference to the task instance in question</span>
+<span class="sd">        :return: either a tuple of: (task status to set (typically: FAILED), additional info)</span>
+<span class="sd">                 or None if no data could be retrieved for the job</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">JobEvalStatus</span><span class="p">,</span> <span class="n">JobInfoStatus</span><span class="p">,</span> <span class="n">NomadJobSummary</span>
+
+        <span class="n">job_id</span> <span class="o">=</span> <span class="n">job_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">job_status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">get_nomad_job_submission</span><span class="p">(</span><span class="n">job_id</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t get job status </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">return</span>  <span class="c1"># type: ignore[return-value]</span>
+
+        <span class="k">if</span> <span class="n">job_status</span><span class="o">.</span><span class="n">Status</span> <span class="o">!=</span> <span class="n">JobInfoStatus</span><span class="o">.</span><span class="n">dead</span><span class="p">:</span>
+            <span class="k">return</span>  <span class="c1"># type: ignore[return-value]</span>
+
+        <span class="k">if</span> <span class="n">job_summary</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">get_nomad_job_summary</span><span class="p">(</span><span class="n">job_id</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">job_summary</span><span class="o">.</span><span class="n">all_failed</span><span class="p">():</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">NomadJobSummary</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">job_summary</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">TaskInstanceState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span> <span class="n">msg</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">job_eval</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">get_nomad_job_evaluations</span><span class="p">(</span><span class="n">job_id</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">evalu</span><span class="o">.</span><span class="n">Status</span> <span class="o">==</span> <span class="n">JobEvalStatus</span><span class="o">.</span><span class="n">complete</span> <span class="k">for</span> <span class="n">evalu</span> <span class="ow">in</span> <span class="n">job_eval</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">TaskInstanceState</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="s2">&quot;&quot;</span></div>
+
+
 <div class="viewcode-block" id="NomadExecutor.remove_job_if_hanging">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/executors/nomad_executor/index.html#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.remove_job_if_hanging">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_job_if_hanging</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceState</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -946,11 +979,14 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="sd">        :return: either a tuple of: (task status to set (typically: FAILED), additional info)</span>
 <span class="sd">                 or None if no data could be retrieved for the job</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Removing job if hanging: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="n">job_id_from_taskinstance_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">outcome</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">remove_job_if_hanging</span><span class="p">(</span><span class="n">job_id</span><span class="p">)):</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">killed</span><span class="p">,</span> <span class="n">error_msg</span> <span class="o">=</span> <span class="n">outcome</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Received: </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">killed</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">killed</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">TaskInstanceState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span> <span class="n">error_msg</span>
         <span class="k">return</span> <span class="kc">None</span></div>

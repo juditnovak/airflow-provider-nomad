@@ -1,0 +1,63 @@
+airflow.providers.nomad.exceptions
+==================================
+
+.. py:module:: airflow.providers.nomad.exceptions
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   airflow.providers.nomad.exceptions.NomadProviderException
+   airflow.providers.nomad.exceptions.NomadValidationError
+   airflow.providers.nomad.exceptions.NomadOperatorError
+   airflow.providers.nomad.exceptions.NomadJobOperatorError
+   airflow.providers.nomad.exceptions.NomadTaskOperatorError
+
+
+Module Contents
+---------------
+
+.. py:exception:: NomadProviderException
+
+   Bases: :py:obj:`airflow.exceptions.AirflowException`
+
+
+   Base class for all Airflow's errors.
+
+   Each custom exception should be derived from this class.
+
+
+.. py:exception:: NomadValidationError
+
+   Bases: :py:obj:`NomadProviderException`
+
+
+   Used when can't parse Nomad job input.
+
+
+.. py:exception:: NomadOperatorError
+
+   Bases: :py:obj:`NomadProviderException`
+
+
+   Errors for NomadJobOperator
+
+
+.. py:exception:: NomadJobOperatorError
+
+   Bases: :py:obj:`NomadOperatorError`
+
+
+   Errors for NomadJobOperator
+
+
+.. py:exception:: NomadTaskOperatorError
+
+   Bases: :py:obj:`NomadOperatorError`
+
+
+   Errors for NomadJobOperator
+
+

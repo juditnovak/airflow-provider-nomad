@@ -793,22 +793,30 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empty</span><span class="p">,</span> <span class="n">Queue</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytz</span>  <span class="c1"># type: ignore[import-untyped]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">conf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">workloads</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors.base_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseExecutor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.executors.workloads</span><span class="w"> </span><span class="kn">import</span> <span class="n">All</span><span class="p">,</span> <span class="n">ExecuteTask</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.models.taskinstance</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstance</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.models.taskinstancekey</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceKey</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.standard.version_compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIRFLOW_V_3_0_PLUS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.utils.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaskInstanceState</span><span class="p">,</span> <span class="n">TerminalTIState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>  <span class="c1"># type: ignore[import-untyped]</span>
 
 <span class="c1"># TaskInstanceKey, Workload in a list, ExecutorConfig</span>
 <div class="viewcode-block" id="Job">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.Job">[docs]</a>
 <span class="n">Job</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceKey</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="RESPONSE_DELAY">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.RESPONSE_DELAY">[docs]</a>
+<span class="n">RESPONSE_DELAY</span> <span class="o">=</span> <span class="mi">60</span></div>
 
 
 
@@ -839,6 +847,12 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.parallelism">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">parallelism</span> <span class="o">=</span> <span class="n">parallelism</span></div>
 
+<div class="viewcode-block" id="ExecutorInterface.task_hb_timeout">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.task_hb_timeout">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_hb_timeout</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span>
+            <span class="s2">&quot;scheduler&quot;</span><span class="p">,</span> <span class="s2">&quot;task_instance_heartbeat_timeout&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="mi">60</span>
+        <span class="p">)</span></div>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parallelism</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parallelism</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExecutorInterface.is_exec_task">
@@ -854,14 +868,17 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <div class="viewcode-block" id="ExecutorInterface.queue_workload">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.queue_workload">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">queue_workload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workload</span><span class="p">:</span> <span class="n">All</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Queueing task: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">workload</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exec_task</span><span class="p">(</span><span class="n">workload</span><span class="p">):</span>
             <span class="k">return</span>
         <span class="n">ti</span> <span class="o">=</span> <span class="n">workload</span><span class="o">.</span><span class="n">ti</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">workload</span>  <span class="c1"># type: ignore</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">[</span><span class="n">ti</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">workload</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Queued task: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">workload</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_process_workloads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workloads</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">workloads</span><span class="o">.</span><span class="n">All</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">workloads</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing workload task: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exec_task</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">w</span><span class="o">.</span><span class="n">ti</span><span class="p">:</span>
                 <span class="k">return</span>
 
@@ -918,32 +935,67 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <div class="viewcode-block" id="ExecutorInterface.sync">
 <a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.sync">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sync</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronize task state.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;self.queued: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronize task state.</span>
+
+<span class="sd">        IMPORTANT: We must avoid at all cost that an exception may be raised, as</span>
+<span class="sd">        it results in the complete termination of the Executor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;self.running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;self.queued: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">ti_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_job_if_hanging</span><span class="p">(</span><span class="n">ti_key</span><span class="p">):</span>
-                <span class="n">state</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">status</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">ti_key</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+            <span class="c1"># Remove finished tasks from the run queue</span>
+            <span class="c1"># NOTE: Since tasks are changing state based on reporting results to the API,</span>
+            <span class="c1"># the executor is not aware</span>
+            <span class="n">dag_id</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">map_index</span> <span class="o">=</span> <span class="n">ti_key</span>
 
+            <span class="k">if</span> <span class="n">ti</span> <span class="o">:=</span> <span class="n">TaskInstance</span><span class="o">.</span><span class="n">get_task_instance</span><span class="p">(</span><span class="n">dag_id</span><span class="p">,</span> <span class="n">run_id</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">map_index</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">ti</span><span class="o">.</span><span class="n">state</span> <span class="ow">in</span> <span class="n">TerminalTIState</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ti_key</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">queued_tasks</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ti_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Task instance </span><span class="si">%s</span><span class="s2"> can&#39;t be found&quot;</span><span class="p">,</span> <span class="n">ti_key</span><span class="p">)</span>
+
+            <span class="c1"># Security measure: If the job is stale, we check if it may be finished/hanging</span>
+            <span class="c1"># Options:</span>
+            <span class="c1"># 1) The job may have finished, but couldn&#39;t report to the API for some reason</span>
+            <span class="c1"># 2) The job got hanging</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ti</span> <span class="ow">or</span> <span class="n">ti_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Skip jobs that may still report a valid status with delay</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">ti</span>
+                        <span class="ow">and</span> <span class="n">ti</span><span class="o">.</span><span class="n">last_heartbeat_at</span>
+                        <span class="ow">and</span> <span class="n">ti</span><span class="o">.</span><span class="n">last_heartbeat_at</span>
+                        <span class="o">&gt;</span> <span class="n">now</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_hb_timeout</span><span class="p">))</span>
+                    <span class="p">):</span>
+                        <span class="k">continue</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_job_done</span><span class="p">(</span><span class="n">ti_key</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span>
+                    <span class="n">status</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_job_if_hanging</span><span class="p">(</span><span class="n">ti_key</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">state</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">status</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">ti_key</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+
+        <span class="c1"># Run jobs from the task_queue</span>
         <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="n">Empty</span><span class="p">):</span>
-            <span class="k">while</span> <span class="p">(</span><span class="n">task</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">())</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots_available</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots_available</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">task</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                        <span class="s2">&quot;Failed to run task (task/command could be retrieved: (</span><span class="si">%s</span><span class="s2">))&quot;</span><span class="p">,</span>
-                        <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">),</span>
-                    <span class="p">)</span>
-                    <span class="k">return</span>
-
-                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">task</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
-                        <span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> with command </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Failed to run task </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span>
+                            <span class="n">key</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">TaskInstanceState</span><span class="o">.</span><span class="n">FAILED</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="s2">&quot;Couldn&#39;t run task&quot;</span>
+                        <span class="p">)</span>
                 <span class="k">finally</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">task_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span></div>
 
@@ -1019,6 +1071,19 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="sd">        :return: No news is good news, or the error that occurred on execution attempt</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing template </span><span class="si">{</span><span class="n">job_template</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="ExecutorInterface.is_job_done">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/generic_interfaces/executor_interface/index.html#airflow.providers.nomad.generic_interfaces.executor_interface.ExecutorInterface.is_job_done">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_job_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TaskInstanceKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TaskInstanceState</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return job status if the jobs is not running anymore</span>
+
+<span class="sd">        :param key: reference to the task instance in question</span>
+<span class="sd">        :return: either a tuple of: (task status to set (typically: FAILED), additional info)</span>
+<span class="sd">                 or None if no data could be retrieved for the job</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking if task is done </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
