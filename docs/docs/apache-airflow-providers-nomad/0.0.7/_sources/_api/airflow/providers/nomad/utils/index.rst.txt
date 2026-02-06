@@ -17,10 +17,13 @@ Functions
 
 .. autoapisummary::
 
+   airflow.providers.nomad.utils.run_id_short
    airflow.providers.nomad.utils.job_id
    airflow.providers.nomad.utils.job_id_from_taskinstance_key
    airflow.providers.nomad.utils.job_id_from_taskinstance
-   airflow.providers.nomad.utils.job_task_id_from_taskinstance_key
+   airflow.providers.nomad.utils.job_short_id_from_taskinstance
+   airflow.providers.nomad.utils.job_short_id_from_taskinstance_key
+   airflow.providers.nomad.utils.task_name_from_taskinstance_key
    airflow.providers.nomad.utils.validate_nomad_job
    airflow.providers.nomad.utils.validate_nomad_job_json
    airflow.providers.nomad.utils.parse_json_job_template
@@ -32,13 +35,19 @@ Module Contents
 
 .. py:data:: logger
 
+.. py:function:: run_id_short(run_id)
+
 .. py:function:: job_id(dag_id, task_id, run_id, try_number, map_index)
 
 .. py:function:: job_id_from_taskinstance_key(key)
 
 .. py:function:: job_id_from_taskinstance(ti)
 
-.. py:function:: job_task_id_from_taskinstance_key(key)
+.. py:function:: job_short_id_from_taskinstance(ti)
+
+.. py:function:: job_short_id_from_taskinstance_key(key)
+
+.. py:function:: task_name_from_taskinstance_key(key)
 
 .. py:function:: validate_nomad_job(data)
 

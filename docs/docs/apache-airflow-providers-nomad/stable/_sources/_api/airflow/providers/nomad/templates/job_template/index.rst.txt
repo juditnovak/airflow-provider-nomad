@@ -38,7 +38,7 @@ Module Contents
 
 
 .. py:data:: DEFAULT_JOB_NAME
-   :value: 'ariflow_run'
+   :value: 'airflow_run'
 
 
 .. py:data:: DEFAULT_TASK_TEMPLATE

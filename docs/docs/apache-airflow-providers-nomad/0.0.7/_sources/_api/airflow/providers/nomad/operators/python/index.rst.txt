@@ -87,7 +87,7 @@ Module Contents
    .. py:attribute:: python_command
 
 
-   .. py:method:: job_id(ti)
+   .. py:method:: generate_job_id(ti)
 
 
    .. py:method:: param_defined(param, context)

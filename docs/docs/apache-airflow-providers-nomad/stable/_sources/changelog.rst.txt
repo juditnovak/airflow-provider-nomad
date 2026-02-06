@@ -1,15 +1,7 @@
-0.0.7.dev2
+0.0.7
 .................
 * [VERSION ] 0.0.7.dev2 by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/82
 * [BUGFIX] Python task multiline header processing is broken by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/83
-
-
-**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.7.dev1...0.0.7.dev2
-
-
-0.0.7.dev1
-..............
-
 * [FEATURE] `executor_config` by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/71
 * [BUFIX] Advertising decorators so that Task SDK could discover by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/73
 * [DOCS] Latest changes by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/74
@@ -21,7 +13,7 @@
 * [DOCS] Tiny doc change by @juditnovak in https://github.com/juditnovak/airflow-provider-nomad/pull/81
 
 
-**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.6...0.0.7.dev1
+**Full Changelog**: https://github.com/juditnovak/airflow-provider-nomad/compare/0.0.6...0.0.7
 
 
 0.0.6

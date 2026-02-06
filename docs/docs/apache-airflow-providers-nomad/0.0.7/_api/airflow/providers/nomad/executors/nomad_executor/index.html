@@ -870,6 +870,24 @@ window.PAGEFIND_PATH = '../../../../../../_pagefind/pagefind.js';
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_executor.NomadExecutor.is_job_done">
+<span class="sig-name descname"><span class="pre">is_job_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_executor.html#NomadExecutor.is_job_done"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.is_job_done" title="Link to this definition">¶</a></dt>
+<dd><p>Return job status if the jobs is not running anymore</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>airflow.models.taskinstancekey.TaskInstanceKey</em>) – reference to the task instance in question</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>either a tuple of: (task status to set (typically: FAILED), additional info)
+or None if no data could be retrieved for the job</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference external" href="/docs/apache-airflow/stable/_api/airflow/utils/state/index.html#airflow.utils.state.TaskInstanceState" title="(in apache-airflow v3.2.0)">airflow.utils.state.TaskInstanceState</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="airflow.providers.nomad.executors.nomad_executor.NomadExecutor.remove_job_if_hanging">
 <span class="sig-name descname"><span class="pre">remove_job_if_hanging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/airflow/providers/nomad/executors/nomad_executor.html#NomadExecutor.remove_job_if_hanging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.remove_job_if_hanging" title="Link to this definition">¶</a></dt>
 <dd><p>Whether the job failed outside of the Airflow context</p>
@@ -1008,6 +1026,7 @@ leaves space for NomadLogHandler grouping feature.</p>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.validate_exeucutor_config"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.validate_exeucutor_config()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.prepare_job_template"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.prepare_job_template()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.run_job"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.run_job()</span></code></a></li>
+<li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.is_job_done"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.is_job_done()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.remove_job_if_hanging"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.remove_job_if_hanging()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.get_task_log"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.get_task_log()</span></code></a></li>
 <li><a class="reference internal" href="#airflow.providers.nomad.executors.nomad_executor.NomadExecutor.get_task_stderr"><code class="docutils literal notranslate"><span class="pre">NomadExecutor.get_task_stderr()</span></code></a></li>

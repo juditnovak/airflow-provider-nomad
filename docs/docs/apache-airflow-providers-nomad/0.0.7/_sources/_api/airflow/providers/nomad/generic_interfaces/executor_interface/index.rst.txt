@@ -15,6 +15,7 @@ Attributes
 .. autoapisummary::
 
    airflow.providers.nomad.generic_interfaces.executor_interface.Job
+   airflow.providers.nomad.generic_interfaces.executor_interface.RESPONSE_DELAY
 
 
 Classes
@@ -29,6 +30,10 @@ Module Contents
 ---------------
 
 .. py:data:: Job
+
+.. py:data:: RESPONSE_DELAY
+   :value: 60
+
 
 .. py:class:: ExecutorInterface(parallelism = 1)
 
@@ -58,6 +63,9 @@ Module Contents
 
 
 
+   .. py:attribute:: task_hb_timeout
+
+
    .. py:method:: is_exec_task(cmd)
 
       Safety method in case running in a legacy environment
@@ -79,6 +87,9 @@ Module Contents
    .. py:method:: sync()
 
       Synchronize task state.
+
+      IMPORTANT: We must avoid at all cost that an exception may be raised, as
+      it results in the complete termination of the Executor
 
 
 
@@ -109,6 +120,16 @@ Module Contents
 
       :param: Job template corresponding to the job
       :return: No news is good news, or the error that occurred on execution attempt
+
+
+
+   .. py:method:: is_job_done(key)
+
+      Return job status if the jobs is not running anymore
+
+      :param key: reference to the task instance in question
+      :return: either a tuple of: (task status to set (typically: FAILED), additional info)
+               or None if no data could be retrieved for the job
 
 
 

@@ -1,2 +1,2 @@
-providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:29:<autosummary>:1: (hcl)  try to parse a json or hcl input as a nomad job template
-providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:49: (hcl)  try to parse a json or hcl input as a nomad job template
+providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:32:<autosummary>:1: (hcl)  try to parse a json or hcl input as a nomad job template
+providers/nomad/docs/_api/airflow/providers/nomad/utils/index.rst:58: (hcl)  try to parse a json or hcl input as a nomad job template

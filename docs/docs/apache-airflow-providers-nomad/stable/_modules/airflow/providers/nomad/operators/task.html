@@ -784,9 +784,9 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="c1"># under the License.</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.sdk.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeTaskInstanceProtocol</span>
@@ -794,7 +794,7 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadTaskOperatorError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.generic_interfaces.nomad_operator_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">NomadOperator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.templates.job_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_TASK_TEMPLATE_BASH</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">job_id_from_taskinstance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airflow.providers.nomad.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">job_id_from_taskinstance</span><span class="p">,</span> <span class="n">job_short_id_from_taskinstance</span>
 
 
 <div class="viewcode-block" id="NomadTaskOperator">
@@ -882,14 +882,14 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">observe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NomadTaskOperator.job_id">
-<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/operators/task/index.html#airflow.providers.nomad.operators.task.NomadTaskOperator.job_id">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">job_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">RuntimeTaskInstanceProtocol</span><span class="p">):</span>
+<div class="viewcode-block" id="NomadTaskOperator.generate_job_id">
+<a class="viewcode-back" href="../../../../../_api/airflow/providers/nomad/operators/task/index.html#airflow.providers.nomad.operators.task.NomadTaskOperator.generate_job_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_job_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ti</span><span class="p">:</span> <span class="n">RuntimeTaskInstanceProtocol</span><span class="p">):</span>
         <span class="n">id_base</span> <span class="o">=</span> <span class="n">job_id_from_taskinstance</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
         <span class="n">rnd</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">nomad_mgr</span><span class="o">.</span><span class="n">get_nomad_job_submission</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_base</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">rnd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
             <span class="n">rnd</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_base</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">rnd</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_base</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">rnd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rnd</span></div>
 
 
 <div class="viewcode-block" id="NomadTaskOperator.param_defined">
@@ -941,7 +941,9 @@ window.PAGEFIND_PATH = '../../../../../_pagefind/pagefind.js';
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ti</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ti&quot;</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">NomadTaskOperatorError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No task instance found in context </span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_id</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+        <span class="n">job_id</span><span class="p">,</span> <span class="n">rnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_job_id</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+        <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">job_id</span>
+        <span class="n">template</span><span class="o">.</span><span class="n">Job</span><span class="o">.</span><span class="n">Name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;-</span><span class="si">{</span><span class="n">job_short_id_from_taskinstance</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">rnd</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span></div>
 </div>
 

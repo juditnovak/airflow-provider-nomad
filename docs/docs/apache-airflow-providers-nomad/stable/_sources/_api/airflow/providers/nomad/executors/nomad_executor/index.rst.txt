@@ -83,6 +83,16 @@ Module Contents
 
 
 
+   .. py:method:: is_job_done(key)
+
+      Return job status if the jobs is not running anymore
+
+      :param key: reference to the task instance in question
+      :return: either a tuple of: (task status to set (typically: FAILED), additional info)
+               or None if no data could be retrieved for the job
+
+
+
    .. py:method:: remove_job_if_hanging(key)
 
       Whether the job failed outside of the Airflow context
