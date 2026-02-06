@@ -1,0 +1,945 @@
+[01mRunning Sphinx v8.2.3[39;49;00m
+AUTOAPI_IGNORE:
+[
+    '*/airflow/_vendor/*',
+    '*/airflow/executors/*',
+    '*/_internal*',
+    '*/node_modules/*',
+    '*/migrations/*',
+    '*/contrib/*',
+    '*/example_taskflow_api_docker_virtualenv.py',
+    '*/example_dag_decorator.py',
+    '*/conftest.py',
+    '*/tests/__init__.py',
+    '*/tests/system/__init__.py',
+    '*/tests/system/*/tests/*',
+    '*/tests/system/example_empty.py',
+    '*/airflow/__init__.py',
+    '*/airflow/providers/__init__.py',
+    '*/providers/__init__.py',
+    '*/conf/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/airbyte/src/airflow/providers/airbyte/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/airbyte/tests/system/airbyte/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/alibaba/src/airflow/providers/alibaba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/alibaba/tests/system/alibaba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/amazon/src/airflow/providers/amazon/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/amazon/tests/system/amazon/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/beam/src/airflow/providers/apache/beam/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/beam/tests/system/apache/beam/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/cassandra/src/airflow/providers/apache/cassandra/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/cassandra/tests/system/apache/cassandra/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/drill/src/airflow/providers/apache/drill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/drill/tests/system/apache/drill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/druid/src/airflow/providers/apache/druid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/druid/tests/system/apache/druid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/flink/src/airflow/providers/apache/flink/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/flink/tests/system/apache/flink/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/hdfs/src/airflow/providers/apache/hdfs/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/hdfs/tests/system/apache/hdfs/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/hive/src/airflow/providers/apache/hive/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/hive/tests/system/apache/hive/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/iceberg/src/airflow/providers/apache/iceberg/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/iceberg/tests/system/apache/iceberg/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/impala/src/airflow/providers/apache/impala/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/impala/tests/system/apache/impala/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/kafka/src/airflow/providers/apache/kafka/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/kafka/tests/system/apache/kafka/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/kylin/src/airflow/providers/apache/kylin/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/kylin/tests/system/apache/kylin/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/livy/src/airflow/providers/apache/livy/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/livy/tests/system/apache/livy/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/pig/src/airflow/providers/apache/pig/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/pig/tests/system/apache/pig/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/pinot/src/airflow/providers/apache/pinot/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/pinot/tests/system/apache/pinot/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/spark/src/airflow/providers/apache/spark/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/spark/tests/system/apache/spark/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/tinkerpop/src/airflow/providers/apache/tinkerpop/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apache/tinkerpop/tests/system/apache/tinkerpop/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apprise/src/airflow/providers/apprise/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/apprise/tests/system/apprise/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/arangodb/src/airflow/providers/arangodb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/arangodb/tests/system/arangodb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/asana/src/airflow/providers/asana/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/asana/tests/system/asana/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/atlassian/jira/src/airflow/providers/atlassian/jira/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/atlassian/jira/tests/system/atlassian/jira/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/celery/src/airflow/providers/celery/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/celery/tests/system/celery/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cloudant/src/airflow/providers/cloudant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cloudant/tests/system/cloudant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cncf/kubernetes/src/airflow/providers/cncf/kubernetes/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cncf/kubernetes/tests/system/cncf/kubernetes/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cohere/src/airflow/providers/cohere/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/cohere/tests/system/cohere/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/compat/src/airflow/providers/common/compat/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/compat/tests/system/common/compat/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/io/src/airflow/providers/common/io/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/io/tests/system/common/io/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/messaging/src/airflow/providers/common/messaging/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/messaging/tests/system/common/messaging/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/sql/src/airflow/providers/common/sql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/common/sql/tests/system/common/sql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/databricks/src/airflow/providers/databricks/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/databricks/tests/system/databricks/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/datadog/src/airflow/providers/datadog/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/datadog/tests/system/datadog/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/dbt/cloud/src/airflow/providers/dbt/cloud/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/dbt/cloud/tests/system/dbt/cloud/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/dingding/src/airflow/providers/dingding/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/dingding/tests/system/dingding/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/discord/src/airflow/providers/discord/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/discord/tests/system/discord/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/docker/src/airflow/providers/docker/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/docker/tests/system/docker/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/edge3/src/airflow/providers/edge3/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/edge3/tests/system/edge3/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/elasticsearch/src/airflow/providers/elasticsearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/elasticsearch/tests/system/elasticsearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/exasol/src/airflow/providers/exasol/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/exasol/tests/system/exasol/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/fab/src/airflow/providers/fab/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/fab/tests/system/fab/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/facebook/src/airflow/providers/facebook/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/facebook/tests/system/facebook/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ftp/src/airflow/providers/ftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ftp/tests/system/ftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/git/src/airflow/providers/git/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/git/tests/system/git/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/github/src/airflow/providers/github/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/github/tests/system/github/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/google/src/airflow/providers/google/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/google/tests/system/google/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/grpc/src/airflow/providers/grpc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/grpc/tests/system/grpc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/hashicorp/src/airflow/providers/hashicorp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/hashicorp/tests/system/hashicorp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/http/src/airflow/providers/http/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/http/tests/system/http/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/imap/src/airflow/providers/imap/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/imap/tests/system/imap/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/influxdb/src/airflow/providers/influxdb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/influxdb/tests/system/influxdb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/jdbc/src/airflow/providers/jdbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/jdbc/tests/system/jdbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/jenkins/src/airflow/providers/jenkins/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/jenkins/tests/system/jenkins/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/keycloak/src/airflow/providers/keycloak/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/keycloak/tests/system/keycloak/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/azure/src/airflow/providers/microsoft/azure/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/azure/tests/system/microsoft/azure/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/mssql/src/airflow/providers/microsoft/mssql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/mssql/tests/system/microsoft/mssql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/psrp/src/airflow/providers/microsoft/psrp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/psrp/tests/system/microsoft/psrp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/winrm/src/airflow/providers/microsoft/winrm/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/microsoft/winrm/tests/system/microsoft/winrm/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/mongo/src/airflow/providers/mongo/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/mongo/tests/system/mongo/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/mysql/src/airflow/providers/mysql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/mysql/tests/system/mysql/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/neo4j/src/airflow/providers/neo4j/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/neo4j/tests/system/neo4j/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/odbc/src/airflow/providers/odbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/odbc/tests/system/odbc/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openai/src/airflow/providers/openai/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openai/tests/system/openai/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openfaas/src/airflow/providers/openfaas/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openfaas/tests/system/openfaas/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openlineage/src/airflow/providers/openlineage/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/openlineage/tests/system/openlineage/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/opensearch/src/airflow/providers/opensearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/opensearch/tests/system/opensearch/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/opsgenie/src/airflow/providers/opsgenie/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/opsgenie/tests/system/opsgenie/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/oracle/src/airflow/providers/oracle/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/oracle/tests/system/oracle/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pagerduty/src/airflow/providers/pagerduty/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pagerduty/tests/system/pagerduty/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/papermill/src/airflow/providers/papermill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/papermill/tests/system/papermill/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pgvector/src/airflow/providers/pgvector/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pgvector/tests/system/pgvector/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pinecone/src/airflow/providers/pinecone/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/pinecone/tests/system/pinecone/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/postgres/src/airflow/providers/postgres/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/postgres/tests/system/postgres/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/presto/src/airflow/providers/presto/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/presto/tests/system/presto/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/qdrant/src/airflow/providers/qdrant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/qdrant/tests/system/qdrant/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/redis/src/airflow/providers/redis/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/redis/tests/system/redis/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/salesforce/src/airflow/providers/salesforce/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/salesforce/tests/system/salesforce/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/samba/src/airflow/providers/samba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/samba/tests/system/samba/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/segment/src/airflow/providers/segment/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/segment/tests/system/segment/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sendgrid/src/airflow/providers/sendgrid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sendgrid/tests/system/sendgrid/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sftp/src/airflow/providers/sftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sftp/tests/system/sftp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/singularity/src/airflow/providers/singularity/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/singularity/tests/system/singularity/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/slack/src/airflow/providers/slack/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/slack/tests/system/slack/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/smtp/src/airflow/providers/smtp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/smtp/tests/system/smtp/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/snowflake/src/airflow/providers/snowflake/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/snowflake/tests/system/snowflake/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sqlite/src/airflow/providers/sqlite/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/sqlite/tests/system/sqlite/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ssh/src/airflow/providers/ssh/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ssh/tests/system/ssh/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/standard/src/airflow/providers/standard/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/standard/tests/system/standard/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/tableau/src/airflow/providers/tableau/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/tableau/tests/system/tableau/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/telegram/src/airflow/providers/telegram/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/telegram/tests/system/telegram/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/teradata/src/airflow/providers/teradata/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/teradata/tests/system/teradata/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/trino/src/airflow/providers/trino/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/trino/tests/system/trino/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/vertica/src/airflow/providers/vertica/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/vertica/tests/system/vertica/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/weaviate/src/airflow/providers/weaviate/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/weaviate/tests/system/weaviate/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/yandex/src/airflow/providers/yandex/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/yandex/tests/system/yandex/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ydb/src/airflow/providers/ydb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/ydb/tests/system/ydb/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/zendesk/src/airflow/providers/zendesk/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/zendesk/tests/system/zendesk/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/unit/*',
+    '/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/__pycache__/*'
+]
+
+[01mloading translations [en]... [39;49;00mdone
+
+(process:1054632): libenchant-WARNING **: 12:47:27.624: broker.vala:156: Error loading plugin: libvoikko.so.1: cannot open shared object file: No such file or directory
+
+(process:1054632): libenchant-WARNING **: 12:47:27.624: broker.vala:156: Error loading plugin: libnuspell.so.5: cannot open shared object file: No such file or directory
+
+(process:1054632): libenchant-WARNING **: 12:47:27.624: broker.vala:156: Error loading plugin: libhspell.so.0: cannot open shared object file: No such file or directory
+Initializing Spelling Checker 8.0.1
+loading intersphinx inventory 'boto3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/boto3/objects.inv ...
+loading intersphinx inventory 'celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/celery/objects.inv ...
+loading intersphinx inventory 'docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/docker/objects.inv ...
+loading intersphinx inventory 'hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/hdfs/objects.inv ...
+loading intersphinx inventory 'jinja2' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/jinja2/objects.inv ...
+loading intersphinx inventory 'python' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/python/objects.inv ...
+loading intersphinx inventory 'pandas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/pandas/objects.inv ...
+loading intersphinx inventory 'requests' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/requests/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-airbyte' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-airbyte/objects.inv ...
+loading intersphinx inventory 'mongodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/mongodb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-amazon' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-amazon/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-alibaba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-alibaba/objects.inv ...
+loading intersphinx inventory 'sqlalchemy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/sqlalchemy/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-beam' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-beam/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-druid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-druid/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-cassandra' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-cassandra/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-drill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-drill/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-flink' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-flink/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-hdfs' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hdfs/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-kafka' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kafka/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-iceberg' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-iceberg/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-hive' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-hive/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-impala' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-impala/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-kylin' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-kylin/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-livy' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-livy/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apprise' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apprise/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-tinkerpop' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-tinkerpop/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-pig' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pig/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-pinot' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-pinot/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-apache-spark' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-apache-spark/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-atlassian-jira' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-atlassian-jira/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-arangodb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-arangodb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-celery' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-celery/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-asana' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-asana/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cncf-kubernetes' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cncf-kubernetes/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cloudant' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cloudant/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-compat' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-compat/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-cohere' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-cohere/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-messaging' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-messaging/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-io' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-io/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-common-sql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-common-sql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-databricks' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-databricks/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-datadog' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-datadog/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-dbt-cloud' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-dbt-cloud/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-dingding' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-dingding/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-discord' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-discord/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-docker' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-docker/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-edge3' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-edge3/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-elasticsearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-elasticsearch/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-exasol' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-exasol/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-fab' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-fab/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-facebook' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-facebook/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ftp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-ftp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-git' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-git/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-github' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-github/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-google' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-google/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-grpc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-grpc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-hashicorp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-hashicorp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-http' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-http/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-imap' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-imap/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-influxdb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-influxdb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-jdbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-jdbc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-jenkins' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-jenkins/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-keycloak' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-keycloak/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-azure' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-azure/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-mssql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-mssql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-psrp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-psrp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-microsoft-winrm' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-microsoft-winrm/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-mongo' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-mongo/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-mysql' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-mysql/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-neo4j' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-neo4j/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-odbc' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-odbc/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openai' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-openai/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openfaas' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-openfaas/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-openlineage' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-openlineage/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-opensearch' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-opensearch/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-opsgenie' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-opsgenie/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-oracle' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-oracle/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pagerduty' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-pagerduty/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-papermill' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-papermill/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pgvector' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-pgvector/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-pinecone' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-pinecone/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-postgres' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-postgres/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-presto' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-presto/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-qdrant' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-qdrant/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-redis' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-redis/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-salesforce' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-salesforce/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-samba' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-samba/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-segment' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-segment/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sendgrid' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-sendgrid/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sftp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-sftp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-singularity' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-singularity/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-slack' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-slack/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-smtp' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-smtp/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-snowflake' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-snowflake/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-sqlite' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-sqlite/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ssh' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-ssh/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-standard' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-standard/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-tableau' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-tableau/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-telegram' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-telegram/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-teradata' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-teradata/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-trino' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-trino/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-vertica' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-vertica/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-weaviate' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-weaviate/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-yandex' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-yandex/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-ydb' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-ydb/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers-zendesk' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers-zendesk/objects.inv ...
+loading intersphinx inventory 'apache-airflow' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow/objects.inv ...
+loading intersphinx inventory 'helm-chart' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/helm-chart/objects.inv ...
+loading intersphinx inventory 'task-sdk' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/task-sdk/objects.inv ...
+loading intersphinx inventory 'apache-airflow-providers' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/apache-airflow-providers/objects.inv ...
+loading intersphinx inventory 'docker-stack' from /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_inventory_cache/docker-stack/objects.inv ...
+Could not found the redirect file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/redirects.txt
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/conftest.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring directory: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/unit/nomad/[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring directory: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/unit/__pycache__/[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/unit/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/__init__.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring file: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/conftest.py[39;49;00m
+[01m[AutoAPI] [39;49;00m[32mIgnoring directory: /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/home/devel/share/workspace_airflow/nomad_provider/tests/system/[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  1%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  3%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/get_provider_info.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  4%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/log.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  6%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/exceptions.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  7%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[  8%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 10%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/manager.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 11%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 13%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_log.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 14%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 15%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 17%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_log_handlers.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 18%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 20%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_interface.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 21%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 23%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/nomad_task.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 24%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 27%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 30%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/job.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 31%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 34%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 37%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 44%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 56%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 61%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 62%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 63%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 65%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 66%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 69%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 70%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 73%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 76%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 77%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 79%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 80%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 82%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 83%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 85%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 86%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 87%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_executor_config.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 89%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 90%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_job_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 92%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 93%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/__init__.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 94%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 96%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 97%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_python_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[ 99%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/example_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] Reading files... [39;49;00m[39;49;00m[100%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/sql/__init__.py[39;49;00m
+
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  1%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  3%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/get_provider_info.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  4%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/log.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  6%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/exceptions.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  7%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[  8%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 10%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/manager.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 11%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/models.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 13%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_log.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 14%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 15%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/executors/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 17%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_log_handlers.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 18%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/nomad_operator_interface.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 20%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/executor_interface.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 21%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/generic_interfaces/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 23%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/nomad_task.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 24%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/job.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 25%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/task.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 27%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/python.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 28%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/decorators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 30%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/job.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 31%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/task.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 32%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/python.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 34%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/operators/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 35%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/job_template.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 37%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/src/airflow/providers/nomad/templates/nomad_job_template.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 38%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 39%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/constants.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 41%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 42%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 44%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 45%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_nomad_manager.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 46%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/utils.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 48%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 49%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/test_system_nomad_executor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 51%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 52%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 54%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 55%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 56%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 58%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 59%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 61%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 62%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 63%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 65%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 66%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 68%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 69%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 70%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 72%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 73%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 75%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 76%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_json.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 77%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 79%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 80%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_trigger.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 82%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 83%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 85%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 86%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_decorator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 87%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_executor_config.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 89%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_job_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 90%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_config_default_job_template_hcl.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 92%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_python_task_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 93%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/__init__.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 94%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_operator_combined.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 96%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 97%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/test_dag_python_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[ 99%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/example_bash_operator.py[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mMapping Data... [39;49;00m[100%] [32m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/tests/system/nomad/dags/sql/__init__.py[39;49;00m
+
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  1%] [32mtests.system.nomad[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  3%] [32mairflow.providers.nomad[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  4%] [32mtests.system.nomad.dags[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  6%] [32mtests.system.nomad.utils[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  7%] [32mairflow.providers.nomad.log[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[  8%] [32mtests.system.nomad.dags.sql[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 10%] [32mtests.system.nomad.constants[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 11%] [32mairflow.providers.nomad.utils[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 13%] [32mairflow.providers.nomad.models[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 14%] [32mairflow.providers.nomad.manager[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 15%] [32mairflow.providers.nomad.constants[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 17%] [32mairflow.providers.nomad.executors[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 18%] [32mairflow.providers.nomad.operators[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 20%] [32mairflow.providers.nomad.exceptions[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 21%] [32mairflow.providers.nomad.decorators[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 23%] [32mtests.system.nomad.test_dag_trigger[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 24%] [32mairflow.providers.nomad.operators.job[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 25%] [32mtests.system.nomad.test_nomad_manager[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 27%] [32mtests.system.nomad.dags_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 28%] [32mairflow.providers.nomad.decorators.job[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 30%] [32mairflow.providers.nomad.operators.task[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 31%] [32mairflow.providers.nomad.decorators.task[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 32%] [32mairflow.providers.nomad.operators.python[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 34%] [32mtests.system.nomad.dags.test_dag_trigger[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 35%] [32mairflow.providers.nomad.get_provider_info[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 37%] [32mairflow.providers.nomad.decorators.python[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 38%] [32mtests.system.nomad.test_dag_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 39%] [32mairflow.providers.nomad.generic_interfaces[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 41%] [32mtests.system.nomad.test_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 42%] [32mairflow.providers.nomad.executors.nomad_log[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 44%] [32mtests.system.nomad.test_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 45%] [32mairflow.providers.nomad.decorators.nomad_task[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 46%] [32mtests.system.nomad.test_system_nomad_executor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 48%] [32mtests.system.nomad.dags.example_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 49%] [32mairflow.providers.nomad.templates.job_template[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 51%] [32mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 52%] [32mairflow.providers.nomad.executors.nomad_executor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 54%] [32mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 55%] [32mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 56%] [32mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 58%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 59%] [32mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 61%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 62%] [32mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 63%] [32mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 65%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 66%] [32mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 68%] [32mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 69%] [32mairflow.providers.nomad.generic_interfaces.executor_interface[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 70%] [32mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 72%] [32mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 73%] [32mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 75%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 76%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 77%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 79%] [32mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 80%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 82%] [32mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 83%] [32mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 85%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 86%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 87%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 89%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 90%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 92%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 93%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 94%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 96%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_operator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 97%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_decorator_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[ 99%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc_localexecutor[39;49;00m
+[01m[01m[AutoAPI] [39;49;00mRendering Data... [39;49;00m[100%] [32mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor[39;49;00m
+
+[autosummary] generating autosummary for: changelog.rst, commits.rst, configurations-ref.rst, development.rst, index.rst, known_issues.rst, modules.rst, nomad_executor.rst, nomad_job_decorator.rst, nomad_job_operator.rst, ..., nomad_python_task_decorator.rst, nomad_python_task_operator.rst, nomad_task_decorator.rst, nomad_task_operator.rst, security.rst, shared/parameters_task_exec.rst, shared/parameters_task_resources.rst, shared/parameters_task_template.rst, shared/task_intro_warning.rst, system_tests.rst
+[01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date
+[01mwriting output... [39;49;00m
+[01mbuilding [html]: [39;49;00mtargets for 21 source files that are out of date
+[01mupdating environment: [39;49;00m[new config] 92 added, 0 changed, 0 removed
+[01mreading sources... [39;49;00m[  1%] [35m_api/airflow/providers/nomad/constants/index[39;49;00m
+[01mreading sources... [39;49;00m[  2%] [35m_api/airflow/providers/nomad/decorators/index[39;49;00m
+[01mreading sources... [39;49;00m[  3%] [35m_api/airflow/providers/nomad/decorators/job/index[39;49;00m
+[01mreading sources... [39;49;00m[  4%] [35m_api/airflow/providers/nomad/decorators/nomad_task/index[39;49;00m
+[01mreading sources... [39;49;00m[  5%] [35m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
+[01mreading sources... [39;49;00m[  7%] [35m_api/airflow/providers/nomad/decorators/task/index[39;49;00m
+[01mreading sources... [39;49;00m[  8%] [35m_api/airflow/providers/nomad/exceptions/index[39;49;00m
+[01mreading sources... [39;49;00m[  9%] [35m_api/airflow/providers/nomad/executors/index[39;49;00m
+[01mreading sources... [39;49;00m[ 10%] [35m_api/airflow/providers/nomad/executors/nomad_executor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 11%] [35m_api/airflow/providers/nomad/executors/nomad_log/index[39;49;00m
+[01mreading sources... [39;49;00m[ 12%] [35m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
+[01mreading sources... [39;49;00m[ 13%] [35m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
+[01mreading sources... [39;49;00m[ 14%] [35m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
+[01mreading sources... [39;49;00m[ 15%] [35m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
+[01mreading sources... [39;49;00m[ 16%] [35m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mreading sources... [39;49;00m[ 17%] [35m_api/airflow/providers/nomad/index[39;49;00m
+[01mreading sources... [39;49;00m[ 18%] [35m_api/airflow/providers/nomad/log/index[39;49;00m
+[01mreading sources... [39;49;00m[ 20%] [35m_api/airflow/providers/nomad/manager/index[39;49;00m
+[01mreading sources... [39;49;00m[ 21%] [35m_api/airflow/providers/nomad/models/index[39;49;00m
+[01mreading sources... [39;49;00m[ 22%] [35m_api/airflow/providers/nomad/operators/index[39;49;00m
+[01mreading sources... [39;49;00m[ 23%] [35m_api/airflow/providers/nomad/operators/job/index[39;49;00m
+[01mreading sources... [39;49;00m[ 24%] [35m_api/airflow/providers/nomad/operators/python/index[39;49;00m
+[01mreading sources... [39;49;00m[ 25%] [35m_api/airflow/providers/nomad/operators/task/index[39;49;00m
+[01mreading sources... [39;49;00m[ 26%] [35m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
+[01mreading sources... [39;49;00m[ 27%] [35m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mreading sources... [39;49;00m[ 28%] [35m_api/airflow/providers/nomad/utils/index[39;49;00m
+[01mreading sources... [39;49;00m[ 29%] [35m_api/tests/system/nomad/constants/index[39;49;00m
+[01mreading sources... [39;49;00m[ 30%] [35m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 32%] [35m_api/tests/system/nomad/dags/index[39;49;00m
+[01mreading sources... [39;49;00m[ 33%] [35m_api/tests/system/nomad/dags/sql/index[39;49;00m
+[01mreading sources... [39;49;00m[ 34%] [35m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 35%] [35m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
+[01mreading sources... [39;49;00m[ 36%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
+[01mreading sources... [39;49;00m[ 37%] [35m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
+[01mreading sources... [39;49;00m[ 38%] [35m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
+[01mreading sources... [39;49;00m[ 39%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 40%] [35m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 41%] [35m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
+[01mreading sources... [39;49;00m[ 42%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 43%] [35m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 45%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 46%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 47%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 48%] [35m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 49%] [35m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 50%] [35m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mreading sources... [39;49;00m[ 51%] [35m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 52%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 53%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 54%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 55%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 57%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
+[01mreading sources... [39;49;00m[ 58%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 59%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 60%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 61%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 62%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 63%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 64%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 65%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 66%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 67%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mreading sources... [39;49;00m[ 68%] [35m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 70%] [35m_api/tests/system/nomad/index[39;49;00m
+[01mreading sources... [39;49;00m[ 71%] [35m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 72%] [35m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mreading sources... [39;49;00m[ 73%] [35m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 74%] [35m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
+[01mreading sources... [39;49;00m[ 75%] [35m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
+[01mreading sources... [39;49;00m[ 76%] [35m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
+[01mreading sources... [39;49;00m[ 77%] [35m_api/tests/system/nomad/utils/index[39;49;00m
+[01mreading sources... [39;49;00m[ 78%] [35mchangelog[39;49;00m
+[01mreading sources... [39;49;00m[ 79%] [35mcommits[39;49;00m
+[01mreading sources... [39;49;00m[ 80%] [35mconfigurations-ref[39;49;00m
+[01mreading sources... [39;49;00m[ 82%] [35mdevelopment[39;49;00m
+[01mreading sources... [39;49;00m[ 83%] [35mindex[39;49;00m
+[01mreading sources... [39;49;00m[ 84%] [35mknown_issues[39;49;00m
+[01mreading sources... [39;49;00m[ 85%] [35mmodules[39;49;00m
+[01mreading sources... [39;49;00m[ 86%] [35mnomad_executor[39;49;00m
+[01mreading sources... [39;49;00m[ 87%] [35mnomad_job_decorator[39;49;00m
+[01mreading sources... [39;49;00m[ 88%] [35mnomad_job_operator[39;49;00m
+[01mreading sources... [39;49;00m[ 89%] [35mnomad_logger[39;49;00m
+[01mreading sources... [39;49;00m[ 90%] [35mnomad_python_task_decorator[39;49;00m
+[01mreading sources... [39;49;00m[ 91%] [35mnomad_python_task_operator[39;49;00m
+[01mreading sources... [39;49;00m[ 92%] [35mnomad_task_decorator[39;49;00m
+[01mreading sources... [39;49;00m[ 93%] [35mnomad_task_operator[39;49;00m
+[01mreading sources... [39;49;00m[ 95%] [35msecurity[39;49;00m
+[01mreading sources... [39;49;00m[ 96%] [35mshared/parameters_task_exec[39;49;00m
+[01mreading sources... [39;49;00m[ 97%] [35mshared/parameters_task_resources[39;49;00m
+[01mreading sources... [39;49;00m[ 98%] [35mshared/parameters_task_template[39;49;00m
+[01mreading sources... [39;49;00m[ 99%] [35mshared/task_intro_warning[39;49;00m
+[01mreading sources... [39;49;00m[100%] [35msystem_tests[39;49;00m
+
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:181: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:182: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:184: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:195: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:275: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:276: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:278: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:289: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:330: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:331: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:333: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:344: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:397: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:398: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:400: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:411: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:488: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:489: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:491: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:502: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:562: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:563: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:565: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:576: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:635: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:636: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:638: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:649: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:704: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:705: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:707: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:718: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:769: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:770: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:772: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:783: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:819: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:820: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:822: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:833: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:942: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:943: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:945: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:956: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1071: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1072: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1074: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1085: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1154: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1155: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1157: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1168: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1287: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1288: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1290: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1301: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1342: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1343: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1345: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1356: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1449: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1450: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1452: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1463: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1498: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1499: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1501: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1512: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1563: ERROR: Unexpected indentation. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1564: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1566: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/models/index.rst:1577: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_task_operator.rst:85: WARNING: duplicate label examples-label, other instance in /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_python_task_operator.rst[39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/parameters_task_resources.rst:10: ERROR: Unknown target name: "examples". [docutils][39;49;00m
+[31m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/parameters_task_resources.rst:12: ERROR: Unknown target name: "examples". [docutils][39;49;00m
+[01mlooking for now-outdated files... [39;49;00mnone found
+[01mpickling environment... [39;49;00mdone
+[01mchecking consistency... [39;49;00m[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/templates/job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/airflow/providers/nomad/templates/nomad_job_template/index.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/_api/tests/system/nomad/index.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/configurations-ref.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/known_issues.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/modules.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/security.rst: WARNING: document isn't included in any toctree [toc.not_included][39;49;00m
+done
+[01mpreparing documents... [39;49;00mdone
+[01mcopying assets... [39;49;00m
+[01mcopying static files... [39;49;00m
+Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/_static/basic.css
+Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/_static/documentation_options.js
+Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/_static/language_data.js
+Writing evaluated template result to /home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/generated/_build/docs/apache-airflow-providers-nomad/stable/_static/copybutton.js
+[01mcopying static files: [39;49;00mdone
+[01mcopying extra files... [39;49;00m
+[01mcopying extra files: [39;49;00mdone
+[01mcopying assets: [39;49;00mdone
+[01mwriting output... [39;49;00m[  1%] [32m_api/airflow/providers/nomad/constants/index[39;49;00m
+[01mwriting output... [39;49;00m[  2%] [32m_api/airflow/providers/nomad/decorators/index[39;49;00m
+[01mwriting output... [39;49;00m[  3%] [32m_api/airflow/providers/nomad/decorators/job/index[39;49;00m
+[01mwriting output... [39;49;00m[  4%] [32m_api/airflow/providers/nomad/decorators/nomad_task/index[39;49;00m
+[01mwriting output... [39;49;00m[  5%] [32m_api/airflow/providers/nomad/decorators/python/index[39;49;00m
+[01mwriting output... [39;49;00m[  7%] [32m_api/airflow/providers/nomad/decorators/task/index[39;49;00m
+[01mwriting output... [39;49;00m[  8%] [32m_api/airflow/providers/nomad/exceptions/index[39;49;00m
+[01mwriting output... [39;49;00m[  9%] [32m_api/airflow/providers/nomad/executors/index[39;49;00m
+[01mwriting output... [39;49;00m[ 10%] [32m_api/airflow/providers/nomad/executors/nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 11%] [32m_api/airflow/providers/nomad/executors/nomad_log/index[39;49;00m
+[01mwriting output... [39;49;00m[ 12%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 13%] [32m_api/airflow/providers/nomad/generic_interfaces/executor_log_handlers/index[39;49;00m
+[01mwriting output... [39;49;00m[ 14%] [32m_api/airflow/providers/nomad/generic_interfaces/index[39;49;00m
+[01mwriting output... [39;49;00m[ 15%] [32m_api/airflow/providers/nomad/generic_interfaces/nomad_operator_interface/index[39;49;00m
+[01mwriting output... [39;49;00m[ 16%] [32m_api/airflow/providers/nomad/get_provider_info/index[39;49;00m
+[01mwriting output... [39;49;00m[ 17%] [32m_api/airflow/providers/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 18%] [32m_api/airflow/providers/nomad/log/index[39;49;00m
+[01mwriting output... [39;49;00m[ 20%] [32m_api/airflow/providers/nomad/manager/index[39;49;00m
+[01mwriting output... [39;49;00m[ 21%] [32m_api/airflow/providers/nomad/models/index[39;49;00m
+[01mwriting output... [39;49;00m[ 22%] [32m_api/airflow/providers/nomad/operators/index[39;49;00m
+[01mwriting output... [39;49;00m[ 23%] [32m_api/airflow/providers/nomad/operators/job/index[39;49;00m
+[01mwriting output... [39;49;00m[ 24%] [32m_api/airflow/providers/nomad/operators/python/index[39;49;00m
+[01mwriting output... [39;49;00m[ 25%] [32m_api/airflow/providers/nomad/operators/task/index[39;49;00m
+[01mwriting output... [39;49;00m[ 26%] [32m_api/airflow/providers/nomad/templates/job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 27%] [32m_api/airflow/providers/nomad/templates/nomad_job_template/index[39;49;00m
+[01mwriting output... [39;49;00m[ 28%] [32m_api/airflow/providers/nomad/utils/index[39;49;00m
+[01mwriting output... [39;49;00m[ 29%] [32m_api/tests/system/nomad/constants/index[39;49;00m
+[01mwriting output... [39;49;00m[ 30%] [32m_api/tests/system/nomad/dags/example_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 32%] [32m_api/tests/system/nomad/dags/index[39;49;00m
+[01mwriting output... [39;49;00m[ 33%] [32m_api/tests/system/nomad/dags/sql/index[39;49;00m
+[01mwriting output... [39;49;00m[ 34%] [32m_api/tests/system/nomad/dags/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 35%] [32m_api/tests/system/nomad/dags/test_dag_config_default_job_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 36%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_hcl/index[39;49;00m
+[01mwriting output... [39;49;00m[ 37%] [32m_api/tests/system/nomad/dags/test_dag_config_default_template_json/index[39;49;00m
+[01mwriting output... [39;49;00m[ 38%] [32m_api/tests/system/nomad/dags/test_dag_nomad_executor_config/index[39;49;00m
+[01mwriting output... [39;49;00m[ 39%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 40%] [32m_api/tests/system/nomad/dags/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 41%] [32m_api/tests/system/nomad/dags/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 42%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 43%] [32m_api/tests/system/nomad/dags/test_dag_nomad_python_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 45%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 46%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 47%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 48%] [32m_api/tests/system/nomad/dags/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 49%] [32m_api/tests/system/nomad/dags/test_dag_python_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 50%] [32m_api/tests/system/nomad/dags/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 51%] [32m_api/tests/system/nomad/dags_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 52%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 53%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 54%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 55%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_job_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 57%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined/index[39;49;00m
+[01mwriting output... [39;49;00m[ 58%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_operator_combined_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 59%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 60%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_python_task_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 61%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 62%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 63%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 64%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_decorator_resource_alloc_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 65%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 66%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 67%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc/index[39;49;00m
+[01mwriting output... [39;49;00m[ 68%] [32m_api/tests/system/nomad/dags_localexecutor/test_dag_nomad_task_operator_resource_alloc_localexecutor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 70%] [32m_api/tests/system/nomad/index[39;49;00m
+[01mwriting output... [39;49;00m[ 71%] [32m_api/tests/system/nomad/test_dag_bash_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 72%] [32m_api/tests/system/nomad/test_dag_trigger/index[39;49;00m
+[01mwriting output... [39;49;00m[ 73%] [32m_api/tests/system/nomad/test_nomad_job_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 74%] [32m_api/tests/system/nomad/test_nomad_manager/index[39;49;00m
+[01mwriting output... [39;49;00m[ 75%] [32m_api/tests/system/nomad/test_nomad_task_operator/index[39;49;00m
+[01mwriting output... [39;49;00m[ 76%] [32m_api/tests/system/nomad/test_system_nomad_executor/index[39;49;00m
+[01mwriting output... [39;49;00m[ 77%] [32m_api/tests/system/nomad/utils/index[39;49;00m
+[01mwriting output... [39;49;00m[ 78%] [32mchangelog[39;49;00m
+[01mwriting output... [39;49;00m[ 79%] [32mcommits[39;49;00m
+[01mwriting output... [39;49;00m[ 80%] [32mconfigurations-ref[39;49;00m
+[01mwriting output... [39;49;00m[ 82%] [32mdevelopment[39;49;00m
+[01mwriting output... [39;49;00m[ 83%] [32mindex[39;49;00m
+[01mwriting output... [39;49;00m[ 84%] [32mknown_issues[39;49;00m
+[01mwriting output... [39;49;00m[ 85%] [32mmodules[39;49;00m
+[01mwriting output... [39;49;00m[ 86%] [32mnomad_executor[39;49;00m
+[01mwriting output... [39;49;00m[ 87%] [32mnomad_job_decorator[39;49;00m
+[01mwriting output... [39;49;00m[ 88%] [32mnomad_job_operator[39;49;00m
+[01mwriting output... [39;49;00m[ 89%] [32mnomad_logger[39;49;00m
+[01mwriting output... [39;49;00m[ 90%] [32mnomad_python_task_decorator[39;49;00m
+[01mwriting output... [39;49;00m[ 91%] [32mnomad_python_task_operator[39;49;00m
+[01mwriting output... [39;49;00m[ 92%] [32mnomad_task_decorator[39;49;00m
+[01mwriting output... [39;49;00m[ 93%] [32mnomad_task_operator[39;49;00m
+[01mwriting output... [39;49;00m[ 95%] [32msecurity[39;49;00m
+[01mwriting output... [39;49;00m[ 96%] [32mshared/parameters_task_exec[39;49;00m
+[01mwriting output... [39;49;00m[ 97%] [32mshared/parameters_task_resources[39;49;00m
+[01mwriting output... [39;49;00m[ 98%] [32mshared/parameters_task_template[39;49;00m
+[01mwriting output... [39;49;00m[ 99%] [32mshared/task_intro_warning[39;49;00m
+[01mwriting output... [39;49;00m[100%] [32msystem_tests[39;49;00m
+
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_executor.rst:88: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_executor.rst:313: WARNING: Lexing literal_block 'client {\n  host_volume "config" {\n    path      = "<server_path>/<runner_space>/config"\n    read_only = true\n  }\n\n  host_volume "dags" {\n    path      = "<server_path>/dags/"\n    read_only = true\n  }\n}\n\n# Require TLS\n\ntls {\n  http = true\n  rpc  = true\n\n  ca_file   = "certs/nomad-agent-ca.pem"\n  cert_file = "certs/global-client-nomad.pem"\n  key_file  = "certs/global-client-nomad-key.pem"\n\n  verify_server_hostname = false\n  verify_https_client    = false\n}' as "hcl" resulted in an error at token: 'h'. Retrying in relaxed mode. [misc.highlighting_failure][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_executor.rst:392: WARNING: Pygments lexer name 'airflow.cfg' is not known [misc.highlighting_failure][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/nomad_executor.rst:404: WARNING: Pygments lexer name 'airflow.cfg' is not known [misc.highlighting_failure][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
+[91m/home/judit/tech/workspace/vfs_airflow_share/workspace_airflow/airflow_doc_gen/providers/nomad/docs/shared/task_intro_warning.rst:7: WARNING: undefined label: 'examples' [ref.ref][39;49;00m
+[01mgenerating indices... [39;49;00mgenindex py-modindex done
+[01mhighlighting module code... [39;49;00m[  2%] [94mairflow.providers.nomad[39;49;00m
+[01mhighlighting module code... [39;49;00m[  3%] [94mairflow.providers.nomad.constants[39;49;00m
+[01mhighlighting module code... [39;49;00m[  5%] [94mairflow.providers.nomad.decorators.job[39;49;00m
+[01mhighlighting module code... [39;49;00m[  6%] [94mairflow.providers.nomad.decorators.nomad_task[39;49;00m
+[01mhighlighting module code... [39;49;00m[  8%] [94mairflow.providers.nomad.decorators.python[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 10%] [94mairflow.providers.nomad.decorators.task[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 11%] [94mairflow.providers.nomad.exceptions[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 13%] [94mairflow.providers.nomad.executors.nomad_executor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 14%] [94mairflow.providers.nomad.executors.nomad_log[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 16%] [94mairflow.providers.nomad.generic_interfaces.executor_interface[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 17%] [94mairflow.providers.nomad.generic_interfaces.executor_log_handlers[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 19%] [94mairflow.providers.nomad.generic_interfaces.nomad_operator_interface[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 21%] [94mairflow.providers.nomad.get_provider_info[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 22%] [94mairflow.providers.nomad.log[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 24%] [94mairflow.providers.nomad.manager[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 25%] [94mairflow.providers.nomad.models[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 27%] [94mairflow.providers.nomad.operators.job[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 29%] [94mairflow.providers.nomad.operators.python[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 30%] [94mairflow.providers.nomad.operators.task[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 32%] [94mairflow.providers.nomad.templates.job_template[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 33%] [94mairflow.providers.nomad.templates.nomad_job_template[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 35%] [94mairflow.providers.nomad.utils[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 37%] [94mtests.system.nomad.constants[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 38%] [94mtests.system.nomad.dags.example_bash_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 40%] [94mtests.system.nomad.dags.test_dag_bash_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 41%] [94mtests.system.nomad.dags.test_dag_config_default_job_template_hcl[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 43%] [94mtests.system.nomad.dags.test_dag_config_default_template_hcl[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 44%] [94mtests.system.nomad.dags.test_dag_config_default_template_json[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 46%] [94mtests.system.nomad.dags.test_dag_nomad_executor_config[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 48%] [94mtests.system.nomad.dags.test_dag_nomad_job_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 49%] [94mtests.system.nomad.dags.test_dag_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 51%] [94mtests.system.nomad.dags.test_dag_nomad_operator_combined[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 52%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 54%] [94mtests.system.nomad.dags.test_dag_nomad_python_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 56%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 57%] [94mtests.system.nomad.dags.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 59%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 60%] [94mtests.system.nomad.dags.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 62%] [94mtests.system.nomad.dags.test_dag_python_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 63%] [94mtests.system.nomad.dags.test_dag_trigger[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 65%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 67%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_decorator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 68%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 70%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_job_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 71%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 73%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_operator_combined_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 75%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_decorator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 76%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_python_task_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 78%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 79%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 81%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 83%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_decorator_resource_alloc_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 84%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 86%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 87%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 89%] [94mtests.system.nomad.dags_localexecutor.test_dag_nomad_task_operator_resource_alloc_localexecutor[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 90%] [94mtests.system.nomad.test_dag_bash_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 92%] [94mtests.system.nomad.test_dag_trigger[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 94%] [94mtests.system.nomad.test_nomad_job_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 95%] [94mtests.system.nomad.test_nomad_manager[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 97%] [94mtests.system.nomad.test_nomad_task_operator[39;49;00m
+[01mhighlighting module code... [39;49;00m[ 98%] [94mtests.system.nomad.test_system_nomad_executor[39;49;00m
+[01mhighlighting module code... [39;49;00m[100%] [94mtests.system.nomad.utils[39;49;00m
+
+[01mwriting additional pages... [39;49;00msearch done
+[01mcopying images... [39;49;00m[ 12%] [33mimages/nomad-airflow-NomadExecutor_with_AF_ops.drawio.svg[39;49;00m
+[01mcopying images... [39;49;00m[ 25%] [33mimages/nomad-airflow-NomadExecutor_with_nomad_ops.drawio.svg[39;49;00m
+[01mcopying images... [39;49;00m[ 38%] [33mimages/nomad-airflow-volumes_airflowcfg.drawio.svg[39;49;00m
+[01mcopying images... [39;49;00m[ 50%] [33mimages/nomad-airflow-all_configs.drawio.svg[39;49;00m
+[01mcopying images... [39;49;00m[ 62%] [33mimages/logs_nomad_job_info.png[39;49;00m
+[01mcopying images... [39;49;00m[ 75%] [33mimages/nomad-airflow-LocalExecutor_NomadOperator.drawio.svg[39;49;00m
+[01mcopying images... [39;49;00m[ 88%] [33mimages/logs_as_normal.png[39;49;00m
+[01mcopying images... [39;49;00m[100%] [33mimages/log_groups.png[39;49;00m
+
+[01mdumping search index in English (code: en)... [39;49;00mdone
+[01mdumping object inventory... [39;49;00mdone
+2026-02-06T11:47:42.956005Z [info     ] Adding content weights to HTML files... [sphinx_exts.pagefind_search.builder] loc=builder.py:93
+2026-02-06T11:47:43.035110Z [info     ] Added content weights to 159 files [sphinx_exts.pagefind_search.builder] loc=builder.py:98
+2026-02-06T11:47:43.035305Z [info     ] Building Pagefind search index... [sphinx_exts.pagefind_search.builder] loc=builder.py:110
+2026-02-06T11:47:44.222367Z [info     ] Pagefind indexed 159 pages     [sphinx_exts.pagefind_search.builder] loc=builder.py:159
+2026-02-06T11:47:44.526078Z [info     ] ✓ Pagefind index created with 159 pages [sphinx_exts.pagefind_search.builder] loc=builder.py:191
+[01mbuild succeeded, 91 warnings.[39;49;00m
+
+The HTML pages are in generated/_build/docs/apache-airflow-providers-nomad/stable.

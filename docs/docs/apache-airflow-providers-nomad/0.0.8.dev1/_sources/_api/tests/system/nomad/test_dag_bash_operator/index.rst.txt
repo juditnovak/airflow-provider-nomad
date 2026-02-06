@@ -1,0 +1,35 @@
+tests.system.nomad.test_dag_bash_operator
+=========================================
+
+.. py:module:: tests.system.nomad.test_dag_bash_operator
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   tests.system.nomad.test_dag_bash_operator.ENV_ID
+   tests.system.nomad.test_dag_bash_operator.JOB_NAME
+   tests.system.nomad.test_dag_bash_operator.JOB_NAMESPACE
+   tests.system.nomad.test_dag_bash_operator.DAG_ID
+   tests.system.nomad.test_dag_bash_operator.test_run
+
+
+Module Contents
+---------------
+
+.. py:data:: ENV_ID
+
+.. py:data:: JOB_NAME
+   :value: 'judit-test'
+
+
+.. py:data:: JOB_NAMESPACE
+   :value: 'default'
+
+
+.. py:data:: DAG_ID
+
+.. py:data:: test_run
+

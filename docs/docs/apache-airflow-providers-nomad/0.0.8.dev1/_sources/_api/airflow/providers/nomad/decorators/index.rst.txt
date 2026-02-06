@@ -1,0 +1,18 @@
+airflow.providers.nomad.decorators
+==================================
+
+.. py:module:: airflow.providers.nomad.decorators
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /_api/airflow/providers/nomad/decorators/job/index
+   /_api/airflow/providers/nomad/decorators/nomad_task/index
+   /_api/airflow/providers/nomad/decorators/python/index
+   /_api/airflow/providers/nomad/decorators/task/index
+
+
