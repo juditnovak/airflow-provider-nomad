@@ -77,7 +77,7 @@ class NomadTaskOperator(NomadOperator):
     def generate_job_id(self, ti: RuntimeTaskInstanceProtocol):
         id_base = job_id_from_taskinstance(ti)
         rnd = randint(0, 10000)
-        while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}"):
+        while self.nomad_mgr.get_nomad_job_submission(f"{id_base}-{rnd}", quiet=True):
             rnd = randint(0, 10000)
         return f"{id_base}-{rnd}", rnd
 
