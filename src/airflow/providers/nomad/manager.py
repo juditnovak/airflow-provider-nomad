@@ -133,9 +133,15 @@ class NomadManager(LoggingMixin):
 
     @catch_nomad_exception()
     @ensure_nomad_client
-    def get_nomad_job_submission(self, job_id: str) -> NomadJobSubmission | None:  # type: ignore[return]
-        if not (job_status := self.nomad.job.get_job(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
+    def get_nomad_job_submission(self, job_id: str, quiet=False) -> NomadJobSubmission | None:  # type: ignore[return]
+        try:
+            if not (job_status := self.nomad.job.get_job(job_id)):  # type: ignore[reportOptionalMemberAccess, union-attr]
+                return  # type: ignore [return-value]
+        except BaseNomadException:
+            if not quiet:
+                raise
             return  # type: ignore [return-value]
+
         try:
             return NomadJobSubmission.model_validate(job_status)
         except ValidationError as err:
