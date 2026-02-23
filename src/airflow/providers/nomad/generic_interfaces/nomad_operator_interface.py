@@ -14,6 +14,7 @@
 
 import time
 from pathlib import Path
+from datetime import datetime, timedelta
 
 from airflow.configuration import conf
 from airflow.models import BaseOperator
@@ -29,6 +30,7 @@ from airflow.providers.nomad.models import (
     NomadJobAllocList,
     NomadJobModel,
 )
+from airflow.providers.nomad.constants import JOB_SUBMISSION_DELAY
 
 
 class NomadOperator(BaseOperator):
@@ -44,6 +46,12 @@ class NomadOperator(BaseOperator):
         )
         self.runner_log_dir: str = conf.get(CONFIG_SECTION, "runner_log_dir", fallback="/tmp")
         self.template: NomadJobModel | None = None
+        to = conf.get("core", "default_task_execution_timeout")
+        if to and isinstance(to, (int, str)):
+            self.default_timeout = timedelta(seconds=int(to))
+        else:
+            # "No" timeout
+            self.default_timeout = timedelta(days=365)
         super().__init__(**kwargs)
 
     def sanitize_logs(self, alloc_id: str, task_name: str, logs: str) -> str:
@@ -116,6 +124,8 @@ class NomadOperator(BaseOperator):
         if not self.observe:
             return
 
+        timeout = self.execution_timeout if self.execution_timeout else self.default_timeout
+
         status: JobInfoStatus | None = JobInfoStatus.pending
         job_info: list[str] = []
         logs = ""
@@ -123,7 +133,14 @@ class NomadOperator(BaseOperator):
         job_snapshot = {}
         output = ""
         all_done = False
-        while status != JobInfoStatus.dead and not all_done:
+
+        # Give a grace period for job submission, to avoid false alarms on missing Nomad jobs
+        start = datetime.now()
+        while not job_status and datetime.now() - start < timedelta(seconds=JOB_SUBMISSION_DELAY):
+            job_status = self.nomad_mgr.get_nomad_job_submission(job_id, quiet=True)
+
+        # Polling for job status and output
+        while status != JobInfoStatus.dead and not all_done and datetime.now() - start < timeout:
             job_info = []
 
             # Snapshotting state

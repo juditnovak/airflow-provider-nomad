@@ -1,4 +1,8 @@
 import json
+from unittest.mock import patch
+from datetime import datetime, timedelta
+import pytz  # type: ignore[import-untyped]
+from freezegun import freeze_time
 from pathlib import Path
 import logging
 from unittest.mock import MagicMock
@@ -34,7 +38,14 @@ def test_nomad_python_task_operator_execute_ok(filename, test_datadir, mock_noma
     ########## preparation
     # The outer job will be running happily, the inner one fails
     file_path2 = test_datadir / "nomad_job_info_dead.json"
-    mock_nomad_client.job.get_job.side_effect = [None, json.loads(open(file_path2).read())]
+    mock_nomad_client.job.get_job.side_effect = [
+        # generate_job_id()
+        None,
+        # Job submission grace period check
+        json.loads(open(file_path2).read()),
+        # Job polling main loop
+        json.loads(open(file_path2).read()),
+    ]
 
     file_path3 = test_datadir / "nomad_job_allocations.json"
     file_path4 = test_datadir / "nomad_job_summary_success.json"
@@ -74,7 +85,14 @@ def test_nomad_python_task_operator_execute_ok_with_task_logs(
 
     # The outer job will be running happily, the inner one fails
     file_path2 = test_datadir / "nomad_job_info_dead.json"
-    mock_nomad_client.job.get_job.side_effect = [None, json.loads(open(file_path2).read())]
+    mock_nomad_client.job.get_job.side_effect = [
+        # generate_job_id()
+        None,
+        # Job submission grace period check
+        json.loads(open(file_path2).read()),
+        # Job polling main loop
+        json.loads(open(file_path2).read()),
+    ]
 
     file_path3 = test_datadir / "nomad_job_allocations.json"
     file_path4 = test_datadir / "nomad_job_summary_success.json"
@@ -108,6 +126,214 @@ def test_nomad_python_task_operator_execute_ok_with_task_logs(
         assert retval == str({"Summary": 30})
         assert any([job_log in record.message for record in caplog.records])
         assert any([job_err in record.message for record in caplog.records])
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@patch(
+    "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.JOB_SUBMISSION_DELAY", 1
+)
+def test_nomad_python_task_operator_execute_ok_start_delay_expires_ok1(
+    filename, test_datadir, mock_nomad_client, caplog, mocker
+):
+    python_command = "print('Python job here!'"
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    # The outer job will be running happily, the inner one fails
+    file_path2 = test_datadir / "nomad_job_info_dead.json"
+    mock_nomad_client.job.get_job.side_effect = [
+        # generate_job_id()
+        BaseNomadException("Job not found"),
+        # Job submission grace period
+        BaseNomadException("Job not found"),
+        # Job submission grace period again
+        json.loads(open(file_path2).read()),
+        # Main job polling loop
+        json.loads(open(file_path2).read()),
+    ]
+
+    file_path3 = test_datadir / "nomad_job_allocations.json"
+    file_path4 = test_datadir / "nomad_job_summary_success.json"
+    file_path5 = test_datadir / "nomad_job_evaluation.json"
+    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
+    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path5).read())
+    # The first read is on stderr, second is on stdout
+    mock_nomad_client.client.cat.read_file.side_effect = [str({"Summary": 30}), ""]
+
+    runtime_ti = MagicMock(
+        task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
+    )
+    context = Context({"params": {"template_content": content}, "ti": runtime_ti})
+    mock_dt = mocker.patch(
+        "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.datetime"
+    )
+
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
+    start = datetime.now(pytz.timezone("UTC"))
+    later = start + timedelta(1)
+    mock_dt.now.side_effect = [start, start, later, later]
+    with freeze_time(start):
+        with caplog.at_level(logging.INFO):
+            retval = op.execute(context)
+
+    assert retval == str({"Summary": 30})
+    assert (
+        "Nomad error occurred: {The BaseNomadException was raised due to the following error: Job not found"
+        not in caplog.text
+    )
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@patch(
+    "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.JOB_SUBMISSION_DELAY", 1
+)
+def test_nomad_python_task_operator_execute_ok_start_delay_expires_ok2(
+    filename, test_datadir, mock_nomad_client, caplog, mocker
+):
+    python_command = "print('Python job here!'"
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    file_path2 = test_datadir / "nomad_job_info_dead.json"
+    mock_nomad_client.job.get_job.side_effect = [
+        # generate_job_id()
+        BaseNomadException("Job not found"),
+        # Job submission loop
+        json.loads(open(file_path2).read()),
+        # Job polling loop
+        json.loads(open(file_path2).read()),
+    ]
+
+    file_path3 = test_datadir / "nomad_job_allocations.json"
+    file_path4 = test_datadir / "nomad_job_summary_success.json"
+    file_path5 = test_datadir / "nomad_job_evaluation.json"
+    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
+    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path5).read())
+    # The first read is on stderr, second is on stdout
+    mock_nomad_client.client.cat.read_file.side_effect = [str({"Summary": 30}), ""]
+
+    runtime_ti = MagicMock(
+        task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
+    )
+    context = Context({"params": {"template_content": content}, "ti": runtime_ti})
+    mock_dt = mocker.patch(
+        "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.datetime"
+    )
+
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
+    start = datetime.now(pytz.timezone("UTC"))
+    later = start + timedelta(1)
+    mock_dt.now.side_effect = [start, start, later, later]
+    with freeze_time(start):
+        with caplog.at_level(logging.INFO):
+            retval = op.execute(context)
+
+    assert retval == str({"Summary": 30})
+    assert (
+        "Nomad error occurred: {The BaseNomadException was raised due to the following error: Job not found"
+        not in caplog.text
+    )
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@patch(
+    "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.JOB_SUBMISSION_DELAY", 1
+)
+def test_nomad_python_task_operator_execute_ok_start_delay_job_slow(
+    filename, test_datadir, mock_nomad_client, caplog, mocker
+):
+    python_command = "print('Python job here!'"
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    file_path2 = test_datadir / "nomad_job_info_dead.json"
+    mock_nomad_client.job.get_job.side_effect = [
+        # generate_job_id()
+        BaseNomadException("Job not found"),
+        # Job submission grace period
+        BaseNomadException("Job not found"),
+        # Job submission grace period again
+        json.loads(open(file_path2).read()),
+        # Job polling main loop
+        json.loads(open(file_path2).read()),
+    ]
+
+    file_path3 = test_datadir / "nomad_job_allocations.json"
+    file_path4 = test_datadir / "nomad_job_summary_success.json"
+    file_path5 = test_datadir / "nomad_job_evaluation.json"
+    mock_nomad_client.job.get_allocations.return_value = json.loads(open(file_path3).read())
+    mock_nomad_client.job.get_summary.return_value = json.loads(open(file_path4).read())
+    mock_nomad_client.job.get_evaluations.return_value = json.loads(open(file_path5).read())
+    # The first read is on stderr, second is on stdout
+    mock_nomad_client.client.cat.read_file.side_effect = [str({"Summary": 30}), ""]
+
+    runtime_ti = MagicMock(
+        task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
+    )
+    context = Context({"params": {"template_content": content}, "ti": runtime_ti})
+    mock_dt = mocker.patch(
+        "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.datetime"
+    )
+
+    op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
+    start = datetime.now(pytz.timezone("UTC"))
+    later = start + timedelta(seconds=5)
+    mock_dt.now.side_effect = [start, later, later, later]
+    with caplog.at_level(logging.INFO):
+        op.execute(context)
+
+    assert (
+        "Nomad error occurred: {The BaseNomadException was raised due to the following error: Job not found"
+        in caplog.text
+    )
+
+
+@pytest.mark.parametrize("filename", ["simple_job.json", "complex_job.json"])
+@patch(
+    "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.JOB_SUBMISSION_DELAY", 1
+)
+def test_nomad_python_task_operator_execute_ok_start_delay_job_stuck(
+    filename, test_datadir, mock_nomad_client, caplog, mocker
+):
+    python_command = "print('Python job here!'"
+    file_path = test_datadir / filename
+    content = open(file_path).read()
+
+    mock_nomad_client.job.get_job.side_effect = [
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+        BaseNomadException("Job not found"),
+    ]
+
+    runtime_ti = MagicMock(
+        task_id="task_id", dag_id="dag_id", run_id="run_id", try_number=1, map_index=-1
+    )
+    context = Context({"params": {"template_content": content}, "ti": runtime_ti})
+    mock_dt = mocker.patch(
+        "airflow.providers.nomad.generic_interfaces.nomad_operator_interface.datetime"
+    )
+
+    def_timeout = 1
+    with conf_vars({("core", "default_task_execution_timeout"): str(def_timeout)}):
+        op = NomadPythonTaskOperator(task_id="task_id", python_command=python_command)
+        start = datetime.now(pytz.timezone("UTC"))
+        later = start + timedelta(seconds=5 * def_timeout)
+        mock_dt.now.side_effect = [start, later, later, later, later]
+        with caplog.at_level(logging.INFO):
+            with pytest.raises(NomadOperatorError):
+                op.execute(context)
+
+    assert (
+        "Nomad error occurred: {The BaseNomadException was raised due to the following error: Job not found"
+        in caplog.text
+    )
 
 
 def test_nomad_python_task_operator_template_multi_task(test_datadir):

@@ -13,3 +13,6 @@
 # under the License.
 
 CONFIG_SECTION = "nomad_provider"
+
+# Job submission delay
+JOB_SUBMISSION_DELAY = 60
